@@ -1,7 +1,7 @@
  <!-- ========================================================= -->
 <!-- [শুরু] প্রফেশনাল অ্যাডমিন প্যানেল (AMAR BRAND ADMIN)        -->
 <!-- ফাইল নাম: admin.html                                       -->
-<!-- যুক্ত ফিচার: Incomplete Orders + Deleted Incomplete + Repeat -->
+<!-- সিঙ্গেল হেডার + বাম সাইডবার মেনু + সাজানো ওভারভিউ         -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -78,33 +78,30 @@
   <!-- ========================================================= -->
   <div id="dash-view" class="hidden min-h-screen flex flex-col">
 
-    <!-- [শুরু: টপ হেডার — প্রোফাইল ও লগআউট] -->
-    <header class="sticky top-0 z-30 bg-[#080d1a]/90 backdrop-blur-xl border-b border-slate-800/80 px-5 py-3">
-      <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.18)]">
+    <!-- [শুরু: সিঙ্গেল টপ হেডার (ডুপ্লিকেট হেডার রিমুভড)] -->
+    <header class="sticky top-0 z-30 bg-[#080d1a]/95 backdrop-blur-xl border-b border-slate-800/80 px-4 sm:px-6 py-3">
+      <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.18)] shrink-0">
             <span class="text-xs font-bold text-amber-300">AB</span>
           </div>
-          <div>
+          <div class="min-w-0">
             <div class="flex items-center gap-2">
               <span class="text-base sm:text-lg font-extrabold tracking-wide text-white">AMAR</span>
               <span class="text-base sm:text-lg font-extrabold tracking-wide text-emerald-400">BRAND</span>
               <span class="text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-lg">AB</span>
             </div>
-            <p class="text-xs text-slate-400">আমার ব্র্যান্ড • <span id="header-active-label" class="text-emerald-300 font-medium">১. ওভারভিউ</span></p>
+            <p class="text-xs text-slate-400 truncate">আমার ব্র্যান্ড • <span id="header-active-label" class="text-emerald-300 font-medium">১. ওভারভিউ</span></p>
           </div>
         </div>
 
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2 shrink-0">
           <button type="button" onclick="toggleProfileCard()"
-            class="flex items-center gap-2.5 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-2xl transition text-left">
-            <div class="w-8 h-8 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-xs font-bold">
+            class="flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-2xl transition text-left">
+            <div class="w-7 h-7 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-xs font-bold">
               AD
             </div>
-            <div class="hidden sm:block leading-tight">
-              <div class="text-xs font-semibold text-white">Admin</div>
-              <div class="text-[11px] font-mono text-slate-400">admin@amarbrand.com</div>
-            </div>
+            <span class="hidden md:inline text-xs font-semibold text-slate-200">Admin</span>
           </button>
 
           <button type="button" onclick="logout()"
@@ -126,178 +123,196 @@
         </div>
       </div>
     </header>
-    <!-- [শেষ: টপ হেডার] -->
+    <!-- [শেষ: সিঙ্গেল টপ হেডার] -->
 
-    <!-- [শুরু: বাম পাশের মেনু কার্ড + ডান পাশের কন্টেন্ট] -->
-    <div class="flex-1 flex flex-col lg:flex-row max-w-[1440px] w-full mx-auto">
+    <!-- [শুরু: বাম মেনু কলাম + ডান কন্টেন্ট কলাম] -->
+    <div class="flex-1 flex flex-row max-w-[1440px] w-full mx-auto">
 
-      <!-- [শুরু: বাম পাশের মেনু প্যানেল] -->
-      <aside class="w-full lg:w-80 bg-[#070c17] border-b lg:border-b-0 lg:border-r border-slate-800/80 p-4 sm:p-5 shrink-0 flex flex-col justify-between">
-        <div class="space-y-4 lg:sticky lg:top-20">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-2xl bg-slate-900 border border-amber-400/60 flex items-center justify-center shadow-[0_0_20px_rgba(251,191,36,0.2)]">
-                <span class="text-amber-300/80 text-lg font-light">／</span>
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-base font-extrabold text-white tracking-wide">AMAR</span>
-                  <span class="text-base font-extrabold text-emerald-400 tracking-wide">BRAND</span>
-                  <span class="text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded-md">AB</span>
-                </div>
-                <p class="text-xs text-slate-400 mt-0.5">আমার ব্র্যান্ড</p>
-              </div>
-            </div>
-            <button type="button" onclick="toggleProfileCard()" title="প্রোফাইল"
-              class="text-slate-400 hover:text-white text-base px-2 py-1 rounded-lg hover:bg-slate-800/60 transition">
-              ✕
-            </button>
-          </div>
+      <!-- [শুরু: বাম পাশে এক সারিতে প্রধান মেনু] -->
+      <aside class="w-44 sm:w-64 lg:w-72 bg-[#070c17] border-r border-slate-800/80 p-2.5 sm:p-4 shrink-0">
+        <div class="sticky top-20 space-y-2">
+          <p class="text-[11px] font-semibold text-slate-400 px-1.5">প্রধান মেনু</p>
 
-          <p class="text-xs font-semibold text-slate-400 px-1">প্রধান মেনু</p>
-
-          <nav class="space-y-2.5">
+          <nav class="flex flex-col space-y-1.5">
             <button type="button" id="tab-overview" onclick="switchSection('overview')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between menu-active-glow text-white">
-              <span class="flex items-center gap-3">
-                <span class="text-emerald-400 text-base">⊞</span>
-                <span>১. ওভারভিউ</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 menu-active-glow text-white text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-emerald-400 shrink-0">⊞</span>
+                <span class="truncate">১. ওভারভিউ</span>
               </span>
-              <span id="badge-overview" class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold flex items-center justify-center">৬</span>
+              <span id="badge-overview" class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold flex items-center justify-center shrink-0">৬</span>
             </button>
 
             <button type="button" id="tab-products" onclick="switchSection('products')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-amber-400 text-base">🛍️</span>
-                <span>২. প্রোডাক্ট ম্যানেজার</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-amber-400 shrink-0">🛍️</span>
+                <span class="truncate">২. প্রোডাক্ট ম্যানেজার</span>
               </span>
-              <span id="badge-products" class="w-6 h-6 rounded-full bg-amber-500/15 text-amber-300 text-xs font-bold flex items-center justify-center">০</span>
+              <span id="badge-products" class="w-5 h-5 rounded-full bg-amber-500/15 text-amber-300 text-[11px] font-bold flex items-center justify-center shrink-0">০</span>
             </button>
 
             <button type="button" id="tab-orders" onclick="switchSection('orders')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-sky-400 text-base">📦</span>
-                <span>৩. অর্ডার ম্যানেজার</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-sky-400 shrink-0">📦</span>
+                <span class="truncate">৩. অর্ডার ম্যানেজার</span>
               </span>
-              <span id="badge-orders" class="w-6 h-6 rounded-full bg-sky-500/15 text-sky-300 text-xs font-bold flex items-center justify-center">০</span>
+              <span id="badge-orders" class="w-5 h-5 rounded-full bg-sky-500/15 text-sky-300 text-[11px] font-bold flex items-center justify-center shrink-0">০</span>
             </button>
 
             <button type="button" id="tab-incomplete" onclick="switchSection('incomplete')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-amber-400 text-base">🛒</span>
-                <span>৪. ইনকমপ্লিট অর্ডার</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-amber-400 shrink-0">🛒</span>
+                <span class="truncate">৪. ইনকমপ্লিট অর্ডার</span>
               </span>
-              <span id="badge-incomplete" class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold flex items-center justify-center">০</span>
+              <span id="badge-incomplete" class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-bold flex items-center justify-center shrink-0">০</span>
             </button>
 
             <button type="button" id="tab-courier" onclick="switchSection('courier')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-indigo-400 text-base">🚚</span>
-                <span>৫. কুরিয়ার সেকশন</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-indigo-400 shrink-0">🚚</span>
+                <span class="truncate">৫. কুরিয়ার সেকশন</span>
               </span>
-              <span id="badge-courier" class="w-6 h-6 rounded-full bg-indigo-500/15 text-indigo-300 text-xs font-bold flex items-center justify-center">১</span>
+              <span id="badge-courier" class="w-5 h-5 rounded-full bg-indigo-500/15 text-indigo-300 text-[11px] font-bold flex items-center justify-center shrink-0">১</span>
             </button>
 
             <button type="button" id="tab-seo" onclick="switchSection('seo')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3 text-left">
-                <span class="text-purple-400 text-base">🔍</span>
-                <span>৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-purple-400 shrink-0">🔍</span>
+                <span class="truncate">৬. মার্চেন্ট ও সার্চ কনসোল</span>
               </span>
-              <span id="badge-seo" class="w-6 h-6 rounded-full bg-purple-500/15 text-purple-300 text-xs font-bold flex items-center justify-center shrink-0">২</span>
+              <span id="badge-seo" class="w-5 h-5 rounded-full bg-purple-500/15 text-purple-300 text-[11px] font-bold flex items-center justify-center shrink-0">২</span>
             </button>
 
             <button type="button" id="tab-reels" onclick="switchSection('reels')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-pink-400 text-base">🎬</span>
-                <span>৭. রিল ভিডিও আপলোড</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-pink-400 shrink-0">🎬</span>
+                <span class="truncate">৭. রিল ভিডিও আপলোড</span>
               </span>
-              <span id="badge-reels" class="w-6 h-6 rounded-full bg-pink-500/15 text-pink-300 text-xs font-bold flex items-center justify-center">০</span>
+              <span id="badge-reels" class="w-5 h-5 rounded-full bg-pink-500/15 text-pink-300 text-[11px] font-bold flex items-center justify-center shrink-0">০</span>
             </button>
 
             <button type="button" id="tab-chatbot" onclick="switchSection('chatbot')"
-              class="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200">
-              <span class="flex items-center gap-3">
-                <span class="text-emerald-400 text-base">🤖</span>
-                <span>৮. চ্যাটবট</span>
+              class="w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left">
+              <span class="flex items-center gap-2 min-w-0">
+                <span class="text-emerald-400 shrink-0">🤖</span>
+                <span class="truncate">৮. চ্যাটবট</span>
               </span>
-              <span id="badge-chatbot" class="w-6 h-6 rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-bold flex items-center justify-center">২</span>
+              <span id="badge-chatbot" class="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-300 text-[11px] font-bold flex items-center justify-center shrink-0">২</span>
             </button>
           </nav>
 
-          <div class="pt-3 space-y-2.5">
-            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-xs font-bold shrink-0">
-                AD
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-white truncate">Admin</p>
-                <p class="text-[11px] font-mono text-slate-400 truncate">admin@amarbrand.com</p>
-              </div>
-            </div>
-
-            <button type="button" onclick="switchSection('chatbot')"
-              class="w-full rounded-2xl px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-between shadow-lg shadow-emerald-500/20 transition">
-              <span class="flex items-center gap-2">
-                <span>💬</span>
-                <span>কাস্টমার চ্যাট বট</span>
-              </span>
-              <span id="floating-chat-badge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center">
-                ১
-              </span>
-            </button>
-          </div>
+          <button type="button" onclick="switchSection('chatbot')"
+            class="w-full mt-2 rounded-2xl px-3 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-between gap-1 shadow-lg shadow-emerald-500/20 transition">
+            <span class="flex items-center gap-1.5 min-w-0">
+              <span>💬</span>
+              <span class="truncate">চ্যাট বট</span>
+            </span>
+            <span id="floating-chat-badge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+              ১
+            </span>
+          </button>
         </div>
       </aside>
-      <!-- [শেষ: বাম পাশের মেনু প্যানেল] -->
+      <!-- [শেষ: বাম পাশে এক সারিতে প্রধান মেনু] -->
 
-      <!-- [শুরু: ডান পাশের মূল ওয়ার্কস্পেস] -->
+      <!-- [শুরু: ডান পাশের কন্টেন্ট এরিয়া] -->
       <div class="flex-1 min-w-0">
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ১. ওভারভিউ সেকশন — টপে সাজানো]                -->
+        <!-- [শুরু: ১. ওভারভিউ — ডান পাশে নির্ধারিত ক্রমে সাজানো]   -->
+        <!-- ১) প্রোডাক্ট ওভারভিউ                                 -->
+        <!-- ২) গ্রাফ                                              -->
+        <!-- ৩) ভিজিটর ওভারভিউ                                     -->
+        <!-- ৪) অর্গানিক টপ র‍্যাঙ্কিং পেজ লিস্ট                    -->
         <!-- ===================================================== -->
-        <main id="section-overview" class="w-full px-6 py-6 space-y-6">
+        <main id="section-overview" class="w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
 
-          <section class="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 border border-slate-800 p-6 rounded-3xl shadow-xl">
-            <div class="flex flex-wrap justify-between items-center gap-4">
-              <div class="space-y-1">
-                <span class="inline-block text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
-                  অর্গানিক টপ র‍্যাঙ্কিং পেজ
+          <!-- [১. প্রোডাক্ট ও পার্সেল ওভারভিউ] -->
+          <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                  ১. প্রোডাক্ট ওভারভিউ
                 </span>
-                <h2 id="top-rank-page-title" class="text-lg sm:text-xl font-bold text-white pt-1">
-                  Organic Cotton Polo Shirt (/product/polo-shirt)
-                </h2>
-                <p id="top-rank-page-meta" class="text-xs text-slate-400">
-                  Google Rank: #2 • Organic CTR: 6.8% • Monthly Organic Visits: 4,820
-                </p>
+                <h2 class="text-base sm:text-lg font-bold text-white mt-1">প্রোডাক্ট, স্টক ও পার্সেল সামারি</h2>
+              </div>
+              <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+                <span class="bg-slate-950 border border-slate-800 text-slate-300 px-3 py-1 rounded-full">
+                  Products: <strong id="ov-products-total" class="text-emerald-400">0</strong>
+                </span>
+                <span class="bg-slate-950 border border-slate-800 text-slate-300 px-3 py-1 rounded-full">
+                  Stock Units: <strong id="ov-stock-total" class="text-amber-300">0</strong>
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5">
+              <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-slate-400">অল পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-total" class="text-2xl font-bold text-white">0</span>
+                  <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">All</span>
+                </div>
               </div>
 
-              <div class="w-full sm:w-72">
-                <label for="ranked-page-selector" class="block text-[11px] text-slate-400 mb-1">র‍্যাংকিং পেজ পরিবর্তন করুন</label>
-                <select id="ranked-page-selector" onchange="updateTopRankedPage()"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 outline-none">
-                  <option value="polo">Organic Cotton Polo Shirt (Rank #2)</option>
-                  <option value="panjabi">Premium Cotton Panjabi (Rank #3)</option>
-                  <option value="facemist">Herbal Organic Face Mist (Rank #1)</option>
-                  <option value="hoodie">Winter Fleece Hoodie (Rank #4)</option>
-                </select>
+              <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-amber-400">পেন্ডিং পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-pending" class="text-2xl font-bold text-amber-300">0</span>
+                  <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full">Pending</span>
+                </div>
+              </div>
+
+              <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-emerald-400">কনফার্মড পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-confirmed" class="text-2xl font-bold text-emerald-300">0</span>
+                  <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">Confirmed</span>
+                </div>
+              </div>
+
+              <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-blue-400">হোল্ড পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-hold" class="text-2xl font-bold text-blue-300">0</span>
+                  <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">Hold</span>
+                </div>
+              </div>
+
+              <div class="bg-teal-950/20 border border-teal-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-teal-400">ডেলিভারড পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-delivered" class="text-2xl font-bold text-teal-300">0</span>
+                  <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded-full">Delivered</span>
+                </div>
+              </div>
+
+              <div class="bg-rose-950/20 border border-rose-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+                <span class="text-xs font-medium text-rose-400">ক্যান্সেল পার্সেল</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="count-cancelled" class="text-2xl font-bold text-rose-300">0</span>
+                  <span class="text-[10px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded-full">Cancelled</span>
+                </div>
               </div>
             </div>
           </section>
 
-          <section class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+          <!-- [২. গ্রাফ] -->
+          <section class="bg-slate-900/60 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
               <div>
-                <h3 class="font-bold text-base text-white">ভিজিটর, ক্লিক ও পারচেস গ্রাফ (গত ৭ দিন)</h3>
-                <p class="text-xs text-slate-400">দৈনিক ট্রাফিক ও কনভার্সন তুলনামূলক গ্রাফ</p>
+                <span class="text-[11px] uppercase tracking-wider bg-indigo-500/10 text-indigo-300 border border-indigo-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                  ২. পারফরম্যান্স গ্রাফ
+                </span>
+                <h3 class="font-bold text-base sm:text-lg text-white mt-1">ভিজিটর, ক্লিক ও পারচেস গ্রাফ (গত ৭ দিন)</h3>
               </div>
-              <div class="flex items-center gap-4 text-xs">
+              <div class="flex items-center gap-3 text-xs">
                 <span class="flex items-center gap-1.5 text-indigo-300"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> ভিজিটর</span>
                 <span class="flex items-center gap-1.5 text-amber-300"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> ক্লিক</span>
                 <span class="flex items-center gap-1.5 text-emerald-300"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> পারচেস</span>
@@ -305,7 +320,7 @@
             </div>
 
             <div id="organic-chart-container" class="w-full overflow-x-auto">
-              <svg viewBox="0 0 700 220" class="w-full min-w-[540px] h-52">
+              <svg viewBox="0 0 700 220" class="w-full min-w-[520px] h-52">
                 <line x1="40" y1="30" x2="680" y2="30" stroke="#1e293b" stroke-dasharray="4 4" />
                 <line x1="40" y1="80" x2="680" y2="80" stroke="#1e293b" stroke-dasharray="4 4" />
                 <line x1="40" y1="130" x2="680" y2="130" stroke="#1e293b" stroke-dasharray="4 4" />
@@ -338,112 +353,101 @@
             </div>
           </section>
 
-          <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
-            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-slate-400">টোটাল ভিজিটর</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-visitors" class="text-2xl font-bold text-white">12,480</span>
-                <span class="text-[10px] bg-indigo-500/15 text-indigo-300 px-2 py-0.5 rounded-full">Visitors</span>
-              </div>
+          <!-- [৩. ভিজিটর ওভারভিউ] -->
+          <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+            <div class="border-b border-slate-800 pb-3">
+              <span class="text-[11px] uppercase tracking-wider bg-cyan-500/10 text-cyan-300 border border-cyan-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                ৩. ভিজিটর ওভারভিউ
+              </span>
+              <h3 class="font-bold text-base sm:text-lg text-white mt-1">ট্রাফিক, ক্লিক ও ফানেল কনভার্সন</h3>
             </div>
 
-            <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-amber-400">টোটাল ক্লিক</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-clicks" class="text-2xl font-bold text-amber-300">8,920</span>
-                <span class="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full">Clicks</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5">
+              <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-slate-400">টোটাল ভিজিটর</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-visitors" class="text-2xl font-bold text-white">12,480</span>
+                  <span class="text-[10px] bg-indigo-500/15 text-indigo-300 px-2 py-0.5 rounded-full">Visitors</span>
+                </div>
               </div>
-            </div>
 
-            <div class="bg-purple-950/20 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-purple-300">বাই নাও ক্লিক</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-buynow" class="text-2xl font-bold text-purple-200">1,640</span>
-                <span class="text-[10px] bg-purple-500/15 text-purple-300 px-2 py-0.5 rounded-full">Buy Now</span>
+              <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-amber-400">টোটাল ক্লিক</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-clicks" class="text-2xl font-bold text-amber-300">8,920</span>
+                  <span class="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full">Clicks</span>
+                </div>
               </div>
-            </div>
 
-            <div class="bg-cyan-950/20 border border-cyan-500/20 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-cyan-300">অ্যাড টু কার্ড</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-addtocart" class="text-2xl font-bold text-cyan-200">2,310</span>
-                <span class="text-[10px] bg-cyan-500/15 text-cyan-300 px-2 py-0.5 rounded-full">Add to Cart</span>
+              <div class="bg-purple-950/20 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-purple-300">বাই নাও ক্লিক</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-buynow" class="text-2xl font-bold text-purple-200">1,640</span>
+                  <span class="text-[10px] bg-purple-500/15 text-purple-300 px-2 py-0.5 rounded-full">Buy Now</span>
+                </div>
               </div>
-            </div>
 
-            <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-blue-300">চেকআউট পেজ</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-checkout" class="text-2xl font-bold text-blue-200">980</span>
-                <span class="text-[10px] bg-blue-500/15 text-blue-300 px-2 py-0.5 rounded-full">Checkout</span>
+              <div class="bg-cyan-950/20 border border-cyan-500/20 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-cyan-300">অ্যাড টু কার্ড</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-addtocart" class="text-2xl font-bold text-cyan-200">2,310</span>
+                  <span class="text-[10px] bg-cyan-500/15 text-cyan-300 px-2 py-0.5 rounded-full">Add to Cart</span>
+                </div>
               </div>
-            </div>
 
-            <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl shadow-lg">
-              <span class="text-xs font-medium text-emerald-300">পারচেস</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="stat-purchases" class="text-2xl font-bold text-emerald-200">615</span>
-                <span class="text-[10px] bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full">Purchase</span>
+              <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-blue-300">চেকআউট পেজ</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-checkout" class="text-2xl font-bold text-blue-200">980</span>
+                  <span class="text-[10px] bg-blue-500/15 text-blue-300 px-2 py-0.5 rounded-full">Checkout</span>
+                </div>
+              </div>
+
+              <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl shadow-lg">
+                <span class="text-xs font-medium text-emerald-300">পারচেস</span>
+                <div class="flex justify-between items-baseline mt-2">
+                  <span id="stat-purchases" class="text-2xl font-bold text-emerald-200">615</span>
+                  <span class="text-[10px] bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full">Purchase</span>
+                </div>
               </div>
             </div>
           </section>
 
-          <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
-            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-slate-400">অল পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-total" class="text-2xl font-bold text-white">0</span>
-                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">All</span>
+          <!-- [৪. অর্গানিক ভাবে বেশি র‍্যাঙ্ক হওয়া পেজগুলোর লিস্ট] -->
+          <section class="bg-slate-900/60 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                  ৪. অর্গানিক র‍্যাঙ্কিং লিস্ট
+                </span>
+                <h3 class="font-bold text-base sm:text-lg text-white mt-1">অর্গানিক ভাবে যে পেজগুলো বেশি র‍্যাঙ্ক হচ্ছে</h3>
               </div>
+              <span class="text-xs font-mono text-slate-400">Google Search Organic Top Pages</span>
             </div>
 
-            <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-amber-400">পেন্ডিং পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-pending" class="text-2xl font-bold text-amber-300">0</span>
-                <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full">Pending</span>
-              </div>
-            </div>
-
-            <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-emerald-400">কনফার্মড পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-confirmed" class="text-2xl font-bold text-emerald-300">0</span>
-                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">Confirmed</span>
-              </div>
-            </div>
-
-            <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-blue-400">হোল্ড পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-hold" class="text-2xl font-bold text-blue-300">0</span>
-                <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">Hold</span>
-              </div>
-            </div>
-
-            <div class="bg-teal-950/20 border border-teal-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-teal-400">ডেলিভারড পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-delivered" class="text-2xl font-bold text-teal-300">0</span>
-                <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded-full">Delivered</span>
-              </div>
-            </div>
-
-            <div class="bg-rose-950/20 border border-rose-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-              <span class="text-xs font-medium text-rose-400">ক্যান্সেল পার্সেল</span>
-              <div class="flex justify-between items-baseline mt-2">
-                <span id="count-cancelled" class="text-2xl font-bold text-rose-300">0</span>
-                <span class="text-[10px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded-full">Cancelled</span>
-              </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                  <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                    <th class="py-2.5 px-3">র‍্যাঙ্ক</th>
+                    <th class="py-2.5 px-3">পেজ ও URL</th>
+                    <th class="py-2.5 px-3">মূল কিওয়ার্ড</th>
+                    <th class="py-2.5 px-3">CTR</th>
+                    <th class="py-2.5 px-3 text-right">অর্গানিক ভিজিট</th>
+                  </tr>
+                </thead>
+                <tbody id="organic-ranking-tbody" class="divide-y divide-slate-800/60"></tbody>
+              </table>
             </div>
           </section>
+
         </main>
-        <!-- [শেষ: ১. ওভারভিউ সেকশন] -->
+        <!-- [শেষ: ১. ওভারভিউ] -->
 
         <!-- ===================================================== -->
         <!-- [শুরু: ২. প্রোডাক্ট ম্যানেজার সেকশন]                    -->
         <!-- ===================================================== -->
-        <main id="section-products" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-products" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">২. প্রোডাক্ট ম্যানেজার</h2>
@@ -455,7 +459,7 @@
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 h-fit shadow-xl">
               <div class="border-b border-slate-800 pb-4">
                 <h3 class="font-bold text-lg text-white">প্রোডাক্ট ক্যাটাগরি</h3>
                 <p class="text-xs text-slate-400 mt-0.5">নতুন ক্যাটাগরি তৈরি ও পরিচালনা করুন</p>
@@ -472,7 +476,7 @@
               <div id="category-tags" class="flex flex-wrap gap-2 pt-2"></div>
             </section>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
               <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                   <h3 class="font-bold text-lg text-white">নতুন প্রোডাক্ট যোগ করুন</h3>
@@ -633,7 +637,7 @@
             </section>
           </div>
 
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-4">
               <h3 class="font-bold text-lg text-white">তৈরিকৃত প্রোডাক্ট তালিকা (<span id="products-count">0</span>)</h3>
 
@@ -675,8 +679,8 @@
         <!-- ===================================================== -->
         <!-- [শুরু: ৩. অর্ডার ম্যানেজার সেকশন — Repeat Customer সহ]   -->
         <!-- ===================================================== -->
-        <main id="section-orders" class="hidden w-full px-6 py-6 space-y-6">
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+        <main id="section-orders" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
               <div>
                 <h2 class="font-bold text-xl text-white">৩. অর্ডার ম্যানেজার (Repeat Customer Detection)</h2>
@@ -723,7 +727,7 @@
         <!-- ===================================================== -->
         <!-- [শুরু: ৪. ইনকমপ্লিট অর্ডার সেকশন — Active + Deleted]    -->
         <!-- ===================================================== -->
-        <main id="section-incomplete" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-incomplete" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">৪. ইনকমপ্লিট অর্ডার (Incomplete & Deleted Orders)</h2>
@@ -739,7 +743,7 @@
             </div>
           </div>
 
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3">নতুন ইনকমপ্লিট অর্ডার এন্ট্রি (ম্যানুয়াল / টেস্ট)</h3>
             <form onsubmit="addIncompleteOrder(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
               <input type="text" id="inc-name" required placeholder="গ্রাহকের নাম"
@@ -756,7 +760,7 @@
             </form>
           </section>
 
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3">সক্রিয় ইনকমপ্লিট অর্ডার তালিকা</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-sm border-collapse">
@@ -774,8 +778,7 @@
             </div>
           </section>
 
-          <!-- [শুরু: ডিলিটেড ইনকমপ্লিট অর্ডার সেকশন] -->
-          <section class="bg-slate-900/50 border border-rose-500/20 p-6 rounded-3xl space-y-4 shadow-xl">
+          <section class="bg-slate-900/50 border border-rose-500/20 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
               <div>
                 <h3 class="font-bold text-base text-rose-300">ডিলিটেড ইনকমপ্লিট অর্ডার (Deleted Incomplete Orders)</h3>
@@ -802,14 +805,13 @@
               </table>
             </div>
           </section>
-          <!-- [শেষ: ডিলিটেড ইনকমপ্লিট অর্ডার সেকশন] -->
         </main>
         <!-- [শেষ: ৪. ইনকমপ্লিট অর্ডার সেকশন] -->
 
         <!-- ===================================================== -->
         <!-- [শুরু: ৫. কুরিয়ার সেকশন]                              -->
         <!-- ===================================================== -->
-        <main id="section-courier" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-courier" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">৫. কুরিয়ার সেকশন ও ওয়েবহুক</h2>
@@ -821,7 +823,7 @@
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
               <div class="border-b border-slate-800 pb-4">
                 <h3 class="font-bold text-lg text-white">Steadfast Courier API</h3>
                 <p class="text-xs text-slate-400 mt-0.5">স্টেডফাস্ট মার্চেন্ট API Key ও Secret Key সেট করুন</p>
@@ -858,7 +860,7 @@
               </form>
             </section>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
               <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                   <h3 class="font-bold text-lg text-white">Webhook কনফিগারেশন</h3>
@@ -909,7 +911,7 @@
             </section>
           </div>
 
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
               <h3 class="font-bold text-base text-white">কুরিয়ার ও ওয়েবহুক অ্যাক্টিভিটি লগ</h3>
               <button type="button" onclick="clearIntegrationLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">লগ ক্লিয়ার</button>
@@ -922,7 +924,7 @@
         <!-- ===================================================== -->
         <!-- [শুরু: ৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল]    -->
         <!-- ===================================================== -->
-        <main id="section-seo" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-seo" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল</h2>
@@ -934,7 +936,7 @@
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
               <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                   <h3 class="font-bold text-lg text-white">Google Search Console</h3>
@@ -984,7 +986,7 @@
               </form>
             </section>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
               <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                   <h3 class="font-bold text-lg text-white">Google Merchant Center</h3>
@@ -1046,7 +1048,7 @@
             </section>
           </div>
 
-          <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
               <div>
                 <h3 class="font-bold text-base text-white">Google Merchant XML Feed Preview</h3>
@@ -1064,7 +1066,7 @@
         <!-- ===================================================== -->
         <!-- [শুরু: ৭. রিল ভিডিও আপলোড সেকশন]                     -->
         <!-- ===================================================== -->
-        <main id="section-reels" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-reels" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">৭. রিল ভিডিও আপলোড</h2>
@@ -1076,7 +1078,7 @@
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 h-fit shadow-xl">
               <div class="border-b border-slate-800 pb-4">
                 <h3 class="font-bold text-lg text-white">নতুন রিল ভিডিও আপলোড</h3>
                 <p class="text-xs text-slate-400 mt-0.5">ভিডিও ফাইল সিলেক্ট করুন ও প্রোডাক্ট কোড দিন</p>
@@ -1124,7 +1126,7 @@
               </form>
             </section>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
               <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <h3 class="font-bold text-lg text-white">আপলোডকৃত রিলসমূহ (<span id="reels-count">0</span>)</h3>
               </div>
@@ -1138,7 +1140,7 @@
         <!-- ===================================================== -->
         <!-- [শুরু: ৮. চ্যাটবট সেকশন — নলেজ বেস, AI ও ম্যানুয়াল চ্যাট] -->
         <!-- ===================================================== -->
-        <main id="section-chatbot" class="hidden w-full px-6 py-6 space-y-6">
+        <main id="section-chatbot" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">৮. চ্যাটবট (Store Knowledge + AI + Manual Reply)</h2>
@@ -1151,7 +1153,7 @@
 
           <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
             <div class="space-y-6">
-              <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-4 shadow-xl">
+              <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
                 <div class="border-b border-slate-800 pb-3">
                   <h3 class="font-bold text-base text-white">AI অটোমেশন কানেকশন</h3>
                   <p class="text-xs text-slate-400 mt-0.5">যেকোনো AI অটোমেশন সফটওয়্যার / Webhook এর সাথে কানেক্ট করুন</p>
@@ -1181,7 +1183,7 @@
                 </form>
               </section>
 
-              <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+              <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-3 shadow-xl">
                 <div class="border-b border-slate-800 pb-3">
                   <h3 class="font-bold text-base text-white">চ্যাটবট ওয়েবসাইট নলেজ বেস</h3>
                   <p class="text-xs text-slate-400 mt-0.5">প্রোডাক্ট সেভ করলেই এখানে অটো যোগ হয়</p>
@@ -1190,7 +1192,7 @@
               </section>
             </div>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl flex flex-col justify-between">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl flex flex-col justify-between">
               <div class="space-y-4">
                 <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-4">
                   <div>
@@ -1232,10 +1234,10 @@
         <!-- [শেষ: ৮. চ্যাটবট সেকশন] -->
 
       </div>
-      <!-- [শেষ: ডান পাশের মূল ওয়ার্কস্পেস] -->
+      <!-- [শেষ: ডান পাশের কন্টেন্ট এরিয়া] -->
 
     </div>
-    <!-- [শেষ: বাম পাশের মেনু কার্ড + ডান পাশের কন্টেন্ট] -->
+    <!-- [শেষ: বাম মেনু কলাম + ডান কন্টেন্ট কলাম] -->
 
   </div>
   <!-- [শেষ: ২. অ্যাডমিন ড্যাশবোর্ড] -->
@@ -1373,33 +1375,17 @@
       orders: "৩. অর্ডার ম্যানেজার",
       incomplete: "৪. ইনকমপ্লিট অর্ডার",
       courier: "৫. কুরিয়ার সেকশন",
-      seo: "৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল",
+      seo: "৬. মার্চেন্ট ও সার্চ কনসোল",
       reels: "৭. রিল ভিডিও আপলোড",
       chatbot: "৮. চ্যাটবট"
     };
 
-    const rankedPagesData = {
-      polo: {
-        title: "Organic Cotton Polo Shirt (/product/polo-shirt)",
-        meta: "Google Rank: #2 • Organic CTR: 6.8% • Monthly Organic Visits: 4,820",
-        visitors: "4,820", clicks: "3,490", buynow: "640", addtocart: "920", checkout: "390", purchases: "248"
-      },
-      panjabi: {
-        title: "Premium Cotton Panjabi (/product/cotton-panjabi)",
-        meta: "Google Rank: #3 • Organic CTR: 5.9% • Monthly Organic Visits: 3,210",
-        visitors: "3,210", clicks: "2,280", buynow: "410", addtocart: "580", checkout: "245", purchases: "152"
-      },
-      facemist: {
-        title: "Herbal Organic Face Mist (/product/herbal-face-mist)",
-        meta: "Google Rank: #1 • Organic CTR: 8.4% • Monthly Organic Visits: 2,940",
-        visitors: "2,940", clicks: "2,110", buynow: "420", addtocart: "560", checkout: "235", purchases: "145"
-      },
-      hoodie: {
-        title: "Winter Fleece Hoodie (/product/winter-fleece-hoodie)",
-        meta: "Google Rank: #4 • Organic CTR: 5.1% • Monthly Organic Visits: 1,510",
-        visitors: "1,510", clicks: "1,040", buynow: "170", addtocart: "250", checkout: "110", purchases: "70"
-      }
-    };
+    const organicRankedPagesList = [
+      { rank: "#1", title: "Herbal Organic Face Mist", url: "/product/herbal-face-mist", keyword: "organic face mist bangladesh", ctr: "8.4%", visits: "2,940" },
+      { rank: "#2", title: "Organic Cotton Polo Shirt", url: "/product/polo-shirt", keyword: "organic cotton polo shirt price", ctr: "6.8%", visits: "4,820" },
+      { rank: "#3", title: "Premium Cotton Panjabi", url: "/product/cotton-panjabi", keyword: "cotton panjabi collection bd", ctr: "5.9%", visits: "3,210" },
+      { rank: "#4", title: "Winter Fleece Hoodie", url: "/product/winter-fleece-hoodie", keyword: "fleece hoodie bangladesh", ctr: "5.1%", visits: "1,510" }
+    ];
 
     function escapeHtml(str) {
       return String(str ?? "")
@@ -1428,6 +1414,32 @@
       });
     }
 
+    function renderOverviewExtras() {
+      const prodTotalEl = document.getElementById("ov-products-total");
+      const stockTotalEl = document.getElementById("ov-stock-total");
+      if (prodTotalEl) prodTotalEl.textContent = String(managedProducts.length);
+      if (stockTotalEl) {
+        const totalStock = managedProducts.reduce((sum, p) => sum + (Number(p.stock) || 0), 0);
+        stockTotalEl.textContent = String(totalStock);
+      }
+
+      const rankBody = document.getElementById("organic-ranking-tbody");
+      if (rankBody) {
+        rankBody.innerHTML = organicRankedPagesList.map(item => `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-3 px-3 font-mono font-bold text-emerald-400">${escapeHtml(item.rank)}</td>
+            <td class="py-3 px-3">
+              <span class="font-semibold text-white block">${escapeHtml(item.title)}</span>
+              <span class="text-xs font-mono text-slate-400">${escapeHtml(item.url)}</span>
+            </td>
+            <td class="py-3 px-3 text-xs text-slate-300">${escapeHtml(item.keyword)}</td>
+            <td class="py-3 px-3 font-mono text-xs text-amber-300">${escapeHtml(item.ctr)}</td>
+            <td class="py-3 px-3 font-mono font-semibold text-emerald-300 text-right">${escapeHtml(item.visits)}</td>
+          </tr>
+        `).join("");
+      }
+    }
+
     function updateMenuBadges() {
       const setBadge = (id, val) => {
         const el = document.getElementById(id);
@@ -1453,6 +1465,7 @@
         return msgs[msgs.length - 1].sender === "customer" ? acc + 1 : acc;
       }, 0);
       setBadge("floating-chat-badge", unansweredCount || 1);
+      renderOverviewExtras();
     }
 
     function saveStateToStorage() {
@@ -1970,19 +1983,6 @@
       document.getElementById("profile-dropdown")?.classList.toggle("hidden");
     }
 
-    function updateTopRankedPage() {
-      const key = document.getElementById("ranked-page-selector")?.value || "polo";
-      const info = rankedPagesData[key] || rankedPagesData.polo;
-      document.getElementById("top-rank-page-title").textContent = info.title;
-      document.getElementById("top-rank-page-meta").textContent = info.meta;
-      document.getElementById("stat-visitors").textContent = info.visitors;
-      document.getElementById("stat-clicks").textContent = info.clicks;
-      document.getElementById("stat-buynow").textContent = info.buynow;
-      document.getElementById("stat-addtocart").textContent = info.addtocart;
-      document.getElementById("stat-checkout").textContent = info.checkout;
-      document.getElementById("stat-purchases").textContent = info.purchases;
-    }
-
     function slugifyText(text) {
       return String(text || "")
         .toLowerCase()
@@ -2081,8 +2081,8 @@
         if (mainEl) mainEl.classList.toggle("hidden", !active);
         if (tabEl) {
           tabEl.className = active
-            ? "w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between menu-active-glow text-white"
-            : "w-full px-4 py-3.5 rounded-2xl text-sm font-semibold transition flex items-center justify-between bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200";
+            ? "w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 menu-active-glow text-white text-left"
+            : "w-full px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-between gap-1.5 bg-slate-900/75 hover:bg-slate-800/80 border border-slate-800/90 text-slate-200 text-left";
         }
       });
 
@@ -2091,6 +2091,7 @@
         headerLabel.textContent = sectionTitles[sec];
       }
 
+      if (sec === "overview") renderOverviewExtras();
       if (sec === "incomplete") renderIncompleteOrders();
       if (sec === "seo") generateMerchantFeedPreview();
       if (sec === "chatbot") hydrateChatbotPanel();
@@ -2755,7 +2756,7 @@ ${xmlItems}
         const schemaPre = document.getElementById("latest-product-schema");
         if (schemaPre) schemaPre.textContent = latestSchemaJson;
       }
-      updateTopRankedPage();
+      renderOverviewExtras();
       setFreshProductCode();
       renderCategories();
       renderProductsTable();
