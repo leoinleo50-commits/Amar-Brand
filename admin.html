@@ -1,8 +1,8 @@
-<!-- ========================================================= -->
+ <!-- ========================================================= -->
 <!-- [শুরু] প্রফেশনাল অ্যাডমিন প্যানেল (AMAR BRAND ADMIN)        -->
 <!-- ফাইল নাম: admin.html                                       -->
-<!-- ফিচার: Overview, Product Manager (Auto Unique Code),      -->
-<!--          Order Manager, Courier/Webhook & Reel Manager    -->
+<!-- ফিচার: Direct File Upload (Product Images & Reel Video),  -->
+<!--          Unique Code, Orders, Courier & Webhook           -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -67,518 +67,584 @@
   <!-- [শেষ: ১. লগইন স্ক্রিন] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ২. অ্যাডমিন ড্যাশবোর্ড স্ক্রিন]                      -->
+  <!-- [শুরু: ২. অ্যাডমিন ড্যাশবোর্ড (RIGHT SIDEBAR LAYOUT)]     -->
   <!-- ========================================================= -->
-  <div id="dash-view" class="hidden min-h-screen flex flex-col">
+  <div id="dash-view" class="hidden min-h-screen flex flex-col lg:flex-row">
 
-    <!-- [শুরু: টপ নেভিগেশন ও সেকশন ট্যাব] -->
-    <header class="bg-slate-900/70 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
-        <div class="flex items-center gap-3">
-          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-          <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-300 to-white bg-clip-text text-transparent">
-            Amar Brand Control Center
-          </h1>
+    <!-- [শুরু: বাম পাশের মূল ওয়ার্কস্পেস (MAIN CONTENT)] -->
+    <div class="flex-1 flex flex-col min-w-0 order-2 lg:order-1">
+
+      <!-- মোবাইল / ট্যাবলেট টপ বার -->
+      <header class="lg:hidden bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center sticky top-0 z-30">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span class="font-bold text-sm text-indigo-300">Amar Brand Admin</span>
         </div>
+        <button onclick="logout()" class="text-xs bg-rose-600/80 text-white px-3 py-1.5 rounded-lg">লগআউট</button>
+      </header>
 
-        <nav class="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
-          <button id="tab-overview" onclick="switchSection('overview')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">
-            ওভারভিউ ও প্রোডাক্ট
-          </button>
-          <button id="tab-orders" onclick="switchSection('orders')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
-            অর্ডার ম্যানেজার
-          </button>
-          <button id="tab-reels" onclick="switchSection('reels')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
-            রিল আপলোড
-          </button>
-          <button id="tab-courier" onclick="switchSection('courier')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
-            কুরিয়ার ও ওয়েবহুক
-          </button>
-        </nav>
+      <!-- ======================================================= -->
+      <!-- [শুরু: সেকশন ১ - ওভারভিউ ও প্রোডাক্ট ম্যানেজার]         -->
+      <!-- ======================================================= -->
+      <main id="section-overview" class="max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
 
-        <div class="flex items-center gap-3">
-          <span class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700/50 hidden sm:inline-block">Demo Mode</span>
-          <button onclick="logout()" class="text-xs bg-slate-800 hover:bg-rose-600/80 hover:text-white text-slate-300 px-4 py-2 rounded-xl transition border border-slate-700/50">
-            লগআউট
-          </button>
-        </div>
-      </div>
-    </header>
-    <!-- [শেষ: টপ নেভিগেশন ও সেকশন ট্যাব] -->
-
-    <!-- ========================================================= -->
-    <!-- [শুরু: সেকশন ১ - ওভারভিউ ও প্রোডাক্ট ম্যানেজার]           -->
-    <!-- ========================================================= -->
-    <main id="section-overview" class="max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
-
-      <!-- ৬টি পার্সেল ওভারভিউ কার্ড -->
-      <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-slate-400">অল পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-total" class="text-2xl font-bold text-white">0</span>
-            <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">All</span>
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
+          <div>
+            <h2 class="text-xl font-bold text-white">ওভারভিউ ও প্রোডাক্ট ম্যানেজার</h2>
+            <p class="text-xs text-slate-400 mt-0.5">পার্সেল পরিসংখ্যান, ক্যাটাগরি ও ছবি আপলোডসহ সিঙ্গেল/ভেরিয়েন্ট প্রোডাক্ট কন্ট্রোল</p>
           </div>
+          <span class="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3 py-1 rounded-full font-mono">
+            Amar Brand OS
+          </span>
         </div>
 
-        <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-amber-400">পেন্ডিং পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-pending" class="text-2xl font-bold text-amber-300">0</span>
-            <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full">Pending</span>
-          </div>
-        </div>
-
-        <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-emerald-400">কনফার্মড পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-confirmed" class="text-2xl font-bold text-emerald-300">0</span>
-            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">Confirmed</span>
-          </div>
-        </div>
-
-        <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-blue-400">হোল্ড পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-hold" class="text-2xl font-bold text-blue-300">0</span>
-            <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">Hold</span>
-          </div>
-        </div>
-
-        <div class="bg-teal-950/20 border border-teal-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-teal-400">ডেলিভারড পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-delivered" class="text-2xl font-bold text-teal-300">0</span>
-            <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded-full">Delivered</span>
-          </div>
-        </div>
-
-        <div class="bg-rose-950/20 border border-rose-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
-          <span class="text-xs font-medium text-rose-400">ক্যান্সেল পার্সেল</span>
-          <div class="flex justify-between items-baseline mt-2">
-            <span id="count-cancelled" class="text-2xl font-bold text-rose-300">0</span>
-            <span class="text-[10px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded-full">Cancelled</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ক্যাটাগরি ও প্রোডাক্ট ম্যানেজার -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- ক্যাটাগরি বক্স -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
-          <div class="border-b border-slate-800 pb-4">
-            <h2 class="font-bold text-lg text-white">প্রোডাক্ট ক্যাটাগরি</h2>
-            <p class="text-xs text-slate-400 mt-0.5">নতুন ক্যাটাগরি তৈরি ও পরিচালনা করুন</p>
+        <!-- ৬টি পার্সেল ওভারভিউ কার্ড -->
+        <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-slate-400">অল পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-total" class="text-2xl font-bold text-white">0</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">All</span>
+            </div>
           </div>
 
-          <form onsubmit="addCategory(event)" class="flex gap-2">
-            <input type="text" id="new-category-name" required placeholder="নতুন ক্যাটাগরির নাম"
-              class="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
-              যোগ করুন
-            </button>
-          </form>
+          <div class="bg-amber-950/20 border border-amber-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-amber-400">পেন্ডিং পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-pending" class="text-2xl font-bold text-amber-300">0</span>
+              <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full">Pending</span>
+            </div>
+          </div>
 
-          <div id="category-tags" class="flex flex-wrap gap-2 pt-2"></div>
+          <div class="bg-emerald-950/20 border border-emerald-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-emerald-400">কনফার্মড পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-confirmed" class="text-2xl font-bold text-emerald-300">0</span>
+              <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">Confirmed</span>
+            </div>
+          </div>
+
+          <div class="bg-blue-950/20 border border-blue-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-blue-400">হোল্ড পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-hold" class="text-2xl font-bold text-blue-300">0</span>
+              <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full">Hold</span>
+            </div>
+          </div>
+
+          <div class="bg-teal-950/20 border border-teal-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-teal-400">ডেলিভারড পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-delivered" class="text-2xl font-bold text-teal-300">0</span>
+              <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded-full">Delivered</span>
+            </div>
+          </div>
+
+          <div class="bg-rose-950/20 border border-rose-500/20 p-4 rounded-2xl flex flex-col justify-between shadow-lg">
+            <span class="text-xs font-medium text-rose-400">ক্যান্সেল পার্সেল</span>
+            <div class="flex justify-between items-baseline mt-2">
+              <span id="count-cancelled" class="text-2xl font-bold text-rose-300">0</span>
+              <span class="text-[10px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded-full">Cancelled</span>
+            </div>
+          </div>
         </section>
 
-        <!-- প্রোডাক্ট ফর্ম -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl lg:col-span-2 space-y-5 shadow-xl">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <div>
-              <h2 class="font-bold text-lg text-white">প্রোডাক্ট ম্যানেজার (Add Product)</h2>
-              <p class="text-xs text-slate-400 mt-0.5">সিঙ্গেল বা ভেরিয়েন্ট প্রোডাক্ট, ইউনিক কোড, কালার, সাইজ ও মূল্য নির্ধারণ করুন</p>
+        <!-- ক্যাটাগরি ও প্রোডাক্ট ম্যানেজার -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <!-- ক্যাটাগরি বক্স -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
+            <div class="border-b border-slate-800 pb-4">
+              <h3 class="font-bold text-lg text-white">প্রোডাক্ট ক্যাটাগরি</h3>
+              <p class="text-xs text-slate-400 mt-0.5">নতুন ক্যাটাগরি তৈরি ও পরিচালনা করুন</p>
             </div>
-            <span class="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3 py-1 rounded-full font-mono">
-              Unique Code + SEO
-            </span>
-          </div>
 
-          <form onsubmit="saveProduct(event)" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <form onsubmit="addCategory(event)" class="flex gap-2">
+              <input type="text" id="new-category-name" required placeholder="নতুন ক্যাটাগরির নাম"
+                class="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
+                যোগ করুন
+              </button>
+            </form>
+
+            <div id="category-tags" class="flex flex-wrap gap-2 pt-2"></div>
+          </section>
+
+          <!-- প্রোডাক্ট ফর্ম -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">প্রোডাক্টের ধরন</label>
-                <select id="p-type" onchange="toggleVariantFields()"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
-                  <option value="Single">Single Product (সিঙ্গেল)</option>
-                  <option value="Variant">Variant Product (ভেরিয়েন্ট)</option>
-                </select>
+                <h3 class="font-bold text-lg text-white">প্রোডাক্ট ম্যানেজার (Add Product)</h3>
+                <p class="text-xs text-slate-400 mt-0.5">ছবি আপলোড, ইউনিক কোড, কালার, সাইজ ও মূল্য নির্ধারণ করুন</p>
+              </div>
+              <span class="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-3 py-1 rounded-full font-mono">
+                Image Upload + Code
+              </span>
+            </div>
+
+            <form onsubmit="saveProduct(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1">প্রোডাক্টের ধরন</label>
+                  <select id="p-type" onchange="toggleVariantFields()"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
+                    <option value="Single">Single Product (সিঙ্গেল)</option>
+                    <option value="Variant">Variant Product (ভেরিয়েন্ট)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1">ক্যাটাগরি</label>
+                  <select id="p-category" required
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
+                  </select>
+                </div>
+
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <label class="block text-xs font-medium text-indigo-300">ইউনিক প্রোডাক্ট কোড</label>
+                    <button type="button" onclick="setFreshProductCode()" class="text-[11px] text-indigo-400 hover:underline">
+                      🔄 নতুন কোড
+                    </button>
+                  </div>
+                  <input type="text" id="p-sku" required readonly
+                    class="w-full bg-slate-950/90 border border-indigo-500/30 text-indigo-300 rounded-xl px-3.5 py-2 text-sm outline-none font-mono font-semibold" />
+                </div>
               </div>
 
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">ক্যাটাগরি</label>
-                <select id="p-category" required
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
-                </select>
+                <label class="block text-xs font-medium text-slate-400 mb-1">পণ্যের নাম</label>
+                <input type="text" id="p-title" required placeholder="যেমন: Organic Cotton Polo Shirt"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
               </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-amber-400 mb-1">ক্রয় মূল্য (৳)</label>
+                  <input type="number" id="p-cost-price" required min="0" step="0.01" placeholder="350" oninput="calcMargin()"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-slate-300 mb-1">বিক্রয় মূল্য (৳)</label>
+                  <input type="number" id="p-regular-price" required min="1" step="0.01" placeholder="650" oninput="calcMargin()"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-emerald-400 mb-1">অফার মূল্য (৳)</label>
+                  <input type="number" id="p-offer-price" min="0" step="0.01" placeholder="550 (ঐচ্ছিক)" oninput="calcMargin()"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-indigo-400 mb-1">স্টক পরিমাণ</label>
+                  <input type="number" id="p-stock" required min="0" placeholder="25"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+              </div>
+
+              <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl px-4 py-2.5 flex flex-wrap justify-between items-center text-xs">
+                <span class="text-slate-400">আনুমানিক প্রফিট মার্জিন (অফার/বিক্রয় মূল্য অনুযায়ী):</span>
+                <span id="profit-preview" class="font-mono font-semibold text-emerald-400">৳0 (0%)</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1">কালার (কমা দিয়ে একাধিক দিন)</label>
+                  <input type="text" id="p-colors" placeholder="Black, Olive, Navy"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1">সাইজ (কমা দিয়ে একাধিক দিন)</label>
+                  <input type="text" id="p-sizes" placeholder="S, M, L, XL"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                </div>
+              </div>
+
+              <div id="variant-extra-box" class="bg-indigo-950/20 border border-indigo-500/20 rounded-xl p-3 space-y-2">
+                <div class="flex justify-between items-center">
+                  <label class="text-xs font-medium text-indigo-300">ভেরিয়েন্ট / সাইজ গাইড বা বাড়তি তথ্য</label>
+                  <span class="text-[11px] text-slate-400">যেমন: XL সাইজে +৫০৳ বা মেজারমেন্ট</span>
+                </div>
+                <input type="text" id="p-variant-note" placeholder="যেমন: Chest: M-38, L-40, XL-42 | Fabric: 100% Combed Cotton"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
+              </div>
+
+              <!-- [শুরু: প্রোডাক্টের ছবি আপলোড ও লিংক বক্স] -->
+              <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div class="sm:col-span-2">
+                    <label class="block text-xs font-medium text-indigo-300 mb-1">প্রোডাক্টের ছবি আপলোড করুন (একাধিক ছবি সিলেক্ট করা যাবে)</label>
+                    <input type="file" id="p-image-files" accept="image/*" multiple onchange="handleProductImagesUpload(event)"
+                      class="w-full bg-slate-950 border border-slate-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 rounded-xl px-3 py-1.5 text-xs text-slate-300" />
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">প্রকাশের অবস্থা</label>
+                    <select id="p-status" class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
+                      <option value="Active">Active (লাইভ)</option>
+                      <option value="Draft">Draft (খসড়া)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-slate-400 mb-1">অথবা ছবির লিংক (HTTPS URL, কমা দিয়ে একাধিক - ঐচ্ছিক)</label>
+                  <input type="text" id="p-images" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs outline-none font-mono" />
+                </div>
+
+                <!-- আপলোড করা ছবির প্রিভিউ -->
+                <div id="product-image-previews" class="flex flex-wrap gap-2.5 pt-1"></div>
+              </div>
+              <!-- [শেষ: প্রোডাক্টের ছবি আপলোড ও লিংক বক্স] -->
 
               <div>
                 <div class="flex justify-between items-center mb-1">
-                  <label class="block text-xs font-medium text-indigo-300">ইউনিক প্রোডাক্ট কোড</label>
-                  <button type="button" onclick="setFreshProductCode()" class="text-[11px] text-indigo-400 hover:underline">
-                    🔄 নতুন কোড
+                  <label class="text-xs font-medium text-slate-400">সংক্ষিপ্ত বিবরণ (Google & AI Search Friendly)</label>
+                  <button type="button" onclick="generateAI()" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition">
+                    ✨ AI Auto SEO
                   </button>
                 </div>
-                <input type="text" id="p-sku" required readonly
-                  class="w-full bg-slate-950/90 border border-indigo-500/30 text-indigo-300 rounded-xl px-3.5 py-2 text-sm outline-none font-mono font-semibold" />
+                <textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত ও তথ্যবহুল বিবরণ..."
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none"></textarea>
               </div>
-            </div>
 
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white py-3 rounded-xl font-semibold text-sm transition shadow-lg shadow-indigo-600/20">
+                প্রোডাক্ট সেভ করুন
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <!-- সেভ করা প্রোডাক্ট তালিকা -->
+        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+            <h3 class="font-bold text-lg text-white">তৈরিকৃত প্রোডাক্ট তালিকা (<span id="products-count">0</span>)</h3>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                  <th class="py-3 px-3">ছবি & কোড</th>
+                  <th class="py-3 px-3">নাম ও ক্যাটাগরি</th>
+                  <th class="py-3 px-3">কালার & সাইজ</th>
+                  <th class="py-3 px-3">ক্রয় / বিক্রয় / অফার</th>
+                  <th class="py-3 px-3">স্টক</th>
+                  <th class="py-3 px-3">অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="products-tbody" class="divide-y divide-slate-800/60"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <!-- [শেষ: সেকশন ১ - ওভারভিউ ও প্রোডাক্ট ম্যানেজার] -->
+
+      <!-- ======================================================= -->
+      <!-- [শুরু: সেকশন ২ - অর্ডার ম্যানেজার (ORDER MANAGER)]       -->
+      <!-- ======================================================= -->
+      <main id="section-orders" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-6 flex-1">
+        <section class="bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm p-6 rounded-3xl space-y-5 shadow-xl">
+          <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">পণ্যের নাম</label>
-              <input type="text" id="p-title" required placeholder="যেমন: Organic Cotton Polo Shirt"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+              <h2 class="font-bold text-xl text-white">অর্ডার ম্যানেজার (All Site Orders)</h2>
+              <p class="text-xs text-slate-400 mt-0.5">সাইটের সব অর্ডার দেখুন, স্ট্যাটাস বদলান, কুরিয়ারে পাঠান বা ডিলিট করুন</p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div>
-                <label class="block text-xs font-medium text-amber-400 mb-1">ক্রয় মূল্য (৳)</label>
-                <input type="number" id="p-cost-price" required min="0" step="0.01" placeholder="350" oninput="calcMargin()"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-              </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <input type="text" id="order-search" oninput="renderOrdersTable()" placeholder="অর্ডার #, নাম বা ফোন খুঁজুন..."
+                class="bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs outline-none w-56" />
+              <select id="order-filter-status" onchange="renderOrdersTable()"
+                class="bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3 py-2 text-xs outline-none">
+                <option value="All">সব স্ট্যাটাস</option>
+                <option value="Pending">Pending</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Hold">Hold</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+              <button onclick="loadOrders()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl border border-slate-700 transition">
+                রিফ্রেশ
+              </button>
+            </div>
+          </div>
 
-              <div>
-                <label class="block text-xs font-medium text-slate-300 mb-1">বিক্রয় মূল্য (৳)</label>
-                <input type="number" id="p-regular-price" required min="1" step="0.01" placeholder="650" oninput="calcMargin()"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-              </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                  <th class="py-3 px-3">অর্ডার #</th>
+                  <th class="py-3 px-3">গ্রাহক, ফোন ও ঠিকানা</th>
+                  <th class="py-3 px-3">আইটেম</th>
+                  <th class="py-3 px-3">মোট</th>
+                  <th class="py-3 px-3">স্ট্যাটাস</th>
+                  <th class="py-3 px-3 text-right">অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list" class="divide-y divide-slate-800/60"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <!-- [শেষ: সেকশন ২ - অর্ডার ম্যানেজার] -->
 
-              <div>
-                <label class="block text-xs font-medium text-emerald-400 mb-1">অফার মূল্য (৳)</label>
-                <input type="number" id="p-offer-price" min="0" step="0.01" placeholder="550 (ঐচ্ছিক)" oninput="calcMargin()"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-              </div>
+      <!-- ======================================================= -->
+      <!-- [শুরু: সেকশন ৩ - রিল ভিডিও আপলোড ম্যানেজার (REELS)]    -->
+      <!-- ======================================================= -->
+      <main id="section-reels" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-              <div>
-                <label class="block text-xs font-medium text-indigo-400 mb-1">স্টক পরিমাণ</label>
-                <input type="number" id="p-stock" required min="0" placeholder="25"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-              </div>
+          <!-- রিল ভিডিও আপলোড ফর্ম -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
+            <div class="border-b border-slate-800 pb-4">
+              <h2 class="font-bold text-lg text-white">নতুন রিল ভিডিও আপলোড</h2>
+              <p class="text-xs text-slate-400 mt-0.5">ডিভাইস থেকে ভিডিও ফাইল আপলোড করুন ও প্রোডাক্ট কোড দিন</p>
             </div>
 
-            <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl px-4 py-2.5 flex flex-wrap justify-between items-center text-xs">
-              <span class="text-slate-400">আনুমানিক প্রফিট মার্জিন (অফার/বিক্রয় মূল্য অনুযায়ী):</span>
-              <span id="profit-preview" class="font-mono font-semibold text-emerald-400">৳0 (0%)</span>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <form onsubmit="saveReel(event)" class="space-y-4">
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">কালার (কমা দিয়ে একাধিক দিন)</label>
-                <input type="text" id="p-colors" placeholder="Black, Olive, Navy"
+                <label class="block text-xs font-medium text-slate-400 mb-1">রিলের শিরোনাম</label>
+                <input type="text" id="reel-title" required placeholder="যেমন: Polo Shirt Fabric & Fit Review"
                   class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
               </div>
 
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">সাইজ (কমা দিয়ে একাধিক দিন)</label>
-                <input type="text" id="p-sizes" placeholder="S, M, L, XL"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                <label class="block text-xs font-medium text-indigo-300 mb-1">লিঙ্কড প্রোডাক্ট কোড</label>
+                <input type="text" id="reel-product-code" list="product-code-options" required placeholder="যেমন: AB-PRD-1001 বা যেকোনো কোড"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+                <datalist id="product-code-options"></datalist>
               </div>
-            </div>
 
-            <div id="variant-extra-box" class="bg-indigo-950/20 border border-indigo-500/20 rounded-xl p-3 space-y-2">
-              <div class="flex justify-between items-center">
-                <label class="text-xs font-medium text-indigo-300">ভেরিয়েন্ট / সাইজ গাইড বা বাড়তি তথ্য</label>
-                <span class="text-[11px] text-slate-400">যেমন: XL সাইজে +৫০৳ বা মেজারমেন্ট</span>
-              </div>
-              <input type="text" id="p-variant-note" placeholder="যেমন: Chest: M-38, L-40, XL-42 | Fabric: 100% Combed Cotton"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
-            </div>
+              <!-- সরাসরি রিল ভিডিও ফাইল আপলোড -->
+              <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
+                <label class="block text-xs font-medium text-emerald-300">রিল ভিডিও ফাইল আপলোড (MP4 / WebM)</label>
+                <input type="file" id="reel-video-file" accept="video/mp4,video/webm,video/quicktime,video/*" onchange="handleReelVideoUpload(event)"
+                  class="w-full bg-slate-950 border border-slate-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 rounded-xl px-3 py-1.5 text-xs text-slate-300" />
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="sm:col-span-2">
-                <label class="block text-xs font-medium text-slate-400 mb-1">পণ্যের ছবির লিংক (HTTPS URL, কমা দিয়ে একাধিক)</label>
-                <input type="text" id="p-images" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">অথবা ভিডিও লিংক (URL - ঐচ্ছিক)</label>
+                  <input type="url" id="reel-video-url" placeholder="https://example.com/reel-video.mp4"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs outline-none font-mono" />
+                </div>
+
+                <!-- রিল ভিডিও প্রিভিউ -->
+                <div id="reel-upload-preview" class="hidden pt-1">
+                  <video id="reel-preview-player" controls class="w-full max-h-56 rounded-xl bg-black border border-slate-800"></video>
+                </div>
               </div>
+
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">প্রকাশের অবস্থা</label>
-                <select id="p-status" class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none">
-                  <option value="Active">Active (লাইভ)</option>
-                  <option value="Draft">Draft (খসড়া)</option>
-                </select>
+                <label class="block text-xs font-medium text-slate-400 mb-1">ক্যাপশন / বিবরণ</label>
+                <textarea id="reel-caption" rows="2" placeholder="রিল সম্পর্কে সংক্ষিপ্ত ক্যাপশন..."
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none"></textarea>
               </div>
+
+              <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold text-sm transition shadow-lg shadow-indigo-600/20">
+                রিল পাবলিশ করুন
+              </button>
+            </form>
+          </section>
+
+          <!-- আপলোড করা রিলের তালিকা -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+              <h2 class="font-bold text-lg text-white">আপলোডকৃত রিলসমূহ (<span id="reels-count">0</span>)</h2>
             </div>
 
-            <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="text-xs font-medium text-slate-400">সংক্ষিপ্ত বিবরণ (Google & AI Search Friendly)</label>
-                <button type="button" onclick="generateAI()" class="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition">
-                  ✨ AI Auto SEO
+            <div id="reels-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+          </section>
+        </div>
+      </main>
+      <!-- [শেষ: সেকশন ৩ - রিল ভিডিও আপলোড ম্যানেজার] -->
+
+      <!-- ======================================================= -->
+      <!-- [শুরু: সেকশন ৪ - স্টেডফাস্ট কুরিয়ার API ও ওয়েবহুক]        -->
+      <!-- ======================================================= -->
+      <main id="section-courier" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <!-- Steadfast Courier API সেটিংস -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+              <div>
+                <h2 class="font-bold text-lg text-white">Steadfast Courier API</h2>
+                <p class="text-xs text-slate-400 mt-0.5">স্টেডফাস্ট মার্চেন্ট API Key ও Secret Key সেট করুন</p>
+              </div>
+              <span id="sf-status-badge" class="text-[11px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-1 rounded-full">
+                Not Configured
+              </span>
+            </div>
+
+            <form onsubmit="saveCourierSettings(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Steadfast Base URL</label>
+                <input type="url" id="sf-base-url" required value="https://portal.packzy.com/api/v1"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">API Key</label>
+                <input type="text" id="sf-api-key" required placeholder="Steadfast API Key দিন"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Secret Key</label>
+                <input type="password" id="sf-secret-key" required placeholder="Steadfast Secret Key দিন"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+              </div>
+
+              <div class="flex items-center justify-between pt-1">
+                <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                  <input type="checkbox" id="sf-enabled" class="rounded bg-slate-900 border-slate-700" checked />
+                  Steadfast API সক্রিয় রাখুন
+                </label>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
+                  কুরিয়ার সেটিংস সেভ করুন
                 </button>
               </div>
-              <textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত ও তথ্যবহুল বিবরণ..."
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none"></textarea>
+            </form>
+          </section>
+
+          <!-- Webhook ম্যানেজার -->
+          <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+              <div>
+                <h2 class="font-bold text-lg text-white">Webhook কনফিগারেশন</h2>
+                <p class="text-xs text-slate-400 mt-0.5">নতুন অর্ডার, স্ট্যাটাস পরিবর্তন বা কুরিয়ার আপডেটে Webhook পাঠান</p>
+              </div>
+              <span class="text-[11px] bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2.5 py-1 rounded-full font-mono">
+                Real-time Events
+              </span>
             </div>
 
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white py-3 rounded-xl font-semibold text-sm transition shadow-lg shadow-indigo-600/20">
-              প্রোডাক্ট সেভ করুন
-            </button>
-          </form>
+            <form onsubmit="saveWebhookSettings(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Webhook Endpoint URL (HTTPS)</label>
+                <input type="url" id="wh-url" required placeholder="https://your-webhook-endpoint.example.com/hook"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Webhook Signing Secret (ঐচ্ছিক)</label>
+                <input type="text" id="wh-secret" placeholder="whsec_amarbrand_secret_key"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="wh-ev-order" checked /> order.created
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="wh-ev-status" checked /> order.status_updated
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="wh-ev-courier" checked /> courier.dispatched
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="wh-ev-deleted" /> order.deleted
+                </label>
+              </div>
+
+              <div class="flex flex-wrap gap-3 pt-1">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
+                  Webhook সেভ করুন
+                </button>
+                <button type="button" onclick="sendTestWebhook()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-700 transition">
+                  Test Webhook পাঠান
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- কুরিয়ার ডিসপ্যাচ ও ওয়েবহুক অ্যাক্টিভিটি লগ -->
+        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-4 shadow-xl">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <h3 class="font-bold text-base text-white">কুরিয়ার ও ওয়েবহুক অ্যাক্টিভিটি লগ</h3>
+            <button onclick="clearIntegrationLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">লগ ক্লিয়ার</button>
+          </div>
+          <div id="integration-logs" class="space-y-2 text-xs font-mono text-slate-300">
+            <p class="text-slate-500">এখনো কোনো কুরিয়ার বা ওয়েবহুক ইভেন্ট ট্রিগার হয়নি।</p>
+          </div>
         </section>
+      </main>
+      <!-- [শেষ: সেকশন ৪ - স্টেডফাস্ট কুরিয়ার API ও ওয়েবহুক] -->
+
+    </div>
+    <!-- [শেষ: বাম পাশের মূল ওয়ার্কস্পেস] -->
+
+    <!-- [শুরু: ডান পাশের নেভিগেশন সাইডবার (RIGHT SIDEBAR)] -->
+    <aside class="w-full lg:w-72 bg-slate-900/80 backdrop-blur-xl border-b lg:border-b-0 lg:border-l border-slate-800 p-5 flex flex-col justify-between shrink-0 order-1 lg:order-2">
+      <div class="space-y-6">
+        <!-- ব্র্যান্ড হেডার -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+            <div>
+              <h1 class="text-base font-bold bg-gradient-to-r from-indigo-400 via-purple-300 to-white bg-clip-text text-transparent">
+                Amar Brand
+              </h1>
+              <p class="text-[11px] text-slate-400">Executive Control Panel</p>
+            </div>
+          </div>
+          <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700">Demo</span>
+        </div>
+
+        <!-- ডান পাশের অপশন মেনু -->
+        <nav class="space-y-1.5">
+          <p class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-3 mb-2">মেনু ও অপশনসমূহ</p>
+
+          <button id="tab-overview" onclick="switchSection('overview')"
+            class="w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition flex items-center justify-between">
+            <span>ওভারভিউ ও প্রোডাক্ট</span>
+            <span>📊</span>
+          </button>
+
+          <button id="tab-orders" onclick="switchSection('orders')"
+            class="w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/70 hover:text-white transition flex items-center justify-between">
+            <span>অর্ডার ম্যানেজার</span>
+            <span>📦</span>
+          </button>
+
+          <button id="tab-reels" onclick="switchSection('reels')"
+            class="w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/70 hover:text-white transition flex items-center justify-between">
+            <span>রিল ভিডিও আপলোড</span>
+            <span>🎬</span>
+          </button>
+
+          <button id="tab-courier" onclick="switchSection('courier')"
+            class="w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/70 hover:text-white transition flex items-center justify-between">
+            <span>কুরিয়ার ও ওয়েবহুক</span>
+            <span>🚚</span>
+          </button>
+        </nav>
       </div>
 
-      <!-- সেভ করা প্রোডাক্ট তালিকা -->
-      <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-          <h2 class="font-bold text-lg text-white">তৈরিকৃত প্রোডাক্ট তালিকা (<span id="products-count">0</span>)</h2>
+      <!-- ডান সাইডবারের নিচের অংশ -->
+      <div class="pt-6 mt-6 border-t border-slate-800 space-y-3">
+        <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 text-[11px] text-slate-400 space-y-1">
+          <p class="text-slate-200 font-semibold">Admin Session</p>
+          <p class="font-mono truncate">admin@amarbrand.com</p>
         </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
-                <th class="py-3 px-3">প্রোডাক্ট কোড / ধরন</th>
-                <th class="py-3 px-3">নাম ও ক্যাটাগরি</th>
-                <th class="py-3 px-3">কালার & সাইজ</th>
-                <th class="py-3 px-3">ক্রয় / বিক্রয় / অফার</th>
-                <th class="py-3 px-3">স্টক</th>
-                <th class="py-3 px-3">অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody id="products-tbody" class="divide-y divide-slate-800/60"></tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-    <!-- [শেষ: সেকশন ১ - ওভারভিউ ও প্রোডাক্ট ম্যানেজার] -->
-
-    <!-- ========================================================= -->
-    <!-- [শুরু: সেকশন ২ - অর্ডার ম্যানেজার (ORDER MANAGER)]         -->
-    <!-- ========================================================= -->
-    <main id="section-orders" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-6 flex-1">
-      <section class="bg-slate-900/40 border border-slate-800/80 backdrop-blur-sm p-6 rounded-3xl space-y-5 shadow-xl">
-        <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
-          <div>
-            <h2 class="font-bold text-xl text-white">অর্ডার ম্যানেজার (All Site Orders)</h2>
-            <p class="text-xs text-slate-400 mt-0.5">সাইটের সব অর্ডার দেখুন, স্ট্যাটাস বদলান, কুরিয়ারে পাঠান বা ডিলিট করুন</p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-2">
-            <input type="text" id="order-search" oninput="renderOrdersTable()" placeholder="অর্ডার #, নাম বা ফোন খুঁজুন..."
-              class="bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs outline-none w-56" />
-            <select id="order-filter-status" onchange="renderOrdersTable()"
-              class="bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3 py-2 text-xs outline-none">
-              <option value="All">সব স্ট্যাটাস</option>
-              <option value="Pending">Pending</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="Hold">Hold</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-            <button onclick="loadOrders()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl border border-slate-700 transition">
-              রিফ্রেশ
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
-                <th class="py-3 px-3">অর্ডার #</th>
-                <th class="py-3 px-3">গ্রাহক, ফোন ও ঠিকানা</th>
-                <th class="py-3 px-3">আইটেম</th>
-                <th class="py-3 px-3">মোট</th>
-                <th class="py-3 px-3">স্ট্যাটাস</th>
-                <th class="py-3 px-3 text-right">অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody id="orders-list" class="divide-y divide-slate-800/60"></tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-    <!-- [শেষ: সেকশন ২ - অর্ডার ম্যানেজার] -->
-
-    <!-- ========================================================= -->
-    <!-- [শুরু: সেকশন ৩ - রিল আপলোড ম্যানেজার (REEL UPLOAD)]       -->
-    <!-- ========================================================= -->
-    <main id="section-reels" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        <!-- রিল আপলোড ফর্ম -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 h-fit shadow-xl">
-          <div class="border-b border-slate-800 pb-4">
-            <h2 class="font-bold text-lg text-white">নতুন রিল আপলোড</h2>
-            <p class="text-xs text-slate-400 mt-0.5">শর্ট ভিডিও রিল যুক্ত করুন এবং প্রোডাক্ট কোড লিংক করুন</p>
-          </div>
-
-          <form onsubmit="saveReel(event)" class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">রিলের শিরোনাম</label>
-              <input type="text" id="reel-title" required placeholder="যেমন: Polo Shirt Fabric & Fit Review"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-indigo-300 mb-1">লিঙ্কড প্রোডাক্ট কোড</label>
-              <input type="text" id="reel-product-code" list="product-code-options" required placeholder="যেমন: AB-PRD-1001 বা যেকোনো কোড"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-              <datalist id="product-code-options"></datalist>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">ভিডিও লিংক (MP4 / Reel URL)</label>
-              <input type="url" id="reel-video-url" required placeholder="https://example.com/reel-video.mp4"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">কভার / থাম্বনেইল ইমেজ URL (ঐচ্ছিক)</label>
-              <input type="url" id="reel-thumb-url" placeholder="https://example.com/reel-thumb.jpg"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">ক্যাপশন / বিবরণ</label>
-              <textarea id="reel-caption" rows="2" placeholder="রিল সম্পর্কে সংক্ষিপ্ত ক্যাপশন..."
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none"></textarea>
-            </div>
-
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold text-sm transition shadow-lg shadow-indigo-600/20">
-              রিল পাবলিশ করুন
-            </button>
-          </form>
-        </section>
-
-        <!-- আপলোড করা রিলের তালিকা -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl lg:col-span-2 space-y-5 shadow-xl">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h2 class="font-bold text-lg text-white">আপলোডকৃত রিলসমূহ (<span id="reels-count">0</span>)</h2>
-          </div>
-
-          <div id="reels-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-        </section>
+        <button onclick="logout()"
+          class="w-full text-xs bg-slate-800 hover:bg-rose-600/80 hover:text-white text-slate-300 px-4 py-2.5 rounded-xl transition border border-slate-700/50 font-medium">
+          লগআউট করুন
+        </button>
       </div>
-    </main>
-    <!-- [শেষ: সেকশন ৩ - রিল আপলোড ম্যানেজার] -->
-
-    <!-- ========================================================= -->
-    <!-- [শুরু: সেকশন ৪ - স্টেডফাস্ট কুরিয়ার API ও ওয়েবহুক]          -->
-    <!-- ========================================================= -->
-    <main id="section-courier" class="hidden max-w-7xl mx-auto w-full px-6 py-8 space-y-8 flex-1">
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Steadfast Courier API সেটিংস -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <div>
-              <h2 class="font-bold text-lg text-white">Steadfast Courier API</h2>
-              <p class="text-xs text-slate-400 mt-0.5">স্টেডফাস্ট মার্চেন্ট API Key ও Secret Key সেট করুন</p>
-            </div>
-            <span id="sf-status-badge" class="text-[11px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-1 rounded-full">
-              Not Configured
-            </span>
-          </div>
-
-          <form onsubmit="saveCourierSettings(event)" class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Steadfast Base URL</label>
-              <input type="url" id="sf-base-url" required value="https://portal.packzy.com/api/v1"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">API Key</label>
-              <input type="text" id="sf-api-key" required placeholder="Steadfast API Key দিন"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Secret Key</label>
-              <input type="password" id="sf-secret-key" required placeholder="Steadfast Secret Key দিন"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div class="flex items-center justify-between pt-1">
-              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-                <input type="checkbox" id="sf-enabled" class="rounded bg-slate-900 border-slate-700" checked />
-                Steadfast API সক্রিয় রাখুন
-              </label>
-              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
-                কুরিয়ার সেটিংস সেভ করুন
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- Webhook ম্যানেজার -->
-        <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-5 shadow-xl">
-          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <div>
-              <h2 class="font-bold text-lg text-white">Webhook কনফিগারেশন</h2>
-              <p class="text-xs text-slate-400 mt-0.5">নতুন অর্ডার, স্ট্যাটাস পরিবর্তন বা কুরিয়ার আপডেটে Webhook পাঠান</p>
-            </div>
-            <span class="text-[11px] bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2.5 py-1 rounded-full font-mono">
-              Real-time Events
-            </span>
-          </div>
-
-          <form onsubmit="saveWebhookSettings(event)" class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Webhook Endpoint URL (HTTPS)</label>
-              <input type="url" id="wh-url" required placeholder="https://your-webhook-endpoint.example.com/hook"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Webhook Signing Secret (ঐচ্ছিক)</label>
-              <input type="text" id="wh-secret" placeholder="whsec_amarbrand_secret_key"
-                class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono" />
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="wh-ev-order" checked /> order.created
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="wh-ev-status" checked /> order.status_updated
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="wh-ev-courier" checked /> courier.dispatched
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" id="wh-ev-deleted" /> order.deleted
-              </label>
-            </div>
-
-            <div class="flex flex-wrap gap-3 pt-1">
-              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
-                Webhook সেভ করুন
-              </button>
-              <button type="button" onclick="sendTestWebhook()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-700 transition">
-                Test Webhook পাঠান
-              </button>
-            </div>
-          </form>
-        </section>
-      </div>
-
-      <!-- কুরিয়ার ডিসপ্যাচ ও ওয়েবহুক অ্যাক্টিভিটি লগ -->
-      <section class="bg-slate-900/40 border border-slate-800/80 p-6 rounded-3xl space-y-4 shadow-xl">
-        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-          <h3 class="font-bold text-base text-white">কুরিয়ার ও ওয়েবহুক অ্যাক্টিভিটি লগ</h3>
-          <button onclick="clearIntegrationLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">লগ ক্লিয়ার</button>
-        </div>
-        <div id="integration-logs" class="space-y-2 text-xs font-mono text-slate-300">
-          <p class="text-slate-500">এখনো কোনো কুরিয়ার বা ওয়েবহুক ইভেন্ট ট্রিগার হয়নি।</p>
-        </div>
-      </section>
-    </main>
-    <!-- [শেষ: সেকশন ৪ - স্টেডফাস্ট কুরিয়ার API ও ওয়েবহুক] -->
+    </aside>
+    <!-- [শেষ: ডান পাশের নেভিগেশন সাইডবার] -->
 
   </div>
-  <!-- [শেষ: ২. অ্যাডমিন ড্যাশবোর্ড স্ক্রিন] -->
+  <!-- [শেষ: ২. অ্যাডমিন ড্যাশবোর্ড] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ৩. জাভাস্ক্রিপ্ট লজিক]                                -->
   <!-- ========================================================= -->
   <script>
-    // [শুরু: গ্লোবাল ভেরিয়েবল ও কনফিগারেশন]
     const WORKER_URL = "https://amarbrand-api.YOUR-SUBDOMAIN.workers.dev";
     let token = sessionStorage.getItem("admin_token") || "";
     let currentOrders = [];
@@ -586,6 +652,10 @@
     let managedProducts = [];
     let managedReels = [];
     let integrationLogs = [];
+
+    let uploadedProductImages = [];
+    let uploadedReelVideoSrc = "";
+    let uploadedReelFileName = "";
 
     let courierConfig = JSON.parse(localStorage.getItem("ab_courier_cfg") || JSON.stringify({
       baseUrl: "https://portal.packzy.com/api/v1",
@@ -604,9 +674,7 @@
         orderDeleted: false
       }
     }));
-    // [শেষ: গ্লোবাল ভেরিয়েবল ও কনফিগারেশন]
 
-    // [শুরু: ইউনিক প্রোডাক্ট কোড জেনারেটর]
     function generateUniqueProductCode() {
       const randPart = Math.random().toString(36).substring(2, 6).toUpperCase();
       const numPart = Math.floor(100 + Math.random() * 900);
@@ -625,9 +693,63 @@
         `<option value="${p.sku}">${p.title}</option>`
       ).join("");
     }
-    // [শেষ: ইউনিক প্রোডাক্ট কোড জেনারেটর]
 
-    // [শুরু: লগ ও নেভিগেশন ফাংশন]
+    // প্রোডাক্টের ছবি ফাইল আপলোড ও প্রিভিউ
+    function handleProductImagesUpload(e) {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          uploadedProductImages.push(reader.result);
+          renderProductImagePreviews();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removeUploadedImage(index) {
+      uploadedProductImages.splice(index, 1);
+      renderProductImagePreviews();
+    }
+
+    function renderProductImagePreviews() {
+      const box = document.getElementById("product-image-previews");
+      if (!box) return;
+      if (uploadedProductImages.length === 0) {
+        box.innerHTML = "";
+        return;
+      }
+      box.innerHTML = uploadedProductImages.map((src, idx) => `
+        <div class="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-700 bg-slate-900">
+          <img src="${src}" alt="Preview" class="w-full h-full object-cover" />
+          <button type="button" onclick="removeUploadedImage(${idx})"
+            class="absolute top-0.5 right-0.5 bg-rose-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">×</button>
+        </div>
+      `).join("");
+    }
+
+    // রিল ভিডিও ফাইল আপলোড ও প্রিভিউ
+    function handleReelVideoUpload(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      if (uploadedReelVideoSrc && uploadedReelVideoSrc.startsWith("blob:")) {
+        URL.revokeObjectURL(uploadedReelVideoSrc);
+      }
+
+      uploadedReelVideoSrc = URL.createObjectURL(file);
+      uploadedReelFileName = file.name;
+
+      const wrap = document.getElementById("reel-upload-preview");
+      const player = document.getElementById("reel-preview-player");
+      if (wrap && player) {
+        player.src = uploadedReelVideoSrc;
+        wrap.classList.remove("hidden");
+      }
+    }
+
     function addLog(message) {
       const time = new Date().toLocaleTimeString("bn-BD");
       integrationLogs.unshift(`[${time}] ${message}`);
@@ -661,14 +783,12 @@
         if (mainEl) mainEl.classList.toggle("hidden", !active);
         if (tabEl) {
           tabEl.className = active
-            ? "px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition"
-            : "px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition";
+            ? "w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition flex items-center justify-between"
+            : "w-full text-right px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/70 hover:text-white transition flex items-center justify-between";
         }
       });
     }
-    // [শেষ: লগ ও নেভিগেশন ফাংশন]
 
-    // [শুরু: ক্যাটাগরি ও প্রোডাক্ট ম্যানেজার ফাংশন]
     function renderCategories() {
       const selectEl = document.getElementById("p-category");
       const tagsEl = document.getElementById("category-tags");
@@ -746,15 +866,16 @@
       const offerPriceRaw = document.getElementById("p-offer-price").value;
       const offerPrice = offerPriceRaw ? Number(offerPriceRaw) : null;
       const effectivePrice = offerPrice && offerPrice > 0 ? offerPrice : regularPrice;
-
       const sku = document.getElementById("p-sku").value.trim() || generateUniqueProductCode();
 
       const colors = document.getElementById("p-colors").value
         .split(",").map(s => s.trim()).filter(Boolean);
       const sizes = document.getElementById("p-sizes").value
         .split(",").map(s => s.trim()).filter(Boolean);
-      const images = document.getElementById("p-images").value
+      const urlImages = document.getElementById("p-images").value
         .split(",").map(s => s.trim()).filter(Boolean);
+
+      const images = [...uploadedProductImages, ...urlImages];
 
       const newProduct = {
         sku,
@@ -793,6 +914,8 @@
         }
       }
 
+      uploadedProductImages = [];
+      renderProductImagePreviews();
       e.target.reset();
       setFreshProductCode();
       calcMargin();
@@ -814,54 +937,75 @@
         return;
       }
 
-      tbody.innerHTML = managedProducts.map(p => `
-        <tr class="hover:bg-slate-800/40 transition">
-          <td class="py-3 px-3 font-mono text-xs">
-            <span class="text-indigo-400 font-semibold block">${p.sku}</span>
-            <span class="text-slate-400">${p.product_type}</span>
-          </td>
-          <td class="py-3 px-3">
-            <span class="font-medium text-slate-100 block">${p.title}</span>
-            <span class="text-xs text-slate-400">${p.category}</span>
-          </td>
-          <td class="py-3 px-3 text-xs text-slate-300">
-            <div>কালার: ${p.colors.length ? p.colors.join(", ") : "-"}</div>
-            <div>সাইজ: ${p.sizes.length ? p.sizes.join(", ") : "-"}</div>
-          </td>
-          <td class="py-3 px-3 text-xs font-mono">
-            <div class="text-amber-400">ক্রয়: ৳${p.cost_price}</div>
-            <div class="text-slate-300">বিক্রয়: ৳${p.regular_price}</div>
-            <div class="text-emerald-400 font-semibold">অফার: ${p.offer_price ? "৳" + p.offer_price : "-"}</div>
-          </td>
-          <td class="py-3 px-3 font-semibold text-indigo-300">${p.stock}</td>
-          <td class="py-3 px-3">
-            <button onclick="deleteLocalProduct('${p.sku}')" class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-lg transition">
-              মুছুন
-            </button>
-          </td>
-        </tr>
-      `).join("");
-    }
-    // [শেষ: ক্যাটাগরি ও প্রোডাক্ট ম্যানেজার ফাংশন]
+      tbody.innerHTML = managedProducts.map(p => {
+        const thumb = p.images && p.images[0]
+          ? `<img src="${p.images[0]}" alt="${p.title}" class="w-11 h-11 rounded-lg object-cover border border-slate-700 shrink-0" />`
+          : `<div class="w-11 h-11 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] text-slate-400 shrink-0">No Img</div>`;
 
-    // [শুরু: রিল আপলোড ম্যানেজার ফাংশন]
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-3 px-3 font-mono text-xs">
+              <div class="flex items-center gap-2.5">
+                ${thumb}
+                <div>
+                  <span class="text-indigo-400 font-semibold block">${p.sku}</span>
+                  <span class="text-slate-400">${p.product_type}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-3">
+              <span class="font-medium text-slate-100 block">${p.title}</span>
+              <span class="text-xs text-slate-400">${p.category}</span>
+            </td>
+            <td class="py-3 px-3 text-xs text-slate-300">
+              <div>কালার: ${p.colors.length ? p.colors.join(", ") : "-"}</div>
+              <div>সাইজ: ${p.sizes.length ? p.sizes.join(", ") : "-"}</div>
+            </td>
+            <td class="py-3 px-3 text-xs font-mono">
+              <div class="text-amber-400">ক্রয়: ৳${p.cost_price}</div>
+              <div class="text-slate-300">বিক্রয়: ৳${p.regular_price}</div>
+              <div class="text-emerald-400 font-semibold">অফার: ${p.offer_price ? "৳" + p.offer_price : "-"}</div>
+            </td>
+            <td class="py-3 px-3 font-semibold text-indigo-300">${p.stock}</td>
+            <td class="py-3 px-3">
+              <button onclick="deleteLocalProduct('${p.sku}')" class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-lg transition">
+                মুছুন
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
     function saveReel(e) {
       e.preventDefault();
+      const videoUrlInput = document.getElementById("reel-video-url").value.trim();
+      const finalVideoSrc = uploadedReelVideoSrc || videoUrlInput;
+
+      if (!finalVideoSrc) {
+        return alert("দয়া করে একটি রিল ভিডিও ফাইল আপলোড করুন অথবা ভিডিও লিংক দিন।");
+      }
+
       const reelId = "REEL-" + Math.floor(1000 + Math.random() * 9000);
       const newReel = {
         id: reelId,
         title: document.getElementById("reel-title").value.trim(),
         product_code: document.getElementById("reel-product-code").value.trim().toUpperCase(),
-        video_url: document.getElementById("reel-video-url").value.trim(),
-        thumb_url: document.getElementById("reel-thumb-url").value.trim(),
+        video_src: finalVideoSrc,
+        file_name: uploadedReelFileName || "External Video URL",
         caption: document.getElementById("reel-caption").value.trim()
       };
 
       managedReels.unshift(newReel);
+      uploadedReelVideoSrc = "";
+      uploadedReelFileName = "";
+      document.getElementById("reel-upload-preview").classList.add("hidden");
+      document.getElementById("reel-preview-player").src = "";
+
       renderReels();
-      addLog(`Reel Uploaded -> ${newReel.id} | Product Code: ${newReel.product_code}`);
+      addLog(`Reel Uploaded -> ${newReel.id} | Code: ${newReel.product_code} | File: ${newReel.file_name}`);
       e.target.reset();
-      alert(`রিল আপলোড হয়েছে! প্রোডাক্ট কোড: ${newReel.product_code}`);
+      alert(`রিল ভিডিও আপলোড হয়েছে! প্রোডাক্ট কোড: ${newReel.product_code}`);
     }
 
     function deleteReel(id) {
@@ -876,12 +1020,13 @@
 
       countEl.innerText = managedReels.length;
       if (managedReels.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">এখনো কোনো রিল আপলোড করা হয়নি। বাম পাশের ফর্ম থেকে রিল যোগ করুন।</div>`;
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">এখনো কোনো রিল ভিডিও আপলোড করা হয়নি। বাম পাশের ফর্ম থেকে ভিডিও আপলোড করুন।</div>`;
         return;
       }
 
       grid.innerHTML = managedReels.map(r => `
         <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+          <video src="${r.video_src}" controls class="w-full h-48 object-cover rounded-xl bg-black border border-slate-800"></video>
           <div class="flex justify-between items-start gap-2">
             <div>
               <span class="text-[11px] font-mono bg-indigo-500/15 text-indigo-300 border border-indigo-500/25 px-2.5 py-0.5 rounded-full">
@@ -892,13 +1037,11 @@
             <button onclick="deleteReel('${r.id}')" class="text-xs text-rose-400 hover:underline">ডিলিট</button>
           </div>
           ${r.caption ? `<p class="text-xs text-slate-400">${r.caption}</p>` : ""}
-          <div class="text-[11px] font-mono text-slate-500 truncate">Video: ${r.video_url}</div>
+          <div class="text-[11px] font-mono text-slate-500 truncate">Source: ${r.file_name}</div>
         </div>
       `).join("");
     }
-    // [শেষ: রিল আপলোড ম্যানেজার ফাংশন]
 
-    // [শুরু: কুরিয়ার ও ওয়েবহুক ফাংশন]
     function hydrateIntegrationForms() {
       document.getElementById("sf-base-url").value = courierConfig.baseUrl || "https://portal.packzy.com/api/v1";
       document.getElementById("sf-api-key").value = courierConfig.apiKey || "";
@@ -1010,9 +1153,7 @@
 
       alert(`Steadfast-এ পার্সেল পাঠানো হয়েছে!\nTracking ID: ${trackingCode}`);
     }
-    // [শেষ: কুরিয়ার ও ওয়েবহুক ফাংশন]
 
-    // [শুরু: অথেনটিকেশন ও অর্ডার ম্যানেজমেন্ট ফাংশন]
     async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById("admin-email").value.trim();
@@ -1248,7 +1389,6 @@
     }
 
     if (token) showDash();
-    // [শেষ: অথেনটিকেশন ও অর্ডার ম্যানেজমেন্ট ফাংশন]
   </script>
   <!-- [শেষ: ৩. জাভাস্ক্রিপ্ট লজিক] -->
 </body>
