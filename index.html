@@ -1,1 +1,177 @@
+<!-- ========================================================= -->
+<!-- [শুরু] ইউজার প্যানেল (AMAR BRAND STOREFRONT) - index.html -->
+<!-- কাজ: গ্রাহকদের পণ্য দেখানো, কার্ট তৈরি করা ও অর্ডার নেওয়া  -->
+<!-- ========================================================= -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- [শুরু: হেডার ও গুগল এসইও / সার্চ তথ্য] -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amar Brand | সেরা দামে আসল পণ্য</title>
+  <meta name="description" content="Amar Brand থেকে কিনুন সেরা মানের পণ্য। দ্রুত ও নিরাপদ অর্ডার সুবিধা।">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- [শেষ: হেডার ও গুগল এসইও / সার্চ তথ্য] -->
+</head>
+<body class="bg-gray-50 text-gray-800">
 
+  <!-- [শুরু: উপরের মেনু ও কার্ট বাটন] -->
+  <header class="bg-white border-b sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">Amar Brand</h1>
+      <button onclick="toggleCart()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">
+        কার্ট (<span id="cart-count">0</span>)
+      </button>
+    </div>
+  </header>
+  <!-- [শেষ: উপরের মেনু ও কার্ট বাটন] -->
+
+  <!-- [শুরু: পণ্য প্রদর্শনের মূল অংশ] -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <h2 class="text-xl font-bold mb-6">আমাদের পণ্যসমূহ</h2>
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </main>
+  <!-- [শেষ: পণ্য প্রদর্শনের মূল অংশ] -->
+
+  <!-- [শুরু: শপিং কার্ট ও অর্ডার ফর্ম পপআপ] -->
+  <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-end z-50">
+    <div class="bg-white w-full max-w-md h-full p-6 overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold">আপনার কার্ট</h3>
+        <button onclick="toggleCart()" class="text-2xl">&times;</button>
+      </div>
+      <div id="cart-items" class="space-y-4 mb-6"></div>
+      <div class="border-t pt-4 space-y-3">
+        <p class="font-bold flex justify-between">
+          <span>মোট টাকা:</span>
+          <span>৳<span id="cart-total">0</span></span>
+        </p>
+        <form onsubmit="handleCheckout(event)" class="space-y-2">
+          <input type="text" id="cust-name" required placeholder="আপনার নাম" class="w-full border p-2 rounded text-sm">
+          <input type="tel" id="cust-phone" required placeholder="মোবাইল নম্বর" class="w-full border p-2 rounded text-sm">
+          <textarea id="cust-address" required placeholder="সম্পূর্ণ ঠিকানা" class="w-full border p-2 rounded text-sm"></textarea>
+          <button type="submit" class="w-full bg-green-600 text-white py-2.5 rounded font-bold text-sm">
+            অর্ডার নিশ্চিত করুন
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- [শেষ: শপিং কার্ট ও অর্ডার ফর্ম পপআপ] -->
+
+  <script>
+    // [শুরু: API লিংক সেটিংস - আপনার Worker লিংক এখানে বসান]
+    const WORKER_URL = "https://amarbrand-api.YOUR-SUBDOMAIN.workers.dev";
+    let cart = [];
+    // [শেষ: API লিংক সেটিংস]
+
+    // [শুরু: সার্ভার থেকে পণ্য এনে স্ক্রিনে দেখানোর কোড]
+    async function loadProducts() {
+      const res = await fetch(`${WORKER_URL}/api/products`);
+      const data = await res.json();
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = (data.products || []).map(p => `
+        <div class="bg-white border rounded-xl p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg">${p.title}</h3>
+            <p class="text-xs bg-indigo-50 text-indigo-600 w-max px-2 py-0.5 rounded my-1">${p.category}</p>
+            <p class="text-sm text-gray-500 my-2">${p.short_description || ''}</p>
+          </div>
+          <div class="flex justify-between items-center mt-4">
+            <span class="font-bold text-lg text-indigo-600">৳${p.price}</span>
+            <button onclick="addToCart(${p.id}, '${p.title}', ${p.price})" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-sm font-semibold">
+              কার্টে রাখুন
+            </button>
+          </div>
+        </div>
+      `).join("");
+      injectSchema(data.products || []);
+    }
+    // [শেষ: সার্ভার থেকে পণ্য এনে স্ক্রিনে দেখানোর কোড]
+
+    // [শুরু: কার্টে পণ্য যোগ ও হিসাব করার কোড]
+    function addToCart(id, title, price) {
+      const exist = cart.find(i => i.id === id);
+      if (exist) exist.qty++;
+      else cart.push({ id, title, price, qty: 1 });
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById("cart-count").innerText = cart.reduce((a, b) => a + b.qty, 0);
+      document.getElementById("cart-items").innerHTML = cart.map(i => `
+        <div class="flex justify-between text-sm border-b pb-2">
+          <div>
+            <p class="font-bold">${i.title}</p>
+            <p class="text-xs text-gray-500">৳${i.price} x ${i.qty}</p>
+          </div>
+          <p class="font-bold">৳${i.price * i.qty}</p>
+        </div>
+      `).join("");
+      document.getElementById("cart-total").innerText = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+    }
+
+    function toggleCart() {
+      document.getElementById("cart-modal").classList.toggle("hidden");
+    }
+    // [শেষ: কার্টে পণ্য যোগ ও হিসাব করার কোড]
+
+    // [শুরু: গ্রাহকের অর্ডার সার্ভারে পাঠানোর কোড]
+    async function handleCheckout(e) {
+      e.preventDefault();
+      const payload = {
+        customer_name: document.getElementById("cust-name").value,
+        customer_phone: document.getElementById("cust-phone").value,
+        shipping_address: document.getElementById("cust-address").value,
+        items: cart
+      };
+      const res = await fetch(`${WORKER_URL}/api/orders/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`অর্ডার সফল হয়েছে! আপনার অর্ডার নম্বর: ${data.order_number}`);
+        cart = [];
+        updateCart();
+        toggleCart();
+      } else {
+        alert(data.error || "অর্ডার সম্পন্ন করা যায়নি।");
+      }
+    }
+    // [শেষ: গ্রাহকের অর্ডার সার্ভারে পাঠানোর কোড]
+
+    // [শুরু: গুগল ও AI সার্চ ইঞ্জিনের জন্য অটো Schema তথ্য যুক্ত করার কোড]
+    function injectSchema(products) {
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": products.map((p, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "item": {
+            "@type": "Product",
+            "name": p.title,
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "BDT",
+              "price": p.price
+            }
+          }
+        }))
+      };
+      const s = document.createElement("script");
+      s.type = "application/ld+json";
+      s.text = JSON.stringify(schema);
+      document.head.appendChild(s);
+    }
+    // [শেষ: গুগল ও AI সার্চ ইঞ্জিনের জন্য অটো Schema তথ্য যুক্ত করার কোড]
+
+    loadProducts();
+  </script>
+</body>
+</html>
+<!-- ========================================================= -->
+<!-- [শেষ] ইউজার প্যানেল (AMAR BRAND STOREFRONT) - index.html  -->
+<!-- ========================================================= -->
