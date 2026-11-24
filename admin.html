@@ -1,7 +1,8 @@
  <!-- ========================================================= -->
 <!-- [শুরু] প্রফেশনাল অ্যাডমিন প্যানেল (AMAR BRAND ADMIN)        -->
 <!-- ফাইল নাম: admin.html                                       -->
-<!-- আপডেটেড: Order Manager + Header Bot Alert + Chatbot + PM  -->
+<!-- সম্পূর্ণ ফিচার আপডেট: Variants, CSV, Bulk Actions,        -->
+<!-- Invoice Print, Sitemap/Robots, AI Assistant, JSON Backup  -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -23,6 +24,18 @@
       background: linear-gradient(90deg, rgba(16, 185, 129, 0.14) 0%, rgba(15, 23, 42, 0.92) 100%);
       border: 1px solid rgba(16, 185, 129, 0.45);
       box-shadow: 0 0 24px rgba(16, 185, 129, 0.12);
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #print-invoice-area, #print-invoice-area * { visibility: visible; }
+      #print-invoice-area {
+        position: fixed;
+        inset: 0;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        padding: 24px;
+        z-index: 9999;
+      }
     }
   </style>
   <!-- [শেষ: হেডার ও স্টাইল সেটিংস] -->
@@ -78,7 +91,7 @@
   <!-- ========================================================= -->
   <div id="dash-view" class="hidden min-h-screen flex flex-col">
 
-    <!-- [শুরু: সিঙ্গেল টপ হেডার + এআই চ্যাটবট নোটিফিকেশন বার] -->
+    <!-- [শুরু: সিঙ্গেল টপ হেডার + ব্যাকআপ/রিস্টোর + নোটিফিকেশন] -->
     <header class="sticky top-0 z-30 bg-[#080d1a]/95 backdrop-blur-xl border-b border-slate-800/80 px-3.5 sm:px-6 py-3">
       <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2.5">
         <div class="flex items-center gap-2.5 min-w-0">
@@ -95,7 +108,19 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-2 shrink-0">
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <!-- JSON ব্যাকআপ ও রিস্টোর -->
+          <button type="button" onclick="exportFullBackupJson()"
+            class="text-xs bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-slate-700 px-2.5 py-1.5 rounded-xl font-semibold transition"
+            title="JSON Backup Download">
+            💾 Backup
+          </button>
+          <label class="text-xs bg-slate-900 hover:bg-slate-800 text-sky-300 border border-slate-700 px-2.5 py-1.5 rounded-xl font-semibold transition cursor-pointer"
+            title="JSON Backup Restore">
+            📂 Restore
+            <input type="file" accept=".json,application/json" onchange="importFullBackupJson(event)" class="hidden" />
+          </label>
+
           <!-- এআই চ্যাটবট হেডার নোটিফিকেশন বার -->
           <button type="button" onclick="openChatbotFromHeader()"
             class="flex items-center gap-2 bg-emerald-950/50 hover:bg-emerald-900/50 border border-emerald-500/35 px-3 py-1.5 rounded-2xl transition shadow-md shadow-emerald-950/40"
@@ -137,7 +162,7 @@
         </div>
       </div>
     </header>
-    <!-- [শেষ: সিঙ্গেল টপ হেডার + এআই চ্যাটবট নোটিফিকেশন বার] -->
+    <!-- [শেষ: সিঙ্গেল টপ হেডার + ব্যাকআপ/রিস্টোর + নোটিফিকেশন] -->
 
     <!-- [শুরু: বাম মেনু কলাম + ডান কন্টেন্ট কলাম] -->
     <div class="flex-1 flex flex-row max-w-[1440px] w-full mx-auto">
@@ -239,9 +264,24 @@
       <div class="flex-1 min-w-0">
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ১. ওভারভিউ — ডান পাশে নির্ধারিত ক্রমে সাজানো]   -->
+        <!-- [শুরু: ১. ওভারভিউ + লো-স্টক অ্যালার্ট]                  -->
         <!-- ===================================================== -->
         <main id="section-overview" class="w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
+
+          <!-- লো-স্টক অ্যালার্ট ব্যানার -->
+          <div id="low-stock-alert-banner" class="hidden bg-amber-950/35 border border-amber-500/35 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 text-xs">
+              <span class="text-lg">⚠️</span>
+              <div>
+                <p class="font-bold text-amber-300">Low Stock Alert (স্টক ৫ বা তার কম)</p>
+                <p id="low-stock-items-text" class="text-amber-200/80 font-mono mt-0.5"></p>
+              </div>
+            </div>
+            <button type="button" onclick="switchSection('products')"
+              class="text-xs bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-400/35 px-3 py-1.5 rounded-xl font-semibold transition">
+              স্টক চেক করুন
+            </button>
+          </div>
 
           <!-- [১. প্রোডাক্ট ও পার্সেল ওভারভিউ] -->
           <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl">
@@ -452,16 +492,16 @@
           </section>
 
         </main>
-        <!-- [শেষ: ১. ওভারভিউ] -->
+        <!-- [শেষ: ১. ওভারভিউ + লো-স্টক অ্যালার্ট] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার সেকশন]          -->
+        <!-- [শুরু: ২. প্রোডাক্ট ম্যানেজার + ভেরিয়েন্ট ম্যাট্রিক্স + CSV] -->
         <!-- ===================================================== -->
         <main id="section-products" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
               <h2 class="text-xl font-bold text-white">২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার</h2>
-              <p class="text-xs text-slate-400 mt-0.5">কুইক প্রিসেট, অটো-ডিসকাউন্ট ও প্রফিট হিসাব, ভেরিয়েন্ট, SEO ও এক ক্লিকে ডুপ্লিকেট সুবিধা</p>
+              <p class="text-xs text-slate-400 mt-0.5">ভেরিয়েন্ট স্টক/প্রাইস ম্যাট্রিক্স, বাল্ক প্রাইস/স্টক আপডেট, CSV ইমপোর্ট/এক্সপোর্ট ও AI SEO</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
               <button type="button" onclick="applyQuickPreset('polo')"
@@ -472,9 +512,14 @@
                 class="text-xs bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3 py-1.5 rounded-xl font-medium transition">
                 + Organic Mist Preset
               </button>
-              <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1.5 rounded-full font-mono">
-                Chatbot Auto-Sync
-              </span>
+              <button type="button" onclick="exportProductsCsv()"
+                class="text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-xl font-semibold transition">
+                ⬇ CSV Export
+              </button>
+              <label class="text-xs bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/30 px-3 py-1.5 rounded-xl font-semibold transition cursor-pointer">
+                ⬆ CSV Import
+                <input type="file" accept=".csv,text/csv" onchange="importProductsCsv(event)" class="hidden" />
+              </label>
             </div>
           </div>
 
@@ -503,7 +548,7 @@
                   <p class="text-xs text-slate-400 mt-0.5">প্রয়োজনীয় তথ্য দিলেই অটোমেটিক Slug, Alt Text, Schema ও চ্যাটবট ডেটা তৈরি হবে</p>
                 </div>
                 <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
-                  Fast Add + SEO
+                  Variants + SEO
                 </span>
               </div>
 
@@ -596,13 +641,19 @@
                   </div>
                 </div>
 
-                <div id="variant-extra-box" class="bg-emerald-950/15 border border-emerald-500/20 rounded-xl p-3 space-y-2">
-                  <div class="flex justify-between items-center">
+                <!-- ভেরিয়েন্ট-ভিত্তিক স্টক ও প্রাইস ম্যাট্রিক্স -->
+                <div id="variant-extra-box" class="bg-emerald-950/15 border border-emerald-500/20 rounded-2xl p-3.5 space-y-3">
+                  <div class="flex flex-wrap justify-between items-center gap-2">
                     <label for="p-variant-note" class="text-xs font-medium text-emerald-300">ভেরিয়েন্ট / সাইজ গাইড বা বাড়তি তথ্য</label>
-                    <span class="text-[11px] text-slate-400">যেমন: Chest: M-38, L-40, XL-42</span>
+                    <button type="button" onclick="addVariantMatrixRow()"
+                      class="text-xs bg-emerald-600/20 hover:bg-emerald-600/35 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg font-semibold transition">
+                      + Variant Row
+                    </button>
                   </div>
                   <input type="text" id="p-variant-note" placeholder="যেমন: Chest: M-38, L-40, XL-42 | Fabric: 100% Organic Cotton"
                     class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
+
+                  <div id="variant-matrix-rows" class="space-y-2"></div>
                 </div>
 
                 <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 space-y-3">
@@ -641,12 +692,12 @@
 
                 <div>
                   <div class="flex justify-between items-center mb-1">
-                    <label for="p-desc" class="text-xs font-medium text-slate-400">সংক্ষিপ্ত বিবরণ (Google & AI Search Friendly)</label>
+                    <label for="p-desc" class="text-xs font-medium text-slate-400">সংক্ষিপ্ত বিবরণ (Google, AI Search & LLM Friendly Summary)</label>
                     <button type="button" onclick="generateAI()" class="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition">
-                      ✨ AI Auto SEO
+                      ✨ AI Auto SEO & Summary
                     </button>
                   </div>
-                  <textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত ও তথ্যবহুল বিবরণ..."
+                  <textarea id="p-desc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত ও তথ্যবহুল বিবরণ (উপাদান, ব্যবহারের নিয়ম, সাইজ গাইড)..."
                     class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-sm outline-none"></textarea>
                 </div>
 
@@ -657,13 +708,20 @@
             </section>
           </div>
 
+          <!-- প্রোডাক্ট তালিকা + বাল্ক স্টক/প্রাইস আপডেট -->
           <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-4">
               <h3 class="font-bold text-lg text-white">তৈরিকৃত প্রোডাক্ট তালিকা (<span id="products-count">0</span>)</h3>
 
-              <div class="flex items-center gap-2 w-full sm:w-auto">
+              <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <input type="number" id="bulk-stock-delta" placeholder="স্টক (+/- যেমন: 10 বা -2)"
+                  class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs outline-none w-44 font-mono" />
+                <button type="button" onclick="applyBulkStockAdjustment()"
+                  class="text-xs bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 border border-indigo-500/30 px-3 py-2 rounded-xl font-semibold transition">
+                  বাল্ক স্টক আপডেট
+                </button>
                 <input type="text" id="product-id-search" oninput="renderProductsTable()" placeholder="প্রোডাক্ট আইডি / কোড বা নাম সার্চ করুন..."
-                  class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none w-full sm:w-64 font-mono" />
+                  class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none w-full sm:w-60 font-mono" />
               </div>
             </div>
 
@@ -673,7 +731,7 @@
                   <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
                     <th class="py-3 px-3">ছবি & প্রোডাক্ট আইডি</th>
                     <th class="py-3 px-3">নাম, Slug & ক্যাটাগরি</th>
-                    <th class="py-3 px-3">কালার & সাইজ</th>
+                    <th class="py-3 px-3">কালার, সাইজ & ভেরিয়েন্ট</th>
                     <th class="py-3 px-3">ক্রয় / বিক্রয় / অফার</th>
                     <th class="py-3 px-3">স্টক</th>
                     <th class="py-3 px-3 text-right">অ্যাকশন</th>
@@ -685,7 +743,7 @@
 
             <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div class="flex justify-between items-center">
-                <span class="text-xs font-semibold text-emerald-300 font-mono">Latest Product JSON-LD Schema (Google Rich Snippet)</span>
+                <span class="text-xs font-semibold text-emerald-300 font-mono">Latest Product JSON-LD Schema (Google Rich Snippet & AI Search)</span>
                 <button type="button" onclick="copyLatestSchema()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg border border-slate-700 transition">
                   Schema কপি করুন
                 </button>
@@ -694,17 +752,17 @@
             </div>
           </section>
         </main>
-        <!-- [শেষ: ২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার সেকশন] -->
+        <!-- [শেষ: ২. প্রোডাক্ট ম্যানেজার + ভেরিয়েন্ট ম্যাট্রিক্স + CSV] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৩. প্রফেশনাল অর্ডার ম্যানেজার সেকশন]            -->
+        <!-- [শুরু: ৩. অর্ডার ম্যানেজার (বাল্ক অ্যাকশন + ইনভয়েস)]  -->
         <!-- ===================================================== -->
         <main id="section-orders" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-5 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
               <div>
                 <h2 class="font-bold text-lg sm:text-xl text-white">৩. অর্ডার ম্যানেজার</h2>
-                <p class="text-xs text-slate-400 mt-0.5">যেকোনো অর্ডারে ক্লিক করলেই পপআপে পূর্ণ ডিটেইলস, পূর্বের অর্ডার হিস্ট্রি ও অ্যামাউন্ট এডিট দেখা যাবে</p>
+                <p class="text-xs text-slate-400 mt-0.5">বাল্ক স্ট্যাটাস আপডেট, বাল্ক Steadfast সেন্ড, ইনভয়েস প্রিন্ট ও সিলেক্টেড ডিলিট সুবিধা</p>
               </div>
 
               <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -725,13 +783,62 @@
               </div>
             </div>
 
+            <!-- বাল্ক সিলেকশন ও মাল্টি-অ্যাকশন টুলবার -->
+            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-200 cursor-pointer select-none">
+                  <input type="checkbox" id="order-select-all" onchange="toggleSelectAllOrders(this.checked)"
+                    class="w-4 h-4 rounded accent-emerald-500 cursor-pointer" />
+                  <span>সব সিলেক্ট করুন</span>
+                </label>
+                <span id="selected-orders-count-badge" class="text-xs font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full">
+                  0 টি সিলেক্টেড
+                </span>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- বাল্ক স্ট্যাটাস পরিবর্তন -->
+                <select id="bulk-status-select"
+                  class="text-xs bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 outline-none">
+                  <option value="Confirmed">Bulk: Confirmed</option>
+                  <option value="Hold">Bulk: Hold</option>
+                  <option value="Delivered">Bulk: Delivered</option>
+                  <option value="Cancelled">Bulk: Cancelled</option>
+                  <option value="Pending">Bulk: Pending</option>
+                </select>
+                <button type="button" id="bulk-status-btn" onclick="applyBulkOrderStatus()" disabled
+                  class="text-xs font-semibold bg-emerald-600/20 hover:bg-emerald-600 disabled:opacity-40 disabled:pointer-events-none text-emerald-300 hover:text-white border border-emerald-500/35 px-3.5 py-2 rounded-xl transition">
+                  স্ট্যাটাস আপডেট
+                </button>
+
+                <!-- বাল্ক Steadfast সেন্ড -->
+                <button type="button" id="bulk-steadfast-btn" onclick="sendSelectedToSteadfast()" disabled
+                  class="text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600 disabled:opacity-40 disabled:pointer-events-none text-indigo-300 hover:text-white border border-indigo-500/35 px-3.5 py-2 rounded-xl transition">
+                  🚚 Bulk Steadfast
+                </button>
+
+                <!-- ইনভয়েস / প্যাকিং স্লিপ প্রিন্ট -->
+                <button type="button" id="bulk-invoice-btn" onclick="openInvoicePrintModal()" disabled
+                  class="text-xs font-semibold bg-sky-600/20 hover:bg-sky-600 disabled:opacity-40 disabled:pointer-events-none text-sky-300 hover:text-white border border-sky-500/35 px-3.5 py-2 rounded-xl transition">
+                  🧾 Invoice Print
+                </button>
+
+                <!-- আলাদা বাল্ক ডিলিট বাটন -->
+                <button type="button" id="bulk-delete-orders-btn" onclick="deleteSelectedOrders()" disabled
+                  class="inline-flex items-center gap-1.5 text-xs font-semibold bg-rose-600/20 hover:bg-rose-600 disabled:opacity-40 disabled:pointer-events-none text-rose-300 hover:text-white border border-rose-500/35 px-3.5 py-2 rounded-xl transition">
+                  <span>🗑️</span>
+                  <span>সিলেক্টেড ডিলিট করুন</span>
+                </button>
+              </div>
+            </div>
+
             <div id="orders-list" class="space-y-3"></div>
           </section>
         </main>
-        <!-- [শেষ: ৩. প্রফেশনাল অর্ডার ম্যানেজার সেকশন] -->
+        <!-- [শেষ: ৩. অর্ডার ম্যানেজার (বাল্ক অ্যাকশন + ইনভয়েস)] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৪. ইনকমপ্লিট অর্ডার সেকশন — Active + Deleted]    -->
+        <!-- [শুরু: ৪. ইনকমপ্লিট অর্ডার সেকশন]                        -->
         <!-- ===================================================== -->
         <main id="section-incomplete" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
@@ -815,13 +922,13 @@
         <!-- [শেষ: ৪. ইনকমপ্লিট অর্ডার সেকশন] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৫. কুরিয়ার সেকশন]                              -->
+        <!-- [শুরু: ৫. কুরিয়ার, ওয়েবহুক ও অডিট লগ সেকশন]            -->
         <!-- ===================================================== -->
         <main id="section-courier" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">৫. কুরিয়ার সেকশন ও ওয়েবহুক</h2>
-              <p class="text-xs text-slate-400 mt-0.5">Steadfast Courier API এবং Real-time Webhook কনফিগারেশন</p>
+              <h2 class="text-xl font-bold text-white">৫. কুরিয়ার সেকশন, ওয়েবহুক ও অডিট লগ</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Steadfast Courier API, Real-time Webhook এবং অ্যাক্টিভিটি অডিট লগ</p>
             </div>
             <span id="sf-status-badge" class="text-[11px] bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-1 rounded-full">
               Not Configured
@@ -919,22 +1026,22 @@
 
           <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-              <h3 class="font-bold text-base text-white">কুরিয়ার ও ওয়েবহুক অ্যাক্টিভিটি লগ</h3>
+              <h3 class="font-bold text-base text-white">কুরিয়ার, ওয়েবহুক ও অ্যাক্টিভিটি অডিট লগ</h3>
               <button type="button" onclick="clearIntegrationLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">লগ ক্লিয়ার</button>
             </div>
             <div id="integration-logs" class="space-y-2 text-xs font-mono text-slate-300"></div>
           </section>
         </main>
-        <!-- [শেষ: ৫. কুরিয়ার সেকশন] -->
+        <!-- [শেষ: ৫. কুরিয়ার, ওয়েবহুক ও অডিট লগ সেকশন] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল]    -->
+        <!-- [শুরু: ৬. মার্চেন্ট সেন্টার, সার্চ কনসোল ও Sitemap/Robots] -->
         <!-- ===================================================== -->
         <main id="section-seo" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল</h2>
-              <p class="text-xs text-slate-400 mt-0.5">আপনার সাইটটি অর্গানিক Google Search ও Google Shopping-এ সঠিকভাবে ইনডেক্স ও রিড করার অপশনসমূহ</p>
+              <h2 class="text-xl font-bold text-white">৬. গুগল মার্চেন্ট সেন্টার, সার্চ কনসোল ও Sitemap</h2>
+              <p class="text-xs text-slate-400 mt-0.5">অর্গানিক Google Search, Google Shopping Feed এবং auto-generated sitemap.xml ও robots.txt</p>
             </div>
             <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
               Organic Google Index
@@ -1054,6 +1161,31 @@
             </section>
           </div>
 
+          <!-- অটো-জেনারেটেড sitemap.xml ও robots.txt -->
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-3 shadow-xl">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white">Auto-Generated sitemap.xml</h3>
+                <button type="button" onclick="copyTextFromElement('sitemap-xml-output', 'sitemap.xml কপি হয়েছে!')"
+                  class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg border border-slate-700 transition">
+                  কপি করুন
+                </button>
+              </div>
+              <pre id="sitemap-xml-output" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-sky-300 overflow-x-auto max-h-60"></pre>
+            </section>
+
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-3 shadow-xl">
+              <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white">Auto-Generated robots.txt</h3>
+                <button type="button" onclick="copyTextFromElement('robots-txt-output', 'robots.txt কপি হয়েছে!')"
+                  class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg border border-slate-700 transition">
+                  কপি করুন
+                </button>
+              </div>
+              <pre id="robots-txt-output" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-amber-300 overflow-x-auto max-h-60"></pre>
+            </section>
+          </div>
+
           <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
               <div>
@@ -1067,7 +1199,7 @@
             <pre id="google-feed-output" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-emerald-300 overflow-x-auto max-h-72"></pre>
           </section>
         </main>
-        <!-- [শেষ: ৬. গুগল মার্চেন্ট সেন্টার প্লাস সার্চ কনসোল] -->
+        <!-- [শেষ: ৬. মার্চেন্ট সেন্টার, সার্চ কনসোল ও Sitemap/Robots] -->
 
         <!-- ===================================================== -->
         <!-- [শুরু: ৭. রিল ভিডিও আপলোড সেকশন]                     -->
@@ -1144,24 +1276,21 @@
         <!-- [শেষ: ৭. রিল ভিডিও আপলোড সেকশন] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৮. চ্যাটবট সেকশন]                                -->
-        <!-- ১) কাস্টমার মেসেজ লিস্ট (রিসেন্ট উপরে) + চ্যাট রিপ্লাই  -->
-        <!-- ২) চ্যাটবট সেটিংস (উপরে) + কানেকশন অপশন (নিচে)       -->
+        <!-- [শুরু: ৮. চ্যাটবট, কাস্টমার চ্যাট ও অ্যাডমিন অ্যাসিস্ট্যান্ট] -->
         <!-- ===================================================== -->
         <main id="section-chatbot" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">৮. এআই চ্যাটবট ও কাস্টমার ইনবক্স</h2>
-              <p class="text-xs text-slate-400 mt-0.5">রিসেন্ট কাস্টমার মেসেজ লিস্ট থেকে মেসেজ সিলেক্ট করে রিপ্লাই দিন, সেটিংস ও সফটওয়্যার কানেকশন ম্যানেজ করুন</p>
+              <h2 class="text-xl font-bold text-white">৮. এআই চ্যাটবট, কাস্টমার ইনবক্স ও অ্যাডমিন অ্যাসিস্ট্যান্ট</h2>
+              <p class="text-xs text-slate-400 mt-0.5">কাস্টমার চ্যাট বক্স (সীমিত প্রোডাক্ট/অর্ডার তথ্য) এবং অ্যাডমিন অ্যানালিটিক্স অ্যাসিস্ট্যান্ট</p>
             </div>
             <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
               Knowledge Items: <span id="kb-count">0</span>
             </span>
           </div>
 
-          <!-- [উপরের অংশ: কাস্টমার মেসেজ লিস্ট (রিসেন্ট উপরে) + চ্যাট রিপ্লাই] -->
+          <!-- [উপরের অংশ: কাস্টমার মেসেজ লিস্ট + বড় চ্যাট বক্স] -->
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- বাম পাশে কাস্টমার মেসেজ লিস্ট -->
             <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-3 shadow-xl">
               <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div>
@@ -1171,38 +1300,83 @@
                 <span id="inbox-total-badge" class="text-xs font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full">0</span>
               </div>
 
-              <div id="customer-messages-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></div>
+              <div id="customer-messages-list" class="space-y-2 max-h-[30rem] overflow-y-auto pr-1"></div>
             </section>
 
-            <!-- ডান পাশে সিলেক্টেড কাস্টমারের চ্যাট ও ম্যানুয়াল রিপ্লাই -->
             <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl lg:col-span-2 space-y-4 shadow-xl flex flex-col justify-between">
               <div class="space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
                   <div>
-                    <span class="text-[11px] font-mono text-emerald-400">Active Conversation</span>
+                    <span class="text-[11px] font-mono text-emerald-400">Active Conversation (Restricted Customer View)</span>
                     <h3 id="active-chat-customer-title" class="font-bold text-base sm:text-lg text-white">কাস্টমার নির্বাচন করুন</h3>
                   </div>
-                  <span id="active-chat-status-pill" class="text-xs bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full">
-                    Ready
-                  </span>
+                  <div class="flex items-center gap-2">
+                    <button type="button" onclick="generateRestrictedCustomerBotReply()"
+                      class="text-xs bg-emerald-600/20 hover:bg-emerald-600/35 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full font-semibold transition">
+                      ✨ Safe Bot Reply
+                    </button>
+                    <span id="active-chat-status-pill" class="text-xs bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full">
+                      Ready
+                    </span>
+                  </div>
                 </div>
 
-                <div id="chat-messages-box" class="bg-slate-950/85 border border-slate-800 rounded-2xl p-4 space-y-3 max-h-72 overflow-y-auto text-xs"></div>
+                <!-- বড় চ্যাট মেসেজ বক্স -->
+                <div id="chat-messages-box" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 h-[24rem] sm:h-[28rem] overflow-y-auto text-xs sm:text-sm"></div>
               </div>
 
-              <form onsubmit="sendManualAdminReply(event)" class="flex gap-2 pt-2 border-t border-slate-800">
+              <form onsubmit="sendManualAdminReply(event)" class="flex gap-2.5 pt-2 border-t border-slate-800">
                 <input type="text" id="admin-manual-reply-input" required placeholder="এই কাস্টমারকে রিপ্লাই লিখুন..."
-                  class="flex-1 bg-slate-950 border border-emerald-500/35 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none" />
-                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition shrink-0">
+                  class="flex-1 bg-slate-950 border border-emerald-500/35 focus:border-emerald-500 rounded-xl px-4 py-3 text-xs sm:text-sm outline-none" />
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition shrink-0">
                   রিপ্লাই পাঠান
                 </button>
               </form>
             </section>
           </div>
 
-          <!-- [নিচের অংশ: ১) চ্যাটবট সেটিংস উপরে, ২) অন্যান্য সফটওয়্যারের সাথে কানেকশন নিচে] -->
+          <!-- অ্যাডমিন অ্যানালিটিক্স অ্যাসিস্ট্যান্ট -->
+          <section class="bg-slate-900/50 border border-indigo-500/25 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-[11px] uppercase tracking-wider bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 px-2.5 py-0.5 rounded-full font-semibold">
+                  Internal Admin Assistant
+                </span>
+                <h3 class="font-bold text-lg text-white mt-1">অ্যাডমিন স্টোর অ্যানালিটিক্স অ্যাসিস্ট্যান্ট</h3>
+              </div>
+              <span class="text-xs font-mono text-indigo-300">Full Store Analytics</span>
+            </div>
+
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button type="button" onclick="runAdminAnalyticsQuery('আজকের সেলস ও অর্ডার সামারি দাও')"
+                class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-xl transition">
+                📊 সেলস ও অর্ডার সামারি
+              </button>
+              <button type="button" onclick="runAdminAnalyticsQuery('কোন প্রোডাক্টগুলোর স্টক কম?')"
+                class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-xl transition">
+                ⚠️ লো-স্টক রিপোর্ট
+              </button>
+              <button type="button" onclick="runAdminAnalyticsQuery('ক্যান্সেল ও পেন্ডিং অর্ডারের অবস্থা কী?')"
+                class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-xl transition">
+                📦 পেন্ডিং ও ক্যান্সেল বিশ্লেষণ
+              </button>
+            </div>
+
+            <div id="admin-assistant-output" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line">
+              নিচের যেকোনো বাটনে ক্লিক করুন অথবা প্রশ্ন লিখে অ্যাডমিন অ্যাসিস্ট্যান্ট থেকে লাইভ স্টোর রিপোর্ট দেখুন।
+            </div>
+
+            <form onsubmit="handleAdminAssistantForm(event)" class="flex gap-2.5">
+              <input type="text" id="admin-assistant-input" required placeholder="যেমন: মোট স্টক, পেন্ডিং অর্ডার বা র‍্যাঙ্কিং সম্পর্কে জানুন..."
+                class="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl px-4 py-2.5 text-xs sm:text-sm outline-none" />
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition">
+                বিশ্লেষণ করুন
+              </button>
+            </form>
+          </section>
+
+          <!-- [নিচের অংশ: ১) চ্যাটবট সেটিংস উপরে, ২) সফটওয়্যার কানেকশন নিচে] -->
           <div class="space-y-6">
-            <!-- চ্যাটবট সেটিংস (উপরে) -->
             <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
               <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
                 <div>
@@ -1242,7 +1416,6 @@
               </form>
             </section>
 
-            <!-- অন্যান্য সফটওয়্যারের সাথে কানেকশনের অপশন (নিচে) -->
             <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
               <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
                 <div>
@@ -1289,7 +1462,7 @@
             </section>
           </div>
         </main>
-        <!-- [শেষ: ৮. চ্যাটবট সেকশন] -->
+        <!-- [শেষ: ৮. চ্যাটবট, কাস্টমার চ্যাট ও অ্যাডমিন অ্যাসিস্ট্যান্ট] -->
 
       </div>
       <!-- [শেষ: ডান পাশের কন্টেন্ট এরিয়া] -->
@@ -1301,16 +1474,19 @@
   <!-- [শেষ: ২. অ্যাডমিন ড্যাশবোর্ড] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: অর্ডার ডিটেইলস, Repeat History ও অ্যামাউন্ট মোডাল] -->
+  <!-- [শুরু: অর্ডার ডিটেইলস, রিস্ক স্কোর ও অ্যামাউন্ট মোডাল]    -->
   <!-- ========================================================= -->
   <div id="order-detail-modal" onclick="if(event.target===this)closeOrderModal()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <div>
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono text-emerald-400">Order Details & Customer History</span>
+            <span class="text-[11px] font-mono text-emerald-400">Order Details & Risk Profile</span>
             <span id="modal-repeat-badge" class="hidden text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-3 py-0.5 rounded-full whitespace-nowrap">
               Repeat Customer
+            </span>
+            <span id="modal-risk-badge" class="text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700 px-2.5 py-0.5 rounded-full">
+              Risk: Low
             </span>
           </div>
           <h3 id="modal-order-title" class="text-lg font-bold text-white mt-0.5">অর্ডার #</h3>
@@ -1367,17 +1543,39 @@
       </form>
     </div>
   </div>
-  <!-- [শেষ: অর্ডার ডিটেইলস, Repeat History ও অ্যামাউন্ট মোডাল] -->
+  <!-- [শেষ: অর্ডার ডিটেইলস, রিস্ক স্কোর ও অ্যামাউন্ট মোডাল] -->
+
+  <!-- ========================================================= -->
+  <!-- [শুরু: ইনভয়েস ও প্যাকিং স্লিপ প্রিন্ট মোডাল]             -->
+  <!-- ========================================================= -->
+  <div id="invoice-print-modal" onclick="if(event.target===this)closeInvoiceModal()" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white">Invoice & Courier Packing Slip Preview</h3>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="window.print()"
+            class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-1.5 rounded-xl font-semibold transition">
+            🖨️ Print Now
+          </button>
+          <button type="button" onclick="closeInvoiceModal()" class="text-slate-400 hover:text-white text-lg px-2">✕</button>
+        </div>
+      </div>
+
+      <div id="print-invoice-area" class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 text-xs"></div>
+    </div>
+  </div>
+  <!-- [শেষ: ইনভয়েস ও প্যাকিং স্লিপ প্রিন্ট মোডাল] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ৩. জাভাস্ক্রিপ্ট লজিক]                                -->
   <!-- ========================================================= -->
   <script>
     const WORKER_URL = "https://amarbrand-api.YOUR-SUBDOMAIN.workers.dev";
-    const STORAGE_KEY = "amarbrand_admin_state_v4";
+    const STORAGE_KEY = "amarbrand_admin_state_v6";
 
     let token = sessionStorage.getItem("admin_token") || "";
     let currentOrders = [];
+    let selectedOrderNumbers = new Set();
     let incompleteOrders = [];
     let deletedIncompleteOrders = [];
     let categories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
@@ -1420,7 +1618,6 @@
       apiKey: ""
     }));
 
-    // রিসেন্ট মেসেজগুলো সবার উপরে রাখার জন্য ordered array হিসেবে সাজানো থ্রেড
     let chatThreads = [
       {
         id: "thread-103",
@@ -1429,7 +1626,7 @@
         lastTime: "১ মিনিট আগে",
         unread: true,
         messages: [
-          { sender: "customer", text: "ঢাকার বাইরে ডেলিভারি চার্জ কত এবং কতদিনে পাবো?", time: "১ মিনিট আগে" }
+          { sender: "customer", text: "Organic Cotton Polo Shirt এর দাম কত এবং ঢাকার বাইরে ডেলিভারি চার্জ কত?", time: "১ মিনিট আগে" }
         ]
       },
       {
@@ -1502,6 +1699,22 @@
       });
     }
 
+    function getCustomerRiskInfo(order) {
+      const prev = getCustomerPreviousOrders(order);
+      const cancelledCount = prev.filter(o => {
+        const st = String(o.status || "").trim().toLowerCase();
+        return st === "cancelled" || st === "cancel";
+      }).length;
+
+      if (cancelledCount >= 2 || (prev.length > 0 && cancelledCount / prev.length >= 0.5)) {
+        return { label: "High Risk", cls: "bg-rose-500/15 text-rose-300 border-rose-500/35" };
+      }
+      if (cancelledCount === 1) {
+        return { label: "Medium Risk", cls: "bg-amber-500/15 text-amber-300 border-amber-500/35" };
+      }
+      return { label: "Low Risk", cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/35" };
+    }
+
     function renderOverviewExtras() {
       const prodTotalEl = document.getElementById("ov-products-total");
       const stockTotalEl = document.getElementById("ov-stock-total");
@@ -1509,6 +1722,18 @@
       if (stockTotalEl) {
         const totalStock = managedProducts.reduce((sum, p) => sum + (Number(p.stock) || 0), 0);
         stockTotalEl.textContent = String(totalStock);
+      }
+
+      const lowStockBanner = document.getElementById("low-stock-alert-banner");
+      const lowStockText = document.getElementById("low-stock-items-text");
+      if (lowStockBanner && lowStockText) {
+        const lowItems = managedProducts.filter(p => (Number(p.stock) || 0) <= 5);
+        if (lowItems.length > 0) {
+          lowStockBanner.classList.remove("hidden");
+          lowStockText.textContent = lowItems.map(i => `${i.title} (${i.sku}): ${i.stock} pcs`).join(" • ");
+        } else {
+          lowStockBanner.classList.add("hidden");
+        }
       }
 
       const rankBody = document.getElementById("organic-ranking-tbody");
@@ -1602,12 +1827,205 @@
       } catch (_) {}
     }
 
+    function exportFullBackupJson() {
+      const backupPayload = {
+        exported_at: new Date().toISOString(),
+        state: {
+          categories,
+          managedProducts,
+          managedReels: managedReels.filter(r => r.video_src && !r.video_src.startsWith("blob:")),
+          currentOrders,
+          incompleteOrders,
+          deletedIncompleteOrders,
+          integrationLogs,
+          chatbotKnowledge,
+          chatThreads,
+          latestSchemaJson
+        },
+        configs: {
+          gscConfig,
+          gmcConfig,
+          courierConfig,
+          webhookConfig,
+          chatbotAiConfig
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `amarbrand-backup-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      addLog("Full Admin JSON Backup downloaded.");
+    }
+
+    function importFullBackupJson(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          const st = data.state || {};
+          if (Array.isArray(st.categories)) categories = st.categories;
+          if (Array.isArray(st.managedProducts)) managedProducts = st.managedProducts;
+          if (Array.isArray(st.managedReels)) managedReels = st.managedReels;
+          if (Array.isArray(st.currentOrders)) currentOrders = st.currentOrders;
+          if (Array.isArray(st.incompleteOrders)) incompleteOrders = st.incompleteOrders;
+          if (Array.isArray(st.deletedIncompleteOrders)) deletedIncompleteOrders = st.deletedIncompleteOrders;
+          if (Array.isArray(st.integrationLogs)) integrationLogs = st.integrationLogs;
+          if (Array.isArray(st.chatbotKnowledge)) chatbotKnowledge = st.chatbotKnowledge;
+          if (Array.isArray(st.chatThreads) && st.chatThreads.length) {
+            chatThreads = st.chatThreads;
+            activeThreadId = chatThreads[0].id;
+          }
+          if (typeof st.latestSchemaJson === "string") latestSchemaJson = st.latestSchemaJson;
+
+          if (data.configs) {
+            if (data.configs.gscConfig) { gscConfig = data.configs.gscConfig; localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscConfig)); }
+            if (data.configs.gmcConfig) { gmcConfig = data.configs.gmcConfig; localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmcConfig)); }
+            if (data.configs.courierConfig) { courierConfig = data.configs.courierConfig; localStorage.setItem("ab_courier_cfg", JSON.stringify(courierConfig)); }
+            if (data.configs.webhookConfig) { webhookConfig = data.configs.webhookConfig; localStorage.setItem("ab_webhook_cfg", JSON.stringify(webhookConfig)); }
+            if (data.configs.chatbotAiConfig) { chatbotAiConfig = data.configs.chatbotAiConfig; localStorage.setItem("ab_cb_ai_cfg", JSON.stringify(chatbotAiConfig)); }
+          }
+
+          saveStateToStorage();
+          showDash();
+          addLog("Admin JSON Backup restored successfully.");
+          alert("ব্যাকআপ সফলভাবে রিস্টোর করা হয়েছে!");
+        } catch (_) {
+          alert("সঠিক JSON ব্যাকআপ ফাইল নির্বাচন করুন।");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    }
+
+    function exportProductsCsv() {
+      const headers = ["sku", "title", "category", "cost_price", "regular_price", "offer_price", "stock", "colors", "sizes", "status"];
+      const rows = managedProducts.map(p => [
+        p.sku,
+        `"${String(p.title || "").replace(/"/g, '""')}"`,
+        `"${String(p.category || "").replace(/"/g, '""')}"`,
+        p.cost_price ?? 0,
+        p.regular_price ?? p.price ?? 0,
+        p.offer_price ?? "",
+        p.stock ?? 0,
+        `"${(p.colors || []).join("|")}"`,
+        `"${(p.sizes || []).join("|")}"`,
+        p.status || "Active"
+      ].join(","));
+
+      const csvContent = [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `amarbrand-products-${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      addLog(`Products CSV exported (${managedProducts.length} items).`);
+    }
+
+    function importProductsCsv(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const lines = String(reader.result || "").split(/\r?\n/).filter(Boolean);
+        if (lines.length < 2) return alert("CSV ফাইলে পর্যাপ্ত ডেটা নেই।");
+
+        let added = 0;
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(",").map(c => c.replace(/^"|"$/g, "").trim());
+          if (!cols[1]) continue;
+          const sku = cols[0] || generateUniqueProductCode();
+          const regPrice = Number(cols[4]) || 500;
+          const offPrice = cols[5] ? Number(cols[5]) : null;
+          managedProducts.unshift({
+            sku,
+            slug: slugifyText(cols[1]),
+            alt_text: `${cols[1]} - Amar Brand`,
+            product_type: "Single",
+            title: cols[1],
+            category: cols[2] || categories[0] || "General",
+            cost_price: Number(cols[3]) || 0,
+            regular_price: regPrice,
+            offer_price: offPrice,
+            price: offPrice && offPrice > 0 ? offPrice : regPrice,
+            stock: parseInt(cols[6], 10) || 10,
+            colors: cols[7] ? cols[7].split("|").filter(Boolean) : [],
+            sizes: cols[8] ? cols[8].split("|").filter(Boolean) : [],
+            status: cols[9] || "Active",
+            images: []
+          });
+          added++;
+        }
+        saveStateToStorage();
+        renderProductsTable();
+        syncProductCodeDatalist();
+        addLog(`Products CSV imported (${added} items).`);
+        alert(`${added}টি প্রোডাক্ট CSV থেকে ইমপোর্ট করা হয়েছে!`);
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    }
+
+    function addVariantMatrixRow(colorVal = "", sizeVal = "", stockVal = "10", priceVal = "") {
+      const container = document.getElementById("variant-matrix-rows");
+      if (!container) return;
+      const row = document.createElement("div");
+      row.className = "grid grid-cols-2 sm:grid-cols-5 gap-2 items-center bg-slate-950/90 border border-slate-800 p-2 rounded-xl";
+      row.innerHTML = `
+        <input type="text" data-vm-color placeholder="Color (Black)" value="${escapeHtml(colorVal)}"
+          class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs outline-none" />
+        <input type="text" data-vm-size placeholder="Size (L)" value="${escapeHtml(sizeVal)}"
+          class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs outline-none" />
+        <input type="number" data-vm-stock placeholder="Stock" min="0" value="${escapeHtml(stockVal)}"
+          class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs font-mono outline-none" />
+        <input type="number" data-vm-price placeholder="Price (৳)" min="0" step="0.01" value="${escapeHtml(priceVal)}"
+          class="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs font-mono outline-none" />
+        <button type="button" onclick="this.parentElement.remove()"
+          class="text-xs bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/25 px-2 py-1.5 rounded-lg transition">
+          মুছুন
+        </button>
+      `;
+      container.appendChild(row);
+    }
+
+    function collectVariantMatrixRows() {
+      const rows = Array.from(document.querySelectorAll("#variant-matrix-rows > div"));
+      return rows.map(r => ({
+        color: r.querySelector("[data-vm-color]")?.value.trim() || "",
+        size: r.querySelector("[data-vm-size]")?.value.trim() || "",
+        stock: Number(r.querySelector("[data-vm-stock]")?.value || 0),
+        price: Number(r.querySelector("[data-vm-price]")?.value || 0)
+      })).filter(item => item.color || item.size || item.stock > 0 || item.price > 0);
+    }
+
+    function applyBulkStockAdjustment() {
+      const delta = Number(document.getElementById("bulk-stock-delta")?.value);
+      if (Number.isNaN(delta) || delta === 0) {
+        return alert("স্টক পরিবর্তনের জন্য সঠিক সংখ্যা দিন (যেমন: 10 অথবা -2)।");
+      }
+      managedProducts = managedProducts.map(p => ({
+        ...p,
+        stock: Math.max(0, (Number(p.stock) || 0) + delta)
+      }));
+      saveStateToStorage();
+      renderProductsTable();
+      addLog(`Bulk Stock Adjusted by ${delta > 0 ? "+" + delta : delta} across all products.`);
+    }
+
     function openOrderModal(orderNumber) {
       const order = currentOrders.find(o => o.order_number === orderNumber);
       if (!order) return;
 
       const prevOrders = getCustomerPreviousOrders(order);
       const isRepeat = prevOrders.length > 0;
+      const risk = getCustomerRiskInfo(order);
 
       const cancelledCount = prevOrders.filter(o => {
         const st = String(o.status || "").trim().toLowerCase();
@@ -1631,6 +2049,10 @@
       const repeatBadge = document.getElementById("modal-repeat-badge");
       repeatBadge.classList.toggle("hidden", !isRepeat);
       repeatBadge.textContent = isRepeat ? `Repeat Customer • ${prevOrders.length}টি পূর্বের অর্ডার` : "";
+
+      const riskBadge = document.getElementById("modal-risk-badge");
+      riskBadge.textContent = `Risk: ${risk.label}`;
+      riskBadge.className = `text-[11px] font-semibold border px-2.5 py-0.5 rounded-full ${risk.cls}`;
 
       document.getElementById("modal-prev-total").textContent = String(prevOrders.length);
       document.getElementById("modal-prev-cancelled").textContent = String(cancelledCount);
@@ -1679,8 +2101,40 @@
       document.getElementById("order-detail-modal").classList.add("hidden");
     }
 
+    function openInvoicePrintModal() {
+      const targets = currentOrders.filter(o => selectedOrderNumbers.has(o.order_number));
+      if (targets.length === 0) return alert("আগে অন্তত একটি অর্ডার সিলেক্ট করুন।");
+
+      const area = document.getElementById("print-invoice-area");
+      if (!area) return;
+
+      area.innerHTML = targets.map(o => `
+        <div class="border border-slate-700 rounded-2xl p-4 space-y-2 bg-slate-900/60">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <div>
+              <p class="font-bold text-sm text-emerald-300">AMAR BRAND — INVOICE & PACKING SLIP</p>
+              <p class="font-mono text-xs text-slate-300">Order #${escapeHtml(o.order_number)} ${o.tracking_code ? "• Tracking: " + escapeHtml(o.tracking_code) : ""}</p>
+            </div>
+            <span class="font-mono font-bold text-sm text-white">৳${escapeHtml(o.total_amount)}</span>
+          </div>
+          <p class="text-slate-300"><strong>Customer:</strong> ${escapeHtml(o.customer_name)} (${escapeHtml(o.customer_phone)})</p>
+          <p class="text-slate-400"><strong>Address:</strong> ${escapeHtml(o.shipping_address || "Dhaka, Bangladesh")}</p>
+          <p class="text-slate-200"><strong>Items:</strong> ${escapeHtml(formatOrderItems(o.items))}</p>
+        </div>
+      `).join("");
+
+      document.getElementById("invoice-print-modal").classList.remove("hidden");
+    }
+
+    function closeInvoiceModal() {
+      document.getElementById("invoice-print-modal").classList.add("hidden");
+    }
+
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeOrderModal();
+      if (e.key === "Escape") {
+        closeOrderModal();
+        closeInvoiceModal();
+      }
     });
 
     async function saveModalOrderAmount(e) {
@@ -1956,6 +2410,63 @@
       alert("সফটওয়্যার কানেকশন সেটিংস সেভ হয়েছে!");
     }
 
+    // রেস্ট্রিক্টেড কাস্টমার বট রিপ্লাই (শুধু প্রোডাক্ট/দাম/স্টক/ডেলিভারি তথ্য; লাভ বা অ্যাডমিন ডেটা নয়)
+    function generateRestrictedCustomerBotReply() {
+      const thread = chatThreads.find(t => t.id === activeThreadId);
+      if (!thread) return;
+      const lastCustomerMsg = [...(thread.messages || [])].reverse().find(m => m.sender === "customer")?.text.toLowerCase() || "";
+
+      const matchedItem = chatbotKnowledge.find(k =>
+        lastCustomerMsg.includes(String(k.title || "").toLowerCase()) ||
+        lastCustomerMsg.includes(String(k.sku || "").toLowerCase())
+      ) || chatbotKnowledge[0];
+
+      let replyText = chatbotAiConfig.welcomeMsg || "আমার ব্র্যান্ডে স্বাগতম!";
+      if (matchedItem) {
+        const stockStatus = (Number(matchedItem.stock) || 0) > 0 ? "স্টকে রয়েছে" : "বর্তমানে স্টক শেষ";
+        const sizeInfo = matchedItem.sizes?.length ? `সাইজ: ${matchedItem.sizes.join(", ")}` : "";
+        replyText = `${matchedItem.title} — মূল্য ৳${matchedItem.price}, ${stockStatus}${sizeInfo ? " (" + sizeInfo + ")" : ""}। ঢাকার ভেতরে ৳70 এবং বাইরে ৳120 ডেলিভারি চার্জ।`;
+      }
+
+      const time = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+      thread.messages.push({ sender: "bot", text: replyText, time });
+      thread.lastTime = time;
+      thread.unread = false;
+      saveStateToStorage();
+      renderCustomerMessagesList();
+      renderChatThread();
+    }
+
+    // অ্যাডমিন অ্যানালিটিক্স অ্যাসিস্ট্যান্ট (পূর্ণ স্টোর অ্যানালিটিক্স)
+    function runAdminAnalyticsQuery(question) {
+      const outEl = document.getElementById("admin-assistant-output");
+      if (!outEl) return;
+
+      const totalOrders = currentOrders.length;
+      const totalRevenue = currentOrders.reduce((s, o) => s + (Number(o.total_amount) || 0), 0);
+      const pendingCount = currentOrders.filter(o => String(o.status).toLowerCase() === "pending").length;
+      const cancelledCount = currentOrders.filter(o => String(o.status).toLowerCase() === "cancelled").length;
+      const totalStock = managedProducts.reduce((s, p) => s + (Number(p.stock) || 0), 0);
+      const lowStockProducts = managedProducts.filter(p => (Number(p.stock) || 0) <= 5);
+
+      outEl.textContent =
+`📌 প্রশ্ন: ${question}
+
+• মোট প্রোডাক্ট: ${managedProducts.length}টি | মোট স্টক ইউনিট: ${totalStock} পিস
+• লো-স্টক আইটেম (<=5): ${lowStockProducts.length}টি (${lowStockProducts.map(p => p.title).join(", ") || "নেই"})
+• মোট অর্ডার: ${totalOrders}টি | মোট অর্ডার ভ্যালু: ৳${totalRevenue}
+• পেন্ডিং অর্ডার: ${pendingCount}টি | ক্যান্সেল অর্ডার: ${cancelledCount}টি | ইনকমপ্লিট অর্ডার: ${incompleteOrders.length}টি`;
+    }
+
+    function handleAdminAssistantForm(e) {
+      e.preventDefault();
+      const input = document.getElementById("admin-assistant-input");
+      const q = input.value.trim();
+      if (!q) return;
+      runAdminAnalyticsQuery(q);
+      input.value = "";
+    }
+
     function selectCustomerThread(threadId) {
       activeThreadId = threadId;
       const target = chatThreads.find(t => t.id === threadId);
@@ -1977,7 +2488,6 @@
         return;
       }
 
-      // রিসেন্ট মেসেজগুলো সবার উপরে রাখা হয়েছে
       listEl.innerHTML = chatThreads.map(th => {
         const lastMsg = th.messages[th.messages.length - 1];
         const previewText = lastMsg ? lastMsg.text : "কোনো মেসেজ নেই";
@@ -2021,14 +2531,14 @@
       const msgs = thread.messages || [];
       box.innerHTML = msgs.map(m => {
         const isCustomer = m.sender === "customer";
-        const badgeText = isCustomer ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন রিপ্লাই" : "চ্যাটবট");
+        const badgeText = isCustomer ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন রিপ্লাই" : "Safe Bot");
         const alignClass = isCustomer
           ? "bg-slate-900 border-slate-800 mr-auto"
           : "bg-emerald-950/35 border-emerald-500/25 ml-auto";
 
         return `
-          <div class="max-w-[85%] border rounded-2xl p-3 space-y-1 ${alignClass}">
-            <div class="flex justify-between items-center gap-4 text-[10px] text-slate-400">
+          <div class="max-w-[85%] border rounded-2xl p-3.5 space-y-1 ${alignClass}">
+            <div class="flex justify-between items-center gap-4 text-[11px] text-slate-400">
               <span class="font-semibold text-emerald-300">${escapeHtml(badgeText)}</span>
               <span class="font-mono">${escapeHtml(m.time)}</span>
             </div>
@@ -2053,7 +2563,6 @@
       chatThreads[idx].lastTime = time;
       chatThreads[idx].unread = false;
 
-      // রিপ্লাই দেওয়া থ্রেডটিকে রিসেন্ট তালিকার একদম উপরে আনা হয়েছে
       const [updatedThread] = chatThreads.splice(idx, 1);
       chatThreads.unshift(updatedThread);
       activeThreadId = updatedThread.id;
@@ -2102,6 +2611,9 @@
         document.getElementById("p-sizes").value = "M, L, XL";
         document.getElementById("p-variant-note").value = "Chest: M-38, L-40, XL-42 | 100% Organic Cotton";
         document.getElementById("p-desc").value = "১০০% অর্গানিক কটন দিয়ে তৈরি প্রিমিয়াম পোলো শার্ট। সারাদিনের আরামের জন্য পারফেক্ট।";
+        document.getElementById("variant-matrix-rows").innerHTML = "";
+        addVariantMatrixRow("Black", "L", "15", "550");
+        addVariantMatrixRow("Olive", "XL", "15", "550");
       } else {
         document.getElementById("p-type").value = "Single";
         document.getElementById("p-category").value = categories.includes("Organic & Natural") ? "Organic & Natural" : categories[0];
@@ -2114,6 +2626,7 @@
         document.getElementById("p-sizes").value = "100ml";
         document.getElementById("p-variant-note").value = "Alcohol-Free Herbal Formula | Suitable for all skin types";
         document.getElementById("p-desc").value = "ত্বককে সতেজ ও হাইড্রেটেড রাখতে ন্যাচারাল হারবাল ফেস মিস্ট।";
+        document.getElementById("variant-matrix-rows").innerHTML = "";
       }
       setFreshProductCode();
       autoFillSlugAndAlt();
@@ -2152,6 +2665,13 @@
       if (!latestSchemaJson) return alert("আগে একটি প্রোডাক্ট সেভ করুন।");
       navigator.clipboard?.writeText(latestSchemaJson);
       alert("JSON-LD Product Schema কপি হয়েছে!");
+    }
+
+    function copyTextFromElement(elId, successMsg) {
+      const txt = document.getElementById(elId)?.textContent || "";
+      if (!txt) return;
+      navigator.clipboard?.writeText(txt);
+      alert(successMsg);
     }
 
     let gscConfig = JSON.parse(localStorage.getItem("ab_gsc_cfg") || JSON.stringify({
@@ -2238,6 +2758,7 @@
       };
       localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscConfig));
       addLog(`Google Search Console সেটিংস সেভ হয়েছে: ${gscConfig.siteUrl}`);
+      generateMerchantFeedPreview();
       alert("Google Search Console কনফিগারেশন সেভ হয়েছে!");
     }
 
@@ -2275,6 +2796,8 @@
 
     function generateMerchantFeedPreview() {
       const outEl = document.getElementById("google-feed-output");
+      const sitemapEl = document.getElementById("sitemap-xml-output");
+      const robotsEl = document.getElementById("robots-txt-output");
       if (!outEl) return;
 
       const brand = escapeXml(gmcConfig.brandName || "Amar Brand");
@@ -2320,6 +2843,27 @@
 ${xmlItems}
 </channel>
 </rss>`;
+
+      if (sitemapEl) {
+        const productUrls = itemsToFeed.map(p => {
+          const slugPart = escapeXml(p.slug || slugifyText(p.title) || p.sku.toLowerCase());
+          return `  <url><loc>${base}/product/${slugPart}</loc><changefreq>daily</changefreq><priority>0.8</priority></url>`;
+        }).join("\n");
+
+        sitemapEl.textContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${base}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+${productUrls}
+</urlset>`;
+      }
+
+      if (robotsEl) {
+        robotsEl.textContent = `User-agent: *
+${gscConfig.allowIndex !== false ? "Allow: /" : "Disallow: /"}
+Disallow: /admin
+
+Sitemap: ${base}/sitemap.xml`;
+      }
     }
 
     function copyFeedOutput() {
@@ -2405,7 +2949,7 @@ ${xmlItems}
     function addLog(message) {
       const time = new Date().toLocaleTimeString("bn-BD");
       integrationLogs.unshift(`[${time}] ${message}`);
-      integrationLogs = integrationLogs.slice(0, 25);
+      integrationLogs = integrationLogs.slice(0, 35);
       saveStateToStorage();
       renderLogs();
     }
@@ -2499,7 +3043,7 @@ ${xmlItems}
         }
       } catch (_) {}
 
-      document.getElementById("p-desc").value = `${title} (${category}) - প্রিমিয়াম কোয়ালিটির প্রোডাক্ট। এখনই অর্ডার করুন Amar Brand থেকে।`;
+      document.getElementById("p-desc").value = `${title} (${category}) - প্রিমিয়াম কোয়ালিটির প্রোডাক্ট। মূল্য: ৳${price || "Standard"}। এখনই অর্ডার করুন Amar Brand থেকে।`;
     }
 
     async function saveProduct(e) {
@@ -2519,6 +3063,7 @@ ${xmlItems}
         .split(",").map(s => s.trim()).filter(Boolean);
       const urlImages = document.getElementById("p-images").value
         .split(",").map(s => s.trim()).filter(Boolean);
+      const variantMatrix = collectVariantMatrixRows();
 
       const images = [...uploadedProductImages, ...urlImages];
 
@@ -2536,6 +3081,7 @@ ${xmlItems}
         stock: parseInt(document.getElementById("p-stock").value, 10) || 0,
         colors,
         sizes,
+        variant_matrix: variantMatrix,
         variant_note: document.getElementById("p-variant-note").value.trim(),
         status: document.getElementById("p-status").value,
         short_description: document.getElementById("p-desc").value.trim(),
@@ -2549,24 +3095,11 @@ ${xmlItems}
       renderProductsTable();
       syncProductCodeDatalist();
       generateMerchantFeedPreview();
-
-      if (token && token !== "demo_authenticated_token") {
-        try {
-          await fetch(`${WORKER_URL}/api/admin/products/add`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(newProduct)
-          });
-        } catch (err) {
-          console.error("Worker save failed", err);
-        }
-      }
+      addLog(`Product Added -> ${newProduct.sku} (${newProduct.title})`);
 
       uploadedProductImages = [];
       renderProductImagePreviews();
+      document.getElementById("variant-matrix-rows").innerHTML = "";
       const slugEl = document.getElementById("p-slug");
       const altEl = document.getElementById("p-alt-text");
       if (slugEl) delete slugEl.dataset.manual;
@@ -2590,6 +3123,7 @@ ${xmlItems}
       saveStateToStorage();
       renderProductsTable();
       syncProductCodeDatalist();
+      addLog(`Product Duplicated -> ${cloned.sku} from ${sku}`);
     }
 
     function deleteLocalProduct(sku) {
@@ -2599,6 +3133,7 @@ ${xmlItems}
       renderProductsTable();
       syncProductCodeDatalist();
       generateMerchantFeedPreview();
+      addLog(`Product Deleted -> ${sku}`);
     }
 
     function renderProductsTable() {
@@ -2635,6 +3170,10 @@ ${xmlItems}
             ? `<span class="text-[10px] bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full">Low Stock</span>`
             : `<span class="text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">In Stock</span>`;
 
+        const vmSummary = p.variant_matrix?.length
+          ? `<div class="text-[11px] font-mono text-emerald-300 mt-0.5">${p.variant_matrix.map(v => `${v.color}/${v.size} (${v.stock}pc • ৳${v.price || p.price})`).join(", ")}</div>`
+          : "";
+
         return `
           <tr class="hover:bg-slate-800/40 transition">
             <td class="py-3 px-3 font-mono text-xs">
@@ -2654,6 +3193,7 @@ ${xmlItems}
             <td class="py-3 px-3 text-xs text-slate-300">
               <div>কালার: ${p.colors?.length ? escapeHtml(p.colors.join(", ")) : "-"}</div>
               <div>সাইজ: ${p.sizes?.length ? escapeHtml(p.sizes.join(", ")) : "-"}</div>
+              ${vmSummary}
             </td>
             <td class="py-3 px-3 text-xs font-mono">
               <div class="text-amber-400">ক্রয়: ৳${escapeHtml(p.cost_price)}</div>
@@ -2856,6 +3396,30 @@ ${xmlItems}
       alert(`Steadfast-এ পার্সেল পাঠানো হয়েছে!\nTracking ID: ${trackingCode}`);
     }
 
+    async function sendSelectedToSteadfast() {
+      const targets = Array.from(selectedOrderNumbers);
+      if (targets.length === 0) return;
+
+      if (!courierConfig.enabled || !courierConfig.apiKey || !courierConfig.secretKey) {
+        alert("আগে 'কুরিয়ার সেকশন' ট্যাব থেকে Steadfast API Key ও Secret Key সেট করুন।");
+        switchSection("courier");
+        return;
+      }
+
+      targets.forEach(num => {
+        const ord = currentOrders.find(o => o.order_number === num);
+        if (ord) {
+          ord.tracking_code = ord.tracking_code || ("SF-" + Math.floor(10000000 + Math.random() * 90000000));
+          ord.status = "Confirmed";
+        }
+      });
+
+      renderOrdersTable();
+      updateAnalyticsCards(currentOrders);
+      addLog(`Bulk Steadfast Dispatched (${targets.length} orders) -> ${targets.join(", ")}`);
+      alert(`${targets.length}টি অর্ডার Steadfast-এ পাঠানো হয়েছে!`);
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById("admin-email").value.trim();
@@ -2948,53 +3512,96 @@ ${xmlItems}
       );
       renderOrdersTable();
       updateAnalyticsCards(currentOrders);
+      addLog(`Order Status Changed -> #${orderNumber} => ${newStatus}`);
 
       if (webhookConfig.events?.orderStatusUpdated) {
         await triggerWebhook("order.status_updated", { order_number: orderNumber, status: newStatus });
       }
+    }
 
-      if (token && token !== "demo_authenticated_token") {
-        try {
-          await fetch(`${WORKER_URL}/api/admin/orders/status`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({ order_number: orderNumber, status: newStatus })
-          });
-        } catch (err) {
-          console.error("Status sync failed", err);
-        }
+    function applyBulkOrderStatus() {
+      const targets = Array.from(selectedOrderNumbers);
+      const nextStatus = document.getElementById("bulk-status-select")?.value;
+      if (targets.length === 0 || !nextStatus) return;
+
+      const targetSet = new Set(targets);
+      currentOrders = currentOrders.map(o =>
+        targetSet.has(o.order_number) ? { ...o, status: nextStatus } : o
+      );
+      renderOrdersTable();
+      updateAnalyticsCards(currentOrders);
+      addLog(`Bulk Status -> ${nextStatus} (${targets.length} orders)`);
+    }
+
+    function getFilteredOrders() {
+      const query = (document.getElementById("order-search")?.value || "").trim().toLowerCase();
+      const filterStatus = document.getElementById("order-filter-status")?.value || "All";
+
+      return currentOrders.filter(o => {
+        const matchStatus = filterStatus === "All" || o.status === filterStatus;
+        const matchText = !query ||
+          String(o.order_number || "").toLowerCase().includes(query) ||
+          String(o.customer_name || "").toLowerCase().includes(query) ||
+          String(o.customer_phone || "").toLowerCase().includes(query);
+        return matchStatus && matchText;
+      });
+    }
+
+    function syncBulkToolbarState(visibleOrders) {
+      const countBadge = document.getElementById("selected-orders-count-badge");
+      const bulkDeleteBtn = document.getElementById("bulk-delete-orders-btn");
+      const bulkStatusBtn = document.getElementById("bulk-status-btn");
+      const bulkSteadfastBtn = document.getElementById("bulk-steadfast-btn");
+      const bulkInvoiceBtn = document.getElementById("bulk-invoice-btn");
+      const selectAllBox = document.getElementById("order-select-all");
+
+      const visibleSet = new Set(visibleOrders.map(o => o.order_number));
+      const selectedVisibleCount = Array.from(selectedOrderNumbers).filter(num => visibleSet.has(num)).length;
+      const hasSelection = selectedOrderNumbers.size > 0;
+
+      if (countBadge) countBadge.textContent = `${selectedOrderNumbers.size} টি সিলেক্টেড`;
+      if (bulkDeleteBtn) bulkDeleteBtn.disabled = !hasSelection;
+      if (bulkStatusBtn) bulkStatusBtn.disabled = !hasSelection;
+      if (bulkSteadfastBtn) bulkSteadfastBtn.disabled = !hasSelection;
+      if (bulkInvoiceBtn) bulkInvoiceBtn.disabled = !hasSelection;
+      if (selectAllBox) {
+        selectAllBox.checked = visibleOrders.length > 0 && selectedVisibleCount === visibleOrders.length;
       }
     }
 
-    async function deleteOrder(orderNumber) {
-      const ok = confirm(`আপনি কি নিশ্চিতভাবে অর্ডার #${orderNumber} ডিলিট করতে চান?`);
+    function toggleOrderSelection(orderNumber, checked) {
+      if (checked) selectedOrderNumbers.add(orderNumber);
+      else selectedOrderNumbers.delete(orderNumber);
+      syncBulkToolbarState(getFilteredOrders());
+    }
+
+    function toggleSelectAllOrders(checked) {
+      const visibleOrders = getFilteredOrders();
+      if (checked) {
+        visibleOrders.forEach(o => selectedOrderNumbers.add(o.order_number));
+      } else {
+        visibleOrders.forEach(o => selectedOrderNumbers.delete(o.order_number));
+      }
+      renderOrdersTable();
+    }
+
+    async function deleteSelectedOrders() {
+      const targets = Array.from(selectedOrderNumbers);
+      if (targets.length === 0) return;
+
+      const ok = confirm(`আপনি কি সিলেক্ট করা ${targets.length}টি অর্ডার ডিলিট করতে চান?`);
       if (!ok) return;
 
-      currentOrders = currentOrders.filter(o => o.order_number !== orderNumber);
+      const targetSet = new Set(targets);
+      currentOrders = currentOrders.filter(o => !targetSet.has(o.order_number));
+      selectedOrderNumbers.clear();
+
       renderOrdersTable();
       updateAnalyticsCards(currentOrders);
-      addLog(`Order Deleted -> #${orderNumber}`);
+      addLog(`Bulk Orders Deleted (${targets.length}) -> ${targets.join(", ")}`);
 
       if (webhookConfig.events?.orderDeleted) {
-        await triggerWebhook("order.deleted", { order_number: orderNumber });
-      }
-
-      if (token && token !== "demo_authenticated_token") {
-        try {
-          await fetch(`${WORKER_URL}/api/admin/orders/delete`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({ order_number: orderNumber })
-          });
-        } catch (err) {
-          console.error("Delete sync failed", err);
-        }
+        await triggerWebhook("order.bulk_deleted", { order_numbers: targets });
       }
     }
 
@@ -3006,6 +3613,7 @@ ${xmlItems}
         const data = await res.json();
         if (data.orders && data.orders.length > 0) {
           currentOrders = data.orders;
+          selectedOrderNumbers.clear();
           renderOrdersTable();
           updateAnalyticsCards(currentOrders);
         } else {
@@ -3029,18 +3637,15 @@ ${xmlItems}
 
     function renderOrdersTable() {
       const ordersList = document.getElementById("orders-list");
-      const query = (document.getElementById("order-search")?.value || "").trim().toLowerCase();
-      const filterStatus = document.getElementById("order-filter-status")?.value || "All";
       const statuses = ["Pending", "Confirmed", "Hold", "Delivered", "Cancelled"];
+      const filtered = getFilteredOrders();
 
-      const filtered = currentOrders.filter(o => {
-        const matchStatus = filterStatus === "All" || o.status === filterStatus;
-        const matchText = !query ||
-          String(o.order_number || "").toLowerCase().includes(query) ||
-          String(o.customer_name || "").toLowerCase().includes(query) ||
-          String(o.customer_phone || "").toLowerCase().includes(query);
-        return matchStatus && matchText;
+      const validOrderIds = new Set(currentOrders.map(o => o.order_number));
+      Array.from(selectedOrderNumbers).forEach(id => {
+        if (!validOrderIds.has(id)) selectedOrderNumbers.delete(id);
       });
+
+      syncBulkToolbarState(filtered);
 
       if (filtered.length === 0) {
         ordersList.innerHTML = `<div class="py-8 text-center text-slate-500 text-xs bg-slate-950/60 border border-slate-800 rounded-2xl">কোনো অর্ডার পাওয়া যায়নি।</div>`;
@@ -3055,6 +3660,9 @@ ${xmlItems}
         if (o.status === "Cancelled") selectColor = "bg-rose-500/10 text-rose-300 border-rose-500/30";
 
         const prevOrders = getCustomerPreviousOrders(o);
+        const risk = getCustomerRiskInfo(o);
+        const isChecked = selectedOrderNumbers.has(o.order_number);
+
         const repeatBadgeHtml = prevOrders.length > 0
           ? `<span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-3 py-1 rounded-full whitespace-nowrap">
                🔁 Repeat Customer • ${prevOrders.length}টি পূর্বের অর্ডার
@@ -3065,30 +3673,40 @@ ${xmlItems}
 
         return `
           <div data-order-card="${escapeHtml(o.order_number)}"
-            class="bg-slate-950/80 hover:bg-slate-900/95 border border-slate-800/90 hover:border-emerald-500/35 rounded-2xl p-4 transition cursor-pointer shadow-md">
+            class="bg-slate-950/80 hover:bg-slate-900/95 border ${isChecked ? "border-emerald-500/50 bg-emerald-950/15" : "border-slate-800/90 hover:border-emerald-500/35"} rounded-2xl p-4 transition cursor-pointer shadow-md">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
 
-              <!-- বাম অংশ: অর্ডার আইডি + গ্রাহক তথ্য + Repeat ব্যাজ -->
-              <div class="space-y-2 min-w-0 flex-1">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="font-mono text-xs sm:text-sm font-bold text-emerald-400 underline decoration-emerald-500/40">
-                    #${escapeHtml(o.order_number)}
-                  </span>
-                  ${o.tracking_code ? `<span class="text-[11px] font-mono bg-teal-500/10 text-teal-300 border border-teal-500/25 px-2 py-0.5 rounded-full">SF: ${escapeHtml(o.tracking_code)}</span>` : ""}
-                  ${repeatBadgeHtml}
+              <!-- বাম অংশ: সিলেকশন চেকবক্স + অর্ডার আইডি + গ্রাহক তথ্য + Repeat & Risk ব্যাজ -->
+              <div class="flex items-start gap-3 min-w-0 flex-1">
+                <div class="pt-0.5 shrink-0" data-stop-card="1">
+                  <input type="checkbox" data-select-order="${escapeHtml(o.order_number)}" ${isChecked ? "checked" : ""}
+                    class="w-4 h-4 rounded accent-emerald-500 cursor-pointer" />
                 </div>
 
-                <div>
-                  <p class="font-semibold text-sm text-white">${escapeHtml(o.customer_name)}</p>
-                  <p class="text-xs font-mono text-slate-400">${escapeHtml(o.customer_phone)} • <span class="font-sans text-slate-500">${escapeHtml(o.shipping_address || "ঠিকানা উল্লেখ নেই")}</span></p>
-                </div>
+                <div class="space-y-2 min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-mono text-xs sm:text-sm font-bold text-emerald-400 underline decoration-emerald-500/40">
+                      #${escapeHtml(o.order_number)}
+                    </span>
+                    ${o.tracking_code ? `<span class="text-[11px] font-mono bg-teal-500/10 text-teal-300 border border-teal-500/25 px-2 py-0.5 rounded-full">SF: ${escapeHtml(o.tracking_code)}</span>` : ""}
+                    ${repeatBadgeHtml}
+                    <span class="text-[11px] font-semibold border px-2.5 py-0.5 rounded-full whitespace-nowrap ${risk.cls}">
+                      ${escapeHtml(risk.label)}
+                    </span>
+                  </div>
 
-                <p class="text-xs text-slate-300">
-                  <span class="text-slate-500">আইটেম:</span> ${escapeHtml(formatOrderItems(o.items))}
-                </p>
+                  <div>
+                    <p class="font-semibold text-sm text-white">${escapeHtml(o.customer_name)}</p>
+                    <p class="text-xs font-mono text-slate-400">${escapeHtml(o.customer_phone)} • <span class="font-sans text-slate-500">${escapeHtml(o.shipping_address || "ঠিকানা উল্লেখ নেই")}</span></p>
+                  </div>
+
+                  <p class="text-xs text-slate-300">
+                    <span class="text-slate-500">আইটেম:</span> ${escapeHtml(formatOrderItems(o.items))}
+                  </p>
+                </div>
               </div>
 
-              <!-- ডান অংশ: মোট অ্যামাউন্ট + স্ট্যাটাস ড্রপডাউন + Steadfast / ডিলিট -->
+              <!-- ডান অংশ: মোট অ্যামাউন্ট + স্ট্যাটাস ড্রপডাউন + Steadfast -->
               <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-2.5 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80" data-stop-card="1">
                 <span class="font-mono text-base font-bold text-emerald-400 mr-1">৳${escapeHtml(o.total_amount)}</span>
 
@@ -3100,11 +3718,6 @@ ${xmlItems}
                 <button type="button" data-action="steadfast" data-order="${escapeHtml(o.order_number)}"
                   class="text-xs bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-xl font-semibold transition whitespace-nowrap">
                   Steadfast
-                </button>
-
-                <button type="button" data-action="delete" data-order="${escapeHtml(o.order_number)}"
-                  class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-xl font-semibold transition whitespace-nowrap">
-                  ডিলিট
                 </button>
               </div>
 
@@ -3123,9 +3736,7 @@ ${xmlItems}
         if (actionBtn) {
           const act = actionBtn.dataset.action;
           const ordNum = actionBtn.dataset.order;
-          if (!ordNum) return;
-          if (act === "steadfast") sendToSteadfast(ordNum);
-          else if (act === "delete") deleteOrder(ordNum);
+          if (act === "steadfast" && ordNum) sendToSteadfast(ordNum);
           return;
         }
 
@@ -3138,6 +3749,17 @@ ${xmlItems}
       });
 
       ordersList.addEventListener("change", (e) => {
+        const cb = e.target.closest("input[type='checkbox'][data-select-order]");
+        if (cb && cb.dataset.selectOrder) {
+          toggleOrderSelection(cb.dataset.selectOrder, cb.checked);
+          const parentCard = cb.closest("[data-order-card]");
+          if (parentCard) {
+            parentCard.classList.toggle("border-emerald-500/50", cb.checked);
+            parentCard.classList.toggle("bg-emerald-950/15", cb.checked);
+          }
+          return;
+        }
+
         const sel = e.target.closest("select[data-status-order]");
         if (sel && sel.dataset.statusOrder) {
           changeOrderStatus(sel.dataset.statusOrder, sel.value);
@@ -3155,6 +3777,7 @@ ${xmlItems}
         { order_number: 'AB-849206', customer_name: 'Md. Rahim', customer_phone: '01700000000', shipping_address: 'Dhaka, Mirpur-10', items: [{ title: 'Organic Polo Shirt', qty: 1 }], total_amount: 650, status: 'Confirmed' }
       ];
 
+      selectedOrderNumbers.clear();
       renderOrdersTable();
       updateAnalyticsCards(currentOrders);
     }
