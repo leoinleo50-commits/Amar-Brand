@@ -1,1 +1,171 @@
+<!-- ========================================================= -->
+<!-- [শুরু] অ্যাডমিন প্যানেল (AMAR BRAND ADMIN) - admin.html     -->
+<!-- কাজ: অ্যাডমিন লগইন, নতুন পণ্য যোগ, AI বিবরণ ও অর্ডার দেখা -->
+<!-- ========================================================= -->
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- [শুরু: হেডার ও সার্চ ইঞ্জিন ব্লক (অ্যাডমিন পেজ গুগলে দেখাবে না)] -->
+  <meta charset="UTF-8">
+  <title>Amar Brand | Admin Panel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- [শেষ: হেডার ও সার্চ ইঞ্জিন ব্লক] -->
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
 
+  <!-- [শুরু: অ্যাডমিন লগইন স্ক্রিন] -->
+  <div id="login-view" class="flex min-h-screen items-center justify-center">
+    <form onsubmit="handleLogin(event)" class="bg-gray-800 p-8 rounded-xl w-80 space-y-4">
+      <h2 class="text-xl font-bold text-center">Amar Brand Admin Login</h2>
+      <input type="password" id="admin-pass" required placeholder="অ্যাডমিন পাসওয়ার্ড" class="w-full border p-2 rounded bg-gray-700 text-sm">
+      <button type="submit" class="w-full bg-indigo-600 py-2 rounded font-bold text-sm">লগইন করুন</button>
+    </form>
+  </div>
+  <!-- [শেষ: অ্যাডমিন লগইন স্ক্রিন] -->
+
+  <!-- [শুরু: অ্যাডমিন ড্যাশবোর্ড মূল অংশ] -->
+  <div id="dash-view" class="hidden max-w-6xl mx-auto p-6 space-y-6">
+    <!-- [শুরু: অ্যাডমিন টপ বার ও লগআউট বাটন] -->
+    <header class="flex justify-between border-b border-gray-800 pb-4">
+      <h1 class="text-2xl font-bold text-indigo-400">Amar Brand Admin</h1>
+      <button onclick="logout()" class="bg-red-600 px-3 py-1 rounded text-sm">লগআউট</button>
+    </header>
+    <!-- [শেষ: অ্যাডমিন টপ বার ও লগআউট বাটন] -->
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- [শুরু: নতুন পণ্য যোগ করার ফর্ম] -->
+      <form onsubmit="saveProduct(event)" class="bg-gray-800 p-6 rounded-xl space-y-3">
+        <h3 class="font-bold text-lg">নতুন পণ্য যোগ করুন</h3>
+        <input type="text" id="p-title" required placeholder="পণ্যের নাম" class="w-full border p-2 rounded bg-gray-700 text-sm">
+        <input type="text" id="p-category" required placeholder="ক্যাটাগরি" class="w-full border p-2 rounded bg-gray-700 text-sm">
+        <input type="number" id="p-price" required placeholder="মূল্য (৳)" class="w-full border p-2 rounded bg-gray-700 text-sm">
+        <input type="number" id="p-stock" required placeholder="স্টক পরিমাণ" class="w-full border p-2 rounded bg-gray-700 text-sm">
+        <div class="flex justify-between items-center">
+          <label class="text-xs">বিবরণ</label>
+          <button type="button" onclick="generateAI()" class="text-xs text-indigo-400">✨ AI Auto SEO</button>
+        </div>
+        <textarea id="p-desc" class="w-full border p-2 rounded bg-gray-700 text-sm" rows="3"></textarea>
+        <button type="submit" class="w-full bg-indigo-600 py-2 rounded font-bold text-sm">পণ্য সেভ করুন</button>
+      </form>
+      <!-- [শেষ: নতুন পণ্য যোগ করার ফর্ম] -->
+
+      <!-- [শুরু: গ্রাহকদের অর্ডার তালিকা দেখার অংশ] -->
+      <div class="bg-gray-800 p-6 rounded-xl md:col-span-2">
+        <h3 class="font-bold text-lg mb-4">অর্ডার সমূহ</h3>
+        <div id="orders-list" class="space-y-3"></div>
+      </div>
+      <!-- [শেষ: গ্রাহকদের অর্ডার তালিকা দেখার অংশ] -->
+    </div>
+  </div>
+  <!-- [শেষ: অ্যাডমিন ড্যাশবোর্ড মূল অংশ] -->
+
+  <script>
+    // [শুরু: API লিংক ও টোকেন ভেরিয়েবল]
+    const WORKER_URL = "https://amarbrand-api.YOUR-SUBDOMAIN.workers.dev";
+    let token = sessionStorage.getItem("admin_token") || "";
+    // [শেষ: API লিংক ও টোকেন ভেরিয়েবল]
+
+    // [শুরু: অ্যাডমিন লগইন, ড্যাশবোর্ড খোলা ও লগআউট কোড]
+    async function handleLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById("admin-pass").value;
+      const res = await fetch(`${WORKER_URL}/api/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.token) {
+        token = data.token;
+        sessionStorage.setItem("admin_token", token);
+        showDash();
+      } else {
+        alert(data.error || "লগইন ব্যর্থ হয়েছে।");
+      }
+    }
+
+    function showDash() {
+      document.getElementById("login-view").classList.add("hidden");
+      document.getElementById("dash-view").classList.remove("hidden");
+      loadOrders();
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      location.reload();
+    }
+    // [শেষ: অ্যাডমিন লগইন, ড্যাশবোর্ড খোলা ও লগআউট কোড]
+
+    // [শুরু: AI দিয়ে পণ্যের বিবরণ লেখার কোড]
+    async function generateAI() {
+      const title = document.getElementById("p-title").value;
+      const category = document.getElementById("p-category").value;
+      const price = document.getElementById("p-price").value;
+      const res = await fetch(`${WORKER_URL}/api/admin/ai/generate-seo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, category, price })
+      });
+      const data = await res.json();
+      if (data.short_description) {
+        document.getElementById("p-desc").value = data.short_description;
+      }
+    }
+    // [শেষ: AI দিয়ে পণ্যের বিবরণ লেখার কোড]
+
+    // [শুরু: নতুন পণ্য ডাটাবেজে সেভ করার কোড]
+    async function saveProduct(e) {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById("p-title").value,
+        category: document.getElementById("p-category").value,
+        price: Number(document.getElementById("p-price").value),
+        stock: parseInt(document.getElementById("p-stock").value),
+        short_description: document.getElementById("p-desc").value
+      };
+      const res = await fetch(`${WORKER_URL}/api/admin/products/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) alert(data.message);
+      else alert(data.error || "পণ্য সেভ করা যায়নি।");
+    }
+    // [শেষ: নতুন পণ্য ডাটাবেজে সেভ করার কোড]
+
+    // [শুরু: সব অর্ডার লোড করে দেখানোর কোড]
+    async function loadOrders() {
+      const res = await fetch(`${WORKER_URL}/api/admin/orders`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+      document.getElementById("orders-list").innerHTML = (data.orders || []).map(o => `
+        <div class="bg-gray-700 p-3 rounded text-sm flex justify-between">
+          <div>
+            <p class="font-bold text-indigo-400">${o.order_number}</p>
+            <p>${o.customer_name} (${o.customer_phone})</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold">৳${o.total_amount}</p>
+            <span class="text-xs bg-yellow-600 px-2 py-0.5 rounded">${o.status}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+    // [শেষ: সব অর্ডার লোড করে দেখানোর কোড]
+
+    if (token) showDash();
+  </script>
+</body>
+</html>
+<!-- ========================================================= -->
+<!-- [শেষ] অ্যাডমিন প্যানেল (AMAR BRAND ADMIN) - admin.html     -->
+<!-- ========================================================= -->
