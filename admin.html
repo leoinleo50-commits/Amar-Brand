@@ -1,8 +1,7 @@
  <!-- ========================================================= -->
 <!-- [শুরু] প্রফেশনাল অ্যাডমিন প্যানেল (AMAR BRAND ADMIN)        -->
 <!-- ফাইল নাম: admin.html                                       -->
-<!-- সম্পূর্ণ ফিচার আপডেট: Variants, CSV, Bulk Actions,        -->
-<!-- Invoice Print, Sitemap/Robots, AI Assistant, JSON Backup  -->
+<!-- মেনুতে ১টি চ্যাটবট + রিসেট বাটন + Admin ড্রপডাউনে লগআউট -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -57,7 +56,7 @@
       </div>
 
       <div class="bg-emerald-950/30 border border-emerald-500/25 rounded-xl p-3 text-xs text-emerald-200 space-y-1">
-        <p class="font-semibold text-emerald-300">🔑 Demo Access Credentials:</p>
+        <p class="font-semibold text-emerald-300">Demo Access Credentials:</p>
         <p>Email: <span class="font-mono text-white select-all">admin@amarbrand.com</span></p>
         <p>Password: <span class="font-mono text-white select-all">1234</span></p>
       </div>
@@ -91,7 +90,7 @@
   <!-- ========================================================= -->
   <div id="dash-view" class="hidden min-h-screen flex flex-col">
 
-    <!-- [শুরু: সিঙ্গেল টপ হেডার + ব্যাকআপ/রিস্টোর + নোটিফিকেশন] -->
+    <!-- [শুরু: সিঙ্গেল টপ হেডার + Admin ড্রপডাউনে লগআউট] -->
     <header class="sticky top-0 z-30 bg-[#080d1a]/95 backdrop-blur-xl border-b border-slate-800/80 px-3.5 sm:px-6 py-3">
       <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2.5">
         <div class="flex items-center gap-2.5 min-w-0">
@@ -109,18 +108,6 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 shrink-0">
-          <!-- JSON ব্যাকআপ ও রিস্টোর -->
-          <button type="button" onclick="exportFullBackupJson()"
-            class="text-xs bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-slate-700 px-2.5 py-1.5 rounded-xl font-semibold transition"
-            title="JSON Backup Download">
-            💾 Backup
-          </button>
-          <label class="text-xs bg-slate-900 hover:bg-slate-800 text-sky-300 border border-slate-700 px-2.5 py-1.5 rounded-xl font-semibold transition cursor-pointer"
-            title="JSON Backup Restore">
-            📂 Restore
-            <input type="file" accept=".json,application/json" onchange="importFullBackupJson(event)" class="hidden" />
-          </label>
-
           <!-- এআই চ্যাটবট হেডার নোটিফিকেশন বার -->
           <button type="button" onclick="openChatbotFromHeader()"
             class="flex items-center gap-2 bg-emerald-950/50 hover:bg-emerald-900/50 border border-emerald-500/35 px-3 py-1.5 rounded-2xl transition shadow-md shadow-emerald-950/40"
@@ -135,41 +122,41 @@
             </span>
           </button>
 
-          <button type="button" onclick="toggleProfileCard()"
-            class="flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-2.5 py-1.5 rounded-2xl transition text-left">
-            <div class="w-6 h-6 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-[11px] font-bold">
-              AD
+          <!-- অ্যাডমিন ড্রপডাউন বাটন (ক্লিক করলে লগআউট অপশন পাওয়া যায়) -->
+          <div class="relative">
+            <button type="button" onclick="toggleProfileCard()"
+              class="flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-2xl transition text-left">
+              <div class="w-6 h-6 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-[11px] font-bold">
+                AD
+              </div>
+              <span class="text-xs font-semibold text-slate-200">Admin</span>
+              <span class="text-[10px] text-slate-400">▾</span>
+            </button>
+
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-2xl z-50 space-y-3 text-xs">
+              <div class="space-y-1 border-b border-slate-800 pb-3">
+                <p class="font-bold text-white text-sm">অ্যাডমিন প্রোফাইল</p>
+                <p class="text-slate-400">নাম: <span class="text-slate-200">Admin (আমার ব্র্যান্ড)</span></p>
+                <p class="text-slate-400">ইমেইল: <span class="font-mono text-emerald-300">admin@amarbrand.com</span></p>
+              </div>
+              <button type="button" onclick="logout()"
+                class="w-full text-left flex items-center justify-between bg-rose-600/15 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3.5 py-2 rounded-xl transition font-semibold">
+                <span>লগআউট</span>
+                <span>⎋</span>
+              </button>
             </div>
-            <span class="hidden md:inline text-xs font-semibold text-slate-200">Admin</span>
-          </button>
-
-          <button type="button" onclick="logout()"
-            class="text-xs bg-rose-600/15 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-2 rounded-xl transition font-semibold">
-            লগআউট
-          </button>
-        </div>
-      </div>
-
-      <div id="profile-dropdown" class="hidden max-w-[1440px] mx-auto mt-3">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <div class="space-y-0.5">
-            <p class="font-bold text-white text-sm">অ্যাডমিন প্রোফাইল</p>
-            <p class="text-slate-400">নাম: <span class="text-slate-200">Admin (আমার ব্র্যান্ড)</span> • ইমেইল: <span class="font-mono text-emerald-300">admin@amarbrand.com</span></p>
           </div>
-          <span class="bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-3 py-1 rounded-full font-mono">
-            Role: Store Administrator
-          </span>
         </div>
       </div>
     </header>
-    <!-- [শেষ: সিঙ্গেল টপ হেডার + ব্যাকআপ/রিস্টোর + নোটিফিকেশন] -->
+    <!-- [শেষ: সিঙ্গেল টপ হেডার + Admin ড্রপডাউনে লগআউট] -->
 
     <!-- [শুরু: বাম মেনু কলাম + ডান কন্টেন্ট কলাম] -->
     <div class="flex-1 flex flex-row max-w-[1440px] w-full mx-auto">
 
-      <!-- [শুরু: বাম পাশে এক সারিতে প্রধান মেনু] -->
+      <!-- [শুরু: বাম পাশে এক সারিতে প্রধান মেনু (১টি চ্যাটবট + রিসেট বাটন)] -->
       <aside class="w-44 sm:w-64 lg:w-72 bg-[#070c17] border-r border-slate-800/80 p-2.5 sm:p-4 shrink-0">
-        <div class="sticky top-20 space-y-2">
+        <div class="sticky top-20 space-y-3">
           <p class="text-[11px] font-semibold text-slate-400 px-1.5">প্রধান মেনু</p>
 
           <nav class="flex flex-col space-y-1.5">
@@ -246,19 +233,17 @@
             </button>
           </nav>
 
-          <button type="button" onclick="openChatbotFromHeader()"
-            class="w-full mt-2 rounded-2xl px-3 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-between gap-1 shadow-lg shadow-emerald-500/20 transition">
-            <span class="flex items-center gap-1.5 min-w-0">
-              <span>💬</span>
-              <span class="truncate">চ্যাট বট</span>
-            </span>
-            <span id="floating-chat-badge" class="w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-              ১
-            </span>
-          </button>
+          <!-- মেনুর রিসেট বাটন -->
+          <div class="pt-2 border-t border-slate-800/80">
+            <button type="button" id="btn-reset-all" onclick="resetAdminWorkspace()"
+              class="w-full px-3 sm:px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition flex items-center justify-center gap-2 bg-rose-600/15 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30">
+              <span>↺</span>
+              <span>রিসেট</span>
+            </button>
+          </div>
         </div>
       </aside>
-      <!-- [শেষ: বাম পাশে এক সারিতে প্রধান মেনু] -->
+      <!-- [শেষ: বাম পাশে এক সারিতে প্রধান মেনু (১টি চ্যাটবট + রিসেট বাটন)] -->
 
       <!-- [শুরু: ডান পাশের কন্টেন্ট এরিয়া] -->
       <div class="flex-1 min-w-0">
@@ -797,7 +782,6 @@
               </div>
 
               <div class="flex flex-wrap items-center gap-2">
-                <!-- বাল্ক স্ট্যাটাস পরিবর্তন -->
                 <select id="bulk-status-select"
                   class="text-xs bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 outline-none">
                   <option value="Confirmed">Bulk: Confirmed</option>
@@ -811,19 +795,16 @@
                   স্ট্যাটাস আপডেট
                 </button>
 
-                <!-- বাল্ক Steadfast সেন্ড -->
                 <button type="button" id="bulk-steadfast-btn" onclick="sendSelectedToSteadfast()" disabled
                   class="text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600 disabled:opacity-40 disabled:pointer-events-none text-indigo-300 hover:text-white border border-indigo-500/35 px-3.5 py-2 rounded-xl transition">
                   🚚 Bulk Steadfast
                 </button>
 
-                <!-- ইনভয়েস / প্যাকিং স্লিপ প্রিন্ট -->
                 <button type="button" id="bulk-invoice-btn" onclick="openInvoicePrintModal()" disabled
                   class="text-xs font-semibold bg-sky-600/20 hover:bg-sky-600 disabled:opacity-40 disabled:pointer-events-none text-sky-300 hover:text-white border border-sky-500/35 px-3.5 py-2 rounded-xl transition">
                   🧾 Invoice Print
                 </button>
 
-                <!-- আলাদা বাল্ক ডিলিট বাটন -->
                 <button type="button" id="bulk-delete-orders-btn" onclick="deleteSelectedOrders()" disabled
                   class="inline-flex items-center gap-1.5 text-xs font-semibold bg-rose-600/20 hover:bg-rose-600 disabled:opacity-40 disabled:pointer-events-none text-rose-300 hover:text-white border border-rose-500/35 px-3.5 py-2 rounded-xl transition">
                   <span>🗑️</span>
@@ -1281,7 +1262,7 @@
         <main id="section-chatbot" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">৮. এআই চ্যাটবট, কাস্টমার ইনবক্স ও অ্যাডমিন অ্যাসিস্ট্যান্ট</h2>
+              <h2 class="text-xl font-bold text-white">৮. চ্যাটবট, কাস্টমার ইনবক্স ও অ্যাডমিন অ্যাসিস্ট্যান্ট</h2>
               <p class="text-xs text-slate-400 mt-0.5">কাস্টমার চ্যাট বক্স (সীমিত প্রোডাক্ট/অর্ডার তথ্য) এবং অ্যাডমিন অ্যানালিটিক্স অ্যাসিস্ট্যান্ট</p>
             </div>
             <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
@@ -1289,7 +1270,6 @@
             </span>
           </div>
 
-          <!-- [উপরের অংশ: কাস্টমার মেসেজ লিস্ট + বড় চ্যাট বক্স] -->
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-3 shadow-xl">
               <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -1321,7 +1301,6 @@
                   </div>
                 </div>
 
-                <!-- বড় চ্যাট মেসেজ বক্স -->
                 <div id="chat-messages-box" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 h-[24rem] sm:h-[28rem] overflow-y-auto text-xs sm:text-sm"></div>
               </div>
 
@@ -1375,7 +1354,6 @@
             </form>
           </section>
 
-          <!-- [নিচের অংশ: ১) চ্যাটবট সেটিংস উপরে, ২) সফটওয়্যার কানেকশন নিচে] -->
           <div class="space-y-6">
             <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
               <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
@@ -1403,7 +1381,7 @@
                 </div>
 
                 <div>
-                  <label for="cb-welcome-msg" class="block text-xs font-medium text-slate-400 mb-1">ডিফল্ট স্বাগত / ফ fallback মেসেজ</label>
+                  <label for="cb-welcome-msg" class="block text-xs font-medium text-slate-400 mb-1">ডিফল্ট স্বাগত / ফলব্যাক মেসেজ</label>
                   <input type="text" id="cb-welcome-msg" placeholder="আমার ব্র্যান্ডে স্বাগতম! প্রোডাক্ট সম্পর্কে জানুন।"
                     class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
                 </div>
@@ -1588,7 +1566,7 @@
     let uploadedReelFileName = "";
     let latestSchemaJson = "";
 
-    let chatbotKnowledge = [
+    const defaultChatbotKnowledge = [
       {
         sku: "AB-PRD-1001",
         title: "Organic Cotton Polo Shirt",
@@ -1609,16 +1587,16 @@
       }
     ];
 
-    let chatbotAiConfig = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || JSON.stringify({
+    const defaultChatbotAiConfig = {
       enabled: true,
       tone: "friendly-bn",
       welcomeMsg: "আমার ব্র্যান্ডে স্বাগতম! যেকোনো প্রোডাক্ট বা অর্ডার সম্পর্কে জানুন।",
       platformType: "Custom Webhook",
       webhookUrl: "",
       apiKey: ""
-    }));
+    };
 
-    let chatThreads = [
+    const defaultChatThreads = [
       {
         id: "thread-103",
         customerName: "Tanvir Ahmed",
@@ -1652,6 +1630,9 @@
       }
     ];
 
+    let chatbotKnowledge = JSON.parse(JSON.stringify(defaultChatbotKnowledge));
+    let chatbotAiConfig = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || JSON.stringify(defaultChatbotAiConfig));
+    let chatThreads = JSON.parse(JSON.stringify(defaultChatThreads));
     let activeThreadId = chatThreads[0]?.id || "";
 
     const sectionTitles = {
@@ -1777,9 +1758,7 @@
       const delIncCountEl = document.getElementById("deleted-incomplete-count-label");
       if (delIncCountEl) delIncCountEl.textContent = String(deletedIncompleteOrders.length);
 
-      const unreadCount = getUnreadChatCount();
-      setBadge("header-bot-notif-badge", unreadCount);
-      setBadge("floating-chat-badge", unreadCount);
+      setBadge("header-bot-notif-badge", getUnreadChatCount());
       renderOverviewExtras();
     }
 
@@ -1827,80 +1806,87 @@
       } catch (_) {}
     }
 
-    function exportFullBackupJson() {
-      const backupPayload = {
-        exported_at: new Date().toISOString(),
-        state: {
-          categories,
-          managedProducts,
-          managedReels: managedReels.filter(r => r.video_src && !r.video_src.startsWith("blob:")),
-          currentOrders,
-          incompleteOrders,
-          deletedIncompleteOrders,
-          integrationLogs,
-          chatbotKnowledge,
-          chatThreads,
-          latestSchemaJson
-        },
-        configs: {
-          gscConfig,
-          gmcConfig,
-          courierConfig,
-          webhookConfig,
-          chatbotAiConfig
+    function resetAdminWorkspace() {
+      const ok = confirm("সব লোকাল সেটিংস ও ড্যাশবোর্ড স্টেট রিসেট করতে চান?");
+      if (!ok) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem("ab_cb_ai_cfg");
+      localStorage.removeItem("ab_gsc_cfg");
+      localStorage.removeItem("ab_gmc_cfg");
+      localStorage.removeItem("ab_courier_cfg");
+      localStorage.removeItem("ab_webhook_cfg");
+
+      categories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
+      managedProducts = [];
+      managedReels = [];
+      incompleteOrders = [];
+      deletedIncompleteOrders = [];
+      integrationLogs = [];
+      selectedOrderNumbers.clear();
+      uploadedProductImages = [];
+      if (uploadedReelVideoSrc && uploadedReelVideoSrc.startsWith("blob:")) {
+        URL.revokeObjectURL(uploadedReelVideoSrc);
+      }
+      uploadedReelVideoSrc = "";
+      uploadedReelFileName = "";
+      latestSchemaJson = "";
+
+      chatbotKnowledge = JSON.parse(JSON.stringify(defaultChatbotKnowledge));
+      chatbotAiConfig = JSON.parse(JSON.stringify(defaultChatbotAiConfig));
+      chatThreads = JSON.parse(JSON.stringify(defaultChatThreads));
+      activeThreadId = chatThreads[0]?.id || "";
+
+      gscConfig = {
+        siteUrl: "https://amarbrand.com",
+        verifyCode: "",
+        sitemapUrl: "https://amarbrand.com/sitemap.xml",
+        allowIndex: true,
+        enableSchema: true
+      };
+      gmcConfig = {
+        merchantId: "",
+        country: "BD",
+        currency: "BDT",
+        feedUrl: "https://amarbrand.com/merchant-feed.xml",
+        brandName: "Amar Brand"
+      };
+      courierConfig = {
+        baseUrl: "https://portal.packzy.com/api/v1",
+        apiKey: "",
+        secretKey: "",
+        enabled: true
+      };
+      webhookConfig = {
+        url: "",
+        secret: "",
+        events: {
+          orderCreated: true,
+          orderStatusUpdated: true,
+          courierDispatched: true,
+          orderDeleted: false
         }
       };
 
-      const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `amarbrand-backup-${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      addLog("Full Admin JSON Backup downloaded.");
-    }
+      const schemaPre = document.getElementById("latest-product-schema");
+      if (schemaPre) schemaPre.textContent = "প্রোডাক্ট সেভ করলে এখানে অটোমেটিক JSON-LD Product Schema তৈরি হবে।";
 
-    function importFullBackupJson(e) {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const data = JSON.parse(String(reader.result || "{}"));
-          const st = data.state || {};
-          if (Array.isArray(st.categories)) categories = st.categories;
-          if (Array.isArray(st.managedProducts)) managedProducts = st.managedProducts;
-          if (Array.isArray(st.managedReels)) managedReels = st.managedReels;
-          if (Array.isArray(st.currentOrders)) currentOrders = st.currentOrders;
-          if (Array.isArray(st.incompleteOrders)) incompleteOrders = st.incompleteOrders;
-          if (Array.isArray(st.deletedIncompleteOrders)) deletedIncompleteOrders = st.deletedIncompleteOrders;
-          if (Array.isArray(st.integrationLogs)) integrationLogs = st.integrationLogs;
-          if (Array.isArray(st.chatbotKnowledge)) chatbotKnowledge = st.chatbotKnowledge;
-          if (Array.isArray(st.chatThreads) && st.chatThreads.length) {
-            chatThreads = st.chatThreads;
-            activeThreadId = chatThreads[0].id;
-          }
-          if (typeof st.latestSchemaJson === "string") latestSchemaJson = st.latestSchemaJson;
-
-          if (data.configs) {
-            if (data.configs.gscConfig) { gscConfig = data.configs.gscConfig; localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscConfig)); }
-            if (data.configs.gmcConfig) { gmcConfig = data.configs.gmcConfig; localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmcConfig)); }
-            if (data.configs.courierConfig) { courierConfig = data.configs.courierConfig; localStorage.setItem("ab_courier_cfg", JSON.stringify(courierConfig)); }
-            if (data.configs.webhookConfig) { webhookConfig = data.configs.webhookConfig; localStorage.setItem("ab_webhook_cfg", JSON.stringify(webhookConfig)); }
-            if (data.configs.chatbotAiConfig) { chatbotAiConfig = data.configs.chatbotAiConfig; localStorage.setItem("ab_cb_ai_cfg", JSON.stringify(chatbotAiConfig)); }
-          }
-
-          saveStateToStorage();
-          showDash();
-          addLog("Admin JSON Backup restored successfully.");
-          alert("ব্যাকআপ সফলভাবে রিস্টোর করা হয়েছে!");
-        } catch (_) {
-          alert("সঠিক JSON ব্যাকআপ ফাইল নির্বাচন করুন।");
-        }
-      };
-      reader.readAsText(file);
-      e.target.value = "";
+      seedIncompleteOrdersIfEmpty();
+      renderOverviewExtras();
+      setFreshProductCode();
+      renderCategories();
+      renderProductsTable();
+      renderIncompleteOrders();
+      syncProductCodeDatalist();
+      renderReels();
+      hydrateChatbotPanel();
+      hydrateSeoMerchantForms();
+      generateMerchantFeedPreview();
+      hydrateIntegrationForms();
+      renderLogs();
+      showDemoOrders();
+      switchSection("overview");
+      updateMenuBadges();
     }
 
     function exportProductsCsv() {
@@ -2410,7 +2396,6 @@
       alert("সফটওয়্যার কানেকশন সেটিংস সেভ হয়েছে!");
     }
 
-    // রেস্ট্রিক্টেড কাস্টমার বট রিপ্লাই (শুধু প্রোডাক্ট/দাম/স্টক/ডেলিভারি তথ্য; লাভ বা অ্যাডমিন ডেটা নয়)
     function generateRestrictedCustomerBotReply() {
       const thread = chatThreads.find(t => t.id === activeThreadId);
       if (!thread) return;
@@ -2437,7 +2422,6 @@
       renderChatThread();
     }
 
-    // অ্যাডমিন অ্যানালিটিক্স অ্যাসিস্ট্যান্ট (পূর্ণ স্টোর অ্যানালিটিক্স)
     function runAdminAnalyticsQuery(question) {
       const outEl = document.getElementById("admin-assistant-output");
       if (!outEl) return;
@@ -2576,6 +2560,14 @@
     function toggleProfileCard() {
       document.getElementById("profile-dropdown")?.classList.toggle("hidden");
     }
+
+    document.addEventListener("click", (e) => {
+      const drop = document.getElementById("profile-dropdown");
+      if (!drop || drop.classList.contains("hidden")) return;
+      if (!e.target.closest("#profile-dropdown") && !e.target.closest("button[onclick='toggleProfileCard()']")) {
+        drop.classList.add("hidden");
+      }
+    });
 
     function slugifyText(text) {
       return String(text || "")
@@ -3371,7 +3363,7 @@ Sitemap: ${base}/sitemap.xml`;
       if (!order) return;
 
       if (!courierConfig.enabled || !courierConfig.apiKey || !courierConfig.secretKey) {
-        alert("আগে 'কুরিয়ার সেকশন' ট্যাব থেকে Steadfast API Key ও Secret Key সেট করুন।");
+        addLog(`Steadfast skipped for #${order.order_number}: API not configured.`);
         switchSection("courier");
         return;
       }
@@ -3392,8 +3384,6 @@ Sitemap: ${base}/sitemap.xml`;
           total_amount: order.total_amount
         });
       }
-
-      alert(`Steadfast-এ পার্সেল পাঠানো হয়েছে!\nTracking ID: ${trackingCode}`);
     }
 
     async function sendSelectedToSteadfast() {
@@ -3401,7 +3391,7 @@ Sitemap: ${base}/sitemap.xml`;
       if (targets.length === 0) return;
 
       if (!courierConfig.enabled || !courierConfig.apiKey || !courierConfig.secretKey) {
-        alert("আগে 'কুরিয়ার সেকশন' ট্যাব থেকে Steadfast API Key ও Secret Key সেট করুন।");
+        addLog(`Bulk Steadfast skipped: API not configured.`);
         switchSection("courier");
         return;
       }
@@ -3417,7 +3407,6 @@ Sitemap: ${base}/sitemap.xml`;
       renderOrdersTable();
       updateAnalyticsCards(currentOrders);
       addLog(`Bulk Steadfast Dispatched (${targets.length} orders) -> ${targets.join(", ")}`);
-      alert(`${targets.length}টি অর্ডার Steadfast-এ পাঠানো হয়েছে!`);
     }
 
     async function handleLogin(e) {
@@ -3676,7 +3665,6 @@ Sitemap: ${base}/sitemap.xml`;
             class="bg-slate-950/80 hover:bg-slate-900/95 border ${isChecked ? "border-emerald-500/50 bg-emerald-950/15" : "border-slate-800/90 hover:border-emerald-500/35"} rounded-2xl p-4 transition cursor-pointer shadow-md">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
 
-              <!-- বাম অংশ: সিলেকশন চেকবক্স + অর্ডার আইডি + গ্রাহক তথ্য + Repeat & Risk ব্যাজ -->
               <div class="flex items-start gap-3 min-w-0 flex-1">
                 <div class="pt-0.5 shrink-0" data-stop-card="1">
                   <input type="checkbox" data-select-order="${escapeHtml(o.order_number)}" ${isChecked ? "checked" : ""}
@@ -3706,7 +3694,6 @@ Sitemap: ${base}/sitemap.xml`;
                 </div>
               </div>
 
-              <!-- ডান অংশ: মোট অ্যামাউন্ট + স্ট্যাটাস ড্রপডাউন + Steadfast -->
               <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-2.5 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80" data-stop-card="1">
                 <span class="font-mono text-base font-bold text-emerald-400 mr-1">৳${escapeHtml(o.total_amount)}</span>
 
