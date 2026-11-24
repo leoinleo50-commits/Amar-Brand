@@ -7,13 +7,19 @@
 <!DOCTYPE html>
 <html lang="bn" class="dark">
 <head>
-  <!-- [শুরু: হেডার, SEO, Search Console ও স্টাইল সেটিংস] -->
+  <!-- [শুরু: হেডার, SEO, Canonical, Search Console ও স্টাইল সেটিংস] -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="dynamic-page-title">Amar Brand | Organic & Modern Lifestyle Store</title>
   <meta name="description" id="dynamic-meta-desc" content="Amar Brand — প্রিমিয়াম অর্গানিক ও লাইফস্টাইল প্রোডাক্ট, শপ্যাবল রিলস এবং দ্রুত হোম ডেলিভারি।" />
   <meta name="robots" id="dynamic-meta-robots" content="index, follow" />
   <meta name="google-site-verification" id="dynamic-gsc-meta" content="" />
+  <link rel="canonical" id="dynamic-canonical-link" href="" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="dynamic-og-title" content="Amar Brand Store" />
+  <meta property="og:description" id="dynamic-og-desc" content="Amar Brand — প্রিমিয়াম অর্গানিক ও লাইফস্টাইল প্রোডাক্ট।" />
+  <meta property="og:url" id="dynamic-og-url" content="" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -44,10 +50,29 @@
     .animate-success-pop {
       animation: popScale 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
+
+    @keyframes orderGlowPulse {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.35), 0 0 0 0 rgba(16, 185, 129, 0.45);
+      }
+      50% {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 14px 30px -5px rgba(16, 185, 129, 0.5), 0 0 0 8px rgba(16, 185, 129, 0);
+      }
+    }
+    .btn-order-now-anim {
+      animation: orderGlowPulse 2.2s infinite ease-in-out;
+    }
+    .btn-order-now-anim:hover {
+      animation: none;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 16px 32px -4px rgba(16, 185, 129, 0.6);
+    }
   </style>
 
   <script type="application/ld+json" id="dynamic-jsonld-schema">{}</script>
-  <!-- [শেষ: হেডার, SEO, Search Console ও স্টাইল সেটিংস] -->
+  <!-- [শেষ: হেডার, SEO, Canonical, Search Console ও স্টাইল সেটিংস] -->
 </head>
 <body class="bg-[#050811] text-slate-100 min-h-screen antialiased selection:bg-emerald-500 selection:text-white">
 
@@ -55,21 +80,21 @@
   <!-- [শুরু: ১. টপ হেডার, সার্চ, অর্ডার ট্র্যাক ও কার্ট বাটন]    -->
   <!-- ========================================================= -->
   <header class="sticky top-0 z-40 bg-[#070c17]/95 backdrop-blur-xl border-b border-slate-800/80">
-    <div class="max-w-[1440px] mx-auto px-3.5 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <a href="index.html" onclick="event.preventDefault(); showHomeStorefront();" class="flex items-center gap-2.5 shrink-0">
-          <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_16px_rgba(251,191,36,0.2)]">
+    <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="index.html" onclick="event.preventDefault(); showHomeStorefront();" class="flex items-center gap-2 shrink-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_16px_rgba(251,191,36,0.2)]">
             <span class="text-xs font-extrabold text-amber-300">AB</span>
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <span class="text-base sm:text-lg font-extrabold tracking-wide text-white">AMAR</span>
-              <span class="text-base sm:text-lg font-extrabold tracking-wide text-emerald-400">BRAND</span>
+              <span class="text-sm sm:text-lg font-extrabold tracking-wide text-white">AMAR</span>
+              <span class="text-sm sm:text-lg font-extrabold tracking-wide text-emerald-400">BRAND</span>
               <span id="store-gmc-badge" class="hidden sm:inline-block text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                 Verified
               </span>
             </div>
-            <p class="text-[11px] text-slate-400 truncate">অর্গানিক ও লাইফস্টাইল স্টোর</p>
+            <p class="text-[10px] sm:text-[11px] text-slate-400 truncate">অর্গানিক ও লাইফস্টাইল স্টোর</p>
           </div>
         </a>
       </div>
@@ -83,24 +108,25 @@
         </div>
       </div>
 
-      <div class="order-2 lg:order-3 flex items-center gap-2 shrink-0">
+      <div class="order-2 lg:order-3 flex items-center gap-1.5 sm:gap-2 shrink-0">
         <button type="button" onclick="openAllReelsPage()"
-          class="hidden sm:inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 px-3 py-2 rounded-2xl text-xs font-semibold transition">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition">
           <span>🎬</span>
-          <span>অল রিলস (<span id="header-reels-count">0</span>)</span>
+          <span class="hidden sm:inline">অল রিলস</span>
+          <span>(<span id="header-reels-count">0</span>)</span>
         </button>
 
         <button type="button" onclick="openTrackOrderModal()"
-          class="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 px-3 py-2 rounded-2xl text-xs font-semibold transition">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition">
           <span>📦</span>
           <span class="hidden sm:inline">ট্র্যাক</span>
         </button>
 
         <button type="button" onclick="toggleCartDrawer(true)"
-          class="relative inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20">
+          class="relative inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3 sm:px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20">
           <span>🛒</span>
           <span>কার্ট</span>
-          <span id="header-cart-count" class="bg-slate-950/80 text-emerald-300 font-mono text-xs px-2 py-0.5 rounded-full">0</span>
+          <span id="header-cart-count" class="bg-slate-950/80 text-emerald-300 font-mono text-xs px-1.5 py-0.5 rounded-full">0</span>
         </button>
       </div>
     </div>
@@ -113,7 +139,7 @@
   <div id="home-store-view">
 
     <!-- [২.১ ছবি যুক্ত ক্যাটাগরি — প্রতিটির আলাদা লিংক ও আলাদা পেজ] -->
-    <section id="top" class="max-w-[1440px] mx-auto px-3.5 sm:px-6 pt-6 pb-2 space-y-3.5">
+    <section id="top" class="max-w-[1440px] mx-auto px-3 sm:px-6 pt-5 pb-2 space-y-3">
       <div class="flex items-center justify-between">
         <div>
           <span class="text-[11px] uppercase tracking-wider bg-amber-500/10 text-amber-300 border border-amber-500/25 px-2.5 py-0.5 rounded-full font-semibold">
@@ -121,20 +147,20 @@
           </span>
           <h2 class="text-lg sm:text-xl font-bold text-white mt-1">ছবি যুক্ত ক্যাটাগরি</h2>
         </div>
-        <span class="text-xs text-slate-400">যেকোনো ক্যাটাগরিতে ক্লিক করলে আলাদা ক্যাটাগরি পেজ খুলবে</span>
+        <span class="text-[11px] text-slate-400 hidden sm:inline">ক্যাটাগরিতে ক্লিক করলে আলাদা পেজ ওপেন হবে</span>
       </div>
 
-      <div id="visitor-category-cards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+      <div id="visitor-category-cards" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-3"></div>
     </section>
 
-    <!-- [২.২ অল প্রোডাক্ট সেকশন — প্রাইস ও টাইটেল উপরে, ছবি নিচে] -->
-    <main id="products-section" class="max-w-[1440px] mx-auto px-3.5 sm:px-6 py-6 space-y-5">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+    <!-- [২.২ অল প্রোডাক্ট সেকশন — মোবাইলে ৩টা, ডেস্কটপে ৪টা; প্রাইস ও টাইটেল উপরে, ছবি নিচে] -->
+    <main id="products-section" class="max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
         <div>
           <span class="text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
             অল প্রোডাক্ট
           </span>
-          <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">অল প্রোডাক্ট (<span id="catalog-visible-count">0</span>)</h2>
+          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">অল প্রোডাক্ট (<span id="catalog-visible-count">0</span>)</h2>
         </div>
 
         <div class="flex items-center gap-2">
@@ -147,34 +173,34 @@
         </div>
       </div>
 
-      <div id="visitor-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+      <div id="visitor-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
     </main>
 
-    <!-- [২.৩ হোম পেজের নিচে রিল সারি — প্রতিটি রিলের নিচে "অর্ডার করুন" বাটন] -->
-    <section id="reels-row-section" class="max-w-[1440px] mx-auto px-3.5 sm:px-6 py-8 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800/80 pb-3.5">
+    <!-- [২.৩ হোম পেজের নিচে রিল সারি — মোবাইলে ৪টা, ডেস্কটপে ৫টা, একটি সারি] -->
+    <section id="reels-row-section" class="max-w-[1440px] mx-auto px-3 sm:px-6 py-7 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div>
           <span class="text-[11px] uppercase tracking-wider bg-pink-500/10 text-pink-300 border border-pink-500/25 px-2.5 py-0.5 rounded-full font-semibold">
             রিল সারি
           </span>
-          <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">শপ্যাবল রিলস (<span id="visitor-reels-count">0</span>)</h2>
+          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">শপ্যাবল রিলস (<span id="visitor-reels-count">0</span>)</h2>
         </div>
         <button type="button" onclick="openAllReelsPage()"
-          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-          অল রিলস পেজ →
+          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition">
+          অল রিলস →
         </button>
       </div>
 
-      <div id="home-reels-row" class="flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+      <div id="home-reels-row" class="grid grid-flow-col auto-cols-[calc((100%-1.5rem)/4)] lg:auto-cols-[calc((100%-4rem)/5)] gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-1"></div>
     </section>
 
   </div>
   <!-- [শেষ: ২. হোম স্টোরফ্রন্ট ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৩. আলাদা ক্যাটাগরি পেজ ভিউ (নিজস্ব লিংক ও প্রোডাক্ট)] -->
+  <!-- [শুরু: ৩. আলাদা ক্যাটাগরি পেজ ভিউ (SEO লিংক ও প্রোডাক্ট)] -->
   <!-- ========================================================= -->
-  <section id="category-page-view" class="hidden max-w-[1440px] mx-auto px-3.5 sm:px-6 py-6 space-y-6">
+  <section id="category-page-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-6">
     <div class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="flex items-center gap-4">
         <img id="cat-page-img" src="" alt="Category" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-emerald-500/30 shrink-0" />
@@ -183,7 +209,10 @@
             Category Page
           </span>
           <h2 id="cat-page-title" class="text-xl sm:text-2xl font-extrabold text-white">ক্যাটাগরি নাম</h2>
-          <p id="cat-page-link-text" class="text-[11px] font-mono text-slate-400 break-all"></p>
+          <p id="cat-page-link-text" class="text-[11px] font-mono text-emerald-300 break-all"></p>
+          <p class="text-[11px] text-slate-400">
+            লাইভ ডোমেইনে হোস্ট ও Google Search Console-এ সাবমিট করলে এই URL সার্চে ইনডেক্স হবে।
+          </p>
         </div>
       </div>
 
@@ -199,18 +228,16 @@
       </div>
     </div>
 
-    <!-- অন্যান্য ক্যাটাগরির আলাদা লিংক মেনু -->
     <div id="cat-page-other-links" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
 
-    <!-- এই ক্যাটাগরির প্রোডাক্ট গ্রিড -->
-    <div id="category-page-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+    <div id="category-page-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
   </section>
   <!-- [শেষ: ৩. আলাদা ক্যাটাগরি পেজ ভিউ] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ৪. অল রিলস পেজ ভিউ (ক্লিক করা রিল ওপেন + অর্ডার বাটন)] -->
   <!-- ========================================================= -->
-  <section id="all-reels-page-view" class="hidden max-w-[1440px] mx-auto px-3.5 sm:px-6 py-6 space-y-6">
+  <section id="all-reels-page-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
       <div>
         <span class="text-[11px] uppercase tracking-wider bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-0.5 rounded-full font-semibold">
@@ -224,21 +251,19 @@
       </button>
     </div>
 
-    <!-- ক্লিক করা রিল স্পটলাইট -->
     <div id="focused-reel-spotlight" class="glass-card rounded-3xl p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center"></div>
 
-    <!-- সব রিলের গ্রিড (প্রতিটির নিচে অর্ডার করুন বাটন) -->
     <div class="space-y-3">
       <h3 class="text-base font-bold text-white">সব রিল ভিডিও</h3>
-      <div id="all-reels-page-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+      <div id="all-reels-page-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"></div>
     </div>
   </section>
   <!-- [শেষ: ৪. অল রিলস পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৫. চেকআউট পেজ ভিউ (নাম, ফোন, অ্যাড্রেস, জেলা, ডেলিভারি)] -->
+  <!-- [শুরু: ৫. চেকআউট পেজ ভিউ (ঢাকা ৳80, বাইরে ৳120 + সেন্টার অ্যানিমেটেড অর্ডার নাও)] -->
   <!-- ========================================================= -->
-  <section id="checkout-page-view" class="hidden max-w-5xl mx-auto px-3.5 sm:px-6 py-8 space-y-6">
+  <section id="checkout-page-view" class="hidden max-w-5xl mx-auto px-3 sm:px-6 py-8 space-y-6">
     <div class="flex items-center justify-between border-b border-slate-800 pb-4">
       <div>
         <span class="text-[11px] uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-semibold">
@@ -264,7 +289,7 @@
           </div>
 
           <div>
-            <label for="co-phone" class="block text-xs font-medium text-slate-300 mb-1.5">ফোন নাম্বার (WhatsApp থাকলে একই নম্বর দিন) *</label>
+            <label for="co-phone" class="block text-xs font-medium text-slate-300 mb-1.5">ফোন নাম্বার *</label>
             <input type="tel" id="co-phone" required oninput="captureIncompleteDraftFromCheckout()" placeholder="017XXXXXXXX"
               class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-sm outline-none font-mono" />
           </div>
@@ -281,9 +306,8 @@
             <label for="co-delivery-charge" class="block text-xs font-medium text-emerald-300 mb-1.5">ডেলিভারি চার্জ সিলেক্ট করুন *</label>
             <select id="co-delivery-charge" onchange="updateCheckoutSummary()"
               class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-sm outline-none font-mono">
-              <option value="70">ঢাকার ভেতরে — ৳70</option>
+              <option value="80">ঢাকার ভিতর — ৳80</option>
               <option value="120">ঢাকার বাইরে — ৳120</option>
-              <option value="150">কুরিয়ার / এক্সপ্রেস — ৳150</option>
             </select>
           </div>
         </div>
@@ -293,13 +317,9 @@
           <textarea id="co-address" rows="3" required oninput="captureIncompleteDraftFromCheckout()" placeholder="বাড়ি/হোল্ডিং নম্বর, রোড, এলাকা, থানা..."
             class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-sm outline-none"></textarea>
         </div>
-
-        <button type="submit"
-          class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-2xl font-bold text-sm transition shadow-lg shadow-emerald-600/25">
-          অর্ডার করুন
-        </button>
       </form>
 
+      <!-- প্রোডাক্ট সামারি ও নিচে সেন্টারে অ্যানিমেটেড অর্ডার নাও বাটন -->
       <aside class="glass-card rounded-3xl p-5 sm:p-6 space-y-4 h-fit">
         <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">প্রোডাক্ট সামারি</h3>
         <div id="co-summary-items" class="space-y-3 max-h-72 overflow-y-auto pr-1"></div>
@@ -311,12 +331,20 @@
           </div>
           <div class="flex justify-between text-slate-400">
             <span>ডেলিভারি চার্জ:</span>
-            <span id="co-delivery-display" class="font-mono text-amber-300">৳70</span>
+            <span id="co-delivery-display" class="font-mono text-amber-300">৳80</span>
           </div>
           <div class="flex justify-between text-base font-extrabold text-white border-t border-slate-800 pt-2.5">
             <span>সর্বমোট:</span>
-            <span id="co-total" class="font-mono text-emerald-400">৳70</span>
+            <span id="co-total" class="font-mono text-emerald-400">৳80</span>
           </div>
+        </div>
+
+        <div class="flex justify-center pt-2">
+          <button type="submit" form="full-checkout-form"
+            class="btn-order-now-anim mx-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white px-8 py-3.5 rounded-2xl font-extrabold text-sm transition-all cursor-pointer">
+            <span>অর্ডার নাও</span>
+            <span>🚀</span>
+          </button>
         </div>
       </aside>
     </div>
@@ -324,29 +352,23 @@
   <!-- [শেষ: ৫. চেকআউট পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৬. থ্যাংক ইউ পেজ ভিউ (অ্যানিমেশন ও WhatsApp ফ্লো)]  -->
+  <!-- [শুরু: ৬. থ্যাংক ইউ পেজ ভিউ (অ্যানিমেশন ও অর্ডার কমপ্লিট)] -->
   <!-- ========================================================= -->
   <section id="thankyou-page-view" class="hidden max-w-2xl mx-auto px-3.5 sm:px-6 py-12">
     <div class="glass-card rounded-3xl p-6 sm:p-10 text-center space-y-6 shadow-2xl">
-      <div class="mx-auto w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-400 flex items-center justify-center animate-success-pop shadow-[0_0_35px_rgba(16,185,129,0.35)]">
-        <span class="text-4xl text-emerald-400">✓</span>
+      <div class="mx-auto w-24 h-24 rounded-full bg-emerald-500/15 border-2 border-emerald-400 flex items-center justify-center animate-success-pop shadow-[0_0_40px_rgba(16,185,129,0.4)]">
+        <span class="text-5xl text-emerald-400 animate-bounce">✓</span>
       </div>
 
-      <div class="space-y-2">
-        <span class="text-xs font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full">
+      <div class="space-y-2 animate-success-pop">
+        <span class="text-xs font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-3.5 py-1 rounded-full">
           অর্ডার কমপ্লিট
         </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">ধন্যবাদ! আপনার অর্ডার সম্পন্ন হয়েছে</h2>
-        <p id="ty-order-meta" class="text-xs sm:text-sm text-slate-300 font-mono"></p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">ধন্যবাদ! আপনার অর্ডার কমপ্লিট হয়েছে</h2>
+        <p id="ty-order-meta" class="text-xs sm:text-sm text-emerald-300 font-mono"></p>
       </div>
 
-      <div id="ty-whatsapp-box" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 text-xs text-slate-300 space-y-2.5 text-left">
-        <p class="font-semibold text-emerald-300">WhatsApp Order Confirmation</p>
-        <p id="ty-whatsapp-status" class="text-slate-400 leading-relaxed"></p>
-        <div id="ty-whatsapp-actions" class="flex flex-wrap gap-2 pt-1"></div>
-      </div>
-
-      <div id="ty-order-details" class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 text-xs text-left space-y-1.5"></div>
+      <div id="ty-order-details" class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-xs text-left space-y-1.5"></div>
 
       <button type="button" onclick="showHomeStorefront()"
         class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-600/20">
@@ -599,20 +621,11 @@
     ];
 
     const fallbackReels = [
-      {
-        id: "REEL-DEMO-1",
-        title: "Organic Polo Shirt Fit & Fabric Look",
-        product_code: "AB-PRD-1001",
-        video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        caption: "সব সাইজে আরামদায়ক ফিট ও প্রিমিয়াম কটন ফিনিশ।"
-      },
-      {
-        id: "REEL-DEMO-2",
-        title: "Daily Fresh Herbal Face Mist",
-        product_code: "AB-PRD-1002",
-        video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-        caption: "সারাদিন ত্বক রাখুন সতেজ ও হাইড্রেটেড।"
-      }
+      { id: "REEL-1", title: "Organic Polo Shirt Look", product_code: "AB-PRD-1001", video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "প্রিমিয়াম কটন পোলো শার্ট।" },
+      { id: "REEL-2", title: "Herbal Face Mist Review", product_code: "AB-PRD-1002", video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "ন্যাচারাল ফেস মিস্ট।" },
+      { id: "REEL-3", title: "Daily Essentials Reel", product_code: "AB-PRD-1001", video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "আরামদায়ক কালেকশন।" },
+      { id: "REEL-4", title: "Fresh Skincare Routine", product_code: "AB-PRD-1002", video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "দৈনন্দিন কেয়ার।" },
+      { id: "REEL-5", title: "Modern Lifestyle Picks", product_code: "AB-PRD-1001", video_src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", caption: "নতুন কালেকশন।" }
     ];
 
     let adminState = {};
@@ -647,14 +660,61 @@
       return encodeURIComponent(String(name || "").trim().toLowerCase().replace(/\s+/g, "-"));
     }
 
+    function getCanonicalBaseUrl() {
+      const configured = (gscCfg.siteUrl || "").trim().replace(/\/+$/, "");
+      if (configured && configured.startsWith("http")) {
+        return `${configured}/index.html`;
+      }
+      if (window.location.protocol.startsWith("http")) {
+        return `${window.location.origin}${window.location.pathname}`;
+      }
+      return "https://amarbrand.com/index.html";
+    }
+
     function getCategoryPageUrl(catName) {
-      const base = `${window.location.origin}${window.location.pathname}`;
-      return `${base}?category=${slugifyCategory(catName)}`;
+      return `${getCanonicalBaseUrl()}?category=${slugifyCategory(catName)}`;
     }
 
     function resolveCategoryFromSlug(slugOrName) {
       const target = decodeURIComponent(String(slugOrName || "")).toLowerCase().replace(/-/g, " ").trim();
       return storeCategories.find(c => c.toLowerCase() === target || c.toLowerCase().replace(/\s+/g, " ") === target) || "";
+    }
+
+    function updateSeoMetaForView(catName = "") {
+      const brand = gmcCfg.brandName || "Amar Brand";
+      const pageUrl = catName ? getCategoryPageUrl(catName) : getCanonicalBaseUrl();
+      const pageTitle = catName
+        ? `${catName} — ${brand} | Category Products`
+        : `${brand} | Organic & Modern Lifestyle Store`;
+      const pageDesc = catName
+        ? `${brand}-এর ${catName} ক্যাটাগরির প্রোডাক্টসমূহ দেখুন এবং সহজে অর্ডার করুন।`
+        : `${brand} — প্রিমিয়াম অর্গানিক ও লাইফস্টাইল প্রোডাক্ট, শপ্যাবল রিলস এবং দ্রুত হোম ডেলিভারি।`;
+
+      document.getElementById("dynamic-page-title").textContent = pageTitle;
+      document.getElementById("dynamic-meta-desc").setAttribute("content", pageDesc);
+      document.getElementById("dynamic-og-title").setAttribute("content", pageTitle);
+      document.getElementById("dynamic-og-desc").setAttribute("content", pageDesc);
+      document.getElementById("dynamic-og-url").setAttribute("content", pageUrl);
+      document.getElementById("dynamic-canonical-link").setAttribute("href", pageUrl);
+
+      const schemaEl = document.getElementById("dynamic-jsonld-schema");
+      if (schemaEl) {
+        const schemaObj = catName
+          ? {
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": `${catName} - ${brand}`,
+              "url": pageUrl,
+              "isPartOf": { "@type": "Store", "name": brand, "url": getCanonicalBaseUrl() }
+            }
+          : {
+              "@context": "https://schema.org",
+              "@type": "Store",
+              "name": brand,
+              "url": getCanonicalBaseUrl()
+            };
+        schemaEl.textContent = JSON.stringify(schemaObj);
+      }
     }
 
     function loadSyncedAdminData() {
@@ -688,7 +748,8 @@
       webhookCfg = JSON.parse(localStorage.getItem("ab_webhook_cfg") || JSON.stringify(webhookCfg || {}));
       chatbotCfg = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || JSON.stringify(chatbotCfg || {}));
 
-      applySeoAndMerchant();
+      applyStaticBrandSettings();
+      updateSeoMetaForView(activeCategoryPageName);
       updateHeaderCounts();
     }
 
@@ -701,10 +762,9 @@
       } catch (_) {}
     }
 
-    function applySeoAndMerchant() {
+    function applyStaticBrandSettings() {
       const brand = gmcCfg.brandName || "Amar Brand";
       const site = (gscCfg.siteUrl || "https://amarbrand.com").replace(/\/+$/, "");
-      document.getElementById("dynamic-page-title").textContent = `${brand} | Organic & Modern Lifestyle Store`;
       document.getElementById("footer-brand-name").textContent = brand.toUpperCase();
       document.getElementById("footer-merchant-region").textContent = `${gmcCfg.country || "BD"} • ${gmcCfg.currency || "BDT"}`;
       document.getElementById("footer-sitemap-link").textContent = gscCfg.sitemapUrl || `${site}/sitemap.xml`;
@@ -719,16 +779,6 @@
       }
       const gmcBadge = document.getElementById("store-gmc-badge");
       if (gmcBadge) gmcBadge.classList.toggle("hidden", !gmcCfg.merchantId);
-
-      const schemaEl = document.getElementById("dynamic-jsonld-schema");
-      if (schemaEl) {
-        schemaEl.textContent = JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Store",
-          "name": brand,
-          "url": site
-        });
-      }
     }
 
     function updateHeaderCounts() {
@@ -747,7 +797,7 @@
         const el = document.getElementById(id);
         if (el) el.classList.toggle("hidden", id !== viewId);
       });
-      if (updateUrl) {
+      if (updateUrl && window.location.protocol.startsWith("http")) {
         history.pushState({ viewId }, "", updateUrl);
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -755,7 +805,8 @@
 
     function showHomeStorefront() {
       activeCategoryPageName = "";
-      switchPageView("home-store-view", `${window.location.origin}${window.location.pathname}`);
+      updateSeoMetaForView("");
+      switchPageView("home-store-view", getCanonicalBaseUrl());
       renderCategoryCards();
       renderVisitorProducts();
     }
@@ -785,12 +836,11 @@
         const catUrl = getCategoryPageUrl(cat);
         return `
           <a href="${escapeHtml(catUrl)}" onclick="event.preventDefault(); openCategoryPage('${escapeHtml(cat)}');"
-            class="glass-card rounded-2xl p-2.5 text-left transition flex items-center gap-2.5 ${active ? "active-cat-card" : "hover:border-emerald-500/40"}">
+            class="glass-card rounded-2xl p-2 text-left transition flex flex-col sm:flex-row items-center gap-2 ${active ? "active-cat-card" : "hover:border-emerald-500/40"}">
             <img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(cat)}"
               class="w-11 h-11 rounded-xl object-cover border border-slate-700/80 shrink-0" />
-            <div class="min-w-0">
-              <p class="text-xs font-bold text-white line-clamp-2 leading-snug">${escapeHtml(cat)}</p>
-              <span class="text-[10px] font-mono text-emerald-400">আলাদা পেজ →</span>
+            <div class="min-w-0 text-center sm:text-left">
+              <p class="text-[11px] sm:text-xs font-bold text-white line-clamp-2 leading-tight">${escapeHtml(cat)}</p>
             </div>
           </a>
         `;
@@ -802,11 +852,12 @@
       activeCategoryPageName = matched;
       const catUrl = getCategoryPageUrl(matched);
 
+      updateSeoMetaForView(matched);
       switchPageView("category-page-view", catUrl);
 
       document.getElementById("cat-page-title").textContent = matched;
       document.getElementById("cat-page-img").src = getCategoryImage(matched);
-      document.getElementById("cat-page-link-text").textContent = `Category Link: ${catUrl}`;
+      document.getElementById("cat-page-link-text").textContent = catUrl;
 
       const otherLinksBox = document.getElementById("cat-page-other-links");
       if (otherLinksBox) {
@@ -831,35 +882,29 @@
       alert(`ক্যাটাগরি লিংক কপি হয়েছে:\n${url}`);
     }
 
+    /* ---------- ২. অল প্রোডাক্ট (প্রাইস ও টাইটেল উপরে, ছবি নিচে) ---------- */
     function buildProductCardHtml(p) {
       const imgUrl = p.images && p.images[0] ? p.images[0] : "";
       const imgBottom = imgUrl
-        ? `<img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(p.title)}" class="w-full h-52 object-cover rounded-2xl border border-slate-800/90" />`
-        : `<div class="w-full h-52 rounded-2xl bg-slate-950 border border-slate-800/90 flex items-center justify-center text-xs font-mono text-slate-500">${escapeHtml(p.sku)}</div>`;
+        ? `<img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(p.title)}" class="w-full h-28 sm:h-52 object-cover rounded-xl sm:rounded-2xl border border-slate-800/90" />`
+        : `<div class="w-full h-28 sm:h-52 rounded-xl sm:rounded-2xl bg-slate-950 border border-slate-800/90 flex items-center justify-center text-[10px] font-mono text-slate-500">${escapeHtml(p.sku)}</div>`;
       const hasOld = Number(p.regular_price) > Number(p.price);
 
       return `
         <article onclick="openProductModal('${escapeHtml(p.sku)}')"
-          class="glass-card rounded-3xl p-4 flex flex-col justify-between gap-3.5 cursor-pointer hover:border-emerald-500/50 transition shadow-lg group">
-          <div class="space-y-1.5">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2 py-0.5 rounded-full">
-                ${escapeHtml(p.category)}
-              </span>
-              <span class="text-[10px] font-mono text-slate-400">${escapeHtml(p.product_type || "Single")}</span>
-            </div>
-
-            <h3 class="font-bold text-sm sm:text-base text-white group-hover:text-emerald-300 transition line-clamp-1">
+          class="glass-card rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 flex flex-col justify-between gap-2 sm:gap-3.5 cursor-pointer hover:border-emerald-500/50 transition shadow-lg group">
+          <div class="space-y-1">
+            <h3 class="font-bold text-[11px] sm:text-base text-white group-hover:text-emerald-300 transition line-clamp-1">
               ${escapeHtml(p.title)}
             </h3>
 
-            <div class="flex items-baseline gap-2">
-              <span class="text-lg font-extrabold text-emerald-400 font-mono">৳${escapeHtml(p.price)}</span>
-              ${hasOld ? `<span class="text-xs text-slate-500 line-through font-mono">৳${escapeHtml(p.regular_price)}</span>` : ""}
+            <div class="flex items-baseline gap-1.5">
+              <span class="text-xs sm:text-lg font-extrabold text-emerald-400 font-mono">৳${escapeHtml(p.price)}</span>
+              ${hasOld ? `<span class="hidden sm:inline text-xs text-slate-500 line-through font-mono">৳${escapeHtml(p.regular_price)}</span>` : ""}
             </div>
           </div>
 
-          <div class="pt-1">
+          <div>
             ${imgBottom}
           </div>
         </article>
@@ -915,7 +960,7 @@
       grid.innerHTML = filtered.map(buildProductCardHtml).join("");
     }
 
-    /* ---------- ২. প্রোডাক্ট পপআপ ---------- */
+    /* ---------- ৩. প্রোডাক্ট পপআপ ---------- */
     function openProductModal(sku) {
       const prod = storeProducts.find(p => p.sku === sku);
       if (!prod) return;
@@ -998,7 +1043,7 @@
       openProductModal(activeModalProduct.sku);
     }
 
-    /* ---------- ৩. স্লাইড কার্ড ড্রয়ার ---------- */
+    /* ---------- ৪. স্লাইড কার্ড ড্রয়ার ---------- */
     function addProductToCart(prod, size = "", color = "") {
       if (!prod) return;
       const key = `${prod.sku}__${size}__${color}`;
@@ -1106,29 +1151,26 @@
       goToCheckoutPage();
     }
 
-    /* ---------- ৪. রিল সারি ও অল রিলস পেজ (প্রত্যেক রিলের নিচে অর্ডার করুন বাটন) ---------- */
+    /* ---------- ৫. রিল সারি ও অল রিলস পেজ ---------- */
     function renderHomeReelsRow() {
       const row = document.getElementById("home-reels-row");
       updateHeaderCounts();
       if (!row) return;
 
       row.innerHTML = storeReels.map(r => `
-        <div class="w-56 sm:w-64 shrink-0 glass-card rounded-3xl p-3 flex flex-col justify-between gap-2.5 hover:border-pink-500/50 transition">
-          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')" class="space-y-2 cursor-pointer">
-            <div class="relative h-60 rounded-2xl overflow-hidden bg-black border border-slate-800">
+        <div class="glass-card rounded-2xl sm:rounded-3xl p-2 sm:p-3 flex flex-col justify-between gap-2 hover:border-pink-500/50 transition min-w-0">
+          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')" class="space-y-1.5 cursor-pointer">
+            <div class="relative h-28 sm:h-52 rounded-xl sm:rounded-2xl overflow-hidden bg-black border border-slate-800">
               <video src="${escapeHtml(r.video_src)}" muted playsinline preload="metadata" class="w-full h-full object-cover"></video>
-              <span class="absolute top-2.5 left-2.5 text-[10px] font-mono bg-slate-950/85 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded-full">
-                ${escapeHtml(r.product_code || "REEL")}
-              </span>
               <span class="absolute inset-0 flex items-center justify-center">
-                <span class="w-11 h-11 rounded-full bg-emerald-600/85 text-white flex items-center justify-center text-sm shadow-lg">▶</span>
+                <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-600/85 text-white flex items-center justify-center text-xs shadow-lg">▶</span>
               </span>
             </div>
-            <p class="font-bold text-xs text-white line-clamp-1">${escapeHtml(r.title)}</p>
+            <p class="font-bold text-[10px] sm:text-xs text-white line-clamp-1">${escapeHtml(r.title)}</p>
           </div>
 
           <button type="button" onclick="orderFromReelCode('${escapeHtml(r.product_code || "")}')"
-            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition">
+            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold transition">
             অর্ডার করুন
           </button>
         </div>
@@ -1185,12 +1227,9 @@
         gridEl.innerHTML = storeReels.map(r => {
           const isCur = target && r.id === target.id;
           return `
-            <div class="glass-card rounded-3xl p-3.5 flex flex-col justify-between gap-2.5 transition ${isCur ? "border-emerald-400 ring-1 ring-emerald-400/50" : "hover:border-pink-500/40"}">
+            <div class="glass-card rounded-2xl sm:rounded-3xl p-3 flex flex-col justify-between gap-2 transition ${isCur ? "border-emerald-400 ring-1 ring-emerald-400/50" : "hover:border-pink-500/40"}">
               <div onclick="openAllReelsPage('${escapeHtml(r.id)}')" class="space-y-2 cursor-pointer">
-                <video src="${escapeHtml(r.video_src)}" muted playsinline preload="metadata" class="w-full h-44 object-cover rounded-2xl bg-black border border-slate-800"></video>
-                <span class="inline-block text-[10px] font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded-full">
-                  ${escapeHtml(r.product_code || "REEL")}
-                </span>
+                <video src="${escapeHtml(r.video_src)}" muted playsinline preload="metadata" class="w-full h-36 sm:h-44 object-cover rounded-xl sm:rounded-2xl bg-black border border-slate-800"></video>
                 <p class="font-bold text-xs text-white line-clamp-1">${escapeHtml(r.title)}</p>
               </div>
 
@@ -1204,7 +1243,7 @@
       }
     }
 
-    /* ---------- ৫. চেকআউট পেজ ও ইনকমপ্লিট অর্ডার ---------- */
+    /* ---------- ৬. চেকআউট পেজ ও থ্যাংক ইউ পেজ ---------- */
     function initDistrictDropdown() {
       const sel = document.getElementById("co-district");
       if (!sel || sel.options.length > 0) return;
@@ -1215,7 +1254,7 @@
       const dist = document.getElementById("co-district")?.value || "Dhaka";
       const chargeSel = document.getElementById("co-delivery-charge");
       if (chargeSel) {
-        chargeSel.value = dist.toLowerCase() === "dhaka" ? "70" : "120";
+        chargeSel.value = dist.toLowerCase() === "dhaka" ? "80" : "120";
       }
       updateCheckoutSummary();
       captureIncompleteDraftFromCheckout();
@@ -1234,7 +1273,7 @@
       const totEl = document.getElementById("co-total");
 
       const subtotal = cartItems.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
-      const delivery = Number(document.getElementById("co-delivery-charge")?.value || 70);
+      const delivery = Number(document.getElementById("co-delivery-charge")?.value || 80);
       const total = subtotal + delivery;
 
       if (subEl) subEl.textContent = `৳${subtotal}`;
@@ -1289,14 +1328,6 @@
       persistAdminState({ incompleteOrders: incList });
     }
 
-    function formatWhatsAppPhone(rawPhone) {
-      let digits = String(rawPhone || "").replace(/\D+/g, "");
-      if (digits.startsWith("01") && digits.length === 11) {
-        digits = "88" + digits;
-      }
-      return digits;
-    }
-
     async function submitFullCheckoutOrder(e) {
       e.preventDefault();
       if (cartItems.length === 0) {
@@ -1306,7 +1337,7 @@
       const name = document.getElementById("co-name").value.trim();
       const phone = document.getElementById("co-phone").value.trim();
       const district = document.getElementById("co-district").value;
-      const deliveryCharge = Number(document.getElementById("co-delivery-charge").value || 70);
+      const deliveryCharge = Number(document.getElementById("co-delivery-charge").value || 80);
       const address = document.getElementById("co-address").value.trim();
 
       const subtotal = cartItems.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
@@ -1359,7 +1390,6 @@
       openThankYouPage(orderRecord);
     }
 
-    /* ---------- ৬. থ্যাংক ইউ পেজ ও WhatsApp হ্যান্ডলিং ---------- */
     function openThankYouPage(order) {
       switchPageView("thankyou-page-view");
 
@@ -1372,52 +1402,6 @@
         <p><strong class="text-slate-400">ঠিকানা:</strong> <span class="text-slate-200">${escapeHtml(order.shipping_address)}</span></p>
         <p><strong class="text-slate-400">ডেলিভারি চার্জ:</strong> <span class="font-mono text-amber-300">৳${escapeHtml(order.delivery_charge)}</span></p>
       `;
-
-      const waPhone = formatWhatsAppPhone(order.customer_phone);
-      const waMsgText = encodeURIComponent(
-        `আসসালামু আলাইকুম ${order.customer_name}, Amar Brand থেকে আপনার অর্ডার #${order.order_number} (মোট: ৳${order.total_amount}) রিসিভড হয়েছে। ধন্যবাদ!`
-      );
-      const waUrl = `https://wa.me/${waPhone}?text=${waMsgText}`;
-
-      const waStatusEl = document.getElementById("ty-whatsapp-status");
-      const waActionsEl = document.getElementById("ty-whatsapp-actions");
-
-      if (waPhone && waPhone.length >= 10) {
-        waStatusEl.textContent =
-          `আপনার নম্বর (${order.customer_phone})-এ WhatsApp সক্রিয় থাকলে স্বয়ংক্রিয়ভাবে অর্ডার রিসিভড মেসেজ পাঠানো হচ্ছে। WhatsApp না থাকলে নিচের "WhatsApp নেই" বাটনে ক্লিক করুন।`;
-
-        waActionsEl.innerHTML = `
-          <a id="ty-wa-open-link" href="${waUrl}" target="_blank" rel="noopener noreferrer"
-            class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
-            WhatsApp ওপেন করুন
-          </a>
-          <button type="button" onclick="markWhatsAppNotAvailable()"
-            class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-4 py-2 rounded-xl text-xs font-semibold transition">
-            WhatsApp নেই / স্কিপ করুন
-          </button>
-        `;
-
-        setTimeout(() => {
-          const popup = window.open(waUrl, "_blank", "noopener,noreferrer");
-          if (!popup) {
-            waStatusEl.textContent =
-              `ব্রাউজার পপআপ ব্লক করেছে অথবা এই ডিভাইসে WhatsApp ওপেন হয়নি—আপনার অর্ডার তবুও সফলভাবে কমপ্লিট হয়েছে।`;
-          }
-        }, 450);
-      } else {
-        waStatusEl.textContent =
-          `প্রদত্ত নম্বরে বৈধ WhatsApp নম্বর পাওয়া যায়নি, তাই WhatsApp মেসেজ পাঠানো হয়নি—আপনার অর্ডার সফলভাবে কমপ্লিট হয়েছে।`;
-        waActionsEl.innerHTML = "";
-      }
-    }
-
-    function markWhatsAppNotAvailable() {
-      const waStatusEl = document.getElementById("ty-whatsapp-status");
-      const waActionsEl = document.getElementById("ty-whatsapp-actions");
-      if (waStatusEl) {
-        waStatusEl.textContent = "WhatsApp ছাড়াই আপনার অর্ডারটি সফলভাবে কমপ্লিট হিসেবে রেকর্ড করা হয়েছে।";
-      }
-      if (waActionsEl) waActionsEl.innerHTML = "";
     }
 
     /* ---------- ৭. পলিসি, ট্র্যাকিং ও চ্যাটবট ---------- */
@@ -1446,7 +1430,7 @@
       shipping: {
         title: "Shipping & Delivery Policy (ডেলিভারি নীতি)",
         html: `
-          <p>ঢাকার ভেতরে সাধারণত ১–২ কার্যদিবস এবং ঢাকার বাইরে ২–৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।</p>
+          <p>ঢাকার ভেতরে ডেলিভারি চার্জ ৳80 (সাধারণত ১–২ কার্যদিবস) এবং ঢাকার বাইরে ডেলিভারি চার্জ ৳120 (সাধারণত ২–৪ কার্যদিবস)।</p>
           <p>নির্বাচিত ডেলিভারি চার্জ অর্ডারের সাথে যুক্ত হবে।</p>
         `
       },
@@ -1575,10 +1559,11 @@
         const foundCat = resolveCategoryFromSlug(catParam);
         if (foundCat) {
           activeCategoryPageName = foundCat;
+          updateSeoMetaForView(foundCat);
           switchPageView("category-page-view");
           document.getElementById("cat-page-title").textContent = foundCat;
           document.getElementById("cat-page-img").src = getCategoryImage(foundCat);
-          document.getElementById("cat-page-link-text").textContent = `Category Link: ${getCategoryPageUrl(foundCat)}`;
+          document.getElementById("cat-page-link-text").textContent = getCategoryPageUrl(foundCat);
           renderCategoryPageProducts();
           return;
         }
