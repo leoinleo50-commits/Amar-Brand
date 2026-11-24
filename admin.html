@@ -1,7 +1,7 @@
  <!-- ========================================================= -->
 <!-- [শুরু] প্রফেশনাল অ্যাডমিন প্যানেল (AMAR BRAND ADMIN)        -->
 <!-- ফাইল নাম: admin.html                                       -->
-<!-- সিঙ্গেল হেডার + বাম সাইডবার মেনু + সাজানো ওভারভিউ         -->
+<!-- আপডেটেড: Order Manager + Header Bot Alert + Chatbot + PM  -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -78,34 +78,48 @@
   <!-- ========================================================= -->
   <div id="dash-view" class="hidden min-h-screen flex flex-col">
 
-    <!-- [শুরু: সিঙ্গেল টপ হেডার (ডুপ্লিকেট হেডার রিমুভড)] -->
-    <header class="sticky top-0 z-30 bg-[#080d1a]/95 backdrop-blur-xl border-b border-slate-800/80 px-4 sm:px-6 py-3">
-      <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.18)] shrink-0">
+    <!-- [শুরু: সিঙ্গেল টপ হেডার + এআই চ্যাটবট নোটিফিকেশন বার] -->
+    <header class="sticky top-0 z-30 bg-[#080d1a]/95 backdrop-blur-xl border-b border-slate-800/80 px-3.5 sm:px-6 py-3">
+      <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.18)] shrink-0">
             <span class="text-xs font-bold text-amber-300">AB</span>
           </div>
           <div class="min-w-0">
-            <div class="flex items-center gap-2">
-              <span class="text-base sm:text-lg font-extrabold tracking-wide text-white">AMAR</span>
-              <span class="text-base sm:text-lg font-extrabold tracking-wide text-emerald-400">BRAND</span>
-              <span class="text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-lg">AB</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm sm:text-lg font-extrabold tracking-wide text-white">AMAR</span>
+              <span class="text-sm sm:text-lg font-extrabold tracking-wide text-emerald-400">BRAND</span>
+              <span class="text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded-lg">AB</span>
             </div>
-            <p class="text-xs text-slate-400 truncate">আমার ব্র্যান্ড • <span id="header-active-label" class="text-emerald-300 font-medium">১. ওভারভিউ</span></p>
+            <p class="text-[11px] sm:text-xs text-slate-400 truncate">আমার ব্র্যান্ড • <span id="header-active-label" class="text-emerald-300 font-medium">১. ওভারভিউ</span></p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 shrink-0">
+          <!-- এআই চ্যাটবট হেডার নোটিফিকেশন বার -->
+          <button type="button" onclick="openChatbotFromHeader()"
+            class="flex items-center gap-2 bg-emerald-950/50 hover:bg-emerald-900/50 border border-emerald-500/35 px-3 py-1.5 rounded-2xl transition shadow-md shadow-emerald-950/40"
+            title="AI Chatbot Notification">
+            <span class="relative flex h-2 w-2 shrink-0">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+            </span>
+            <span class="text-xs font-semibold text-emerald-200 whitespace-nowrap">AI চ্যাটবট</span>
+            <span id="header-bot-notif-badge" class="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
+              0
+            </span>
+          </button>
+
           <button type="button" onclick="toggleProfileCard()"
-            class="flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-3 py-1.5 rounded-2xl transition text-left">
-            <div class="w-7 h-7 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-xs font-bold">
+            class="flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 px-2.5 py-1.5 rounded-2xl transition text-left">
+            <div class="w-6 h-6 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center text-[11px] font-bold">
               AD
             </div>
             <span class="hidden md:inline text-xs font-semibold text-slate-200">Admin</span>
           </button>
 
           <button type="button" onclick="logout()"
-            class="text-xs bg-rose-600/15 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3.5 py-2 rounded-xl transition font-semibold">
+            class="text-xs bg-rose-600/15 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-2 rounded-xl transition font-semibold">
             লগআউট
           </button>
         </div>
@@ -123,7 +137,7 @@
         </div>
       </div>
     </header>
-    <!-- [শেষ: সিঙ্গেল টপ হেডার] -->
+    <!-- [শেষ: সিঙ্গেল টপ হেডার + এআই চ্যাটবট নোটিফিকেশন বার] -->
 
     <!-- [শুরু: বাম মেনু কলাম + ডান কন্টেন্ট কলাম] -->
     <div class="flex-1 flex flex-row max-w-[1440px] w-full mx-auto">
@@ -207,7 +221,7 @@
             </button>
           </nav>
 
-          <button type="button" onclick="switchSection('chatbot')"
+          <button type="button" onclick="openChatbotFromHeader()"
             class="w-full mt-2 rounded-2xl px-3 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-between gap-1 shadow-lg shadow-emerald-500/20 transition">
             <span class="flex items-center gap-1.5 min-w-0">
               <span>💬</span>
@@ -226,10 +240,6 @@
 
         <!-- ===================================================== -->
         <!-- [শুরু: ১. ওভারভিউ — ডান পাশে নির্ধারিত ক্রমে সাজানো]   -->
-        <!-- ১) প্রোডাক্ট ওভারভিউ                                 -->
-        <!-- ২) গ্রাফ                                              -->
-        <!-- ৩) ভিজিটর ওভারভিউ                                     -->
-        <!-- ৪) অর্গানিক টপ র‍্যাঙ্কিং পেজ লিস্ট                    -->
         <!-- ===================================================== -->
         <main id="section-overview" class="w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
 
@@ -445,17 +455,27 @@
         <!-- [শেষ: ১. ওভারভিউ] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ২. প্রোডাক্ট ম্যানেজার সেকশন]                    -->
+        <!-- [শুরু: ২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার সেকশন]          -->
         <!-- ===================================================== -->
         <main id="section-products" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">২. প্রোডাক্ট ম্যানেজার</h2>
-              <p class="text-xs text-slate-400 mt-0.5">ক্যাটাগরি, ছবি আপলোড, SEO Slug, Alt Text, Schema ও চ্যাটবট ডেটা সিঙ্ক</p>
+              <h2 class="text-xl font-bold text-white">২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার</h2>
+              <p class="text-xs text-slate-400 mt-0.5">কুইক প্রিসেট, অটো-ডিসকাউন্ট ও প্রফিট হিসাব, ভেরিয়েন্ট, SEO ও এক ক্লিকে ডুপ্লিকেট সুবিধা</p>
             </div>
-            <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
-              Chatbot Auto-Sync
-            </span>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="applyQuickPreset('polo')"
+                class="text-xs bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3 py-1.5 rounded-xl font-medium transition">
+                + Polo Preset
+              </button>
+              <button type="button" onclick="applyQuickPreset('mist')"
+                class="text-xs bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3 py-1.5 rounded-xl font-medium transition">
+                + Organic Mist Preset
+              </button>
+              <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1.5 rounded-full font-mono">
+                Chatbot Auto-Sync
+              </span>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -477,13 +497,13 @@
             </section>
 
             <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl">
-              <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+              <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-4">
                 <div>
                   <h3 class="font-bold text-lg text-white">নতুন প্রোডাক্ট যোগ করুন</h3>
-                  <p class="text-xs text-slate-400 mt-0.5">সেভ করার সাথে সাথে চ্যাটবটের কাছে প্রোডাক্টের তথ্য জমা হবে</p>
+                  <p class="text-xs text-slate-400 mt-0.5">প্রয়োজনীয় তথ্য দিলেই অটোমেটিক Slug, Alt Text, Schema ও চ্যাটবট ডেটা তৈরি হবে</p>
                 </div>
                 <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
-                  Schema + SEO Ready
+                  Fast Add + SEO
                 </span>
               </div>
 
@@ -525,7 +545,7 @@
                   </div>
 
                   <div>
-                    <label for="p-slug" class="block text-xs font-medium text-emerald-300 mb-1">SEO URL Slug (Google Friendly)</label>
+                    <label for="p-slug" class="block text-xs font-medium text-emerald-300 mb-1">SEO URL Slug (Auto-Generated)</label>
                     <input type="text" id="p-slug" oninput="this.dataset.manual='1'" placeholder="organic-cotton-polo-shirt"
                       class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-sm outline-none font-mono text-emerald-300" />
                   </div>
@@ -557,9 +577,9 @@
                   </div>
                 </div>
 
-                <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl px-4 py-2.5 flex flex-wrap justify-between items-center text-xs">
-                  <span class="text-slate-400">আনুমানিক প্রফিট মার্জিন (অফার/বিক্রয় মূল্য অনুযায়ী):</span>
-                  <span id="profit-preview" class="font-mono font-semibold text-emerald-400">৳0 (0%)</span>
+                <div class="bg-slate-950/80 border border-slate-800/80 rounded-xl px-4 py-2.5 flex flex-wrap justify-between items-center gap-2 text-xs">
+                  <span class="text-slate-400">প্রফিট মার্জিন ও ডিসকাউন্ট হিসাব:</span>
+                  <span id="profit-preview" class="font-mono font-semibold text-emerald-400">৳0 (0%) • Off: 0%</span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -579,16 +599,16 @@
                 <div id="variant-extra-box" class="bg-emerald-950/15 border border-emerald-500/20 rounded-xl p-3 space-y-2">
                   <div class="flex justify-between items-center">
                     <label for="p-variant-note" class="text-xs font-medium text-emerald-300">ভেরিয়েন্ট / সাইজ গাইড বা বাড়তি তথ্য</label>
-                    <span class="text-[11px] text-slate-400">যেমন: XL সাইজে +৫০৳ বা মেজারমেন্ট</span>
+                    <span class="text-[11px] text-slate-400">যেমন: Chest: M-38, L-40, XL-42</span>
                   </div>
-                  <input type="text" id="p-variant-note" placeholder="যেমন: Chest: M-38, L-40, XL-42 | Fabric: 100% Combed Cotton"
+                  <input type="text" id="p-variant-note" placeholder="যেমন: Chest: M-38, L-40, XL-42 | Fabric: 100% Organic Cotton"
                     class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
                 </div>
 
                 <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 space-y-3">
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="sm:col-span-2">
-                      <label for="p-image-files" class="block text-xs font-medium text-emerald-300 mb-1">প্রোডাক্টের ছবি আপলোড করুন (একাধিক ছবি সিলেক্ট করা যাবে)</label>
+                      <label for="p-image-files" class="block text-xs font-medium text-emerald-300 mb-1">প্রোডাক্টের ছবি আপলোড করুন (একাধিক ছবি)</label>
                       <input type="file" id="p-image-files" accept="image/*" multiple onchange="handleProductImagesUpload(event)"
                         class="w-full bg-slate-950 border border-slate-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 rounded-xl px-3 py-1.5 text-xs text-slate-300" />
                     </div>
@@ -604,7 +624,7 @@
 
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label for="p-images" class="block text-xs font-medium text-slate-400 mb-1">অথবা ছবির লিংক (HTTPS URL, কমা দিয়ে একাধিক - ঐচ্ছিক)</label>
+                      <label for="p-images" class="block text-xs font-medium text-slate-400 mb-1">ছবির লিংক (HTTPS URL, কমা দিয়ে একাধিক - ঐচ্ছিক)</label>
                       <input type="text" id="p-images" placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
                         class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none font-mono" />
                     </div>
@@ -656,7 +676,7 @@
                     <th class="py-3 px-3">কালার & সাইজ</th>
                     <th class="py-3 px-3">ক্রয় / বিক্রয় / অফার</th>
                     <th class="py-3 px-3">স্টক</th>
-                    <th class="py-3 px-3">অ্যাকশন</th>
+                    <th class="py-3 px-3 text-right">অ্যাকশন</th>
                   </tr>
                 </thead>
                 <tbody id="products-tbody" class="divide-y divide-slate-800/60"></tbody>
@@ -674,22 +694,22 @@
             </div>
           </section>
         </main>
-        <!-- [শেষ: ২. প্রোডাক্ট ম্যানেজার সেকশন] -->
+        <!-- [শেষ: ২. অ্যাডভান্স প্রোডাক্ট ম্যানেজার সেকশন] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৩. অর্ডার ম্যানেজার সেকশন — Repeat Customer সহ]   -->
+        <!-- [শুরু: ৩. প্রফেশনাল অর্ডার ম্যানেজার সেকশন]            -->
         <!-- ===================================================== -->
         <main id="section-orders" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
-          <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-5 shadow-xl">
+          <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl space-y-5 shadow-xl">
             <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
               <div>
-                <h2 class="font-bold text-xl text-white">৩. অর্ডার ম্যানেজার (Repeat Customer Detection)</h2>
-                <p class="text-xs text-slate-400 mt-0.5">রিপিট কাস্টমার হলে সারিতে ব্যাজ দেখাবে; ক্লিক করলে পপআপে পূর্বের অর্ডার ও ক্যান্সেল তথ্য দেখাবে</p>
+                <h2 class="font-bold text-lg sm:text-xl text-white">৩. অর্ডার ম্যানেজার</h2>
+                <p class="text-xs text-slate-400 mt-0.5">যেকোনো অর্ডারে ক্লিক করলেই পপআপে পূর্ণ ডিটেইলস, পূর্বের অর্ডার হিস্ট্রি ও অ্যামাউন্ট এডিট দেখা যাবে</p>
               </div>
 
-              <div class="flex flex-wrap items-center gap-2">
+              <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <input type="text" id="order-search" oninput="renderOrdersTable()" placeholder="অর্ডার #, নাম বা ফোন খুঁজুন..."
-                  class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none w-56" />
+                  class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none flex-1 sm:w-56" />
                 <select id="order-filter-status" onchange="renderOrdersTable()"
                   class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none">
                   <option value="All">সব স্ট্যাটাস</option>
@@ -705,24 +725,10 @@
               </div>
             </div>
 
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-sm border-collapse">
-                <thead>
-                  <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
-                    <th class="py-3 px-3">অর্ডার #</th>
-                    <th class="py-3 px-3">গ্রাহক, ফোন ও ঠিকানা</th>
-                    <th class="py-3 px-3">আইটেম</th>
-                    <th class="py-3 px-3">মোট</th>
-                    <th class="py-3 px-3">স্ট্যাটাস</th>
-                    <th class="py-3 px-3 text-right">অ্যাকশন</th>
-                  </tr>
-                </thead>
-                <tbody id="orders-list" class="divide-y divide-slate-800/60"></tbody>
-              </table>
-            </div>
+            <div id="orders-list" class="space-y-3"></div>
           </section>
         </main>
-        <!-- [শেষ: ৩. অর্ডার ম্যানেজার সেকশন] -->
+        <!-- [শেষ: ৩. প্রফেশনাল অর্ডার ম্যানেজার সেকশন] -->
 
         <!-- ===================================================== -->
         <!-- [শুরু: ৪. ইনকমপ্লিট অর্ডার সেকশন — Active + Deleted]    -->
@@ -1138,96 +1144,148 @@
         <!-- [শেষ: ৭. রিল ভিডিও আপলোড সেকশন] -->
 
         <!-- ===================================================== -->
-        <!-- [শুরু: ৮. চ্যাটবট সেকশন — নলেজ বেস, AI ও ম্যানুয়াল চ্যাট] -->
+        <!-- [শুরু: ৮. চ্যাটবট সেকশন]                                -->
+        <!-- ১) কাস্টমার মেসেজ লিস্ট (রিসেন্ট উপরে) + চ্যাট রিপ্লাই  -->
+        <!-- ২) চ্যাটবট সেটিংস (উপরে) + কানেকশন অপশন (নিচে)       -->
         <!-- ===================================================== -->
         <main id="section-chatbot" class="hidden w-full px-3.5 sm:px-6 py-4 sm:py-6 space-y-6">
           <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800/80 pb-4">
             <div>
-              <h2 class="text-xl font-bold text-white">৮. চ্যাটবট (Store Knowledge + AI + Manual Reply)</h2>
-              <p class="text-xs text-slate-400 mt-0.5">নতুন প্রোডাক্ট যোগ হলেই চ্যাটবটে ডেটা জমা হয়, AI অটোমেশন দিয়ে চালানো যায় এবং ম্যানুয়ালি উত্তর দেওয়া যায়</p>
+              <h2 class="text-xl font-bold text-white">৮. এআই চ্যাটবট ও কাস্টমার ইনবক্স</h2>
+              <p class="text-xs text-slate-400 mt-0.5">রিসেন্ট কাস্টমার মেসেজ লিস্ট থেকে মেসেজ সিলেক্ট করে রিপ্লাই দিন, সেটিংস ও সফটওয়্যার কানেকশন ম্যানেজ করুন</p>
             </div>
             <span class="text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1 rounded-full font-mono">
               Knowledge Items: <span id="kb-count">0</span>
             </span>
           </div>
 
-          <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <div class="space-y-6">
-              <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
-                <div class="border-b border-slate-800 pb-3">
-                  <h3 class="font-bold text-base text-white">AI অটোমেশন কানেকশন</h3>
-                  <p class="text-xs text-slate-400 mt-0.5">যেকোনো AI অটোমেশন সফটওয়্যার / Webhook এর সাথে কানেক্ট করুন</p>
+          <!-- [উপরের অংশ: কাস্টমার মেসেজ লিস্ট (রিসেন্ট উপরে) + চ্যাট রিপ্লাই] -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- বাম পাশে কাস্টমার মেসেজ লিস্ট -->
+            <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-5 rounded-3xl space-y-3 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div>
+                  <h3 class="font-bold text-base text-white">কাস্টমার মেসেজ লিস্ট</h3>
+                  <p class="text-[11px] text-slate-400">রিসেন্ট মেসেজ উপরে — ক্লিক করে রিপ্লাই দিন</p>
+                </div>
+                <span id="inbox-total-badge" class="text-xs font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full">0</span>
+              </div>
+
+              <div id="customer-messages-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></div>
+            </section>
+
+            <!-- ডান পাশে সিলেক্টেড কাস্টমারের চ্যাট ও ম্যানুয়াল রিপ্লাই -->
+            <section class="bg-slate-900/50 border border-slate-800 p-4 sm:p-6 rounded-3xl lg:col-span-2 space-y-4 shadow-xl flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                  <div>
+                    <span class="text-[11px] font-mono text-emerald-400">Active Conversation</span>
+                    <h3 id="active-chat-customer-title" class="font-bold text-base sm:text-lg text-white">কাস্টমার নির্বাচন করুন</h3>
+                  </div>
+                  <span id="active-chat-status-pill" class="text-xs bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full">
+                    Ready
+                  </span>
                 </div>
 
-                <form onsubmit="saveChatbotAiSettings(event)" class="space-y-3">
-                  <label class="flex items-center justify-between bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs cursor-pointer">
-                    <span class="text-slate-200 font-medium">AI Auto-Reply সক্রিয় রাখুন</span>
-                    <input type="checkbox" id="cb-ai-enabled" checked />
-                  </label>
+                <div id="chat-messages-box" class="bg-slate-950/85 border border-slate-800 rounded-2xl p-4 space-y-3 max-h-72 overflow-y-auto text-xs"></div>
+              </div>
 
-                  <div>
-                    <label for="cb-ai-url" class="block text-xs font-medium text-emerald-300 mb-1">AI Automation Webhook / API URL</label>
-                    <input type="url" id="cb-ai-url" placeholder="https://n8n-or-make-webhook.example.com/chat"
-                      class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none font-mono" />
-                  </div>
+              <form onsubmit="sendManualAdminReply(event)" class="flex gap-2 pt-2 border-t border-slate-800">
+                <input type="text" id="admin-manual-reply-input" required placeholder="এই কাস্টমারকে রিপ্লাই লিখুন..."
+                  class="flex-1 bg-slate-950 border border-emerald-500/35 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none" />
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition shrink-0">
+                  রিপ্লাই পাঠান
+                </button>
+              </form>
+            </section>
+          </div>
 
-                  <div>
-                    <label for="cb-ai-key" class="block text-xs font-medium text-slate-400 mb-1">AI Automation API Key / Token</label>
-                    <input type="password" id="cb-ai-key" placeholder="Bearer বা Secret Key দিন"
-                      class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none font-mono" />
-                  </div>
+          <!-- [নিচের অংশ: ১) চ্যাটবট সেটিংস উপরে, ২) অন্যান্য সফটওয়্যারের সাথে কানেকশন নিচে] -->
+          <div class="space-y-6">
+            <!-- চ্যাটবট সেটিংস (উপরে) -->
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+              <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
+                <div>
+                  <span class="text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                    চ্যাটবট সেটিংস
+                  </span>
+                  <h3 class="font-bold text-lg text-white mt-1">বট বিহেভিয়ার ও রিপ্লাই কনফিগারেশন</h3>
+                </div>
+              </div>
 
-                  <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl text-xs font-semibold transition">
-                    AI সেটিংস সেভ করুন
+              <form onsubmit="saveChatbotBehaviorSettings(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <label class="flex items-center justify-between bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs cursor-pointer">
+                  <span class="text-slate-200 font-medium">AI Auto-Reply সক্রিয় রাখুন</span>
+                  <input type="checkbox" id="cb-ai-enabled" checked />
+                </label>
+
+                <div>
+                  <label for="cb-bot-tone" class="block text-xs font-medium text-slate-400 mb-1">রিপ্লাই স্টাইল / ভাষা</label>
+                  <select id="cb-bot-tone" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none">
+                    <option value="friendly-bn" selected>বন্ধুত্বপূর্ণ বাংলা (Friendly Bangla)</option>
+                    <option value="concise-bn">সংক্ষিপ্ত ও প্রফেশনাল বাংলা</option>
+                    <option value="bilingual">বাংলা + প্রোডাক্ট নাম ইংরেজি</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="cb-welcome-msg" class="block text-xs font-medium text-slate-400 mb-1">ডিফল্ট স্বাগত / ফ fallback মেসেজ</label>
+                  <input type="text" id="cb-welcome-msg" placeholder="আমার ব্র্যান্ডে স্বাগতম! প্রোডাক্ট সম্পর্কে জানুন।"
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
+                </div>
+
+                <div class="md:col-span-3 flex justify-end">
+                  <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
+                    চ্যাটবট সেটিংস সেভ করুন
                   </button>
-                </form>
-              </section>
-
-              <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-3 shadow-xl">
-                <div class="border-b border-slate-800 pb-3">
-                  <h3 class="font-bold text-base text-white">চ্যাটবট ওয়েবসাইট নলেজ বেস</h3>
-                  <p class="text-xs text-slate-400 mt-0.5">প্রোডাক্ট সেভ করলেই এখানে অটো যোগ হয়</p>
                 </div>
-                <div id="chatbot-kb-list" class="space-y-2 max-h-64 overflow-y-auto text-xs"></div>
-              </section>
-            </div>
+              </form>
+            </section>
 
-            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl xl:col-span-2 space-y-5 shadow-xl flex flex-col justify-between">
-              <div class="space-y-4">
-                <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-800 pb-4">
+            <!-- অন্যান্য সফটওয়্যারের সাথে কানেকশনের অপশন (নিচে) -->
+            <section class="bg-slate-900/50 border border-slate-800 p-5 sm:p-6 rounded-3xl space-y-4 shadow-xl">
+              <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-3">
+                <div>
+                  <span class="text-[11px] uppercase tracking-wider bg-indigo-500/10 text-indigo-300 border border-indigo-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                    সফটওয়্যার কানেকশন
+                  </span>
+                  <h3 class="font-bold text-lg text-white mt-1">অন্যান্য সফটওয়্যার / অটোমেশন ইন্টিগ্রেশন</h3>
+                </div>
+                <span class="text-xs font-mono text-slate-400">n8n • Make • Webhook • CRM</span>
+              </div>
+
+              <form onsubmit="saveChatbotConnectionSettings(event)" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <h3 class="font-bold text-lg text-white">কাস্টমার ইনবক্স ও ম্যানুয়াল রিপ্লাই</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">কাস্টমারের মেসেজ সিলেক্ট করে ম্যানুয়ালি উত্তর দিন অথবা প্রশ্ন টেস্ট করুন</p>
-                  </div>
-
-                  <div class="w-full sm:w-64">
-                    <label for="active-chat-thread" class="sr-only">কাস্টমার চ্যাট থ্রেড</label>
-                    <select id="active-chat-thread" onchange="renderChatThread()"
-                      class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none">
+                    <label for="cb-platform-type" class="block text-xs font-medium text-emerald-300 mb-1">কানেক্টেড প্ল্যাটফর্ম</label>
+                    <select id="cb-platform-type" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none">
+                      <option value="Custom Webhook">Custom Webhook / API</option>
+                      <option value="n8n">n8n Automation</option>
+                      <option value="Make.com">Make.com Scenario</option>
+                      <option value="Messenger / WhatsApp Bridge">Messenger / WhatsApp Bridge</option>
                     </select>
                   </div>
+
+                  <div>
+                    <label for="cb-ai-url" class="block text-xs font-medium text-emerald-300 mb-1">Webhook / API Endpoint URL</label>
+                    <input type="url" id="cb-ai-url" placeholder="https://n8n-or-make-webhook.example.com/chat"
+                      class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none font-mono" />
+                  </div>
+
+                  <div>
+                    <label for="cb-ai-key" class="block text-xs font-medium text-slate-400 mb-1">API Key / Bearer Token</label>
+                    <input type="password" id="cb-ai-key" placeholder="Bearer বা Secret Key দিন"
+                      class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none font-mono" />
+                  </div>
                 </div>
 
-                <div id="chat-messages-box" class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 space-y-3 max-h-80 overflow-y-auto text-xs"></div>
-              </div>
-
-              <div class="space-y-3 pt-2 border-t border-slate-800">
-                <form onsubmit="sendManualAdminReply(event)" class="flex gap-2">
-                  <input type="text" id="admin-manual-reply-input" required placeholder="অ্যাডমিন হিসেবে কাস্টমারকে ম্যানুয়াল উত্তর লিখুন..."
-                    class="flex-1 bg-slate-950 border border-emerald-500/30 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs outline-none" />
-                  <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition shrink-0">
-                    ম্যানুয়াল রিপ্লাই
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  <span class="text-xs text-slate-400">নলেজ বেসে সিঙ্ককৃত প্রোডাক্ট: <strong class="text-emerald-300 font-mono" id="kb-sync-summary">2 items</strong></span>
+                  <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition">
+                    কানেকশন সেভ করুন
                   </button>
-                </form>
-
-                <form onsubmit="simulateCustomerQuestion(event)" class="flex gap-2">
-                  <input type="text" id="customer-sim-input" required placeholder="কাস্টমার প্রশ্ন টেস্ট করুন (যেমন: দাম কত? স্টক আছে? সাইজ কী?)"
-                    class="flex-1 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
-                  <button type="submit" class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-4 py-2 rounded-xl text-xs font-semibold transition shrink-0">
-                    কাস্টমার প্রশ্ন পাঠান
-                  </button>
-                </form>
-              </div>
+                </div>
+              </form>
             </section>
           </div>
         </main>
@@ -1249,9 +1307,9 @@
     <div class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-5 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="text-[11px] font-mono text-emerald-400">Order Details & Customer History</span>
-            <span id="modal-repeat-badge" class="hidden text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-2.5 py-0.5 rounded-full">
+            <span id="modal-repeat-badge" class="hidden text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-3 py-0.5 rounded-full whitespace-nowrap">
               Repeat Customer
             </span>
           </div>
@@ -1316,7 +1374,7 @@
   <!-- ========================================================= -->
   <script>
     const WORKER_URL = "https://amarbrand-api.YOUR-SUBDOMAIN.workers.dev";
-    const STORAGE_KEY = "amarbrand_admin_state_v3";
+    const STORAGE_KEY = "amarbrand_admin_state_v4";
 
     let token = sessionStorage.getItem("admin_token") || "";
     let currentOrders = [];
@@ -1355,19 +1413,49 @@
 
     let chatbotAiConfig = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || JSON.stringify({
       enabled: true,
+      tone: "friendly-bn",
+      welcomeMsg: "আমার ব্র্যান্ডে স্বাগতম! যেকোনো প্রোডাক্ট বা অর্ডার সম্পর্কে জানুন।",
+      platformType: "Custom Webhook",
       webhookUrl: "",
       apiKey: ""
     }));
 
-    let chatThreads = {
-      "Customer #101 (Rahim)": [
-        { sender: "customer", text: "Organic Cotton Polo Shirt এর দাম কত এবং কোন কোন সাইজ আছে?", time: "10:15 AM" },
-        { sender: "bot", text: "Organic Cotton Polo Shirt-এর মূল্য ৳550। সাইজ: M, L, XL এবং স্টক রয়েছে।", time: "10:15 AM" }
-      ],
-      "Customer #102 (Nadia)": [
-        { sender: "customer", text: "Herbal Organic Face Mist স্টকে আছে কি?", time: "11:02 AM" }
-      ]
-    };
+    // রিসেন্ট মেসেজগুলো সবার উপরে রাখার জন্য ordered array হিসেবে সাজানো থ্রেড
+    let chatThreads = [
+      {
+        id: "thread-103",
+        customerName: "Tanvir Ahmed",
+        phone: "01811223344",
+        lastTime: "১ মিনিট আগে",
+        unread: true,
+        messages: [
+          { sender: "customer", text: "ঢাকার বাইরে ডেলিভারি চার্জ কত এবং কতদিনে পাবো?", time: "১ মিনিট আগে" }
+        ]
+      },
+      {
+        id: "thread-102",
+        customerName: "Nadia Islam",
+        phone: "01712345678",
+        lastTime: "১৮ মিনিট আগে",
+        unread: true,
+        messages: [
+          { sender: "customer", text: "Herbal Organic Face Mist স্টকে আছে কি?", time: "১৮ মিনিট আগে" }
+        ]
+      },
+      {
+        id: "thread-101",
+        customerName: "Md. Rahim",
+        phone: "01700000000",
+        lastTime: "১ ঘণ্টা আগে",
+        unread: false,
+        messages: [
+          { sender: "customer", text: "Organic Cotton Polo Shirt এর দাম কত?", time: "১ ঘণ্টা আগে" },
+          { sender: "admin", text: "অফার মূল্য ৳550, স্টক রয়েছে।", time: "৫৫ মিনিট আগে" }
+        ]
+      }
+    ];
+
+    let activeThreadId = chatThreads[0]?.id || "";
 
     const sectionTitles = {
       overview: "১. ওভারভিউ",
@@ -1440,6 +1528,10 @@
       }
     }
 
+    function getUnreadChatCount() {
+      return chatThreads.filter(th => th.unread).length;
+    }
+
     function updateMenuBadges() {
       const setBadge = (id, val) => {
         const el = document.getElementById(id);
@@ -1452,7 +1544,7 @@
       setBadge("badge-courier", integrationLogs.length || 1);
       setBadge("badge-seo", 2);
       setBadge("badge-reels", managedReels.length);
-      setBadge("badge-chatbot", chatbotKnowledge.length);
+      setBadge("badge-chatbot", chatThreads.length);
 
       const incCountEl = document.getElementById("incomplete-count-label");
       if (incCountEl) incCountEl.textContent = String(incompleteOrders.length);
@@ -1460,12 +1552,14 @@
       const delIncCountEl = document.getElementById("deleted-incomplete-count-label");
       if (delIncCountEl) delIncCountEl.textContent = String(deletedIncompleteOrders.length);
 
-      const unansweredCount = Object.values(chatThreads).reduce((acc, msgs) => {
-        if (!Array.isArray(msgs) || !msgs.length) return acc;
-        return msgs[msgs.length - 1].sender === "customer" ? acc + 1 : acc;
-      }, 0);
-      setBadge("floating-chat-badge", unansweredCount || 1);
+      const unreadCount = getUnreadChatCount();
+      setBadge("header-bot-notif-badge", unreadCount);
+      setBadge("floating-chat-badge", unreadCount);
       renderOverviewExtras();
+    }
+
+    function openChatbotFromHeader() {
+      switchSection("chatbot");
     }
 
     function saveStateToStorage() {
@@ -1480,6 +1574,7 @@
           integrationLogs,
           chatbotKnowledge,
           chatThreads,
+          activeThreadId,
           latestSchemaJson
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
@@ -1499,7 +1594,10 @@
         if (Array.isArray(parsed.deletedIncompleteOrders)) deletedIncompleteOrders = parsed.deletedIncompleteOrders;
         if (Array.isArray(parsed.integrationLogs)) integrationLogs = parsed.integrationLogs;
         if (Array.isArray(parsed.chatbotKnowledge) && parsed.chatbotKnowledge.length) chatbotKnowledge = parsed.chatbotKnowledge;
-        if (parsed.chatThreads && typeof parsed.chatThreads === "object") chatThreads = parsed.chatThreads;
+        if (Array.isArray(parsed.chatThreads) && parsed.chatThreads.length) {
+          chatThreads = parsed.chatThreads;
+          activeThreadId = parsed.activeThreadId || chatThreads[0].id;
+        }
         if (typeof parsed.latestSchemaJson === "string") latestSchemaJson = parsed.latestSchemaJson;
       } catch (_) {}
     }
@@ -1532,7 +1630,7 @@
 
       const repeatBadge = document.getElementById("modal-repeat-badge");
       repeatBadge.classList.toggle("hidden", !isRepeat);
-      repeatBadge.textContent = isRepeat ? `Repeat Customer (${prevOrders.length}টি পূর্বের অর্ডার)` : "";
+      repeatBadge.textContent = isRepeat ? `Repeat Customer • ${prevOrders.length}টি পূর্বের অর্ডার` : "";
 
       document.getElementById("modal-prev-total").textContent = String(prevOrders.length);
       document.getElementById("modal-prev-cancelled").textContent = String(cancelledCount);
@@ -1566,7 +1664,7 @@
                 <span class="text-slate-400 ml-2">${escapeHtml(formatOrderItems(po.items))}</span>
                 <span class="text-emerald-400 font-mono ml-2">৳${escapeHtml(po.total_amount)}</span>
               </div>
-              <span class="text-[11px] font-mono border px-2 py-0.5 rounded-full ${stBadgeClass}">
+              <span class="text-[11px] font-mono border px-2.5 py-0.5 rounded-full whitespace-nowrap ${stBadgeClass}">
                 ${escapeHtml(statusSummaryLabel)}
               </span>
             </div>
@@ -1807,65 +1905,126 @@
       if (idx >= 0) chatbotKnowledge[idx] = kbEntry;
       else chatbotKnowledge.unshift(kbEntry);
       saveStateToStorage();
-      renderChatbotKnowledge();
-    }
-
-    function renderChatbotKnowledge() {
-      const listEl = document.getElementById("chatbot-kb-list");
-      const countEl = document.getElementById("kb-count");
-      if (countEl) countEl.textContent = chatbotKnowledge.length;
-      if (!listEl) return;
-
-      listEl.innerHTML = chatbotKnowledge.map(item => `
-        <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3 space-y-1">
-          <div class="flex justify-between items-center gap-2">
-            <span class="font-bold text-white">${escapeHtml(item.title)}</span>
-            <span class="font-mono text-emerald-400 shrink-0">৳${escapeHtml(item.price)}</span>
-          </div>
-          <div class="text-[11px] font-mono text-emerald-300">ID: ${escapeHtml(item.sku)} • Stock: ${escapeHtml(item.stock)}</div>
-          <div class="text-[11px] text-slate-400">${escapeHtml(item.description)}</div>
-        </div>
-      `).join("");
     }
 
     function hydrateChatbotPanel() {
       document.getElementById("cb-ai-enabled").checked = Boolean(chatbotAiConfig.enabled);
+      document.getElementById("cb-bot-tone").value = chatbotAiConfig.tone || "friendly-bn";
+      document.getElementById("cb-welcome-msg").value = chatbotAiConfig.welcomeMsg || "";
+
+      document.getElementById("cb-platform-type").value = chatbotAiConfig.platformType || "Custom Webhook";
       document.getElementById("cb-ai-url").value = chatbotAiConfig.webhookUrl || "";
       document.getElementById("cb-ai-key").value = chatbotAiConfig.apiKey || "";
 
-      const selectEl = document.getElementById("active-chat-thread");
-      const currentVal = selectEl.value;
-      selectEl.innerHTML = Object.keys(chatThreads).map(name =>
-        `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`
-      ).join("");
-      if (currentVal && chatThreads[currentVal]) selectEl.value = currentVal;
+      const kbCountEl = document.getElementById("kb-count");
+      const kbSummaryEl = document.getElementById("kb-sync-summary");
+      if (kbCountEl) kbCountEl.textContent = String(chatbotKnowledge.length);
+      if (kbSummaryEl) kbSummaryEl.textContent = `${chatbotKnowledge.length} items`;
 
-      renderChatbotKnowledge();
+      if (!activeThreadId && chatThreads.length > 0) {
+        activeThreadId = chatThreads[0].id;
+      }
+
+      renderCustomerMessagesList();
       renderChatThread();
+      updateMenuBadges();
     }
 
-    function saveChatbotAiSettings(e) {
+    function saveChatbotBehaviorSettings(e) {
       e.preventDefault();
       chatbotAiConfig = {
+        ...chatbotAiConfig,
         enabled: document.getElementById("cb-ai-enabled").checked,
+        tone: document.getElementById("cb-bot-tone").value,
+        welcomeMsg: document.getElementById("cb-welcome-msg").value.trim()
+      };
+      localStorage.setItem("ab_cb_ai_cfg", JSON.stringify(chatbotAiConfig));
+      addLog("Chatbot Behavior Settings সেভ করা হয়েছে।");
+      alert("চ্যাটবট সেটিংস সেভ হয়েছে!");
+    }
+
+    function saveChatbotConnectionSettings(e) {
+      e.preventDefault();
+      chatbotAiConfig = {
+        ...chatbotAiConfig,
+        platformType: document.getElementById("cb-platform-type").value,
         webhookUrl: document.getElementById("cb-ai-url").value.trim(),
         apiKey: document.getElementById("cb-ai-key").value.trim()
       };
       localStorage.setItem("ab_cb_ai_cfg", JSON.stringify(chatbotAiConfig));
-      addLog("Chatbot AI Automation সেটিংস সেভ করা হয়েছে।");
-      alert("চ্যাটবট AI অটোমেশন সেটিংস সেভ হয়েছে!");
+      addLog(`Chatbot Connection Saved (${chatbotAiConfig.platformType})`);
+      alert("সফটওয়্যার কানেকশন সেটিংস সেভ হয়েছে!");
+    }
+
+    function selectCustomerThread(threadId) {
+      activeThreadId = threadId;
+      const target = chatThreads.find(t => t.id === threadId);
+      if (target) target.unread = false;
+      saveStateToStorage();
+      renderCustomerMessagesList();
+      renderChatThread();
+      updateMenuBadges();
+    }
+
+    function renderCustomerMessagesList() {
+      const listEl = document.getElementById("customer-messages-list");
+      const totalBadge = document.getElementById("inbox-total-badge");
+      if (totalBadge) totalBadge.textContent = String(chatThreads.length);
+      if (!listEl) return;
+
+      if (chatThreads.length === 0) {
+        listEl.innerHTML = `<p class="text-xs text-slate-500 py-6 text-center">কোনো কাস্টমার মেসেজ নেই।</p>`;
+        return;
+      }
+
+      // রিসেন্ট মেসেজগুলো সবার উপরে রাখা হয়েছে
+      listEl.innerHTML = chatThreads.map(th => {
+        const lastMsg = th.messages[th.messages.length - 1];
+        const previewText = lastMsg ? lastMsg.text : "কোনো মেসেজ নেই";
+        const isSelected = th.id === activeThreadId;
+
+        return `
+          <button type="button" onclick="selectCustomerThread('${escapeHtml(th.id)}')"
+            class="w-full text-left p-3 rounded-2xl border transition space-y-1 ${
+              isSelected
+                ? "bg-emerald-950/35 border-emerald-500/45 shadow-md"
+                : "bg-slate-950/80 hover:bg-slate-900 border-slate-800/90"
+            }">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                ${th.unread ? `<span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>` : ""}
+                <span class="font-semibold text-xs text-white truncate">${escapeHtml(th.customerName)}</span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400 shrink-0">${escapeHtml(th.lastTime)}</span>
+            </div>
+            <p class="text-[11px] text-slate-400 truncate">${escapeHtml(previewText)}</p>
+          </button>
+        `;
+      }).join("");
     }
 
     function renderChatThread() {
-      const threadKey = document.getElementById("active-chat-thread")?.value;
       const box = document.getElementById("chat-messages-box");
-      if (!threadKey || !box) return;
+      const titleEl = document.getElementById("active-chat-customer-title");
+      const pillEl = document.getElementById("active-chat-status-pill");
+      const thread = chatThreads.find(t => t.id === activeThreadId) || chatThreads[0];
 
-      const msgs = chatThreads[threadKey] || [];
+      if (!thread || !box) return;
+      if (titleEl) titleEl.textContent = `${thread.customerName} • ${thread.phone || ""}`;
+      if (pillEl) {
+        pillEl.textContent = thread.unread ? "নতুন মেসেজ" : "রিপ্লাইড";
+        pillEl.className = thread.unread
+          ? "text-xs bg-rose-500/15 text-rose-300 border border-rose-500/30 px-3 py-1 rounded-full"
+          : "text-xs bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full";
+      }
+
+      const msgs = thread.messages || [];
       box.innerHTML = msgs.map(m => {
         const isCustomer = m.sender === "customer";
-        const badgeText = m.sender === "customer" ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন (ম্যানুয়াল)" : "চ্যাটবট");
-        const alignClass = isCustomer ? "bg-slate-900 border-slate-800 mr-auto" : "bg-emerald-950/35 border-emerald-500/25 ml-auto";
+        const badgeText = isCustomer ? "কাস্টমার" : (m.sender === "admin" ? "অ্যাডমিন রিপ্লাই" : "চ্যাটবট");
+        const alignClass = isCustomer
+          ? "bg-slate-900 border-slate-800 mr-auto"
+          : "bg-emerald-950/35 border-emerald-500/25 ml-auto";
 
         return `
           <div class="max-w-[85%] border rounded-2xl p-3 space-y-1 ${alignClass}">
@@ -1884,99 +2043,25 @@
       e.preventDefault();
       const input = document.getElementById("admin-manual-reply-input");
       const text = input.value.trim();
-      const threadKey = document.getElementById("active-chat-thread")?.value;
-      if (!text || !threadKey) return;
+      if (!text) return;
+
+      const idx = chatThreads.findIndex(t => t.id === activeThreadId);
+      if (idx < 0) return;
 
       const time = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
-      if (!chatThreads[threadKey]) chatThreads[threadKey] = [];
-      chatThreads[threadKey].push({ sender: "admin", text, time });
+      chatThreads[idx].messages.push({ sender: "admin", text, time });
+      chatThreads[idx].lastTime = time;
+      chatThreads[idx].unread = false;
+
+      // রিপ্লাই দেওয়া থ্রেডটিকে রিসেন্ট তালিকার একদম উপরে আনা হয়েছে
+      const [updatedThread] = chatThreads.splice(idx, 1);
+      chatThreads.unshift(updatedThread);
+      activeThreadId = updatedThread.id;
+
       input.value = "";
       saveStateToStorage();
+      renderCustomerMessagesList();
       renderChatThread();
-    }
-
-    function findBestMatchingProduct(q) {
-      if (!chatbotKnowledge.length) return null;
-      let best = null;
-      let bestScore = 0;
-
-      for (const item of chatbotKnowledge) {
-        let score = 0;
-        const titleLower = String(item.title || "").toLowerCase();
-        const skuLower = String(item.sku || "").toLowerCase();
-        if (skuLower && q.includes(skuLower)) score += 10;
-        if (titleLower && q.includes(titleLower)) score += 8;
-        const words = titleLower.split(/\s+/).filter(w => w.length > 2);
-        for (const w of words) {
-          if (q.includes(w)) score += 2;
-        }
-        if (score > bestScore) {
-          bestScore = score;
-          best = item;
-        }
-      }
-      return best || chatbotKnowledge[0];
-    }
-
-    function generateProductReplyFromKnowledge(question) {
-      const q = question.toLowerCase();
-      const matched = findBestMatchingProduct(q);
-      if (!matched) {
-        return "আমাদের প্রোডাক্ট সম্পর্কে জানতে ধন্যবাদ। বিস্তারিত তথ্য শীঘ্রই জানানো হবে।";
-      }
-
-      const sizeInfo = matched.sizes?.length ? `সাইজ: ${matched.sizes.join(", ")}` : "";
-      const colorInfo = matched.colors?.length ? `কালার: ${matched.colors.join(", ")}` : "";
-      const stockInfo = Number(matched.stock) > 0 ? `স্টকে আছে (${matched.stock}টি)` : "বর্তমানে স্টক শেষ";
-      return `${matched.title} (${matched.sku}) — মূল্য ৳${matched.price}, ${stockInfo}। ${sizeInfo} ${colorInfo}। ${matched.description}`.trim();
-    }
-
-    async function simulateCustomerQuestion(e) {
-      e.preventDefault();
-      const input = document.getElementById("customer-sim-input");
-      const question = input.value.trim();
-      const threadKey = document.getElementById("active-chat-thread")?.value;
-      if (!question || !threadKey) return;
-
-      const time = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
-      if (!chatThreads[threadKey]) chatThreads[threadKey] = [];
-      chatThreads[threadKey].push({ sender: "customer", text: question, time });
-      input.value = "";
-      saveStateToStorage();
-      renderChatThread();
-
-      if (chatbotAiConfig.enabled) {
-        let replyText = generateProductReplyFromKnowledge(question);
-
-        if (chatbotAiConfig.webhookUrl) {
-          try {
-            const res = await fetch(chatbotAiConfig.webhookUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                ...(chatbotAiConfig.apiKey ? { "Authorization": `Bearer ${chatbotAiConfig.apiKey}` } : {})
-              },
-              body: JSON.stringify({
-                question,
-                thread: threadKey,
-                knowledge: chatbotKnowledge
-              })
-            });
-            if (res.ok) {
-              const data = await res.json();
-              if (data.reply || data.answer || data.message) {
-                replyText = data.reply || data.answer || data.message;
-              }
-            }
-          } catch (_) {
-            addLog("External AI Webhook unreachable; fallback knowledge reply sent.");
-          }
-        }
-
-        chatThreads[threadKey].push({ sender: "bot", text: replyText, time });
-        saveStateToStorage();
-        renderChatThread();
-      }
     }
 
     function toggleProfileCard() {
@@ -2002,6 +2087,37 @@
       if (altInput && !altInput.dataset.manual && title.trim()) {
         altInput.value = `${title.trim()} - Amar Brand`;
       }
+    }
+
+    function applyQuickPreset(presetKey) {
+      if (presetKey === "polo") {
+        document.getElementById("p-type").value = "Variant";
+        document.getElementById("p-category").value = categories.includes("Apparel") ? "Apparel" : categories[0];
+        document.getElementById("p-title").value = "Organic Cotton Polo Shirt";
+        document.getElementById("p-cost-price").value = 340;
+        document.getElementById("p-regular-price").value = 690;
+        document.getElementById("p-offer-price").value = 550;
+        document.getElementById("p-stock").value = 30;
+        document.getElementById("p-colors").value = "Black, Olive, Charcoal";
+        document.getElementById("p-sizes").value = "M, L, XL";
+        document.getElementById("p-variant-note").value = "Chest: M-38, L-40, XL-42 | 100% Organic Cotton";
+        document.getElementById("p-desc").value = "১০০% অর্গানিক কটন দিয়ে তৈরি প্রিমিয়াম পোলো শার্ট। সারাদিনের আরামের জন্য পারফেক্ট।";
+      } else {
+        document.getElementById("p-type").value = "Single";
+        document.getElementById("p-category").value = categories.includes("Organic & Natural") ? "Organic & Natural" : categories[0];
+        document.getElementById("p-title").value = "Herbal Organic Face Mist";
+        document.getElementById("p-cost-price").value = 220;
+        document.getElementById("p-regular-price").value = 520;
+        document.getElementById("p-offer-price").value = 450;
+        document.getElementById("p-stock").value = 45;
+        document.getElementById("p-colors").value = "Natural Mist";
+        document.getElementById("p-sizes").value = "100ml";
+        document.getElementById("p-variant-note").value = "Alcohol-Free Herbal Formula | Suitable for all skin types";
+        document.getElementById("p-desc").value = "ত্বককে সতেজ ও হাইড্রেটেড রাখতে ন্যাচারাল হারবাল ফেস মিস্ট।";
+      }
+      setFreshProductCode();
+      autoFillSlugAndAlt();
+      calcMargin();
     }
 
     function buildProductSchema(product) {
@@ -2350,12 +2466,13 @@ ${xmlItems}
       const preview = document.getElementById("profit-preview");
 
       if (sellingPrice <= 0) {
-        preview.textContent = "৳0 (0%)";
+        preview.textContent = "৳0 (0%) • Off: 0%";
         return;
       }
       const profit = sellingPrice - cost;
       const pct = ((profit / sellingPrice) * 100).toFixed(1);
-      preview.textContent = `৳${profit.toFixed(0)} (${pct}%)`;
+      const offPct = (offer > 0 && regular > offer) ? (((regular - offer) / regular) * 100).toFixed(0) : 0;
+      preview.textContent = `৳${profit.toFixed(0)} (${pct}%) • Off: ${offPct}%`;
       preview.className = profit >= 0 ? "font-mono font-semibold text-emerald-400" : "font-mono font-semibold text-rose-400";
     }
 
@@ -2457,7 +2574,22 @@ ${xmlItems}
       e.target.reset();
       setFreshProductCode();
       calcMargin();
-      alert(`প্রোডাক্ট সেভ হয়েছে এবং চ্যাটবটে তথ্য যুক্ত হয়েছে!\nপ্রোডাক্ট আইডি: ${sku}`);
+      alert(`প্রোডাক্ট সেভ হয়েছে!\nপ্রোডাক্ট আইডি: ${sku}`);
+    }
+
+    function duplicateProduct(sku) {
+      const src = managedProducts.find(p => p.sku === sku);
+      if (!src) return;
+      const cloned = {
+        ...src,
+        sku: generateUniqueProductCode(),
+        title: `${src.title} (Copy)`
+      };
+      managedProducts.unshift(cloned);
+      syncProductToChatbotKnowledge(cloned);
+      saveStateToStorage();
+      renderProductsTable();
+      syncProductCodeDatalist();
     }
 
     function deleteLocalProduct(sku) {
@@ -2465,7 +2597,6 @@ ${xmlItems}
       chatbotKnowledge = chatbotKnowledge.filter(k => k.sku !== sku);
       saveStateToStorage();
       renderProductsTable();
-      renderChatbotKnowledge();
       syncProductCodeDatalist();
       generateMerchantFeedPreview();
     }
@@ -2497,6 +2628,13 @@ ${xmlItems}
           ? `<img src="${escapeHtml(p.images[0])}" alt="${escapeHtml(p.alt_text || p.title)}" class="w-11 h-11 rounded-lg object-cover border border-slate-700 shrink-0" />`
           : `<div class="w-11 h-11 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] text-slate-400 shrink-0">No Img</div>`;
 
+        const stockNum = Number(p.stock) || 0;
+        const stockBadge = stockNum === 0
+          ? `<span class="text-[10px] bg-rose-500/15 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full">Out of Stock</span>`
+          : stockNum <= 5
+            ? `<span class="text-[10px] bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full">Low Stock</span>`
+            : `<span class="text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">In Stock</span>`;
+
         return `
           <tr class="hover:bg-slate-800/40 transition">
             <td class="py-3 px-3 font-mono text-xs">
@@ -2522,8 +2660,14 @@ ${xmlItems}
               <div class="text-slate-300">বিক্রয়: ৳${escapeHtml(p.regular_price)}</div>
               <div class="text-emerald-400 font-semibold">অফার: ${p.offer_price ? "৳" + escapeHtml(p.offer_price) : "-"}</div>
             </td>
-            <td class="py-3 px-3 font-semibold text-emerald-300">${escapeHtml(p.stock)}</td>
-            <td class="py-3 px-3">
+            <td class="py-3 px-3 space-y-1">
+              <div class="font-semibold text-emerald-300 font-mono">${escapeHtml(stockNum)}</div>
+              <div>${stockBadge}</div>
+            </td>
+            <td class="py-3 px-3 text-right space-x-1.5 whitespace-nowrap">
+              <button type="button" onclick="duplicateProduct('${escapeHtml(p.sku)}')" class="text-xs bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/25 px-2.5 py-1 rounded-lg transition">
+                কপি
+              </button>
               <button type="button" onclick="deleteLocalProduct('${escapeHtml(p.sku)}')" class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-lg transition">
                 মুছুন
               </button>
@@ -2899,7 +3043,7 @@ ${xmlItems}
       });
 
       if (filtered.length === 0) {
-        ordersList.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500 text-xs">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+        ordersList.innerHTML = `<div class="py-8 text-center text-slate-500 text-xs bg-slate-950/60 border border-slate-800 rounded-2xl">কোনো অর্ডার পাওয়া যায়নি।</div>`;
         return;
       }
 
@@ -2912,53 +3056,65 @@ ${xmlItems}
 
         const prevOrders = getCustomerPreviousOrders(o);
         const repeatBadgeHtml = prevOrders.length > 0
-          ? `<span class="inline-flex items-center gap-1 mt-1 text-[10px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-2 py-0.5 rounded-full">
-               Repeat Customer • ${prevOrders.length}টি পূর্বের অর্ডার
+          ? `<span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-400/35 px-3 py-1 rounded-full whitespace-nowrap">
+               🔁 Repeat Customer • ${prevOrders.length}টি পূর্বের অর্ডার
              </span>`
-          : "";
+          : `<span class="inline-flex items-center text-[11px] font-medium bg-slate-800/80 text-slate-400 border border-slate-700/80 px-2.5 py-0.5 rounded-full whitespace-nowrap">
+               New Customer
+             </span>`;
 
         return `
-          <tr data-order-row="${escapeHtml(o.order_number)}" class="hover:bg-slate-800/50 transition cursor-pointer">
-            <td class="py-3 px-3 font-mono text-xs">
-              <span class="text-emerald-400 font-semibold block underline decoration-emerald-500/40">${escapeHtml(o.order_number)}</span>
-              ${o.tracking_code ? `<span class="text-[11px] text-teal-400">SF: ${escapeHtml(o.tracking_code)}</span>` : ""}
-            </td>
-            <td class="py-3 px-3">
-              <span class="font-medium text-slate-200 block">${escapeHtml(o.customer_name)}</span>
-              <span class="text-xs text-slate-400 font-mono block">${escapeHtml(o.customer_phone)}</span>
-              <span class="text-[11px] text-slate-500 block">${escapeHtml(o.shipping_address || "ঠিকানা উল্লেখ নেই")}</span>
-              ${repeatBadgeHtml}
-            </td>
-            <td class="py-3 px-3 text-xs text-slate-300 max-w-[200px]">
-              ${escapeHtml(formatOrderItems(o.items))}
-            </td>
-            <td class="py-3 px-3 font-semibold text-emerald-400 font-mono">৳${escapeHtml(o.total_amount)}</td>
-            <td class="py-3 px-3" data-stop-row="1">
-              <select data-status-order="${escapeHtml(o.order_number)}"
-                class="text-xs border px-2.5 py-1 rounded-full font-medium outline-none cursor-pointer ${selectColor}">
-                ${statuses.map(st => `<option value="${st}" class="bg-slate-900 text-slate-200" ${o.status === st ? "selected" : ""}>${st}</option>`).join("")}
-              </select>
-            </td>
-            <td class="py-3 px-3 text-right space-x-1.5 whitespace-nowrap" data-stop-row="1">
-              <button type="button" data-action="edit" data-order="${escapeHtml(o.order_number)}"
-                class="text-xs bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg transition">
-                এডিট / পপআপ
-              </button>
-              <button type="button" data-action="steadfast" data-order="${escapeHtml(o.order_number)}"
-                class="text-xs bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-lg transition">
-                Steadfast
-              </button>
-              <button type="button" data-action="delete" data-order="${escapeHtml(o.order_number)}"
-                class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-lg transition">
-                ডিলিট
-              </button>
-            </td>
-          </tr>
+          <div data-order-card="${escapeHtml(o.order_number)}"
+            class="bg-slate-950/80 hover:bg-slate-900/95 border border-slate-800/90 hover:border-emerald-500/35 rounded-2xl p-4 transition cursor-pointer shadow-md">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+
+              <!-- বাম অংশ: অর্ডার আইডি + গ্রাহক তথ্য + Repeat ব্যাজ -->
+              <div class="space-y-2 min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono text-xs sm:text-sm font-bold text-emerald-400 underline decoration-emerald-500/40">
+                    #${escapeHtml(o.order_number)}
+                  </span>
+                  ${o.tracking_code ? `<span class="text-[11px] font-mono bg-teal-500/10 text-teal-300 border border-teal-500/25 px-2 py-0.5 rounded-full">SF: ${escapeHtml(o.tracking_code)}</span>` : ""}
+                  ${repeatBadgeHtml}
+                </div>
+
+                <div>
+                  <p class="font-semibold text-sm text-white">${escapeHtml(o.customer_name)}</p>
+                  <p class="text-xs font-mono text-slate-400">${escapeHtml(o.customer_phone)} • <span class="font-sans text-slate-500">${escapeHtml(o.shipping_address || "ঠিকানা উল্লেখ নেই")}</span></p>
+                </div>
+
+                <p class="text-xs text-slate-300">
+                  <span class="text-slate-500">আইটেম:</span> ${escapeHtml(formatOrderItems(o.items))}
+                </p>
+              </div>
+
+              <!-- ডান অংশ: মোট অ্যামাউন্ট + স্ট্যাটাস ড্রপডাউন + Steadfast / ডিলিট -->
+              <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-2.5 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80" data-stop-card="1">
+                <span class="font-mono text-base font-bold text-emerald-400 mr-1">৳${escapeHtml(o.total_amount)}</span>
+
+                <select data-status-order="${escapeHtml(o.order_number)}"
+                  class="text-xs border px-3 py-1.5 rounded-full font-semibold outline-none cursor-pointer ${selectColor}">
+                  ${statuses.map(st => `<option value="${st}" class="bg-slate-900 text-slate-200" ${o.status === st ? "selected" : ""}>${st}</option>`).join("")}
+                </select>
+
+                <button type="button" data-action="steadfast" data-order="${escapeHtml(o.order_number)}"
+                  class="text-xs bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 px-3 py-1.5 rounded-xl font-semibold transition whitespace-nowrap">
+                  Steadfast
+                </button>
+
+                <button type="button" data-action="delete" data-order="${escapeHtml(o.order_number)}"
+                  class="text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-xl font-semibold transition whitespace-nowrap">
+                  ডিলিট
+                </button>
+              </div>
+
+            </div>
+          </div>
         `;
       }).join("");
     }
 
-    (function bindOrdersTableDelegation() {
+    (function bindOrdersListDelegation() {
       const ordersList = document.getElementById("orders-list");
       if (!ordersList) return;
 
@@ -2968,17 +3124,16 @@ ${xmlItems}
           const act = actionBtn.dataset.action;
           const ordNum = actionBtn.dataset.order;
           if (!ordNum) return;
-          if (act === "edit") openOrderModal(ordNum);
-          else if (act === "steadfast") sendToSteadfast(ordNum);
+          if (act === "steadfast") sendToSteadfast(ordNum);
           else if (act === "delete") deleteOrder(ordNum);
           return;
         }
 
-        if (e.target.closest("[data-stop-row='1']")) return;
+        if (e.target.closest("[data-stop-card='1']")) return;
 
-        const row = e.target.closest("tr[data-order-row]");
-        if (row && row.dataset.orderRow) {
-          openOrderModal(row.dataset.orderRow);
+        const card = e.target.closest("[data-order-card]");
+        if (card && card.dataset.orderCard) {
+          openOrderModal(card.dataset.orderCard);
         }
       });
 
