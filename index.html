@@ -1,8 +1,8 @@
  <!-- ========================================================= -->
 <!-- [শুরু] SEO-অপ্টিমাইজড স্টোরফ্রন্ট + প্রো অ্যাডমিন প্যানেল     -->
 <!-- ফাইল নাম: index.html (AMAR BRAND)                        -->
-<!-- আপডেট: রিলস ইউনিক লিংক ও অ্যাকশন, অর্ডার ছবি, অটো ডেলিভারি -->
-<!-- চার্জ, অ্যাডমিন ডেলিভারি এডিট ও লাইভ ক্লিক/ক্যাটাগরি ট্র্যাক -->
+<!-- আপডেট: প্রোডাক্ট ম্যানেজারে ক্যাটাগরি ও ডেলিভারি সেটিংস,   -->
+<!-- প্রো রিলস ম্যানেজার (ড্রপডাউন SKU, ≤10MB, IndexedDB, লিংক) -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -318,12 +318,6 @@
           <span class="flex items-center gap-2"><span>🔎🛒</span><span>GSC ও Merchant Center</span></span>
           <span class="text-[10px] font-mono text-amber-300">SEO/FEED</span>
         </button>
-
-        <button type="button" id="adm-nav-categories" onclick="switchAdminSection('categories')"
-          class="adm-menu-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-semibold bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800/80 transition cursor-pointer">
-          <span class="flex items-center gap-2"><span>📁</span><span>ক্যাটাগরি ও ডেলিভারি</span></span>
-          <span id="adm-menu-cnt-cats" class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded-full">0</span>
-        </button>
       </aside>
 
       <!-- [ডান কন্টেন্ট এরিয়া — 9 কলাম] -->
@@ -376,7 +370,6 @@
               </div>
             </div>
 
-            <!-- প্রফেশনাল ড্যাশবোর্ড গ্রাফ -->
             <div class="bg-slate-950/95 border border-slate-800/90 rounded-2xl p-4 space-y-2.5">
               <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
                 <span class="font-bold text-slate-100">📈 অর্ডার ও ডেলিভারি পারফরম্যান্স গ্রাফ</span>
@@ -420,7 +413,7 @@
           </div>
         </div>
 
-        <!-- [সেকশন ২: প্রোডাক্ট ম্যানেজার — ক্রয়মূল্য, বিক্রয়মূল্য, অফারমূল্য ও নিট প্রফিট] -->
+        <!-- [সেকশন ২: প্রোডাক্ট ম্যানেজার + ক্যাটাগরি ও ডেলিভারি সেটিংস] -->
         <div id="adm-section-products" class="hidden space-y-6">
           <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
             <form id="adm-add-product-form" onsubmit="handleAdminAddProduct(event)" class="xl:col-span-5 glass-card rounded-3xl p-4 sm:p-6 space-y-4 h-fit">
@@ -532,18 +525,71 @@
                   <h3 class="text-base font-bold text-white">সিঙ্ককৃত প্রোডাক্ট (<span id="adm-products-count-badge">0</span>)</h3>
                 </div>
 
-                <button type="button" onclick="deleteSelectedProducts()"
-                  class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                  🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-products-count">0</span>)
-                </button>
+                <div class="flex flex-wrap items-center gap-2">
+                  <input type="text" id="adm-product-search-input" oninput="renderAdminProducts()"
+                    placeholder="নাম, কোড বা ক্যাটাগরি সার্চ..."
+                    class="bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-1.5 text-xs outline-none w-40 sm:w-48" />
+
+                  <select id="adm-product-category-filter" onchange="renderAdminProducts()"
+                    class="bg-slate-950 border border-slate-800 focus:border-amber-400 rounded-xl px-2.5 py-1.5 text-xs outline-none"></select>
+
+                  <button type="button" onclick="deleteSelectedProducts()"
+                    class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-products-count">0</span>)
+                  </button>
+                </div>
               </div>
 
               <div id="adm-products-list" class="space-y-2.5 max-h-[700px] overflow-y-auto pr-1"></div>
             </div>
           </div>
+
+          <!-- [প্রোডাক্ট ম্যানেজারের ভিতরে: ক্যাটাগরি ও ডেলিভারি চার্জ সেটিংস] -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card rounded-3xl p-5 space-y-4">
+              <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">📁 ক্যাটাগরি অ্যাড ও ম্যানেজ</h3>
+              <form onsubmit="handleAdminAddCategory(event)" class="flex gap-2">
+                <input type="text" id="adm-cat-input" required placeholder="নতুন ক্যাটাগরি নাম..."
+                  class="flex-1 bg-slate-950 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-xs outline-none" />
+                <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
+                  যোগ করুন
+                </button>
+              </form>
+              <div id="adm-categories-list" class="flex flex-wrap gap-2 pt-2"></div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 space-y-4">
+              <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">🚚 ডেলিভারি চার্জ ও ব্র্যান্ড সেটিংস</h3>
+              <form onsubmit="handleAdminSaveBrandConfig(event)" class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-emerald-300 font-semibold mb-1">ঢাকার ভিতর ডেলিভারি (৳) *</label>
+                    <input type="number" id="adm-cfg-dhaka-charge" required min="0" value="80"
+                      class="w-full bg-slate-950 border border-emerald-500/30 rounded-xl px-3.5 py-2 font-mono outline-none" />
+                  </div>
+                  <div>
+                    <label class="block text-amber-300 font-semibold mb-1">ঢাকার বাইরে ডেলিভারি (৳) *</label>
+                    <input type="number" id="adm-cfg-outside-charge" required min="0" value="120"
+                      class="w-full bg-slate-950 border border-amber-500/30 rounded-xl px-3.5 py-2 font-mono outline-none" />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1">ব্র্যান্ড নাম</label>
+                  <input type="text" id="adm-cfg-brand" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 outline-none" />
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-1">লাইভ সাইট URL</label>
+                  <input type="text" id="adm-cfg-siteurl" placeholder="https://amarbrand.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 font-mono outline-none" />
+                </div>
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold cursor-pointer">
+                  সেটিংস সেভ করুন
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
 
-        <!-- [সেকশন ৩: অর্ডার ম্যানেজার — ছবিসহ প্রোডাক্ট, রিপিট কাস্টমার, পপআপ ও বাল্ক অ্যাকশন] -->
+        <!-- [সেকশন ৩: অর্ডার ম্যানেজার] -->
         <div id="adm-section-orders" class="hidden space-y-5">
           <div class="glass-card rounded-3xl p-4 sm:p-6 space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
@@ -576,7 +622,6 @@
               </div>
             </div>
 
-            <!-- বাল্ক অ্যাকশন বার -->
             <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
               <div class="flex items-center gap-2">
                 <span class="font-bold text-sky-300">বাল্ক অ্যাকশন:</span>
@@ -700,75 +745,91 @@
           </form>
         </div>
 
-        <!-- [সেকশন ৫: রিল সেকশন — সর্বোচ্চ ১০ MB ও স্মুথ প্লেব্যাক] -->
+        <!-- [সেকশন ৫: রিল সেকশন — ড্রপডাউন SKU, টাইটেল, শর্ট ডেসক্রিপশন, ইউনিক লিংক, ≤10MB, আনলিমিটেড ও নিচে তালিকা] -->
         <div id="adm-section-reels" class="hidden space-y-6">
-          <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            <form id="adm-add-reel-form" onsubmit="handleAdminAddReel(event)" class="xl:col-span-5 glass-card rounded-3xl p-4 sm:p-6 space-y-4 h-fit">
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                <h3 class="text-base font-bold text-white">🎬 নতুন রিল আপলোড / অ্যাড</h3>
-                <span class="text-[10px] font-mono text-pink-300 bg-pink-500/15 border border-pink-500/30 px-2.5 py-0.5 rounded-full">Max 10 MB</span>
+          <form id="adm-add-reel-form" onsubmit="handleAdminAddReel(event)" class="glass-card rounded-3xl p-4 sm:p-6 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-0.5 rounded-full">
+                  Pro Reels Studio • Unlimited Reels • Max 10 MB / Video
+                </span>
+                <h3 class="text-base sm:text-lg font-extrabold text-white mt-1">🎬 নতুন রিল আপলোড ও কনফিগারেশন</h3>
               </div>
+              <span class="text-[11px] font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full">
+                মোট রিল: <strong id="adm-reels-total-inline">0</strong>
+              </span>
+            </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs text-slate-300 mb-1">রিল টাইটেল *</label>
-                <input type="text" id="adm-r-title" required placeholder="যেমন: Morning Organic Look"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm outline-none" />
+                <input type="text" id="adm-r-title" required oninput="refreshReelAutoLinkPreview()" placeholder="যেমন: Morning Organic Look"
+                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm outline-none" />
               </div>
 
               <div>
-                <label class="block text-xs text-slate-300 mb-1">লিঙ্কড প্রোডাক্ট SKU *</label>
-                <input type="text" id="adm-r-sku" list="adm-sku-datalist" required placeholder="AB-PRD-1001"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs font-mono outline-none" />
-                <datalist id="adm-sku-datalist"></datalist>
+                <label class="block text-xs text-pink-300 font-semibold mb-1">প্রোডাক্ট কোড সিলেক্ট করুন (ড্রপডাউন) *</label>
+                <select id="adm-r-sku" required onchange="refreshReelAutoLinkPreview()"
+                  class="w-full bg-slate-950 border border-pink-500/35 focus:border-pink-500 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-mono outline-none"></select>
               </div>
+            </div>
 
-              <div class="space-y-1.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3">
+            <div class="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+              <div class="min-w-0">
+                <span class="text-slate-400">রিলের ইউনিক লিংক:</span>
+                <span id="adm-r-auto-link-preview" class="font-mono text-pink-300 ml-1.5 break-all"></span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400 shrink-0">সর্বোচ্চ সাইজ: 10 MB</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-1.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl p-3.5">
                 <div class="flex items-center justify-between">
-                  <label class="block text-xs font-semibold text-pink-300">ভিডিও ফাইল আপলোড (সর্বোচ্চ ১০ MB) বা URL</label>
+                  <label class="block text-xs font-semibold text-pink-300">রিলস ভিডিও আপলোড (সর্বোচ্চ ১০ MB) *</label>
                   <span class="text-[10px] font-mono text-slate-400">≤ 10 MB</span>
                 </div>
-                <input type="file" id="adm-r-video-file" accept="video/mp4,video/webm,video/ogg,video/*" onchange="handleAdminReelVideoFile(event)"
+                <input type="file" id="adm-r-video-file" accept="video/mp4,video/webm,video/ogg,video/quicktime,video/*" onchange="handleAdminReelVideoFile(event)"
                   class="w-full text-[11px] text-slate-300 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-pink-600/25 file:text-pink-200 hover:file:bg-pink-600/40 cursor-pointer" />
-                <input type="text" id="adm-r-video-url" placeholder="অথবা ভিডিও লিংক: https://.../reel.mp4"
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
                 <p id="adm-r-file-preview-label" class="text-[11px] text-emerald-300 font-mono hidden"></p>
-                <video id="adm-r-video-preview" controls muted playsinline preload="auto" class="hidden w-full max-h-40 rounded-xl bg-black border border-slate-800 mt-1"></video>
+                <video id="adm-r-video-preview" controls muted playsinline preload="auto" class="hidden w-full max-h-44 rounded-xl bg-black border border-slate-800 mt-1"></video>
               </div>
 
-              <div>
-                <label class="block text-xs text-slate-300 mb-1">পোস্টার ইমেজ URL (ঐচ্ছিক)</label>
-                <input type="text" id="adm-r-poster" placeholder="https://..."
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
-              </div>
-
-              <div>
-                <label class="block text-xs text-slate-300 mb-1">ক্যাপশন</label>
-                <input type="text" id="adm-r-caption" placeholder="রিলের সংক্ষিপ্ত ক্যাপশন..."
-                  class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
-              </div>
-
-              <button type="submit"
-                class="w-full bg-pink-600 hover:bg-pink-500 text-white py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-pink-600/20 cursor-pointer">
-                ✓ রিল আপলোড ও সিঙ্ক করুন
-              </button>
-            </form>
-
-            <div class="xl:col-span-7 glass-card rounded-3xl p-4 sm:p-6 space-y-4">
-              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-                <div class="flex items-center gap-2.5">
-                  <input type="checkbox" id="adm-select-all-reels" onchange="toggleSelectAllReels(this.checked)"
-                    class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
-                  <h3 class="text-base font-bold text-white">সিঙ্ককৃত রিলস (<span id="adm-reels-count-badge">0</span>)</h3>
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-xs text-slate-300 mb-1">শর্ট ডেসক্রিপশন *</label>
+                  <textarea id="adm-r-caption" rows="3" required placeholder="রিল ভিডিওর সংক্ষিপ্ত ডেসক্রিপশন লিখুন..."
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs outline-none"></textarea>
                 </div>
+                <div>
+                  <label class="block text-xs text-slate-300 mb-1">পোস্টার ইমেজ URL (ঐচ্ছিক)</label>
+                  <input type="text" id="adm-r-poster" placeholder="https://..."
+                    class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs outline-none" />
+                </div>
+              </div>
+            </div>
 
-                <button type="button" onclick="deleteSelectedReels()"
-                  class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                  🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-reels-count">0</span>)
-                </button>
+            <button type="submit"
+              class="w-full bg-pink-600 hover:bg-pink-500 text-white py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-pink-600/20 cursor-pointer">
+              ✓ রিল আপলোড ও সংরক্ষণ করুন
+            </button>
+          </form>
+
+          <!-- আপলোড হয়ে গেলে নিচের দিকে অ্যাডমিন প্যানেলে রিলস শো করবে -->
+          <div class="glass-card rounded-3xl p-4 sm:p-6 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <input type="checkbox" id="adm-select-all-reels" onchange="toggleSelectAllReels(this.checked)"
+                  class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
+                <h3 class="text-base font-bold text-white">আপলোডকৃত সব রিলস (<span id="adm-reels-count-badge">0</span>)</h3>
               </div>
 
-              <div id="adm-reels-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[650px] overflow-y-auto pr-1"></div>
+              <button type="button" onclick="deleteSelectedReels()"
+                class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-reels-count">0</span>)
+              </button>
             </div>
+
+            <div id="adm-reels-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[820px] overflow-y-auto pr-1"></div>
           </div>
         </div>
 
@@ -942,50 +1003,6 @@
           </div>
         </div>
 
-        <!-- [সেকশন ৮: ক্যাটাগরি, ডেলিভারি চার্জ ও ব্র্যান্ড সেটিংস] -->
-        <div id="adm-section-categories" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="glass-card rounded-3xl p-5 space-y-4">
-            <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">📁 ক্যাটাগরি অ্যাড ও ম্যানেজ</h3>
-            <form onsubmit="handleAdminAddCategory(event)" class="flex gap-2">
-              <input type="text" id="adm-cat-input" required placeholder="নতুন ক্যাটাগরি নাম..."
-                class="flex-1 bg-slate-950 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-xs outline-none" />
-              <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
-                যোগ করুন
-              </button>
-            </form>
-            <div id="adm-categories-list" class="flex flex-wrap gap-2 pt-2"></div>
-          </div>
-
-          <div class="glass-card rounded-3xl p-5 space-y-4">
-            <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">🚚 ডেলিভারি চার্জ ও ব্র্যান্ড সেটিংস</h3>
-            <form onsubmit="handleAdminSaveBrandConfig(event)" class="space-y-3 text-xs">
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-emerald-300 font-semibold mb-1">ঢাকার ভিতর ডেলিভারি (৳) *</label>
-                  <input type="number" id="adm-cfg-dhaka-charge" required min="0" value="80"
-                    class="w-full bg-slate-950 border border-emerald-500/30 rounded-xl px-3.5 py-2 font-mono outline-none" />
-                </div>
-                <div>
-                  <label class="block text-amber-300 font-semibold mb-1">ঢাকার বাইরে ডেলিভারি (৳) *</label>
-                  <input type="number" id="adm-cfg-outside-charge" required min="0" value="120"
-                    class="w-full bg-slate-950 border border-amber-500/30 rounded-xl px-3.5 py-2 font-mono outline-none" />
-                </div>
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">ব্র্যান্ড নাম</label>
-                <input type="text" id="adm-cfg-brand" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 outline-none" />
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">লাইভ সাইট URL</label>
-                <input type="text" id="adm-cfg-siteurl" placeholder="https://amarbrand.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 font-mono outline-none" />
-              </div>
-              <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold cursor-pointer">
-                সেটিংস সেভ করুন
-              </button>
-            </form>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -1105,7 +1122,6 @@
         <button type="button" onclick="closeAdminOrderDetailModal()" class="text-slate-400 hover:text-white text-lg px-2 cursor-pointer">✕</button>
       </div>
 
-      <!-- কাস্টমারের মোট পার্সেল, ডেলিভারড ও ক্যানসেল সামারি -->
       <div class="grid grid-cols-3 gap-3 text-center">
         <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3">
           <p class="text-[11px] text-slate-400">মোট পার্সেল অর্ডার</p>
@@ -1121,13 +1137,11 @@
         </div>
       </div>
 
-      <!-- পূর্বের অর্ডার হিস্টোরি (Delivered নাকি Cancelled ছিল) -->
       <div class="space-y-2">
         <p class="text-xs font-bold text-slate-200">পূর্বের অর্ডারসমূহের হিস্টোরি:</p>
         <div id="aod-history-list" class="space-y-1.5 max-h-40 overflow-y-auto bg-slate-950/80 border border-slate-800 rounded-2xl p-3 text-xs"></div>
       </div>
 
-      <!-- বর্তমান অর্ডারের COD ও ডেলিভারি চার্জ আপডেট ফর্ম -->
       <form id="aod-update-form" onsubmit="handleSaveOrderCodAndDelivery(event)" class="bg-slate-950/90 border border-emerald-500/25 rounded-2xl p-4 space-y-4 text-xs">
         <input type="hidden" id="aod-current-order-num" />
         <p class="font-bold text-emerald-300">COD ও ডেলিভারি চার্জ আপডেট করুন:</p>
@@ -1579,6 +1593,8 @@
     const CART_STORAGE_KEY = "amarbrand_visitor_cart_v1";
     const ORDERS_STORAGE_KEY = "amarbrand_visitor_orders_v1";
     const ANALYTICS_STORAGE_KEY = "amarbrand_live_analytics_v1";
+    const REELS_DB_NAME = "amarbrand_reels_media_db";
+    const REELS_DB_STORE = "reel_videos";
     const MAX_REEL_SIZE_BYTES = 10 * 1024 * 1024; // সর্বোচ্চ 10 MB
 
     const DEFAULT_FALLBACK_VIDEO = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
@@ -1645,27 +1661,143 @@
       { id: "REEL-5", title: "Modern Lifestyle Picks", product_code: "AB-PRD-1001", video_src: DEFAULT_FALLBACK_VIDEO, poster: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=70", caption: "নতুন কালেকশন।" }
     ];
 
+    function safeJsonParse(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    function safeStorageSet(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    /* ---------- IndexedDB for Unlimited Reels up to 10 MB each ---------- */
+    let reelsDbPromise = null;
+    const reelBlobUrlCache = new Map();
+
+    function openReelsMediaDb() {
+      if (reelsDbPromise) return reelsDbPromise;
+      reelsDbPromise = new Promise((resolve) => {
+        if (!("indexedDB" in window)) return resolve(null);
+        const req = indexedDB.open(REELS_DB_NAME, 1);
+        req.onupgradeneeded = (ev) => {
+          const db = ev.target.result;
+          if (!db.objectStoreNames.contains(REELS_DB_STORE)) {
+            db.createObjectStore(REELS_DB_STORE, { keyPath: "id" });
+          }
+        };
+        req.onsuccess = (ev) => resolve(ev.target.result);
+        req.onerror = () => resolve(null);
+      });
+      return reelsDbPromise;
+    }
+
+    async function saveReelBlobToDb(reelId, file) {
+      const db = await openReelsMediaDb();
+      if (!db || !file) return false;
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction(REELS_DB_STORE, "readwrite");
+          const store = tx.objectStore(REELS_DB_STORE);
+          store.put({ id: reelId, blob: file, mimeType: file.type || "video/mp4", size: file.size });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
+        } catch (_) {
+          resolve(false);
+        }
+      });
+    }
+
+    async function getReelBlobUrlFromDb(reelId) {
+      if (!reelId) return "";
+      if (reelBlobUrlCache.has(reelId)) return reelBlobUrlCache.get(reelId);
+      const db = await openReelsMediaDb();
+      if (!db) return "";
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction(REELS_DB_STORE, "readonly");
+          const store = tx.objectStore(REELS_DB_STORE);
+          const req = store.get(reelId);
+          req.onsuccess = () => {
+            const rec = req.result;
+            if (rec && rec.blob) {
+              const url = URL.createObjectURL(rec.blob);
+              reelBlobUrlCache.set(reelId, url);
+              resolve(url);
+            } else {
+              resolve("");
+            }
+          };
+          req.onerror = () => resolve("");
+        } catch (_) {
+          resolve("");
+        }
+      });
+    }
+
+    async function deleteReelBlobFromDb(reelId) {
+      if (reelBlobUrlCache.has(reelId)) {
+        try { URL.revokeObjectURL(reelBlobUrlCache.get(reelId)); } catch (_) {}
+        reelBlobUrlCache.delete(reelId);
+      }
+      const db = await openReelsMediaDb();
+      if (!db || !reelId) return;
+      try {
+        const tx = db.transaction(REELS_DB_STORE, "readwrite");
+        tx.objectStore(REELS_DB_STORE).delete(reelId);
+      } catch (_) {}
+    }
+
+    async function hydrateReelsMediaSources() {
+      let updatedAny = false;
+      for (const r of storeReels) {
+        if (r.has_db_video) {
+          const blobUrl = await getReelBlobUrlFromDb(r.id);
+          if (blobUrl && r.video_src !== blobUrl) {
+            r.video_src = blobUrl;
+            updatedAny = true;
+          }
+        }
+      }
+      if (updatedAny) {
+        renderHomeReelsRow();
+        if (activeCategoryPageName) renderCategoryRelatedReelsRow(activeCategoryPageName);
+        if (!document.getElementById("all-reels-page-view")?.classList.contains("hidden")) renderAllReelsPage();
+        if (!document.getElementById("admin-panel-view")?.classList.contains("hidden") && activeAdminSection === "reels") {
+          renderAdminReels();
+        }
+      }
+    }
+
     let adminState = {};
     let storeCategories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
     let activeCategoryPageName = "";
     let allAdminProducts = [...fallbackProducts];
     let storeProducts = [...fallbackProducts];
     let storeReels = [...fallbackReels];
-    let storeOrders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY) || "[]");
-    let cartItems = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+    let storeOrders = safeJsonParse(ORDERS_STORAGE_KEY, []);
+    let cartItems = safeJsonParse(CART_STORAGE_KEY, []);
 
-    let liveAnalytics = JSON.parse(localStorage.getItem(ANALYTICS_STORAGE_KEY) || "null") || {
+    let liveAnalytics = safeJsonParse(ANALYTICS_STORAGE_KEY, null) || {
       totalVisitors: 0,
       totalClicks: 0,
       categoryVisits: {}
     };
 
-    let deliveryChargeCfg = JSON.parse(localStorage.getItem("ab_delivery_charge_cfg") || "null") || {
+    let deliveryChargeCfg = safeJsonParse("ab_delivery_charge_cfg", null) || {
       dhaka: 80,
       outsideDhaka: 120
     };
 
-    let steadfastCfg = JSON.parse(localStorage.getItem("ab_steadfast_cfg") || "null") || {
+    let steadfastCfg = safeJsonParse("ab_steadfast_cfg", null) || {
       apiKey: "",
       secretKey: "",
       baseUrl: "https://portal.packzy.com/api/v1",
@@ -1673,9 +1805,9 @@
       events: { parcelCreated: true, statusUpdated: true }
     };
 
-    let gscCfg = JSON.parse(localStorage.getItem("ab_gsc_cfg") || "{}");
-    let gmcCfg = JSON.parse(localStorage.getItem("ab_gmc_cfg") || "{}");
-    let chatbotCfg = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || "null") || {
+    let gscCfg = safeJsonParse("ab_gsc_cfg", {});
+    let gmcCfg = safeJsonParse("ab_gmc_cfg", {});
+    let chatbotCfg = safeJsonParse("ab_cb_ai_cfg", null) || {
       enabled: true,
       welcomeMsg: "আমার ব্র্যান্ডে স্বাগতম! প্রোডাক্টের ছবি, লিংক বা যেকোনো প্রশ্ন করে বিস্তারিত জানুন।",
       platform: "None",
@@ -1699,8 +1831,36 @@
     let selectedReelIds = new Set();
     let selectedOrderNumbers = new Set();
     let uploadedAdminProductImageData = "";
-    let uploadedAdminReelVideoDataUrl = "";
+    let uploadedAdminReelVideoFile = null;
+    let uploadedAdminReelPreviewUrl = "";
     let nextGeneratedProductSku = "";
+
+    function compressImageDataUrl(dataUrl, maxWidth = 800, quality = 0.78) {
+      return new Promise((resolve) => {
+        if (!dataUrl || !dataUrl.startsWith("data:image/")) return resolve(dataUrl);
+        const img = new Image();
+        img.onload = () => {
+          try {
+            let { width, height } = img;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return resolve(dataUrl);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          } catch (_) {
+            resolve(dataUrl);
+          }
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      });
+    }
 
     function getDeliveryChargeForDistrict(district) {
       const dhakaFee = Number(deliveryChargeCfg.dhaka ?? 80);
@@ -1763,9 +1923,7 @@
     }
 
     function saveLiveAnalytics() {
-      try {
-        localStorage.setItem(ANALYTICS_STORAGE_KEY, JSON.stringify(liveAnalytics));
-      } catch (_) {}
+      safeStorageSet(ANALYTICS_STORAGE_KEY, liveAnalytics);
     }
 
     function recordLiveSiteVisit() {
@@ -1941,12 +2099,7 @@
     }
 
     function loadSyncedAdminData() {
-      try {
-        const raw = localStorage.getItem(ADMIN_STORAGE_KEY);
-        adminState = raw ? JSON.parse(raw) : {};
-      } catch (_) {
-        adminState = {};
-      }
+      adminState = safeJsonParse(ADMIN_STORAGE_KEY, {});
 
       if (Array.isArray(adminState.categories) && adminState.categories.length) {
         storeCategories = [...adminState.categories];
@@ -1963,7 +2116,13 @@
       }
 
       if (Array.isArray(adminState.managedReels)) {
-        storeReels = [...adminState.managedReels];
+        storeReels = adminState.managedReels.map(r => {
+          const cachedBlobUrl = reelBlobUrlCache.get(r.id);
+          return {
+            ...r,
+            video_src: cachedBlobUrl || r.video_src || DEFAULT_FALLBACK_VIDEO
+          };
+        });
       } else {
         storeReels = [...fallbackReels];
       }
@@ -1974,7 +2133,7 @@
           if (o && o.order_number) mergedMap.set(o.order_number, o);
         });
         storeOrders = Array.from(mergedMap.values());
-        localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(storeOrders));
+        safeStorageSet(ORDERS_STORAGE_KEY, storeOrders);
       }
 
       ensureChatThreadsInitialized();
@@ -1983,25 +2142,36 @@
       updateSeoMetaForView(activeCategoryPageName, activeModalProduct, activeReel);
       updateHeaderCounts();
       precomputeProductVisualFeatures();
+      hydrateReelsMediaSources();
     }
 
     function persistAdminState(patch) {
-      try {
-        const cur = JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY) || "{}");
-        const next = { ...cur, ...patch };
-        localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(next));
-        adminState = next;
-      } catch (_) {}
+      const cur = safeJsonParse(ADMIN_STORAGE_KEY, {});
+      const next = { ...cur, ...patch };
+      const ok = safeStorageSet(ADMIN_STORAGE_KEY, next);
+      if (!ok) {
+        alert("ব্রাউজার স্টোরেজ (localStorage) সীমা পূর্ণ হয়েছে।");
+      }
+      adminState = next;
+      return ok;
     }
 
     function syncAllAdminStoreData() {
+      const reelsMetadataForStorage = storeReels.map(r => {
+        const isBlobUrl = typeof r.video_src === "string" && r.video_src.startsWith("blob:");
+        return {
+          ...r,
+          video_src: isBlobUrl ? DEFAULT_FALLBACK_VIDEO : (r.video_src || DEFAULT_FALLBACK_VIDEO)
+        };
+      });
+
       persistAdminState({
         categories: storeCategories,
         managedProducts: allAdminProducts,
-        managedReels: storeReels,
+        managedReels: reelsMetadataForStorage,
         managedOrders: storeOrders
       });
-      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(storeOrders));
+      safeStorageSet(ORDERS_STORAGE_KEY, storeOrders);
       loadSyncedAdminData();
       renderAdminDashboard();
       renderCategoryCards();
@@ -2012,6 +2182,9 @@
 
     function resetDemoStoreData() {
       if (!confirm("সব কাস্টম পরিবর্তন মুছে ডিফল্ট প্রোডাক্ট, রিলস ও ক্যাটাগরিতে রিসেট করতে চান?")) return;
+      storeReels.forEach(r => {
+        if (r.has_db_video) deleteReelBlobFromDb(r.id);
+      });
       allAdminProducts = [...fallbackProducts];
       storeProducts = [...fallbackProducts];
       storeReels = [...fallbackReels];
@@ -2123,6 +2296,29 @@
       updateAddProductProfitPreview();
     }
 
+    function populateReelProductCodeDropdown() {
+      const sel = document.getElementById("adm-r-sku");
+      if (!sel) return;
+      const prevVal = sel.value;
+      const sourceList = allAdminProducts.length ? allAdminProducts : fallbackProducts;
+      sel.innerHTML = `<option value="">প্রোডাক্ট কোড সিলেক্ট করুন...</option>` + sourceList.map(p =>
+        `<option value="${escapeHtml(p.sku)}">${escapeHtml(p.sku)} — ${escapeHtml(p.title)}</option>`
+      ).join("");
+      if (prevVal && sourceList.some(p => p.sku === prevVal)) {
+        sel.value = prevVal;
+      } else if (sourceList[0]) {
+        sel.value = sourceList[0].sku;
+      }
+      refreshReelAutoLinkPreview();
+    }
+
+    function refreshReelAutoLinkPreview() {
+      const previewEl = document.getElementById("adm-r-auto-link-preview");
+      if (!previewEl) return;
+      const nextId = "REEL-" + Math.floor(1000 + Math.random() * 9000);
+      previewEl.textContent = `${getReelUniqueUrl(nextId)} (আপলোডের পর চূড়ান্ত ইউনিক লিংক তৈরি হবে)`;
+    }
+
     function handleAdminProductTypeChange() {
       const pType = document.getElementById("adm-p-type")?.value || "Single";
       const sizesWrap = document.getElementById("adm-p-sizes-wrap");
@@ -2149,7 +2345,7 @@
 
     function switchAdminSection(secName) {
       activeAdminSection = secName;
-      const sections = ["overview", "products", "orders", "courier", "reels", "chatbot", "seo_merchant", "categories"];
+      const sections = ["overview", "products", "orders", "courier", "reels", "chatbot", "seo_merchant"];
       sections.forEach(s => {
         const el = document.getElementById(`adm-section-${s}`);
         const btn = document.getElementById(`adm-nav-${s}`);
@@ -2311,7 +2507,6 @@
       document.getElementById("adm-menu-cnt-products").textContent = String(allAdminProducts.length);
       document.getElementById("adm-menu-cnt-orders").textContent = String(storeOrders.length);
       document.getElementById("adm-menu-cnt-reels").textContent = String(storeReels.length);
-      document.getElementById("adm-menu-cnt-cats").textContent = String(storeCategories.length);
       document.getElementById("adm-menu-cnt-chats").textContent = String(threads.length);
 
       const catSel = document.getElementById("adm-p-category");
@@ -2321,11 +2516,16 @@
         if (prevVal && storeCategories.includes(prevVal)) catSel.value = prevVal;
       }
 
-      const skuList = document.getElementById("adm-sku-datalist");
-      if (skuList) {
-        skuList.innerHTML = allAdminProducts.map(p => `<option value="${escapeHtml(p.sku)}">${escapeHtml(p.title)}</option>`).join("");
+      const prodCatFilter = document.getElementById("adm-product-category-filter");
+      if (prodCatFilter) {
+        const prevFilter = prodCatFilter.value || "ALL";
+        prodCatFilter.innerHTML = `<option value="ALL">সব ক্যাটাগরি</option>` + storeCategories.map(c =>
+          `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`
+        ).join("");
+        prodCatFilter.value = prevFilter;
       }
 
+      populateReelProductCodeDropdown();
       refreshAutoCodeAndLinkPreview();
       handleAdminProductTypeChange();
 
@@ -2385,7 +2585,7 @@
           statusUpdated: Boolean(document.getElementById("sf-ev-status-updated").checked)
         }
       };
-      localStorage.setItem("ab_steadfast_cfg", JSON.stringify(steadfastCfg));
+      safeStorageSet("ab_steadfast_cfg", steadfastCfg);
       renderSteadfastForm();
       alert("Steadfast কুরিয়ার API ও ওয়েবহুক সেটিংস সেভ হয়েছে।");
     }
@@ -2452,7 +2652,7 @@
         webhookUrl: document.getElementById("cb-auto-webhook").value.trim(),
         token: document.getElementById("cb-auto-token").value.trim()
       };
-      localStorage.setItem("ab_cb_ai_cfg", JSON.stringify(chatbotCfg));
+      safeStorageSet("ab_cb_ai_cfg", chatbotCfg);
       alert("চ্যাটবট ও অটোমেশন সফটওয়্যার সেটিংস সেভ হয়েছে।");
     }
 
@@ -2577,7 +2777,7 @@
         siteUrl: document.getElementById("gsc-site-url").value.trim(),
         allowIndex: Boolean(document.getElementById("gsc-allow-index").checked)
       };
-      localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscCfg));
+      safeStorageSet("ab_gsc_cfg", gscCfg);
       applyStaticBrandSettings();
       alert("Google Search Console সেটিংস সেভ হয়েছে।");
     }
@@ -2591,18 +2791,19 @@
         currency: document.getElementById("gmc-currency").value.trim() || "BDT",
         feedUrl: document.getElementById("gmc-feed-url").value.trim()
       };
-      localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmcCfg));
+      safeStorageSet("ab_gmc_cfg", gmcCfg);
       applyStaticBrandSettings();
       alert("Google Merchant Center সেটিংস সেভ হয়েছে।");
     }
 
-    /* ---------- প্রোডাক্ট অ্যাড, এডিট ও ডিলিট (ক্রয়/বিক্রয়/অফার মূল্য) ---------- */
+    /* ---------- প্রোডাক্ট অ্যাড, এডিট, সার্চ ও ডিলিট ---------- */
     function handleAdminProductImageFile(e) {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = () => {
-        uploadedAdminProductImageData = String(reader.result || "");
+      reader.onload = async () => {
+        const rawData = String(reader.result || "");
+        uploadedAdminProductImageData = await compressImageDataUrl(rawData, 800, 0.78);
         const lbl = document.getElementById("adm-p-file-preview-label");
         if (lbl) {
           lbl.textContent = `✓ ছবি সিলেক্টেড: ${file.name}`;
@@ -2620,6 +2821,9 @@
       const cost_price = Number(document.getElementById("adm-p-cost-price").value || 0);
       const regular_price = Number(document.getElementById("adm-p-reg-price").value || 0);
       const offer_price_raw = Number(document.getElementById("adm-p-offer-price").value || 0);
+      if (offer_price_raw > 0 && regular_price > 0 && offer_price_raw > regular_price) {
+        return alert("অফারমূল্য বিক্রয়মূল্যের চেয়ে বেশি হতে পারবে না।");
+      }
       const activePrice = offer_price_raw > 0 ? offer_price_raw : regular_price;
       const stock = Number(document.getElementById("adm-p-stock").value || 0);
       const colors = document.getElementById("adm-p-colors").value.split(",").map(c => c.trim()).filter(Boolean);
@@ -2722,6 +2926,9 @@
       const cost_price = Number(document.getElementById("adm-edit-p-cost-price").value || 0);
       const regular_price = Number(document.getElementById("adm-edit-p-reg-price").value || 0);
       const offer_price_raw = Number(document.getElementById("adm-edit-p-offer-price").value || 0);
+      if (offer_price_raw > 0 && regular_price > 0 && offer_price_raw > regular_price) {
+        return alert("অফারমূল্য বিক্রয়মূল্যের চেয়ে বেশি হতে পারবে না।");
+      }
       const activePrice = offer_price_raw > 0 ? offer_price_raw : regular_price;
       const stock = Number(document.getElementById("adm-edit-p-stock").value || 0);
       const sizes = product_type === "Variant"
@@ -2792,16 +2999,27 @@
 
     function renderAdminProducts() {
       const box = document.getElementById("adm-products-list");
+      const searchQ = normalizeSearchText(document.getElementById("adm-product-search-input")?.value || "");
+      const catFilter = document.getElementById("adm-product-category-filter")?.value || "ALL";
+
       document.getElementById("adm-products-count-badge").textContent = String(allAdminProducts.length);
       updateAdminSelectionBadges();
       if (!box) return;
 
-      if (allAdminProducts.length === 0) {
-        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-8">কোনো প্রোডাক্ট নেই।</p>`;
+      const filteredList = allAdminProducts.filter(p => {
+        if (catFilter !== "ALL" && normalizeSearchText(p.category) !== normalizeSearchText(catFilter)) {
+          return false;
+        }
+        if (!searchQ) return true;
+        return getProductSearchBlob(p).includes(searchQ);
+      });
+
+      if (filteredList.length === 0) {
+        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-8">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>`;
         return;
       }
 
-      box.innerHTML = allAdminProducts.map(p => {
+      box.innerHTML = filteredList.map(p => {
         const checked = selectedProductSkus.has(p.sku) ? "checked" : "";
         const img = p.images?.[0] || "";
         const typeLabel = p.product_type === "Variant" ? "Variant" : "Single";
@@ -2845,7 +3063,7 @@
       }).join("");
     }
 
-    /* ---------- রিল ভিডিও আপলোড (সর্বোচ্চ 10 MB) ও স্মুথ প্লেব্যাক ---------- */
+    /* ---------- রিল ভিডিও আপলোড (সর্বোচ্চ 10 MB, IndexedDB আনলিমিটেড) ---------- */
     function handleAdminReelVideoFile(e) {
       const file = e.target.files?.[0];
       if (!file) return;
@@ -2853,63 +3071,78 @@
       if (file.size > MAX_REEL_SIZE_BYTES) {
         alert(`রিল ভিডিওর সাইজ সর্বোচ্চ 10 MB হতে পারবে। আপনার সিলেক্ট করা ফাইলটি ${(file.size / (1024 * 1024)).toFixed(2)} MB।`);
         e.target.value = "";
-        uploadedAdminReelVideoDataUrl = "";
+        uploadedAdminReelVideoFile = null;
+        if (uploadedAdminReelPreviewUrl) {
+          try { URL.revokeObjectURL(uploadedAdminReelPreviewUrl); } catch (_) {}
+          uploadedAdminReelPreviewUrl = "";
+        }
         document.getElementById("adm-r-file-preview-label")?.classList.add("hidden");
         document.getElementById("adm-r-video-preview")?.classList.add("hidden");
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        uploadedAdminReelVideoDataUrl = String(reader.result || "");
-        const lbl = document.getElementById("adm-r-file-preview-label");
-        const prevVid = document.getElementById("adm-r-video-preview");
-        if (lbl) {
-          lbl.textContent = `✓ ভিডিও রেডি: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB / 10 MB)`;
-          lbl.classList.remove("hidden");
-        }
-        if (prevVid) {
-          prevVid.src = uploadedAdminReelVideoDataUrl;
-          prevVid.load();
-          prevVid.classList.remove("hidden");
-        }
-      };
-      reader.readAsDataURL(file);
+      if (uploadedAdminReelPreviewUrl) {
+        try { URL.revokeObjectURL(uploadedAdminReelPreviewUrl); } catch (_) {}
+      }
+      uploadedAdminReelVideoFile = file;
+      uploadedAdminReelPreviewUrl = URL.createObjectURL(file);
+
+      const lbl = document.getElementById("adm-r-file-preview-label");
+      const prevVid = document.getElementById("adm-r-video-preview");
+      if (lbl) {
+        lbl.textContent = `✓ ভিডিও রেডি: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB / 10 MB)`;
+        lbl.classList.remove("hidden");
+      }
+      if (prevVid) {
+        prevVid.src = uploadedAdminReelPreviewUrl;
+        prevVid.load();
+        prevVid.classList.remove("hidden");
+      }
     }
 
-    function handleAdminAddReel(e) {
+    async function handleAdminAddReel(e) {
       e.preventDefault();
       const fileInp = document.getElementById("adm-r-video-file");
-      const selectedFile = fileInp?.files?.[0];
-      if (selectedFile && selectedFile.size > MAX_REEL_SIZE_BYTES) {
+      const selectedFile = uploadedAdminReelVideoFile || fileInp?.files?.[0];
+
+      if (!selectedFile) {
+        return alert("অনুগ্রহ করে একটি রিল ভিডিও ফাইল সিলেক্ট করুন (সর্বোচ্চ 10 MB)।");
+      }
+      if (selectedFile.size > MAX_REEL_SIZE_BYTES) {
         return alert("রিল ভিডিও সর্বোচ্চ 10 MB পর্যন্ত আপলোড করা যাবে।");
       }
 
       const title = document.getElementById("adm-r-title").value.trim();
       const product_code = document.getElementById("adm-r-sku").value.trim().toUpperCase();
-      const videoUrl = document.getElementById("adm-r-video-url").value.trim();
       const posterInput = document.getElementById("adm-r-poster").value.trim();
       const caption = document.getElementById("adm-r-caption").value.trim();
 
       if (!title || !product_code) {
-        return alert("রিল টাইটেল এবং লিঙ্কড প্রোডাক্ট SKU দিন।");
+        return alert("রিল টাইটেল এবং প্রোডাক্ট কোড সিলেক্ট করুন।");
       }
 
-      const finalVideoSrc = uploadedAdminReelVideoDataUrl || videoUrl || DEFAULT_FALLBACK_VIDEO;
+      const reelId = "REEL-" + Date.now().toString(36).toUpperCase().slice(-5) + "-" + Math.floor(10 + Math.random() * 89);
+      const savedToDb = await saveReelBlobToDb(reelId, selectedFile);
+      const objectUrl = URL.createObjectURL(selectedFile);
+      reelBlobUrlCache.set(reelId, objectUrl);
+
       const linkedProd = allAdminProducts.find(p => String(p.sku || "").toUpperCase() === product_code);
       const poster = posterInput || linkedProd?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
 
       const newReel = {
-        id: "REEL-" + Math.floor(1000 + Math.random() * 9000),
+        id: reelId,
         title,
         product_code,
-        video_src: finalVideoSrc,
+        video_src: objectUrl,
+        has_db_video: Boolean(savedToDb),
+        file_size_mb: Number((selectedFile.size / (1024 * 1024)).toFixed(2)),
         poster,
         caption
       };
 
       storeReels.unshift(newReel);
-      uploadedAdminReelVideoDataUrl = "";
+      uploadedAdminReelVideoFile = null;
+      uploadedAdminReelPreviewUrl = "";
 
       const lbl = document.getElementById("adm-r-file-preview-label");
       const prevVid = document.getElementById("adm-r-video-preview");
@@ -2923,7 +3156,7 @@
 
       e.target.reset();
       syncAllAdminStoreData();
-      alert(`রিল সফলভাবে আপলোড ও সিঙ্ক হয়েছে: ${title}`);
+      alert(`রিল সফলভাবে আপলোড হয়েছে!\nটাইটেল: ${title}\nইউনিক লিংক: ${getReelUniqueUrl(reelId)}`);
     }
 
     function handleReelVideoError(videoEl) {
@@ -2948,8 +3181,10 @@
 
     function deleteSingleReel(id) {
       if (!confirm(`এই রিল (${id}) ডিলিট করতে চান?`)) return;
+      deleteReelBlobFromDb(id);
       storeReels = storeReels.filter(r => r.id !== id);
       selectedReelIds.delete(id);
+      if (focusedReelId === id) focusedReelId = storeReels[0]?.id || "";
       syncAllAdminStoreData();
     }
 
@@ -2958,6 +3193,7 @@
         return alert("ডিলিট করার জন্য অন্তত একটি রিল সিলেক্ট করুন।");
       }
       if (!confirm(`সিলেক্ট করা ${selectedReelIds.size}টি রিল ডিলিট করতে চান?`)) return;
+      selectedReelIds.forEach(id => deleteReelBlobFromDb(id));
       storeReels = storeReels.filter(r => !selectedReelIds.has(r.id));
       selectedReelIds.clear();
       const selAll = document.getElementById("adm-select-all-reels");
@@ -2965,40 +3201,77 @@
       syncAllAdminStoreData();
     }
 
+    function copyReelLinkById(reelId) {
+      const url = getReelUniqueUrl(reelId);
+      navigator.clipboard?.writeText(url).catch(() => {});
+      alert(`রিলের ইউনিক লিংক কপি হয়েছে:\n${url}`);
+    }
+
     function renderAdminReels() {
       const box = document.getElementById("adm-reels-list");
-      document.getElementById("adm-reels-count-badge").textContent = String(storeReels.length);
+      const countBadge = document.getElementById("adm-reels-count-badge");
+      const inlineTotal = document.getElementById("adm-reels-total-inline");
+      if (countBadge) countBadge.textContent = String(storeReels.length);
+      if (inlineTotal) inlineTotal.textContent = String(storeReels.length);
       updateAdminSelectionBadges();
       if (!box) return;
 
       if (storeReels.length === 0) {
-        box.innerHTML = `<p class="col-span-full text-xs text-slate-400 text-center py-8">কোনো রিল নেই।</p>`;
+        box.innerHTML = `<p class="col-span-full text-xs text-slate-400 text-center py-8">কোনো রিল আপলোড করা হয়নি।</p>`;
         return;
       }
 
       box.innerHTML = storeReels.map(r => {
         const checked = selectedReelIds.has(r.id) ? "checked" : "";
+        const reelUrl = getReelUniqueUrl(r.id);
+        const vidSrc = reelBlobUrlCache.get(r.id) || r.video_src || DEFAULT_FALLBACK_VIDEO;
         return `
-          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3 flex items-start justify-between gap-3">
-            <div class="flex items-start gap-2.5 min-w-0">
-              <input type="checkbox" ${checked} onchange="toggleSelectReel('${escapeHtml(r.id)}', this.checked)"
-                class="w-4 h-4 accent-rose-500 rounded cursor-pointer mt-1 shrink-0" />
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-white truncate">${escapeHtml(r.title)}</p>
-                <p class="text-[11px] font-mono text-pink-300 mt-0.5">${escapeHtml(r.id)} • SKU: ${escapeHtml(r.product_code || "N/A")}</p>
-                ${r.caption ? `<p class="text-[11px] text-slate-400 line-clamp-1 mt-0.5">${escapeHtml(r.caption)}</p>` : ""}
+          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 flex flex-col justify-between gap-3">
+            <div class="space-y-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <label class="inline-flex items-start gap-2 min-w-0 cursor-pointer">
+                  <input type="checkbox" ${checked} onchange="toggleSelectReel('${escapeHtml(r.id)}', this.checked)"
+                    class="w-4 h-4 accent-rose-500 rounded cursor-pointer mt-0.5 shrink-0" />
+                  <span class="text-xs font-bold text-white leading-snug break-words">${escapeHtml(r.title)}</span>
+                </label>
+                <span class="text-[10px] font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded-full shrink-0">
+                  ${escapeHtml(r.product_code || "N/A")}
+                </span>
+              </div>
+
+              <div class="aspect-[16/10] w-full rounded-xl overflow-hidden bg-black border border-slate-800">
+                <video src="${escapeHtml(vidSrc)}" poster="${escapeHtml(r.poster || "")}"
+                  controls muted playsinline preload="auto"
+                  onerror="handleReelVideoError(this)"
+                  class="w-full h-full object-cover"></video>
+              </div>
+
+              ${r.caption ? `<p class="text-[11px] text-slate-300 leading-relaxed line-clamp-2">${escapeHtml(r.caption)}</p>` : ""}
+
+              <div class="bg-slate-900/90 border border-slate-800/90 rounded-xl p-2 flex items-center justify-between gap-2">
+                <span class="text-[10px] font-mono text-sky-300 truncate">${escapeHtml(reelUrl)}</span>
+                <button type="button" onclick="copyReelLinkById('${escapeHtml(r.id)}')"
+                  class="text-[10px] font-semibold text-emerald-300 hover:text-white bg-slate-800 px-2 py-0.5 rounded-lg shrink-0 cursor-pointer">
+                  কপি
+                </button>
               </div>
             </div>
-            <button type="button" onclick="deleteSingleReel('${escapeHtml(r.id)}')"
-              class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-2.5 py-1 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0">
-              ডিলিট
-            </button>
+
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/70">
+              <span class="text-[10px] font-mono text-slate-400">
+                ${escapeHtml(r.id)}${r.file_size_mb ? ` • ${escapeHtml(r.file_size_mb)} MB` : ""}
+              </span>
+              <button type="button" onclick="deleteSingleReel('${escapeHtml(r.id)}')"
+                class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer">
+                🗑️ ডিলিট
+              </button>
+            </div>
           </div>
         `;
       }).join("");
     }
 
-    /* ---------- অর্ডার ম্যানেজার, ছবিসহ প্রোডাক্ট, কাস্টমার পপআপ ও বাল্ক অ্যাকশন ---------- */
+    /* ---------- অর্ডার ম্যানেজার ---------- */
     function resolveOrderItemImage(item) {
       if (item && item.image) return item.image;
       const matched = allAdminProducts.find(p =>
@@ -3159,7 +3432,6 @@
       syncAllAdminStoreData();
     }
 
-    /* ---------- অর্ডার ও কাস্টমার পপআপ (COD, ডেলিভারি চার্জ ও হিস্টোরি) ---------- */
     function openAdminOrderDetailModal(orderNum) {
       const ord = storeOrders.find(o => o.order_number === orderNum);
       if (!ord) return;
@@ -3369,9 +3641,9 @@
       gmcCfg = { ...gmcCfg, brandName };
       gscCfg = { ...gscCfg, siteUrl };
 
-      localStorage.setItem("ab_delivery_charge_cfg", JSON.stringify(deliveryChargeCfg));
-      localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmcCfg));
-      localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscCfg));
+      safeStorageSet("ab_delivery_charge_cfg", deliveryChargeCfg);
+      safeStorageSet("ab_gmc_cfg", gmcCfg);
+      safeStorageSet("ab_gsc_cfg", gscCfg);
 
       onDistrictChange();
       syncAllAdminStoreData();
@@ -3715,22 +3987,23 @@
       switchPageView("category-page-view", catUrl);
 
       const brand = gmcCfg.brandName || "Amar Brand";
+      const imgEl = document.getElementById("cat-page-img");
+      if (imgEl) {
+        imgEl.src = getCategoryImage(matched);
+        imgEl.alt = `${matched} - ${brand}`;
+      }
       document.getElementById("cat-page-title").textContent = matched;
-      const catImgEl = document.getElementById("cat-page-img");
-      catImgEl.src = getCategoryImage(matched);
-      catImgEl.alt = `${matched} - ${brand}`;
       document.getElementById("cat-page-link-text").textContent = catUrl;
 
-      const otherLinksBox = document.getElementById("cat-page-other-links");
-      if (otherLinksBox) {
-        otherLinksBox.innerHTML = storeCategories.map((c, idx) => {
-          const isCurrent = c === matched;
+      const pillsEl = document.getElementById("cat-page-other-links");
+      if (pillsEl) {
+        pillsEl.innerHTML = storeCategories.map((c, idx) => {
+          const isCur = c === matched;
           return `
-            <a href="${escapeHtml(getCategoryPageUrl(c))}" onclick="event.preventDefault(); openCategoryPageByIndex(${idx});"
-              class="px-3.5 py-1.5 rounded-xl text-xs font-semibold border whitespace-nowrap transition ${
-                isCurrent ? "active-cat-card text-emerald-300" : "bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-300"
-              }">${escapeHtml(c)}</a>
-          `;
+            <button type="button" onclick="openCategoryPageByIndex(${idx})"
+              class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                isCur ? "bg-emerald-600 text-white" : "bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800"
+              }">${escapeHtml(c)}</button>`;
         }).join("");
       }
 
@@ -3745,35 +4018,120 @@
       alert(`ক্যাটাগরি লিংক কপি হয়েছে:\n${url}`);
     }
 
-    function buildProductCardHtml(p) {
-      const brand = gmcCfg.brandName || "Amar Brand";
-      const imgUrl = p.images && p.images[0] ? p.images[0] : "";
-      const imgBottom = imgUrl
-        ? `<img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(`${p.title} (${p.sku}) - ${p.category || ""} - ${brand}`)}" loading="lazy" class="w-full h-28 sm:h-52 object-cover rounded-xl sm:rounded-2xl border border-slate-800/90" />`
-        : `<div class="w-full h-28 sm:h-52 rounded-xl sm:rounded-2xl bg-slate-950 border border-slate-800/90 flex items-center justify-center text-[10px] font-mono text-slate-500">${escapeHtml(p.sku)}</div>`;
-      const regP = Number(p.regular_price ?? p.price ?? 0);
-      const curP = Number(p.price ?? 0);
-      const hasOld = regP > curP;
+    function renderCategoryPageProducts() {
+      const grid = document.getElementById("category-page-products-grid");
+      if (!grid || !activeCategoryPageName) return;
+      const q = document.getElementById("visitor-search-input")?.value.trim() || "";
+      const list = searchProductsList(q, activeCategoryPageName, pendingSearchImage);
+      grid.innerHTML = renderProductCardsHtml(list);
+    }
 
-      return `
-        <article onclick="openProductModal('${escapeHtml(p.sku)}')"
-          class="glass-card rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 flex flex-col justify-between gap-2 sm:gap-3.5 cursor-pointer hover:border-emerald-500/50 transition shadow-lg group">
-          <div class="space-y-1">
-            <h3 class="font-bold text-[11px] sm:text-base text-white group-hover:text-emerald-300 transition line-clamp-1">
-              ${escapeHtml(p.title)}
-            </h3>
+    function getRelatedReelsForCategory(catName) {
+      const catNorm = normalizeSearchText(catName);
+      const matched = storeReels.filter(r => {
+        const prod = storeProducts.find(p => String(p.sku || "").toUpperCase() === String(r.product_code || "").toUpperCase());
+        const prodCat = normalizeSearchText(prod?.category || "");
+        const reelBlob = normalizeSearchText(`${r.title || ""} ${r.caption || ""} ${r.product_code || ""}`);
+        return (prodCat && catNorm && (prodCat === catNorm || prodCat.includes(catNorm) || catNorm.includes(prodCat))) ||
+               (catNorm && reelBlob.includes(catNorm));
+      });
+      return matched.length > 0 ? matched : storeReels.slice(0, 5);
+    }
 
-            <div class="flex items-baseline gap-1.5">
-              <span class="text-xs sm:text-lg font-extrabold text-emerald-400 font-mono">৳${escapeHtml(curP)}</span>
-              ${hasOld ? `<span class="hidden sm:inline text-xs text-slate-500 line-through font-mono">৳${escapeHtml(regP)}</span>` : ""}
+    function renderCategoryRelatedReelsRow(catName) {
+      const rowEl = document.getElementById("category-related-reels-row");
+      const countEl = document.getElementById("cat-related-reels-count");
+      const headingEl = document.getElementById("cat-related-reels-heading-name");
+      if (!rowEl) return;
+
+      if (headingEl) headingEl.textContent = catName || "ক্যাটাগরি";
+      const related = getRelatedReelsForCategory(catName);
+      if (countEl) countEl.textContent = String(related.length);
+
+      if (related.length === 0) {
+        rowEl.innerHTML = `<p class="text-xs text-slate-400 py-4">এই ক্যাটাগরির জন্য কোনো রিল পাওয়া যায়নি।</p>`;
+        return;
+      }
+
+      rowEl.innerHTML = related.map(r => {
+        const vidSrc = reelBlobUrlCache.get(r.id) || r.video_src || DEFAULT_FALLBACK_VIDEO;
+        return `
+          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')"
+            class="glass-card rounded-2xl overflow-hidden hover:border-pink-500/40 transition cursor-pointer group flex flex-col">
+            <div class="relative aspect-[9/16] bg-slate-950 overflow-hidden">
+              <video src="${escapeHtml(vidSrc)}" poster="${escapeHtml(r.poster || "")}"
+                muted playsinline loop preload="auto"
+                onerror="handleReelVideoError(this)"
+                onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause()"
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
+              <span class="absolute top-1.5 left-1.5 bg-pink-600/90 text-white text-[9px] font-mono px-1.5 py-0.5 rounded-full">
+                ${escapeHtml(r.product_code || "REEL")}
+              </span>
+              <span class="absolute bottom-1.5 right-1.5 w-7 h-7 rounded-full bg-slate-950/75 text-white flex items-center justify-center text-xs">▶</span>
+            </div>
+            <div class="p-2 space-y-0.5">
+              <p class="text-[11px] font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
+              <p class="text-[10px] text-slate-400 line-clamp-1">${escapeHtml(r.caption || "")}</p>
             </div>
           </div>
+        `;
+      }).join("");
+    }
 
-          <div>
-            ${imgBottom}
+    function renderProductCardsHtml(list) {
+      const brand = gmcCfg.brandName || "Amar Brand";
+      if (!list || list.length === 0) {
+        return `<div class="col-span-full text-center py-12 text-slate-400 text-sm">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>`;
+      }
+      return list.map(p => {
+        const firstImg = p.images?.[0] || "";
+        const priceNum = Number(p.price || 0);
+        const regNum = Number(p.regular_price || 0);
+        const hasDiscount = regNum > priceNum && priceNum > 0;
+        const typeTag = p.product_type === "Variant" ? "Variant" : "Single";
+        const prodUrl = getProductUniqueUrl(p.sku);
+
+        return `
+          <div onclick="openProductModal('${escapeHtml(p.sku)}')"
+            class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between hover:border-emerald-500/40 transition group cursor-pointer">
+            <div>
+              <div class="relative aspect-square bg-slate-950 overflow-hidden">
+                ${firstImg
+                  ? `<img src="${escapeHtml(firstImg)}" alt="${escapeHtml(`${p.title} - ${brand}`)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />`
+                  : `<div class="w-full h-full flex items-center justify-center text-slate-600 text-xs">No Image</div>`}
+                <span class="hidden sm:inline-block absolute top-2.5 left-2.5 bg-slate-950/80 text-emerald-300 text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-slate-700/80">
+                  ${escapeHtml(p.category || "General")}
+                </span>
+                <span class="hidden sm:inline-block absolute top-2.5 right-2.5 text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                  typeTag === "Variant" ? "bg-indigo-600/85 text-white" : "bg-emerald-600/85 text-white"
+                }">
+                  ${typeTag}
+                </span>
+              </div>
+
+              <div class="p-2 sm:p-4 space-y-1">
+                <a href="${escapeHtml(prodUrl)}" onclick="event.preventDefault(); event.stopPropagation(); openProductModal('${escapeHtml(p.sku)}');"
+                  class="block font-bold text-white text-xs sm:text-base line-clamp-1 hover:text-emerald-300 transition">
+                  ${escapeHtml(p.title)}
+                </a>
+                <p class="hidden sm:block text-xs text-slate-400 line-clamp-2">${escapeHtml(p.short_description || "")}</p>
+              </div>
+            </div>
+
+            <div class="px-2 sm:px-4 pb-2.5 sm:pb-4 pt-1.5 border-t border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-xs sm:text-lg font-extrabold text-emerald-400 font-mono">৳${priceNum}</span>
+                ${hasDiscount ? `<span class="text-[10px] sm:text-xs text-slate-500 line-through font-mono">৳${regNum}</span>` : ""}
+              </div>
+
+              <button type="button" onclick="event.stopPropagation(); quickBuyProduct('${escapeHtml(p.sku)}');"
+                class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold transition shadow-lg shadow-emerald-600/20 text-center cursor-pointer">
+                অর্ডার করুন
+              </button>
+            </div>
           </div>
-        </article>
-      `;
+        `;
+      }).join("");
     }
 
     function renderVisitorProducts() {
@@ -3781,558 +4139,482 @@
       const countEl = document.getElementById("catalog-visible-count");
       if (!grid) return;
 
-      const q = (document.getElementById("visitor-search-input")?.value || "").trim();
-      const sortVal = document.getElementById("visitor-sort-select")?.value || "featured";
+      const q = document.getElementById("visitor-search-input")?.value.trim() || "";
+      const sortBy = document.getElementById("visitor-sort-select")?.value || "featured";
       let list = searchProductsList(q, "", pendingSearchImage);
 
       if (!normalizeSearchText(q) && !pendingSearchImage) {
-        if (sortVal === "price-asc") list = [...list].sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
-        if (sortVal === "price-desc") list = [...list].sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+        if (sortBy === "price-asc") list = [...list].sort((a, b) => Number(a.price) - Number(b.price));
+        if (sortBy === "price-desc") list = [...list].sort((a, b) => Number(b.price) - Number(a.price));
       }
 
       if (countEl) countEl.textContent = String(list.length);
-      if (list.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm glass-card rounded-3xl">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>`;
-        return;
-      }
-      grid.innerHTML = list.map(buildProductCardHtml).join("");
+      grid.innerHTML = renderProductCardsHtml(list);
     }
 
-    function renderCategoryPageProducts() {
-      const grid = document.getElementById("category-page-products-grid");
-      if (!grid) return;
-      const q = (document.getElementById("visitor-search-input")?.value || "").trim();
-      const filtered = searchProductsList(q, activeCategoryPageName, pendingSearchImage);
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm glass-card rounded-3xl">এই ক্যাটাগরিতে বর্তমানে কোনো প্রোডাক্ট নেই।</div>`;
-        return;
-      }
-      grid.innerHTML = filtered.map(buildProductCardHtml).join("");
-    }
+    function openProductModal(sku) {
+      const prod = storeProducts.find(p => p.sku === sku) || allAdminProducts.find(p => p.sku === sku);
+      if (!prod) return;
+      activeModalProduct = prod;
+      focusedReelId = "";
+      updateSeoMetaForView(activeCategoryPageName, prod, null);
 
-    function renderModalSizeAndColorButtons() {
-      if (!activeModalProduct) return;
-      const prod = activeModalProduct;
-      const isVariant = String(prod.product_type || "").toLowerCase() === "variant";
+      const prodUrl = getProductUniqueUrl(prod.sku);
+      if (window.location.protocol.startsWith("http")) {
+        history.pushState({ viewId: "product", sku: prod.sku }, "", prodUrl);
+      }
+
+      const brand = gmcCfg.brandName || "Amar Brand";
+      const isVariant = prod.product_type === "Variant";
+
+      document.getElementById("pdm-sku-badge").textContent = `SKU: ${prod.sku}`;
+      document.getElementById("pdm-title").textContent = prod.title;
+      const linkTxt = document.getElementById("pdm-unique-link-text");
+      if (linkTxt) linkTxt.textContent = `ইউনিক লিংক: ${prodUrl}`;
+
+      const priceNum = Number(prod.price || 0);
+      const regNum = Number(prod.regular_price || 0);
+      document.getElementById("pdm-price").textContent = `৳${priceNum}`;
+      const regEl = document.getElementById("pdm-regular-price");
+      if (regEl) {
+        regEl.textContent = regNum > priceNum ? `৳${regNum}` : "";
+      }
+
+      const typeBadge = document.getElementById("pdm-type-badge");
+      if (typeBadge) {
+        typeBadge.textContent = isVariant ? "Variant Product" : "Single Product";
+      }
+
+      document.getElementById("pdm-desc").textContent = prod.short_description || `${prod.title} — প্রিমিয়াম প্রোডাক্ট।`;
+
+      const imgs = Array.isArray(prod.images) && prod.images.length ? prod.images : [];
+      const mainBox = document.getElementById("pdm-main-image-box");
+      const thumbsBox = document.getElementById("pdm-thumbs-box");
+      const setMainImg = (src) => {
+        mainBox.innerHTML = src
+          ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(`${prod.title} - ${brand}`)}" class="w-full h-full object-cover" />`
+          : `<span class="text-slate-500 text-xs">No Image</span>`;
+      };
+      setMainImg(imgs[0] || "");
+      thumbsBox.innerHTML = imgs.map((src, i) => `
+        <button type="button" onclick="document.getElementById('pdm-main-image-box').innerHTML='<img src=\\'${escapeHtml(src)}\\' class=\\'w-full h-full object-cover\\'/>'"
+          class="w-14 h-14 rounded-xl overflow-hidden border ${i === 0 ? "border-emerald-500" : "border-slate-800"} shrink-0 cursor-pointer">
+          <img src="${escapeHtml(src)}" alt="Thumb" class="w-full h-full object-cover" />
+        </button>
+      `).join("");
+
       const sizesWrap = document.getElementById("pdm-sizes-wrap");
+      const sizesList = document.getElementById("pdm-sizes-list");
+      const sizes = Array.isArray(prod.sizes) ? prod.sizes : [];
 
-      if (isVariant) {
-        sizesWrap?.classList.remove("hidden");
-        const sizes = Array.isArray(prod.sizes) && prod.sizes.length ? prod.sizes : ["S", "M", "L", "XL"];
-        if (!modalSelectedSize || !sizes.includes(modalSelectedSize)) modalSelectedSize = sizes[0] || "";
-        document.getElementById("pdm-sizes-list").innerHTML = sizes.map(sz => `
-          <button type="button" onclick="pickModalSize('${escapeHtml(sz)}')"
-            class="px-3.5 py-1.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
-              modalSelectedSize === sz
-                ? "bg-emerald-600 text-white border-emerald-400 ring-2 ring-emerald-400/40"
-                : "bg-slate-950 text-slate-300 border-slate-700 hover:border-emerald-500/60"
+      if (isVariant && sizes.length > 0) {
+        sizesWrap.classList.remove("hidden");
+        modalSelectedSize = sizes[0];
+        sizesList.innerHTML = sizes.map(sz => `
+          <button type="button" onclick="selectModalSize('${escapeHtml(sz)}')" id="pdm-sz-${escapeHtml(sz)}"
+            class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border transition cursor-pointer ${
+              sz === modalSelectedSize ? "bg-emerald-600 text-white border-emerald-500" : "bg-slate-950 text-slate-300 border-slate-800"
             }">${escapeHtml(sz)}</button>
         `).join("");
       } else {
+        sizesWrap.classList.add("hidden");
         modalSelectedSize = "";
-        sizesWrap?.classList.add("hidden");
       }
 
       const colorsWrap = document.getElementById("pdm-colors-wrap");
       const colorsList = document.getElementById("pdm-colors-list");
-      if (Array.isArray(prod.colors) && prod.colors.length > 0) {
+      const colors = Array.isArray(prod.colors) ? prod.colors : [];
+      if (colors.length > 0) {
         colorsWrap.classList.remove("hidden");
-        colorsList.innerHTML = prod.colors.map(col => `
-          <button type="button" onclick="pickModalColor('${escapeHtml(col)}')"
-            class="px-3 py-1 rounded-xl text-xs font-semibold border transition cursor-pointer ${
-              modalSelectedColor === col
-                ? "bg-indigo-600 text-white border-indigo-400 ring-2 ring-indigo-400/40"
-                : "bg-slate-950 text-slate-300 border-slate-700 hover:border-indigo-500/60"
-            }">${escapeHtml(col)}</button>
+        modalSelectedColor = colors[0];
+        colorsList.innerHTML = colors.map(cl => `
+          <button type="button" onclick="selectModalColor('${escapeHtml(cl)}')" id="pdm-cl-${escapeHtml(cl)}"
+            class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition cursor-pointer ${
+              cl === modalSelectedColor ? "bg-sky-600 text-white border-sky-500" : "bg-slate-950 text-slate-300 border-slate-800"
+            }">${escapeHtml(cl)}</button>
         `).join("");
       } else {
         colorsWrap.classList.add("hidden");
+        modalSelectedColor = "";
       }
+
+      document.getElementById("product-detail-modal")?.classList.remove("hidden");
     }
 
-    function openProductModal(sku) {
-      const prod = storeProducts.find(p => String(p.sku || "").toUpperCase() === String(sku || "").toUpperCase());
-      if (!prod) return;
-
-      activeModalProduct = prod;
-      const isVariant = String(prod.product_type || "").toLowerCase() === "variant";
-      const sizes = Array.isArray(prod.sizes) && prod.sizes.length ? prod.sizes : (isVariant ? ["S", "M", "L", "XL"] : []);
-      modalSelectedSize = isVariant ? (sizes[0] || "") : "";
-      modalSelectedColor = Array.isArray(prod.colors) && prod.colors.length ? prod.colors[0] : "";
-
-      const prodUrl = getProductUniqueUrl(prod.sku);
-      updateSeoMetaForView(activeCategoryPageName, prod, null);
-      if (window.location.protocol.startsWith("http")) {
-        history.pushState({ sku: prod.sku }, "", prodUrl);
-      }
-
-      document.getElementById("pdm-sku-badge").textContent = prod.sku;
-      document.getElementById("pdm-title").textContent = prod.title;
-      document.getElementById("pdm-unique-link-text").textContent = prodUrl;
-      document.getElementById("pdm-price").textContent = `৳${prod.price}`;
-      document.getElementById("pdm-desc").textContent = prod.short_description || "প্রিমিয়াম কোয়ালিটির প্রোডাক্ট।";
-      document.getElementById("pdm-type-badge").textContent = isVariant ? "Variant Product" : "Single Product";
-      document.getElementById("pdm-size-heading").textContent = "ভেরিয়েন্ট সাইজ নির্বাচন করুন:";
-
-      const regEl = document.getElementById("pdm-regular-price");
-      if (Number(prod.regular_price) > Number(prod.price)) {
-        regEl.textContent = `৳${prod.regular_price}`;
-        regEl.classList.remove("hidden");
-      } else {
-        regEl.classList.add("hidden");
-      }
-
-      const imgs = Array.isArray(prod.images) ? prod.images : [];
-      const mainBox = document.getElementById("pdm-main-image-box");
-      const thumbsBox = document.getElementById("pdm-thumbs-box");
-      if (imgs.length > 0) {
-        mainBox.innerHTML = `<img id="pdm-main-img" src="${escapeHtml(imgs[0])}" alt="${escapeHtml(`${prod.title} - ${prod.sku}`)}" class="w-full h-full object-cover" />`;
-        thumbsBox.innerHTML = imgs.map((src, i) => `
-          <button type="button" onclick="selectModalThumb(${i})"
-            class="w-12 h-12 rounded-xl overflow-hidden border border-slate-700 shrink-0 ${i === 0 ? "ring-2 ring-emerald-400" : ""}">
-            <img src="${escapeHtml(src)}" alt="${escapeHtml(`${prod.title} ছবি ${i + 1}`)}" class="w-full h-full object-cover" />
-          </button>
-        `).join("");
-      } else {
-        mainBox.innerHTML = `<span class="text-slate-500 font-mono text-xs">${escapeHtml(prod.sku)}</span>`;
-        thumbsBox.innerHTML = "";
-      }
-
-      renderModalSizeAndColorButtons();
-      document.getElementById("product-detail-modal").classList.remove("hidden");
+    function copyCurrentProductLink() {
+      if (!activeModalProduct?.sku) return;
+      const url = getProductUniqueUrl(activeModalProduct.sku);
+      navigator.clipboard?.writeText(url).catch(() => {});
+      alert(`প্রোডাক্টের ইউনিক লিংক কপি হয়েছে:\n${url}`);
     }
 
-    function selectModalThumb(idx) {
-      if (!activeModalProduct || !Array.isArray(activeModalProduct.images)) return;
-      const src = activeModalProduct.images[idx];
-      const mainImg = document.getElementById("pdm-main-img");
-      if (src && mainImg) mainImg.src = src;
+    function selectModalSize(sz) {
+      modalSelectedSize = sz;
+      const sizes = Array.isArray(activeModalProduct?.sizes) ? activeModalProduct.sizes : [];
+      sizes.forEach(s => {
+        const btn = document.getElementById(`pdm-sz-${s}`);
+        if (btn) {
+          btn.className = `px-3 py-1.5 rounded-xl text-xs font-mono font-semibold border transition cursor-pointer ${
+            s === sz ? "bg-emerald-600 text-white border-emerald-500" : "bg-slate-950 text-slate-300 border-slate-800"
+          }`;
+        }
+      });
+    }
+
+    function selectModalColor(cl) {
+      modalSelectedColor = cl;
+      const colors = Array.isArray(activeModalProduct?.colors) ? activeModalProduct.colors : [];
+      colors.forEach(c => {
+        const btn = document.getElementById(`pdm-cl-${c}`);
+        if (btn) {
+          btn.className = `px-3 py-1.5 rounded-xl text-xs font-semibold border transition cursor-pointer ${
+            c === cl ? "bg-sky-600 text-white border-sky-500" : "bg-slate-950 text-slate-300 border-slate-800"
+          }`;
+        }
+      });
     }
 
     function closeProductModal() {
-      document.getElementById("product-detail-modal").classList.add("hidden");
+      document.getElementById("product-detail-modal")?.classList.add("hidden");
       activeModalProduct = null;
       const activeReel = focusedReelId ? storeReels.find(r => r.id === focusedReelId) : null;
       updateSeoMetaForView(activeCategoryPageName, null, activeReel);
     }
 
-    function copyCurrentProductLink() {
+    function addModalProductToCart(goCheckout = false) {
       if (!activeModalProduct) return;
-      const url = getProductUniqueUrl(activeModalProduct.sku);
-      navigator.clipboard?.writeText(url).catch(() => {});
-      alert(`প্রোডাক্ট লিংক কপি হয়েছে:\n${url}`);
-    }
-
-    function pickModalSize(sz) { modalSelectedSize = sz; renderModalSizeAndColorButtons(); }
-    function pickModalColor(col) { modalSelectedColor = col; renderModalSizeAndColorButtons(); }
-
-    function addModalProductToCart(goToCheckout = false) {
-      if (!activeModalProduct) return;
-      addProductToCartBySku(activeModalProduct.sku, modalSelectedSize, modalSelectedColor, goToCheckout);
+      const isVariant = activeModalProduct.product_type === "Variant";
+      const chosenSize = isVariant ? (modalSelectedSize || activeModalProduct.sizes?.[0] || "M") : "";
+      const chosenColor = modalSelectedColor || activeModalProduct.colors?.[0] || "";
+      addToCart(activeModalProduct, 1, chosenSize, chosenColor);
       closeProductModal();
-    }
-
-    function addProductToCartBySku(sku, size = "", color = "", goToCheckout = false) {
-      const prod = allAdminProducts.find(p => String(p.sku || "").toUpperCase() === String(sku || "").toUpperCase())
-        || storeProducts.find(p => String(p.sku || "").toUpperCase() === String(sku || "").toUpperCase())
-        || storeProducts[0];
-      if (!prod) return;
-
-      const isVariant = String(prod.product_type || "").toLowerCase() === "variant";
-      const sizes = Array.isArray(prod.sizes) && prod.sizes.length ? prod.sizes : (isVariant ? ["S", "M", "L", "XL"] : []);
-      const finalSize = isVariant ? (size || sizes[0] || "M") : "";
-      const finalColor = color || (Array.isArray(prod.colors) && prod.colors[0]) || "";
-      const img = prod.images && prod.images[0] ? prod.images[0] : "";
-
-      const existing = cartItems.find(i => i.sku === prod.sku && (i.size || "") === finalSize && (i.color || "") === finalColor);
-      if (existing) existing.qty += 1;
-      else {
-        cartItems.push({
-          sku: prod.sku,
-          title: prod.title,
-          price: Number(prod.price),
-          size: finalSize,
-          color: finalColor,
-          image: img,
-          qty: 1
-        });
-      }
-
-      saveCart();
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
-
-      if (goToCheckout) {
-        toggleCartDrawer(false);
+      if (goCheckout) {
         openCheckoutPopup();
       } else {
         toggleCartDrawer(true);
       }
     }
 
-    function saveCart() { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems)); }
-    function toggleCartDrawer(forceOpen) {
-      const bd = document.getElementById("cart-drawer-backdrop");
-      if (!bd) return;
-      if (typeof forceOpen === "boolean") bd.classList.toggle("hidden", !forceOpen);
-      else bd.classList.toggle("hidden");
-      renderCartDrawer();
-    }
-
-    function renderCartDrawer() {
-      const container = document.getElementById("cart-items-container");
-      const subtotalEl = document.getElementById("drawer-subtotal-text");
-      if (!container) return;
-
-      if (cartItems.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs">আপনার কার্ড বর্তমানে খালি।</div>`;
-        if (subtotalEl) subtotalEl.textContent = "৳0";
-        return;
-      }
-
-      let sub = 0;
-      container.innerHTML = cartItems.map((item, idx) => {
-        const lineTotal = Number(item.price) * Number(item.qty);
-        sub += lineTotal;
-        return `
-          <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 flex items-center gap-3">
-            ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
-            <div class="min-w-0 flex-1">
-              <p class="text-xs font-bold text-white truncate">${escapeHtml(item.title)}</p>
-              <p class="text-[11px] font-mono text-emerald-400">৳${escapeHtml(item.price)} × ${escapeHtml(item.qty)} = ৳${lineTotal}</p>
-              ${(item.size || item.color) ? `<p class="text-[10px] text-slate-400">${escapeHtml(item.size || "")} ${escapeHtml(item.color || "")}</p>` : ""}
-              <div class="flex items-center gap-1.5 mt-1.5">
-                <button type="button" onclick="changeCartQty(${idx}, -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold cursor-pointer">-</button>
-                <span class="text-xs font-mono px-1.5">${escapeHtml(item.qty)}</span>
-                <button type="button" onclick="changeCartQty(${idx}, 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold cursor-pointer">+</button>
-                <button type="button" onclick="removeCartItem(${idx})" class="ml-auto bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition cursor-pointer">
-                  🗑️ ডিলিট
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
-      if (subtotalEl) subtotalEl.textContent = `৳${sub}`;
-    }
-
-    function changeCartQty(idx, delta) {
-      if (!cartItems[idx]) return;
-      cartItems[idx].qty += delta;
-      if (cartItems[idx].qty <= 0) cartItems.splice(idx, 1);
-      saveCart();
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
-    }
-
-    function removeCartItem(idx) {
-      if (!cartItems[idx]) return;
-      cartItems.splice(idx, 1);
-      saveCart();
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
-    }
-
-    function goToCheckoutPageFromCart() {
-      if (cartItems.length === 0) return alert("আগে অন্তত একটি প্রোডাক্ট কার্ডে যুক্ত করুন।");
-      toggleCartDrawer(false);
+    function quickBuyProduct(sku) {
+      const prod = storeProducts.find(p => p.sku === sku) || allAdminProducts.find(p => p.sku === sku);
+      if (!prod) return;
+      const isVariant = prod.product_type === "Variant";
+      const chosenSize = isVariant ? (prod.sizes?.[0] || "M") : "";
+      const chosenColor = prod.colors?.[0] || "";
+      addToCart(prod, 1, chosenSize, chosenColor);
       openCheckoutPopup();
     }
 
     /* ========================================================= */
-    /* [প্রথম সারির রিলস, অল রিলস পেজ, ইউনিক লিংক ও অ্যাকশনসমূহ] */
+    /* [হোম রিল সারি ও অল রিলস পেজ]                              */
     /* ========================================================= */
-    function resolveReelProduct(reel) {
-      const code = String(reel?.product_code || "").trim().toUpperCase();
-      return storeProducts.find(p => String(p.sku || "").toUpperCase() === code)
-        || allAdminProducts.find(p => String(p.sku || "").toUpperCase() === code)
-        || storeProducts[0]
-        || null;
-    }
-
-    function buildReelRowCardHtml(r) {
-      const prod = resolveReelProduct(r);
-      const priceVal = Number(prod?.price ?? 0);
-      const poster = r.poster || prod?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
-      const reelUrl = getReelUniqueUrl(r.id);
-
-      return `
-        <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between p-1.5 sm:p-2 space-y-1.5">
-          <a href="${escapeHtml(reelUrl)}" onclick="event.preventDefault(); openAllReelsPage('${escapeHtml(r.id)}');"
-            class="block relative h-36 sm:h-48 rounded-xl overflow-hidden bg-slate-950 border border-slate-800/80 group cursor-pointer">
-            <video src="${escapeHtml(r.video_src)}" poster="${escapeHtml(poster)}" muted playsinline loop preload="metadata"
-              onerror="handleReelVideoError(this)"
-              class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent"></div>
-            <div class="absolute bottom-1.5 left-1.5 right-1.5">
-              <p class="text-[10px] sm:text-xs font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
-              <p class="text-[10px] font-mono font-extrabold text-emerald-400">৳${escapeHtml(priceVal)}</p>
-            </div>
-          </a>
-
-          <button type="button" onclick="orderReelProductDirectly('${escapeHtml(r.id)}')"
-            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 px-2 rounded-xl text-[10px] sm:text-xs font-bold transition shadow-md shadow-emerald-600/20 cursor-pointer truncate">
-            অর্ডার করুন
-          </button>
-        </div>
-      `;
-    }
-
     function renderHomeReelsRow() {
       const row = document.getElementById("home-reels-row");
       if (!row) return;
-      row.innerHTML = storeReels.map(buildReelRowCardHtml).join("");
-    }
-
-    function renderCategoryRelatedReelsRow(catName) {
-      const row = document.getElementById("category-related-reels-row");
-      const headingNameEl = document.getElementById("cat-related-reels-heading-name");
-      const countEl = document.getElementById("cat-related-reels-count");
-      if (!row) return;
-      if (headingNameEl) headingNameEl.textContent = catName || "ক্যাটাগরি";
-      const catNorm = normalizeSearchText(catName);
-      const matched = storeReels.filter(r => {
-        const prod = allAdminProducts.find(p => String(p.sku || "").toUpperCase() === String(r.product_code || "").toUpperCase());
-        return prod && normalizeSearchText(prod.category) === catNorm;
-      });
-      const listToShow = matched.length > 0 ? matched : storeReels;
-      if (countEl) countEl.textContent = String(listToShow.length);
-      row.innerHTML = listToShow.map(buildReelRowCardHtml).join("");
-    }
-
-    function orderReelProductDirectly(reelId) {
-      const reel = storeReels.find(r => r.id === reelId);
-      const prod = resolveReelProduct(reel);
-      if (!prod) return;
-      addProductToCartBySku(prod.sku, "", "", true);
-    }
-
-    function addReelProductToCartOnly(reelId) {
-      const reel = storeReels.find(r => r.id === reelId);
-      const prod = resolveReelProduct(reel);
-      if (!prod) return;
-      addProductToCartBySku(prod.sku, "", "", false);
-    }
-
-    function viewReelProductPhoto(reelId) {
-      const reel = storeReels.find(r => r.id === reelId);
-      const prod = resolveReelProduct(reel);
-      if (prod) {
-        openProductModal(prod.sku);
-      } else if (reel?.poster) {
-        window.open(reel.poster, "_blank", "noopener,noreferrer");
-      }
-    }
-
-    function copySpecificReelLink(reelId) {
-      const url = getReelUniqueUrl(reelId);
-      navigator.clipboard?.writeText(url).catch(() => {});
-      alert(`রিলের ইউনিক লিংক কপি হয়েছে:\n${url}`);
-    }
-
-    function renderAllReelsPage() {
-      const spotlight = document.getElementById("focused-reel-spotlight");
-      const grid = document.getElementById("all-reels-page-grid");
-      if (!spotlight || !grid) return;
-
-      const activeReel = storeReels.find(r => r.id === focusedReelId) || storeReels[0];
-      if (!activeReel) {
-        spotlight.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm">কোনো রিল নেই।</p>`;
-        grid.innerHTML = "";
+      if (!storeReels.length) {
+        row.innerHTML = `<p class="text-xs text-slate-400 py-4">কোনো রিল নেই।</p>`;
         return;
       }
-
-      const prod = resolveReelProduct(activeReel);
-      const priceVal = Number(prod?.price ?? 0);
-      const regVal = Number(prod?.regular_price ?? priceVal);
-      const poster = activeReel.poster || prod?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
-      const reelUniqueUrl = getReelUniqueUrl(activeReel.id);
-
-      updateSeoMetaForView("", null, activeReel);
-      if (window.location.protocol.startsWith("http")) {
-        history.replaceState({ reelId: activeReel.id }, "", reelUniqueUrl);
-      }
-
-      spotlight.innerHTML = `
-        <div class="rounded-2xl overflow-hidden bg-black border border-slate-800 aspect-[9/14] max-h-96 mx-auto w-full max-w-[260px]">
-          <video src="${escapeHtml(activeReel.video_src)}" poster="${escapeHtml(poster)}" controls autoplay muted playsinline loop preload="auto"
-            onerror="handleReelVideoError(this)"
-            class="w-full h-full object-cover"></video>
-        </div>
-
-        <div class="lg:col-span-2 space-y-4">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-3 py-0.5 rounded-full">
-              ${escapeHtml(activeReel.id)}
-            </span>
-            ${prod ? `<span class="text-xs font-mono text-slate-400">SKU: ${escapeHtml(prod.sku)}</span>` : ""}
-          </div>
-
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white">${escapeHtml(activeReel.title)}</h3>
-
-          <div class="flex items-baseline gap-2.5">
-            <span class="text-2xl font-extrabold font-mono text-emerald-400">৳${escapeHtml(priceVal)}</span>
-            ${regVal > priceVal ? `<span class="text-sm font-mono text-slate-500 line-through">৳${escapeHtml(regVal)}</span>` : ""}
-            ${prod ? `<span class="text-xs text-slate-300 truncate">• ${escapeHtml(prod.title)}</span>` : ""}
-          </div>
-
-          ${activeReel.caption ? `<p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHtml(activeReel.caption)}</p>` : ""}
-
-          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div class="min-w-0">
-              <p class="text-[10px] font-mono text-slate-400">রিল ইউনিক লিংক:</p>
-              <p class="text-xs font-mono text-sky-300 break-all">${escapeHtml(reelUniqueUrl)}</p>
-            </div>
-            <button type="button" onclick="copySpecificReelLink('${escapeHtml(activeReel.id)}')"
-              class="bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0">
-              🔗 লিংক কপি
-            </button>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-2.5 pt-1">
-            <button type="button" onclick="viewReelProductPhoto('${escapeHtml(activeReel.id)}')"
-              class="bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/35 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer">
-              🖼️ ছবি দেখুন
-            </button>
-
-            <button type="button" onclick="addReelProductToCartOnly('${escapeHtml(activeReel.id)}')"
-              class="bg-indigo-600/25 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/40 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer">
-              🛒 কার্টে যোগ করুন
-            </button>
-
-            <button type="button" onclick="orderReelProductDirectly('${escapeHtml(activeReel.id)}')"
-              class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition shadow-lg shadow-emerald-600/25 cursor-pointer">
-              ⚡ অর্ডার করুন
-            </button>
-          </div>
-        </div>
-      `;
-
-      grid.innerHTML = storeReels.map(r => {
-        const isSel = r.id === activeReel.id;
-        const rProd = resolveReelProduct(r);
-        const rPrice = Number(rProd?.price ?? 0);
-        const rPoster = r.poster || rProd?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
+      row.innerHTML = storeReels.map(r => {
+        const vidSrc = reelBlobUrlCache.get(r.id) || r.video_src || DEFAULT_FALLBACK_VIDEO;
         return `
-          <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between p-2 space-y-2 ${isSel ? "ring-2 ring-pink-400" : ""}">
-            <div onclick="openAllReelsPage('${escapeHtml(r.id)}')"
-              class="relative h-44 rounded-xl overflow-hidden bg-slate-950 cursor-pointer group">
-              <video src="${escapeHtml(r.video_src)}" poster="${escapeHtml(rPoster)}" muted playsinline loop preload="metadata"
+          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')"
+            class="glass-card rounded-2xl overflow-hidden hover:border-pink-500/40 transition cursor-pointer group flex flex-col">
+            <div class="relative aspect-[9/16] bg-slate-950 overflow-hidden">
+              <video src="${escapeHtml(vidSrc)}" poster="${escapeHtml(r.poster || "")}"
+                muted playsinline loop preload="auto"
                 onerror="handleReelVideoError(this)"
-                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent"></div>
-              <div class="absolute bottom-1.5 left-2 right-2">
-                <p class="text-xs font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
-                <p class="text-[11px] font-mono font-extrabold text-emerald-400">৳${escapeHtml(rPrice)}</p>
-              </div>
+                onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause()"
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
+              <span class="absolute top-1.5 left-1.5 bg-pink-600/90 text-white text-[9px] font-mono px-1.5 py-0.5 rounded-full">
+                ${escapeHtml(r.product_code || "REEL")}
+              </span>
+              <span class="absolute bottom-1.5 right-1.5 w-7 h-7 rounded-full bg-slate-950/75 text-white flex items-center justify-center text-xs">▶</span>
             </div>
-
-            <div class="grid grid-cols-2 gap-1.5">
-              <button type="button" onclick="viewReelProductPhoto('${escapeHtml(r.id)}')"
-                class="bg-slate-900 hover:bg-slate-800 text-amber-300 border border-slate-800 py-1.5 px-2 rounded-xl text-[10px] font-bold transition cursor-pointer">
-                🖼️ ছবি দেখুন
-              </button>
-              <button type="button" onclick="addReelProductToCartOnly('${escapeHtml(r.id)}')"
-                class="bg-slate-900 hover:bg-slate-800 text-indigo-300 border border-slate-800 py-1.5 px-2 rounded-xl text-[10px] font-bold transition cursor-pointer">
-                🛒 কার্টে যোগ করুন
-              </button>
+            <div class="p-2 space-y-0.5">
+              <p class="text-[11px] font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
+              <p class="text-[10px] text-slate-400 line-clamp-1">${escapeHtml(r.caption || "")}</p>
             </div>
-
-            <button type="button" onclick="orderReelProductDirectly('${escapeHtml(r.id)}')"
-              class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 px-2 rounded-xl text-xs font-bold transition cursor-pointer">
-              ⚡ অর্ডার করুন
-            </button>
           </div>
         `;
       }).join("");
     }
 
     function openAllReelsPage(reelId = "") {
-      activeCategoryPageName = "";
-      activeModalProduct = null;
       focusedReelId = reelId || (storeReels[0]?.id || "");
-      const targetUrl = focusedReelId ? getReelUniqueUrl(focusedReelId) : null;
+      const targetReel = storeReels.find(r => r.id === focusedReelId) || storeReels[0] || null;
+      const targetUrl = targetReel ? getReelUniqueUrl(targetReel.id) : getCanonicalBaseUrl();
+
+      updateSeoMetaForView("", null, targetReel);
       switchPageView("all-reels-page-view", targetUrl);
       renderAllReelsPage();
     }
 
+    function renderAllReelsPage() {
+      const spot = document.getElementById("focused-reel-spotlight");
+      const grid = document.getElementById("all-reels-page-grid");
+      if (!spot || !grid) return;
+
+      const current = storeReels.find(r => r.id === focusedReelId) || storeReels[0];
+      if (!current) {
+        spot.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm py-8">কোনো রিল পাওয়া যায়নি।</p>`;
+        grid.innerHTML = "";
+        return;
+      }
+
+      const linkedProd = storeProducts.find(p => String(p.sku || "").toUpperCase() === String(current.product_code || "").toUpperCase())
+        || allAdminProducts.find(p => String(p.sku || "").toUpperCase() === String(current.product_code || "").toUpperCase())
+        || storeProducts[0];
+      const currentVidSrc = reelBlobUrlCache.get(current.id) || current.video_src || DEFAULT_FALLBACK_VIDEO;
+      const currentReelUrl = getReelUniqueUrl(current.id);
+
+      spot.innerHTML = `
+        <div class="aspect-[9/16] max-h-[450px] w-full rounded-2xl overflow-hidden bg-black border border-slate-800 mx-auto">
+          <video src="${escapeHtml(currentVidSrc)}" poster="${escapeHtml(current.poster || "")}"
+            controls autoplay muted playsinline loop preload="auto"
+            onerror="handleReelVideoError(this)"
+            class="w-full h-full object-cover"></video>
+        </div>
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-3 py-1 rounded-full">
+              লিংকড কোড: ${escapeHtml(current.product_code || "N/A")}
+            </span>
+            <button type="button" onclick="copyReelLinkById('${escapeHtml(current.id)}')"
+              class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-3 py-1 rounded-full transition cursor-pointer">
+              🔗 রিল লিংক কপি
+            </button>
+          </div>
+
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white">${escapeHtml(current.title)}</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHtml(current.caption || "")}</p>
+          <p class="text-[11px] font-mono text-slate-400 break-all">ইউনিক লিংক: ${escapeHtml(currentReelUrl)}</p>
+
+          ${linkedProd ? `
+            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                ${linkedProd.images?.[0] ? `<img src="${escapeHtml(linkedProd.images[0])}" alt="${escapeHtml(linkedProd.title)}" class="w-16 h-16 rounded-xl object-cover border border-slate-800" />` : ""}
+                <div>
+                  <p class="text-xs text-slate-400 font-mono">${escapeHtml(linkedProd.sku)}</p>
+                  <p class="text-sm font-bold text-white">${escapeHtml(linkedProd.title)}</p>
+                  <p class="text-base font-extrabold font-mono text-emerald-400 mt-0.5">৳${escapeHtml(linkedProd.price)}</p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button type="button" onclick="openProductModal('${escapeHtml(linkedProd.sku)}')"
+                  class="bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer">
+                  বিস্তারিত
+                </button>
+                <button type="button" onclick="quickBuyProduct('${escapeHtml(linkedProd.sku)}')"
+                  class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                  ⚡ এখনই অর্ডার
+                </button>
+              </div>
+            </div>
+          ` : ""}
+        </div>
+      `;
+
+      grid.innerHTML = storeReels.map(r => {
+        const isSel = r.id === current.id;
+        const vidSrc = reelBlobUrlCache.get(r.id) || r.video_src || DEFAULT_FALLBACK_VIDEO;
+        return `
+          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')"
+            class="glass-card rounded-2xl overflow-hidden cursor-pointer transition ${isSel ? "border-pink-500 ring-2 ring-pink-500/30" : "hover:border-slate-600"}">
+            <div class="aspect-[9/16] bg-slate-950 overflow-hidden relative">
+              <video src="${escapeHtml(vidSrc)}" poster="${escapeHtml(r.poster || "")}"
+                muted playsinline preload="auto"
+                onerror="handleReelVideoError(this)"
+                class="w-full h-full object-cover"></video>
+              <span class="absolute top-2 left-2 bg-slate-950/80 text-pink-300 text-[10px] font-mono px-2 py-0.5 rounded-full">
+                ${escapeHtml(r.product_code || "REEL")}
+              </span>
+            </div>
+            <div class="p-2.5 space-y-0.5">
+              <p class="text-xs font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
+              <p class="text-[10px] text-slate-400 line-clamp-1">${escapeHtml(r.caption || "")}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
     /* ========================================================= */
-    /* [চেকআউট পপআপ — অটো ডেলিভারি চার্জ ও প্রোডাক্ট ছবি]       */
+    /* [কার্ট, চেকআউট ও থ্যাংক ইউ পেজ]                             */
     /* ========================================================= */
+    function saveCart() {
+      safeStorageSet(CART_STORAGE_KEY, cartItems);
+      updateHeaderCounts();
+      renderCartDrawer();
+      updateCheckoutSummary();
+    }
+
+    function addToCart(prod, qty = 1, size = "", color = "") {
+      const key = `${prod.sku}__${size}__${color}`;
+      const existing = cartItems.find(i => i.key === key);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cartItems.push({
+          key,
+          sku: prod.sku,
+          title: prod.title,
+          price: Number(prod.price || 0),
+          qty,
+          size,
+          color,
+          image: prod.images?.[0] || ""
+        });
+      }
+      saveCart();
+    }
+
+    function changeCartQty(key, delta) {
+      const item = cartItems.find(i => i.key === key);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cartItems = cartItems.filter(i => i.key !== key);
+      }
+      saveCart();
+    }
+
+    function removeCartItem(key) {
+      cartItems = cartItems.filter(i => i.key !== key);
+      saveCart();
+    }
+
+    function toggleCartDrawer(forceOpen) {
+      const backdrop = document.getElementById("cart-drawer-backdrop");
+      if (!backdrop) return;
+      if (typeof forceOpen === "boolean") backdrop.classList.toggle("hidden", !forceOpen);
+      else backdrop.classList.toggle("hidden");
+      renderCartDrawer();
+    }
+
+    function renderCartDrawer() {
+      const box = document.getElementById("cart-items-container");
+      const subEl = document.getElementById("drawer-subtotal-text");
+      if (!box) return;
+
+      if (!cartItems.length) {
+        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">আপনার কার্ড বর্তমানে খালি।</p>`;
+        if (subEl) subEl.textContent = "৳0";
+        return;
+      }
+
+      let subtotal = 0;
+      box.innerHTML = cartItems.map(item => {
+        const lineTotal = Number(item.price || 0) * Number(item.qty || 1);
+        subtotal += lineTotal;
+        return `
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 flex items-center gap-3">
+            ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
+            <div class="flex-1 min-w-0">
+              <p class="text-xs font-bold text-white truncate">${escapeHtml(item.title)}</p>
+              ${(item.size || item.color) ? `<p class="text-[10px] text-slate-400 font-mono">${escapeHtml(item.size || "")} ${escapeHtml(item.color || "")}</p>` : ""}
+              <p class="text-xs font-mono font-bold text-emerald-400 mt-0.5">৳${lineTotal}</p>
+            </div>
+            <div class="flex items-center gap-1">
+              <button type="button" onclick="changeCartQty('${escapeHtml(item.key)}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold cursor-pointer">-</button>
+              <span class="w-5 text-center text-xs font-mono">${item.qty}</span>
+              <button type="button" onclick="changeCartQty('${escapeHtml(item.key)}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold cursor-pointer">+</button>
+            </div>
+            <button type="button" onclick="removeCartItem('${escapeHtml(item.key)}')" title="ডিলিট করুন"
+              class="text-rose-400 hover:text-rose-200 hover:bg-rose-500/15 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition shrink-0 cursor-pointer">
+              🗑️
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      if (subEl) subEl.textContent = `৳${subtotal}`;
+    }
+
     function populateDistrictDropdown() {
       const sel = document.getElementById("co-district");
       if (!sel) return;
-      const curVal = sel.value || "Dhaka";
-      sel.innerHTML = bangladeshDistricts.map(d => {
-        const fee = getDeliveryChargeForDistrict(d);
-        return `<option value="${escapeHtml(d)}">${escapeHtml(d)} (৳${fee})</option>`;
-      }).join("");
-      if (bangladeshDistricts.includes(curVal)) sel.value = curVal;
+      sel.innerHTML = bangladeshDistricts.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      onDistrictChange();
+    }
+
+    function onDistrictChange() {
+      const dist = document.getElementById("co-district")?.value || "Dhaka";
+      const charge = getDeliveryChargeForDistrict(dist);
+      const isDhaka = String(dist).trim().toLowerCase() === "dhaka";
+      const badge = document.getElementById("co-auto-delivery-badge");
+      if (badge) {
+        badge.textContent = `${isDhaka ? "ঢাকার ভিতর" : `${dist} (ঢাকার বাইরে)`} — ৳${charge}`;
+      }
+      updateCheckoutSummary();
+      captureIncompleteDraftFromCheckout();
+    }
+
+    function autoGrowAddressField(el) {
+      if (!el) return;
+      el.style.height = "auto";
+      el.style.height = Math.max(56, el.scrollHeight) + "px";
     }
 
     function openCheckoutPopup() {
+      toggleCartDrawer(false);
       populateDistrictDropdown();
       updateCheckoutSummary();
-      document.getElementById("checkout-popup-modal")?.classList.remove("hidden");
+      const modal = document.getElementById("checkout-popup-modal");
+      if (modal) modal.classList.remove("hidden");
+      const addrEl = document.getElementById("co-address");
+      if (addrEl) autoGrowAddressField(addrEl);
     }
 
     function closeCheckoutPopup() {
       document.getElementById("checkout-popup-modal")?.classList.add("hidden");
     }
 
-    function autoGrowAddressField(el) {
-      if (!el) return;
-      el.style.height = "auto";
-      el.style.height = Math.min(Math.max(el.scrollHeight, 56), 180) + "px";
-    }
-
-    function onDistrictChange() {
-      updateCheckoutSummary();
-      captureIncompleteDraftFromCheckout();
+    function goToCheckoutPageFromCart() {
+      if (!cartItems.length) {
+        alert("চেকআউটে যাওয়ার আগে কার্ডে অন্তত একটি প্রোডাক্ট যোগ করুন।");
+        return;
+      }
+      openCheckoutPopup();
     }
 
     function updateCheckoutSummary() {
-      const district = document.getElementById("co-district")?.value || "Dhaka";
-      const delivery = getDeliveryChargeForDistrict(district);
-      const isDhaka = String(district).trim().toLowerCase() === "dhaka";
-
-      const autoBadge = document.getElementById("co-auto-delivery-badge");
-      if (autoBadge) {
-        autoBadge.textContent = `${isDhaka ? "ঢাকার ভিতর" : "ঢাকার বাইরে (" + district + ")"} — ৳${delivery}`;
-      }
-
-      const itemsBox = document.getElementById("co-summary-items");
-      let subtotal = 0;
-
-      if (itemsBox) {
-        if (cartItems.length === 0) {
-          itemsBox.innerHTML = `<p class="text-xs text-slate-400">কোনো প্রোডাক্ট সিলেক্ট করা হয়নি।</p>`;
-        } else {
-          itemsBox.innerHTML = cartItems.map(i => {
-            const line = Number(i.price) * Number(i.qty);
-            subtotal += line;
-            const thumb = resolveOrderItemImage(i);
-            return `
-              <div class="flex items-center gap-3 bg-slate-950/80 border border-slate-800/80 rounded-2xl p-2.5">
-                <img src="${escapeHtml(thumb)}" alt="${escapeHtml(i.title)}"
-                  class="w-12 h-12 rounded-xl object-cover border border-slate-700 shrink-0" />
-                <div class="min-w-0 flex-1">
-                  <p class="text-xs font-bold text-white truncate">${escapeHtml(i.title)}</p>
-                  <p class="text-[11px] font-mono text-emerald-400">৳${escapeHtml(i.price)} × ${escapeHtml(i.qty)} = ৳${line}</p>
-                  ${(i.size || i.color) ? `<p class="text-[10px] text-slate-400">${escapeHtml(i.size || "")} ${escapeHtml(i.color || "")}</p>` : ""}
-                </div>
-              </div>
-            `;
-          }).join("");
-        }
-      }
-
+      const box = document.getElementById("co-summary-items");
       const subEl = document.getElementById("co-subtotal");
       const delEl = document.getElementById("co-delivery-display");
       const totEl = document.getElementById("co-total");
+      if (!box) return;
+
+      const dist = document.getElementById("co-district")?.value || "Dhaka";
+      const delivery = cartItems.length ? getDeliveryChargeForDistrict(dist) : 0;
+
+      if (!cartItems.length) {
+        box.innerHTML = `<p class="text-xs text-slate-400">কোনো প্রোডাক্ট সিলেক্ট করা হয়নি।</p>`;
+        if (subEl) subEl.textContent = "৳0";
+        if (delEl) delEl.textContent = "৳0";
+        if (totEl) totEl.textContent = "৳0";
+        return;
+      }
+
+      let subtotal = 0;
+      box.innerHTML = cartItems.map(item => {
+        const line = Number(item.price || 0) * Number(item.qty || 1);
+        subtotal += line;
+        const imgSrc = item.image || allAdminProducts.find(p => p.sku === item.sku)?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=200&q=70";
+        return `
+          <div class="flex items-center justify-between gap-2.5 text-xs bg-slate-950/80 border border-slate-800/80 rounded-xl p-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(item.title)}" class="w-11 h-11 rounded-lg object-cover border border-slate-700 shrink-0" />
+              <div class="min-w-0">
+                <p class="font-semibold text-white truncate">${escapeHtml(item.title)}</p>
+                <p class="text-[10px] text-slate-400 font-mono">×${item.qty} ${item.size ? "• " + escapeHtml(item.size) : ""} ${item.color ? "• " + escapeHtml(item.color) : ""}</p>
+              </div>
+            </div>
+            <span class="font-mono font-bold text-emerald-300 shrink-0">৳${line}</span>
+          </div>
+        `;
+      }).join("");
+
       if (subEl) subEl.textContent = `৳${subtotal}`;
       if (delEl) delEl.textContent = `৳${delivery}`;
       if (totEl) totEl.textContent = `৳${subtotal + delivery}`;
@@ -4342,131 +4624,150 @@
       const name = (document.getElementById("co-name")?.value || "").trim();
       const phone = (document.getElementById("co-phone")?.value || "").trim();
       const address = (document.getElementById("co-address")?.value || "").trim();
-      const district = document.getElementById("co-district")?.value || "Dhaka";
       if (!name && !phone && !address) return;
-
-      const delivery = getDeliveryChargeForDistrict(district);
-      const subtotal = cartItems.reduce((s, i) => s + Number(i.price) * Number(i.qty), 0);
-      if (!activeIncompleteDraftId) activeIncompleteDraftId = "INC-" + Math.floor(10000 + Math.random() * 90000);
-
-      const drafts = Array.isArray(adminState.incompleteOrders) ? [...adminState.incompleteOrders] : [];
-      const payload = {
+      if (!activeIncompleteDraftId) {
+        activeIncompleteDraftId = "DRAFT-" + Math.floor(10000 + Math.random() * 90000);
+      }
+      const dist = document.getElementById("co-district")?.value || "Dhaka";
+      const delivery = getDeliveryChargeForDistrict(dist);
+      const subtotal = cartItems.reduce((s, i) => s + Number(i.price || 0) * Number(i.qty || 1), 0);
+      const draftObj = {
         id: activeIncompleteDraftId,
-        customer_name: name || "অসম্পূর্ণ কাস্টমার",
+        customer_name: name || "Unnamed Visitor",
         customer_phone: phone || "N/A",
-        district,
-        shipping_address: address || "ঠিকানা লেখা হয়নি",
-        items: cartItems.map(i => ({ ...i, image: resolveOrderItemImage(i) })),
-        subtotal,
-        delivery_charge: delivery,
+        shipping_address: `${address} (${dist})`.trim(),
+        items: cartItems.map(i => ({ sku: i.sku, title: i.title, qty: i.qty, size: i.size, color: i.color, image: i.image })),
         total_amount: subtotal + delivery,
+        delivery_charge: delivery,
         updated_at: new Date().toLocaleString("bn-BD")
       };
-
-      const idx = drafts.findIndex(d => d.id === activeIncompleteDraftId);
-      if (idx >= 0) drafts[idx] = payload;
-      else drafts.unshift(payload);
-
-      persistAdminState({ incompleteOrders: drafts });
+      const existingDrafts = Array.isArray(adminState.incompleteOrders) ? [...adminState.incompleteOrders] : [];
+      const idx = existingDrafts.findIndex(d => d.id === activeIncompleteDraftId);
+      if (idx >= 0) existingDrafts[idx] = draftObj;
+      else existingDrafts.unshift(draftObj);
+      persistAdminState({ incompleteOrders: existingDrafts });
     }
 
     function submitFullCheckoutOrder(e) {
       e.preventDefault();
-      if (cartItems.length === 0) return alert("আপনার কার্ড খালি।");
-
-      const name = document.getElementById("co-name").value.trim();
-      const phone = document.getElementById("co-phone").value.trim();
-      const district = document.getElementById("co-district").value || "Dhaka";
-      const address = document.getElementById("co-address").value.trim();
-      if (!name || !phone || !address) return alert("অনুগ্রহ করে নাম, ফোন নাম্বার, জেলা ও অ্যাড্রেস পূরণ করুন।");
-
-      const delivery = getDeliveryChargeForDistrict(district);
-      const subtotal = cartItems.reduce((s, i) => s + Number(i.price) * Number(i.qty), 0);
-      const total = subtotal + delivery;
-      const orderNumber = "AB-" + Math.floor(100000 + Math.random() * 900000);
-
-      const enrichedItems = cartItems.map(i => ({
-        ...i,
-        image: resolveOrderItemImage(i)
-      }));
+      if (!cartItems.length) {
+        alert("আপনার কার্ড খালি রয়েছে।");
+        return;
+      }
+      const customer_name = document.getElementById("co-name").value.trim();
+      const customer_phone = document.getElementById("co-phone").value.trim();
+      const district = document.getElementById("co-district").value;
+      const addressRaw = document.getElementById("co-address").value.trim();
+      const delivery_charge = getDeliveryChargeForDistrict(district);
+      const subtotal = cartItems.reduce((s, i) => s + Number(i.price || 0) * Number(i.qty || 1), 0);
+      const total_amount = subtotal + delivery_charge;
+      const order_number = "AB-" + Math.floor(100000 + Math.random() * 900000);
 
       const newOrder = {
-        order_number: orderNumber,
-        customer_name: name,
-        customer_phone: phone,
-        district,
-        shipping_address: `${address}, ${district}`,
-        items: enrichedItems,
+        order_number,
+        customer_name,
+        customer_phone,
+        shipping_address: `${addressRaw}, ${district}`,
+        items: cartItems.map(i => ({ sku: i.sku, title: i.title, qty: i.qty, size: i.size, color: i.color, image: i.image })),
         subtotal,
-        delivery_charge: delivery,
-        total_amount: total,
+        delivery_charge,
+        total_amount,
         status: "Pending",
-        tracking_code: ""
+        tracking_code: "",
+        created_at: new Date().toLocaleString("bn-BD")
       };
 
       storeOrders.unshift(newOrder);
-      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(storeOrders));
+      safeStorageSet(ORDERS_STORAGE_KEY, storeOrders);
 
-      const drafts = Array.isArray(adminState.incompleteOrders) ? adminState.incompleteOrders.filter(d => d.id !== activeIncompleteDraftId) : [];
+      const remainingDrafts = (Array.isArray(adminState.incompleteOrders) ? adminState.incompleteOrders : [])
+        .filter(d => d.id !== activeIncompleteDraftId);
       activeIncompleteDraftId = "";
-      persistAdminState({ managedOrders: storeOrders, incompleteOrders: drafts });
+      persistAdminState({ managedOrders: storeOrders, incompleteOrders: remainingDrafts });
 
       cartItems = [];
       saveCart();
-      updateHeaderCounts();
-      renderCartDrawer();
-      document.getElementById("full-checkout-form").reset();
-      const addrEl = document.getElementById("co-address");
-      if (addrEl) addrEl.style.height = "56px";
+      closeCheckoutPopup();
+
+      document.getElementById("ty-order-meta").textContent = `অর্ডার নম্বর: #${order_number} • স্ট্যাটাস: Pending`;
+      document.getElementById("ty-order-details").innerHTML = `
+        <p><strong class="text-slate-200">কাস্টমার:</strong> ${escapeHtml(customer_name)} (${escapeHtml(customer_phone)})</p>
+        <p><strong class="text-slate-200">ঠিকানা:</strong> ${escapeHtml(addressRaw)}, ${escapeHtml(district)}</p>
+        <p><strong class="text-slate-200">ডেলিভারি চার্জ:</strong> <span class="font-mono text-amber-300">৳${delivery_charge}</span></p>
+        <p><strong class="text-slate-200">মোট COD অ্যামাউন্ট:</strong> <span class="font-mono text-emerald-400 font-bold">৳${total_amount}</span></p>
+      `;
 
       switchPageView("thankyou-page-view");
-      document.getElementById("ty-order-meta").textContent = `অর্ডার নাম্বার: #${orderNumber} • মোট: ৳${total} (অটো ডেলিভারি চার্জ: ৳${delivery})`;
-      document.getElementById("ty-order-details").innerHTML = `
-        <p><strong>কাস্টমার:</strong> ${escapeHtml(name)}</p>
-        <p><strong>ফোন:</strong> ${escapeHtml(phone)}</p>
-        <p><strong>জেলা ও অ্যাড্রেস:</strong> ${escapeHtml(address)}, ${escapeHtml(district)}</p>
-        <p><strong>ডেলিভারি চার্জ:</strong> ৳${delivery}</p>
-        <p><strong>সর্বমোট (COD):</strong> ৳${total}</p>
-      `;
     }
 
     /* ========================================================= */
-    /* [পলিসি, অর্ডার ট্র্যাকিং ও চ্যাটবট]                         */
+    /* [পলিসি মোডাল, অর্ডার ট্র্যাকিং ও চ্যাটবট]                  */
     /* ========================================================= */
-    const storePolicies = {
-      privacy: { title: "Privacy Policy (গোপনীয়তা নীতি)", body: `<p>আপনার নাম, ফোন নাম্বার এবং ডেলিভারি ঠিকানা শুধুমাত্র অর্ডার প্রসেসিং, ডেলিভারি এবং কাস্টমার সাপোর্টের কাজে ব্যবহৃত হয়।</p>` },
-      terms: { title: "Terms & Conditions (শর্তাবলি)", body: `<p>স্টকে থাকা সাপেক্ষে অর্ডার কনফার্ম করা হয় এবং নির্ধারিত ডেলিভারি চার্জ প্রযোজ্য।</p>` },
-      refund: { title: "Return & Refund Policy (রিটার্ন ও রিফান্ড নীতি)", body: `<p>ডেলিভারির সময় পার্সেল চেক করে ত্রুটিপূর্ণ বা ভুল পণ্য পেলে দ্রুত রিটার্ন/রিপ্লেসমেন্ট সুবিধা দেওয়া হয়।</p>` },
-      shipping: { title: "Shipping & Delivery Policy (ডেলিভারি নীতি)", body: `<p>জেলা অনুযায়ী অটোমেটিক ডেলিভারি চার্জ নির্ধারিত হয় এবং সারা দেশে কুরিয়ারের মাধ্যমে ডেলিভারি করা হয়।</p>` },
-      about: { title: "About Us & Store Transparency", body: `<p>আমরা মানসম্মত অর্গানিক ও লাইফস্টাইল পণ্য এবং স্বচ্ছ কাস্টমার সার্ভিস প্রদান করি।</p>` }
-    };
+    function openPolicyModal(type) {
+      const titleEl = document.getElementById("policy-modal-title");
+      const bodyEl = document.getElementById("policy-modal-body");
+      const brand = gmcCfg.brandName || "Amar Brand";
+      const dhakaFee = Number(deliveryChargeCfg.dhaka ?? 80);
+      const outsideFee = Number(deliveryChargeCfg.outsideDhaka ?? 120);
 
-    function openPolicyModal(key) {
-      const p = storePolicies[key] || storePolicies.about;
-      document.getElementById("policy-modal-title").textContent = p.title;
-      document.getElementById("policy-modal-body").innerHTML = p.body;
-      document.getElementById("policy-modal").classList.remove("hidden");
+      const policies = {
+        privacy: {
+          title: `Privacy Policy — ${brand}`,
+          html: `<p><strong>${escapeHtml(brand)}</strong> আপনার ব্যক্তিগত তথ্য (যেমন নাম, ফোন নম্বর ও ডেলিভারি ঠিকানা) শুধুমাত্র অর্ডার প্রসেসিং এবং কাস্টমার সাপোর্টের কাজে ব্যবহার করে।</p><p>আমরা কোনো তৃতীয় পক্ষের কাছে গ্রাহকের ব্যক্তিগত তথ্য বিক্রি করি না।</p>`
+        },
+        terms: {
+          title: `Terms & Conditions — ${brand}`,
+          html: `<p>এই ওয়েবসাইট থেকে অর্ডার করার মাধ্যমে আপনি আমাদের শর্তাবলিতে সম্মতি দিচ্ছেন। স্টক ও মূল্য স্টোর আপডেট অনুযায়ী পরিবর্তিত হতে পারে।</p>`
+        },
+        refund: {
+          title: `Return & Refund Policy — ${brand}`,
+          html: `<p>পণ্য হাতে পাওয়ার ২৪-৪৮ ঘণ্টার মধ্যে ড্যামেজ, ত্রুটিপূর্ণ বা ভুল পণ্য পেলে রিটার্ন/এক্সচেঞ্জের জন্য আমাদের সাপোর্টে যোগাযোগ করুন।</p>`
+        },
+        shipping: {
+          title: `Shipping & Delivery Policy — ${brand}`,
+          html: `<p>ঢাকার ভিতরে ডেলিভারি চার্জ <strong>৳${dhakaFee}</strong> এবং ঢাকার বাইরে সারাদেশে ডেলিভারি চার্জ <strong>৳${outsideFee}</strong>। সাধারণত ২-৫ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।</p>`
+        },
+        about: {
+          title: `About Us & Store Transparency — ${brand}`,
+          html: `<p><strong>${escapeHtml(brand)}</strong> মানসম্মত পণ্য, স্বচ্ছ মূল্য ও নির্ভরযোগ্য ডেলিভারি সেবা প্রদানে প্রতিশ্রুতিবদ্ধ।</p>`
+        }
+      };
+
+      const chosen = policies[type] || policies.about;
+      titleEl.textContent = chosen.title;
+      bodyEl.innerHTML = chosen.html;
+      document.getElementById("policy-modal")?.classList.remove("hidden");
     }
-    function closePolicyModal() { document.getElementById("policy-modal").classList.add("hidden"); }
 
-    function openTrackOrderModal() { document.getElementById("track-order-modal").classList.remove("hidden"); }
-    function closeTrackOrderModal() { document.getElementById("track-order-modal").classList.add("hidden"); }
+    function closePolicyModal() {
+      document.getElementById("policy-modal")?.classList.add("hidden");
+    }
+
+    function openTrackOrderModal() {
+      document.getElementById("track-order-modal")?.classList.remove("hidden");
+    }
+
+    function closeTrackOrderModal() {
+      document.getElementById("track-order-modal")?.classList.add("hidden");
+    }
 
     function searchVisitorOrder(e) {
       e.preventDefault();
       const q = document.getElementById("track-order-query").value.trim().toLowerCase();
       const resBox = document.getElementById("track-order-result");
-      const found = storeOrders.find(o => String(o.order_number || "").toLowerCase() === q || String(o.customer_phone || "").toLowerCase().includes(q));
+      const found = storeOrders.find(o =>
+        String(o.order_number || "").toLowerCase() === q ||
+        String(o.customer_phone || "").toLowerCase().includes(q)
+      );
       if (!found) {
-        resBox.innerHTML = `<p class="text-rose-400">এই নম্বর বা অর্ডার আইডির কোনো অর্ডার পাওয়া যায়নি।</p>`;
+        resBox.innerHTML = `<p class="text-rose-400">এই নম্বর বা অর্ডার আইডির সাথে কোনো অর্ডার পাওয়া যায়নি।</p>`;
         return;
       }
       resBox.innerHTML = `
-        <p><strong class="text-emerald-300">অর্ডার #:</strong> ${escapeHtml(found.order_number)}</p>
-        <p><strong>কাস্টমার:</strong> ${escapeHtml(found.customer_name)} (${escapeHtml(found.customer_phone)})</p>
-        <p><strong>স্ট্যাটাস:</strong> <span class="text-sky-300 font-semibold">${escapeHtml(found.status || "Pending")}</span></p>
-        <p><strong>মোট:</strong> ৳${escapeHtml(found.total_amount)}</p>
-        ${found.tracking_code ? `<p><strong>ট্র্যাকিং কোড:</strong> <span class="font-mono text-emerald-300">${escapeHtml(found.tracking_code)}</span></p>` : ""}
+        <p><strong class="text-white">অর্ডার #:</strong> <span class="font-mono text-sky-300">${escapeHtml(found.order_number)}</span></p>
+        <p><strong class="text-white">স্ট্যাটাস:</strong> <span class="font-mono text-emerald-300">${escapeHtml(found.status || "Pending")}</span></p>
+        <p><strong class="text-white">মোট COD:</strong> <span class="font-mono text-emerald-400">৳${escapeHtml(found.total_amount)}</span></p>
+        ${found.tracking_code ? `<p><strong class="text-white">কুরিয়ার ট্র্যাকিং:</strong> <span class="font-mono text-amber-300">${escapeHtml(found.tracking_code)}</span></p>` : ""}
       `;
     }
 
@@ -4479,40 +4780,41 @@
     }
 
     function renderVisitorChatMessages() {
-      const msgBox = document.getElementById("visitor-chat-messages");
-      if (!msgBox) return;
+      const box = document.getElementById("visitor-chat-messages");
+      if (!box) return;
       const threads = ensureChatThreadsInitialized();
-      const thread = threads.find(t => t.id === "visitor-live-thread") || threads[0];
-      const msgs = thread?.messages || [];
+      const mainThread = threads.find(t => t.id === "visitor-live-thread") || threads[0];
+      const msgs = mainThread?.messages || [];
 
-      msgBox.innerHTML = msgs.map(m => {
+      box.innerHTML = msgs.map(m => {
         const isCust = m.sender === "customer";
+        const isAgent = m.sender === "agent";
         const cls = isCust
-          ? "ml-auto bg-emerald-600/25 border-emerald-500/35 text-emerald-100"
-          : m.sender === "agent"
-            ? "mr-auto bg-sky-950/70 border-sky-500/35 text-sky-100"
+          ? "ml-auto bg-emerald-600/25 border-emerald-500/40 text-emerald-100"
+          : isAgent
+            ? "mr-auto bg-sky-950/70 border-sky-500/40 text-sky-100"
             : "mr-auto bg-slate-900 border-slate-800 text-slate-200";
-        const senderTag = isCust ? "আপনি" : m.sender === "agent" ? "অ্যাডমিন রিপ্লাই" : "Assistant";
         return `
           <div class="max-w-[88%] rounded-2xl p-2.5 border ${cls}">
-            <span class="text-[9px] font-mono opacity-70 block mb-0.5">${senderTag} • ${escapeHtml(m.time || "")}</span>
-            ${m.image ? `<img src="${escapeHtml(m.image)}" alt="Uploaded" class="w-24 h-24 object-cover rounded-xl mb-1.5 border border-slate-700" />` : ""}
+            ${isAgent ? `<span class="text-[9px] font-mono text-sky-300 block mb-0.5">সাপোর্ট এজেন্ট</span>` : ""}
+            ${m.image ? `<img src="${escapeHtml(m.image)}" alt="Uploaded" class="w-28 h-28 object-cover rounded-xl mb-1.5 border border-slate-700" />` : ""}
             <p class="leading-relaxed whitespace-pre-line">${escapeHtml(m.text || "")}</p>
           </div>
         `;
       }).join("");
-      msgBox.scrollTop = msgBox.scrollHeight;
+      box.scrollTop = box.scrollHeight;
     }
 
     function handleChatImageSelected(e) {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = () => {
-        pendingChatImage = { name: file.name, dataUrl: String(reader.result || "") };
-        document.getElementById("visitor-chat-preview-img").src = pendingChatImage.dataUrl;
+      reader.onload = async () => {
+        const compressed = await compressImageDataUrl(String(reader.result || ""), 640, 0.72);
+        pendingChatImage = { name: file.name, dataUrl: compressed };
+        document.getElementById("visitor-chat-preview-img").src = compressed;
         document.getElementById("visitor-chat-preview-name").textContent = file.name;
-        document.getElementById("visitor-chat-image-preview").classList.remove("hidden");
+        document.getElementById("visitor-chat-image-preview")?.classList.remove("hidden");
       };
       reader.readAsDataURL(file);
     }
@@ -4524,93 +4826,90 @@
       document.getElementById("visitor-chat-image-preview")?.classList.add("hidden");
     }
 
+    function generateSmartBotReply(text, hasImage) {
+      const q = normalizeSearchText(text);
+      const dhakaFee = Number(deliveryChargeCfg.dhaka ?? 80);
+      const outsideFee = Number(deliveryChargeCfg.outsideDhaka ?? 120);
+
+      if (q.includes("ডেলিভারি") || q.includes("চার্জ") || q.includes("delivery")) {
+        return `ঢাকার ভিতরে ডেলিভারি চার্জ ৳${dhakaFee} এবং ঢাকার বাইরে ৳${outsideFee}।`;
+      }
+      if (q.includes("রিটার্ন") || q.includes("refund") || q.includes("return")) {
+        return `পণ্য হাতে পাওয়ার ২৪-৪৮ ঘণ্টার মধ্যে সমস্যা থাকলে রিটার্ন বা এক্সচেঞ্জ সুবিধা পাবেন।`;
+      }
+
+      const matched = storeProducts.filter(p => q && getProductSearchBlob(p).includes(q));
+      if (matched.length > 0) {
+        const top = matched.slice(0, 2).map(p => `• ${p.title} (${p.sku}) — ৳${p.price}`).join("\n");
+        return `আপনার খুঁজতে থাকা প্রোডাক্টসমূহ:\n${top}`;
+      }
+      if (hasImage) {
+        return `ছবিটি পেয়েছি! আমাদের অ্যাডমিন প্যানেলে মেসেজটি যুক্ত হয়েছে—সাপোর্ট টিম বা অটোমেশন শীঘ্রই বিস্তারিত জানাবে।`;
+      }
+      return `আপনার মেসেজটি রিসিভ হয়েছে। প্রোডাক্টের নাম, কোড বা ডেলিভারি সম্পর্কে জানতে পারেন অথবা সরাসরি আমাদের সাপোর্ট রিপ্লাইয়ের জন্য অপেক্ষা করুন।`;
+    }
+
     function sendVisitorChatMessage(e) {
       e.preventDefault();
-      if (chatbotCfg.enabled === false) {
-        return alert("চ্যাটবট বর্তমানে অফ আছে।");
-      }
       const inp = document.getElementById("visitor-chat-input");
       const text = (inp?.value || "").trim();
       const imgObj = pendingChatImage;
       if (!text && !imgObj) return;
 
       const threads = ensureChatThreadsInitialized();
-      let thread = threads.find(t => t.id === "visitor-live-thread");
-      if (!thread) {
-        thread = { id: "visitor-live-thread", customerName: "Website Visitor", phone: "Web Chat", lastTime: "এখন", unread: true, messages: [] };
-        threads.unshift(thread);
-      }
+      const mainThread = threads.find(t => t.id === "visitor-live-thread") || threads[0];
+      const time = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
 
-      const nowTime = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
-      thread.messages.push({
+      if (!Array.isArray(mainThread.messages)) mainThread.messages = [];
+      mainThread.messages.push({
         sender: "customer",
-        text: text || `ছবি পাঠিয়েছেন: ${imgObj.name}`,
+        text: text || "ছবি পাঠানো হয়েছে",
         image: imgObj?.dataUrl || "",
-        time: nowTime
+        time
       });
 
-      let replyText = "আপনার মেসেজটি পেয়েছি। আমাদের টিম বা অটোমেশন রিপ্লাই শীঘ্রই আপডেট দিচ্ছে।";
-      const qLower = text.toLowerCase();
-      if (qLower.includes("ডেলিভারি") || qLower.includes("চার্জ") || qLower.includes("delivery")) {
-        replyText = `ঢাকার ভিতর ডেলিভারি চার্জ ৳${deliveryChargeCfg.dhaka ?? 80} এবং ঢাকার বাইরে ৳${deliveryChargeCfg.outsideDhaka ?? 120}। চেকআউটে জেলা সিলেক্ট করলেই অটোমেটিক চার্জ নির্ধারিত হয়।`;
-      } else {
-        const matchedProd = storeProducts.find(p =>
-          (text && normalizeSearchText(p.title).includes(normalizeSearchText(text))) ||
-          (text && String(p.sku || "").toLowerCase() === qLower)
-        );
-        if (matchedProd) {
-          replyText = `${matchedProd.title} (${matchedProd.sku}) — দাম ৳${matchedProd.price}। লিংক: ${getProductUniqueUrl(matchedProd.sku)}`;
-        }
+      if (chatbotCfg.enabled !== false) {
+        const botReply = generateSmartBotReply(text, Boolean(imgObj));
+        mainThread.messages.push({
+          sender: "bot",
+          text: botReply,
+          time
+        });
       }
 
-      thread.messages.push({
-        sender: "bot",
-        text: replyText,
-        time: nowTime
-      });
-      thread.lastTime = nowTime;
-      thread.unread = true;
+      mainThread.lastTime = time;
+      mainThread.unread = true;
 
-      if (chatbotCfg.webhookUrl) {
+      if (chatbotCfg.platform && chatbotCfg.platform !== "None" && chatbotCfg.webhookUrl) {
+        const headers = { "Content-Type": "application/json", "X-Automation-Platform": chatbotCfg.platform };
+        if (chatbotCfg.token) headers["Authorization"] = `Bearer ${chatbotCfg.token}`;
         fetch(chatbotCfg.webhookUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(chatbotCfg.token ? { "Authorization": `Bearer ${chatbotCfg.token}` } : {})
-          },
-          body: JSON.stringify({
-            platform: chatbotCfg.platform || "Custom Webhook",
-            message: text,
-            hasImage: Boolean(imgObj),
-            timestamp: new Date().toISOString()
-          })
+          headers,
+          body: JSON.stringify({ platform: chatbotCfg.platform, message: text, hasImage: Boolean(imgObj), time })
         }).catch(() => {});
       }
 
-      persistAdminState({ chatThreads: threads, activeThreadId: thread.id });
+      persistAdminState({ chatThreads: threads, activeThreadId: mainThread.id });
       if (inp) inp.value = "";
       clearPendingChatImage();
       renderVisitorChatMessages();
       renderAdminManualChatInbox();
     }
 
-    /* ========================================================= */
-    /* [লাইভ ক্লিক, স্টোরেজ সিঙ্ক ও URL রাউটিং]                    */
-    /* ========================================================= */
-    function handleDeepLinkRouting() {
+    function handleDeepLinkOnLoad() {
       const params = new URLSearchParams(window.location.search);
-      const catParam = params.get("category");
-      const prodParam = params.get("product");
-      const reelParam = params.get("reel");
+      const reelParam = (params.get("reel") || "").trim();
+      const prodParam = (params.get("product") || "").trim();
+      const catParam = (params.get("category") || "").trim();
 
       if (reelParam) {
-        const foundReel = storeReels.find(r => String(r.id || "").toLowerCase() === reelParam.trim().toLowerCase());
-        if (foundReel) {
-          openAllReelsPage(foundReel.id);
+        const matchedReel = storeReels.find(r => String(r.id).toUpperCase() === reelParam.toUpperCase());
+        if (matchedReel) {
+          openAllReelsPage(matchedReel.id);
           return;
         }
       }
-
       if (catParam) {
         const matchedCat = resolveCategoryFromSlug(catParam);
         if (matchedCat) {
@@ -4618,78 +4917,67 @@
           return;
         }
       }
-
-      showHomeStorefront();
-
       if (prodParam) {
-        const foundProd = storeProducts.find(p => String(p.sku || "").toLowerCase() === prodParam.trim().toLowerCase());
-        if (foundProd) {
-          setTimeout(() => openProductModal(foundProd.sku), 120);
-        }
+        openProductModal(prodParam);
       }
     }
 
+    window.addEventListener("popstate", () => {
+      const params = new URLSearchParams(window.location.search);
+      const reelParam = (params.get("reel") || "").trim();
+      const catParam = (params.get("category") || "").trim();
+      if (reelParam) {
+        const matchedReel = storeReels.find(r => String(r.id).toUpperCase() === reelParam.toUpperCase());
+        if (matchedReel) {
+          focusedReelId = matchedReel.id;
+          switchPageView("all-reels-page-view");
+          renderAllReelsPage();
+          return;
+        }
+      }
+      if (catParam) {
+        const matchedCat = resolveCategoryFromSlug(catParam);
+        if (matchedCat) {
+          activeCategoryPageName = matchedCat;
+          switchPageView("category-page-view");
+          renderCategoryPageProducts();
+          renderCategoryRelatedReelsRow(matchedCat);
+          return;
+        }
+      }
+      activeCategoryPageName = "";
+      focusedReelId = "";
+      switchPageView("home-store-view");
+      renderCategoryCards();
+      renderVisitorProducts();
+      renderHomeReelsRow();
+    });
+
     document.addEventListener("click", (e) => {
-      recordLiveSiteClick();
       const w = document.getElementById("visitor-search-wrapper");
       if (w && !w.contains(e.target)) hideSearchDropdown();
-    }, { capture: true });
-
-    window.addEventListener("storage", (e) => {
-      if (
-        e.key === ADMIN_STORAGE_KEY ||
-        e.key === ORDERS_STORAGE_KEY ||
-        e.key === "ab_delivery_charge_cfg" ||
-        e.key === "ab_steadfast_cfg" ||
-        e.key === "ab_gsc_cfg" ||
-        e.key === "ab_gmc_cfg" ||
-        e.key === "ab_cb_ai_cfg"
-      ) {
-        deliveryChargeCfg = JSON.parse(localStorage.getItem("ab_delivery_charge_cfg") || "null") || deliveryChargeCfg;
-        steadfastCfg = JSON.parse(localStorage.getItem("ab_steadfast_cfg") || "null") || steadfastCfg;
-        gscCfg = JSON.parse(localStorage.getItem("ab_gsc_cfg") || "{}");
-        gmcCfg = JSON.parse(localStorage.getItem("ab_gmc_cfg") || "{}");
-        chatbotCfg = JSON.parse(localStorage.getItem("ab_cb_ai_cfg") || "null") || chatbotCfg;
-        storeOrders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY) || "[]");
-        loadSyncedAdminData();
-        renderCategoryCards();
-        renderVisitorProducts();
-        renderHomeReelsRow();
-        updateCheckoutSummary();
-        if (activeCategoryPageName) {
-          renderCategoryPageProducts();
-          renderCategoryRelatedReelsRow(activeCategoryPageName);
-        }
-        if (!document.getElementById("all-reels-page-view")?.classList.contains("hidden")) {
-          renderAllReelsPage();
-        }
-        if (!document.getElementById("admin-panel-view")?.classList.contains("hidden")) {
-          renderAdminDashboard();
-        }
-      } else if (e.key === ANALYTICS_STORAGE_KEY) {
-        liveAnalytics = JSON.parse(localStorage.getItem(ANALYTICS_STORAGE_KEY) || "null") || liveAnalytics;
-        renderAdminOverviewPanel();
-      }
     });
 
-    window.addEventListener("popstate", () => {
-      loadSyncedAdminData();
-      handleDeepLinkRouting();
+    document.addEventListener("click", () => {
+      recordLiveSiteClick();
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
+    (function initStorefront() {
       loadSyncedAdminData();
-      populateDistrictDropdown();
       recordLiveSiteVisit();
-      handleDeepLinkRouting();
+      renderCategoryCards();
+      renderVisitorProducts();
+      renderHomeReelsRow();
       renderCartDrawer();
+      populateDistrictDropdown();
       updateCheckoutSummary();
       renderVisitorChatMessages();
-    });
+      handleDeepLinkOnLoad();
+    })();
   </script>
-  <!-- [শেষ: ১১. জাভাস্ক্রিপ্ট লজিক]                               -->
+  <!-- [শেষ: ১১. জাভাস্ক্রিপ্ট লজিক] -->
 </body>
 </html>
 <!-- ========================================================= -->
-<!-- [শেষ] SEO-অপ্টিমাইজড স্টোরফ্রন্ট + প্রো অ্যাডমিন প্যানেল     -->
+<!-- [শেষ] index.html (AMAR BRAND)                           -->
 <!-- ========================================================= -->
