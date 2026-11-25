@@ -1,14 +1,12 @@
  <!-- ========================================================= -->
-<!-- [শুরু] AMAR BRAND STORE — এডমিন ড্যাশবোর্ড                 -->
-<!-- ফাইল নাম: admin.html                                       -->
-<!-- ফিচার: প্রোডাক্ট, রিলস ও ক্যাটাগরি — সিঙ্গেল ও বাল্ক ডিলিট -->
+<!-- [শুরু] AMAR BRAND STORE — এডমিন ড্যাশবোর্ড (Full Sync)     -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amar Brand | Admin Control Panel (Bulk Delete)</title>
+  <title>Amar Brand | Admin Control Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -19,148 +17,59 @@
 </head>
 <body class="bg-[#030712] text-slate-100 min-h-screen antialiased flex flex-col md:flex-row">
 
-  <!-- টোস্ট নোটিফিকেশন -->
   <div id="toast-container" class="fixed top-5 right-5 z-[70] flex flex-col gap-2 max-w-sm w-full"></div>
 
-  <!-- [১. সাইডবার নেভিগেশন] -->
+  <!-- সাইডবার -->
   <aside class="w-full md:w-64 bg-slate-950 border-r border-slate-800/80 p-4 shrink-0 flex flex-col justify-between">
     <div class="space-y-6">
       <div class="flex items-center gap-3 px-2">
         <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center font-extrabold text-white text-sm">AB</div>
         <div>
           <h2 class="text-sm font-extrabold text-white">AMAR BRAND</h2>
-          <p class="text-[10px] text-emerald-400 font-mono">Admin Control v6.2</p>
+          <p class="text-[10px] text-emerald-400 font-mono">Admin Sync v6.3</p>
         </div>
       </div>
 
       <nav class="space-y-1 text-xs">
-        <button onclick="switchTab('overview')" id="tab-btn-overview" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300">
-          <span>📊</span> <span>ওভারভিউ</span>
-        </button>
-        <button onclick="switchTab('orders')" id="tab-btn-orders" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300 justify-between">
-          <div class="flex items-center gap-2.5"><span>📦</span> <span>অর্ডারসমূহ</span></div>
-          <span id="badge-orders-count" class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono text-[10px]">0</span>
-        </button>
-        <button onclick="switchTab('incomplete')" id="tab-btn-incomplete" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300 justify-between">
-          <div class="flex items-center gap-2.5"><span>⏳</span> <span>অসম্পূর্ণ ড্রাফট</span></div>
-          <span id="badge-incomplete-count" class="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-mono text-[10px]">0</span>
-        </button>
         <button onclick="switchTab('products')" id="tab-btn-products" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300">
           <span>🛍️</span> <span>প্রোডাক্ট ও ক্যাটাগরি</span>
         </button>
         <button onclick="switchTab('reels')" id="tab-btn-reels" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300">
           <span>🎬</span> <span>শপ্যাবল রিলস</span>
         </button>
-        <button onclick="switchTab('chat')" id="tab-btn-chat" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300 justify-between">
-          <div class="flex items-center gap-2.5"><span>💬</span> <span>লাইভ চ্যাট</span></div>
-          <span id="badge-chat-unread" class="hidden bg-rose-500 text-white px-2 py-0.5 rounded-full font-mono text-[10px]">NEW</span>
-        </button>
-        <button onclick="switchTab('settings')" id="tab-btn-settings" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300">
-          <span>⚙️</span> <span>SEO ও ইন্টিগ্রেশন</span>
+        <button onclick="switchTab('orders')" id="tab-btn-orders" class="w-full text-left px-3.5 py-2.5 rounded-xl transition flex items-center gap-2.5 hover:bg-slate-900 text-slate-300 justify-between">
+          <div class="flex items-center gap-2.5"><span>📦</span> <span>অর্ডারসমূহ</span></div>
+          <span id="badge-orders-count" class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono text-[10px]">0</span>
         </button>
       </nav>
     </div>
 
-    <div class="pt-4 border-t border-slate-800/80">
+    <div class="pt-4 border-t border-slate-800/80 space-y-2">
+      <button onclick="resetAllStoreData()" class="w-full bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 py-2 rounded-xl text-xs font-semibold transition">
+        ♻️ স্টেট রিসেট (Clean Sync)
+      </button>
       <a href="index.html" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition border border-slate-800">
         <span>🌐</span> <span>স্টোরফ্রন্ট দেখুন</span>
       </a>
     </div>
   </aside>
 
-  <!-- [২. প্রধান কন্টেন্ট এরিয়া] -->
+  <!-- প্রধান কন্টেন্ট -->
   <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto space-y-6">
 
-    <!-- ২.১ ওভারভিউ ভিউ -->
-    <section id="view-overview" class="space-y-6">
-      <h2 class="text-xl font-bold text-white">ড্যাশবোর্ড ওভারভিউ</h2>
-
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="glass-card p-4 rounded-2xl space-y-1">
-          <p class="text-xs text-slate-400">মোট সেলস</p>
-          <p id="stat-total-revenue" class="text-2xl font-extrabold text-emerald-400 font-mono">৳0</p>
-        </div>
-        <div class="glass-card p-4 rounded-2xl space-y-1">
-          <p class="text-xs text-slate-400">মোট অর্ডার</p>
-          <p id="stat-total-orders" class="text-2xl font-extrabold text-white font-mono">0</p>
-        </div>
-        <div class="glass-card p-4 rounded-2xl space-y-1">
-          <p class="text-xs text-slate-400">অসম্পূর্ণ অর্ডার</p>
-          <p id="stat-incomplete" class="text-2xl font-extrabold text-amber-400 font-mono">0</p>
-        </div>
-        <div class="glass-card p-4 rounded-2xl space-y-1">
-          <p class="text-xs text-slate-400">এক্টিভ প্রোডাক্ট</p>
-          <p id="stat-active-products" class="text-2xl font-extrabold text-sky-400 font-mono">0</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ২.২ অর্ডার ম্যানেজমেন্ট ভিউ -->
-    <section id="view-orders" class="hidden space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold text-white">অর্ডারসমূহ</h2>
-        <button onclick="renderOrdersTable()" class="text-xs bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl hover:bg-slate-800">🔄 রিফ্রেশ</button>
-      </div>
-
-      <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="p-3">অর্ডার #</th>
-                <th class="p-3">গ্রাহক</th>
-                <th class="p-3">ঠিকানা</th>
-                <th class="p-3">আইটেম</th>
-                <th class="p-3">সর্বমোট</th>
-                <th class="p-3">স্ট্যাটাস</th>
-                <th class="p-3">অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody id="orders-table-body" class="divide-y divide-slate-800/60"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ২.৩ অসম্পূর্ণ চেকআউট ড্রাফট ভিউ -->
-    <section id="view-incomplete" class="hidden space-y-4">
-      <h2 class="text-xl font-bold text-white">অসম্পূর্ণ চেকআউট ড্রাফট (Incomplete Orders)</h2>
-      <p class="text-xs text-slate-400">যেসব ভিজিটর চেকআউট পেজে নাম/ফোন লিখেও অর্ডার সম্পন্ন করেনি তাদের তথ্য:</p>
-
-      <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="p-3">আইডি</th>
-                <th class="p-3">সময়</th>
-                <th class="p-3">গ্রাহকের নাম</th>
-                <th class="p-3">ফোন নম্বর</th>
-                <th class="p-3">ঠিকানা/জেলা</th>
-                <th class="p-3">আনুকূলিক মোট</th>
-              </tr>
-            </thead>
-            <tbody id="incomplete-table-body" class="divide-y divide-slate-800/60"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ২.৪ প্রোডাক্ট ও ক্যাটাগরি ম্যানেজমেন্ট (ক্যাটাগরি ও প্রোডাক্ট Bulk Delete সহ) -->
-    <section id="view-products" class="hidden space-y-6">
+    <!-- প্রোডাক্ট ও ক্যাটাগরি ট্যাব -->
+    <section id="view-products" class="space-y-6">
       <div class="flex flex-wrap justify-between items-center gap-3">
         <h2 class="text-xl font-bold text-white">প্রোডাক্ট ও ক্যাটাগরি কন্ট্রোল</h2>
-
         <div class="flex items-center gap-2">
-          <button id="btn-bulk-delete-prod" onclick="bulkDeleteProducts()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-lg shadow-rose-600/20">
+          <button id="btn-bulk-delete-prod" onclick="bulkDeleteProducts()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition">
             🗑️ সিলেক্টড প্রোডাক্ট ডিলিট (<span id="count-selected-prod">0</span>)
           </button>
-
           <button onclick="openProductModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">+ নতুন প্রোডাক্ট</button>
         </div>
       </div>
 
-      <!-- ক্যাটাগরি সেকশন (Bulk Delete সহ) -->
+      <!-- ক্যাটাগরি -->
       <div class="glass-card p-4 rounded-2xl space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-3">
@@ -170,8 +79,7 @@
               <span>সব সিলেক্ট</span>
             </label>
           </div>
-
-          <button id="btn-bulk-delete-cat" onclick="bulkDeleteCategories()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-lg shadow-rose-600/20">
+          <button id="btn-bulk-delete-cat" onclick="bulkDeleteCategories()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">
             🗑️ সিলেক্টড ক্যাটাগরি ডিলিট (<span id="count-selected-cat">0</span>)
           </button>
         </div>
@@ -207,87 +115,53 @@
       </div>
     </section>
 
-    <!-- ২.৫ শপ্যাবল রিলস ম্যানেজমেন্ট (Bulk Delete সহ) -->
+    <!-- শপ্যাবল রিলস ট্যাব -->
     <section id="view-reels" class="hidden space-y-4">
       <div class="flex flex-wrap justify-between items-center gap-3">
         <h2 class="text-xl font-bold text-white">শপ্যাবল রিল ভিডিও ম্যানেজমেন্ট</h2>
-
         <div class="flex items-center gap-2">
           <label class="flex items-center gap-2 text-xs text-slate-300 bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl cursor-pointer">
             <input type="checkbox" id="chk-all-reels" onchange="toggleSelectAllReels(this)" class="accent-pink-500" />
             <span>সব সিলেক্ট</span>
           </label>
-
-          <button id="btn-bulk-delete-reels" onclick="bulkDeleteReels()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-lg shadow-rose-600/20">
+          <button id="btn-bulk-delete-reels" onclick="bulkDeleteReels()" class="hidden bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition">
             🗑️ সিলেক্টড রিল ডিলিট (<span id="count-selected-reels">0</span>)
           </button>
-
-          <button onclick="openReelModal()" class="bg-pink-600 hover:bg-pink-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">+ নতুন রিল ভিডিও</button>
+          <button onclick="openReelModal()" class="bg-pink-600 hover:bg-pink-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">+ রিল আপলোড / যুক্ত করুন</button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="reels-admin-grid"></div>
     </section>
 
-    <!-- ২.৬ কাস্টমার চ্যাট ইনবক্স -->
-    <section id="view-chat" class="hidden space-y-4">
-      <h2 class="text-xl font-bold text-white">গ্রাহক লাইভ চ্যাট ইনবক্স</h2>
-      <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row gap-4 h-[500px]">
-        <div class="w-full md:w-1/3 border-r border-slate-800 space-y-2 overflow-y-auto pr-2" id="chat-threads-list"></div>
-        <div class="flex-1 flex flex-col justify-between" id="chat-conversation-area">
-          <div id="admin-chat-messages" class="flex-1 overflow-y-auto p-3 space-y-2 bg-slate-950/60 rounded-xl"></div>
-          <form onsubmit="sendAdminChatMessage(event)" class="pt-3 flex gap-2">
-            <input type="text" id="admin-chat-input" placeholder="উত্তর লিখুন..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs outline-none focus:border-emerald-500" />
-            <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">পাঠান</button>
-          </form>
+    <!-- অর্ডার ট্যাব -->
+    <section id="view-orders" class="hidden space-y-4">
+      <h2 class="text-xl font-bold text-white">অর্ডারসমূহ</h2>
+      <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-3">অর্ডার #</th>
+                <th class="p-3">গ্রাহক</th>
+                <th class="p-3">ঠিকানা</th>
+                <th class="p-3">সর্বমোট</th>
+                <th class="p-3">স্ট্যাটাস</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body" class="divide-y divide-slate-800/60"></tbody>
+          </table>
         </div>
-      </div>
-    </section>
-
-    <!-- ২.৭ SEO, GMC, Webhook ও সেটিংস -->
-    <section id="view-settings" class="hidden space-y-6">
-      <h2 class="text-xl font-bold text-white">SEO, GMC ও সিস্টেম ইন্টিগ্রেশন সেটিংস</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <form onsubmit="saveGscSettings(event)" class="glass-card p-5 rounded-2xl space-y-3">
-          <h3 class="text-sm font-bold text-emerald-300">Google Search Console & SEO</h3>
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1">সাইট URL</label>
-            <input type="url" id="cfg-site-url" placeholder="https://amarbrand.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs outline-none" />
-          </div>
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1">GSC ভেরিফিকেশন কোড (HTML Meta Code)</label>
-            <input type="text" id="cfg-gsc-code" placeholder="google-site-verification=xxxx" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs outline-none font-mono" />
-          </div>
-          <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">SEO সেটিংস সেভ করুন</button>
-        </form>
-
-        <form onsubmit="saveIntegrationSettings(event)" class="glass-card p-5 rounded-2xl space-y-3">
-          <h3 class="text-sm font-bold text-amber-300">Google Merchant Center & Webhook</h3>
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1">ব্র্যান্ড নাম (GMC Title)</label>
-            <input type="text" id="cfg-brand-name" placeholder="Amar Brand" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs outline-none" />
-          </div>
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1">অর্ডার তৈরির Webhook URL</label>
-            <input type="url" id="cfg-webhook-url" placeholder="https://api.yourdomain.com/webhook/orders" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs outline-none font-mono" />
-          </div>
-          <button type="submit" class="bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-bold">ইন্টিগ্রেশন সেভ করুন</button>
-        </form>
       </div>
     </section>
 
   </main>
 
-  <!-- ========================================================= -->
-  <!-- [৩. মোডালসমূহ — নতুন প্রোডাক্ট ও রিল ভিডিও যুক্তকরণ]      -->
-  <!-- ========================================================= -->
-
   <!-- প্রোডাক্ট মোডাল -->
   <div id="modal-product" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h3 class="text-base font-bold text-white" id="prod-modal-title">প্রোডাক্ট যুক্ত/এডিট করুন</h3>
+        <h3 class="text-base font-bold text-white">প্রোডাক্ট যুক্ত/এডিট করুন</h3>
         <button onclick="closeProductModal()" class="text-slate-400 hover:text-white">✕</button>
       </div>
       <form onsubmit="saveProductSubmit(event)" class="space-y-3 text-xs">
@@ -295,71 +169,62 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-slate-400 mb-1">SKU / কোড *</label>
-            <input type="text" id="pm-sku" required placeholder="AB-PRD-1003" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+            <input type="text" id="pm-sku" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
           </div>
           <div>
             <label class="block text-slate-400 mb-1">ক্যাটাগরি *</label>
             <select id="pm-category" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none"></select>
           </div>
         </div>
-
         <div>
           <label class="block text-slate-400 mb-1">প্রোডাক্টের নাম *</label>
-          <input type="text" id="pm-title" required placeholder="Organic Coconut Oil" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none" />
+          <input type="text" id="pm-title" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none" />
         </div>
-
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-slate-400 mb-1">বিক্রি মূল্য (৳) *</label>
-            <input type="number" id="pm-price" required placeholder="500" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+            <input type="number" id="pm-price" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">আগের মূল্য (৳)</label>
-            <input type="number" id="pm-regular-price" placeholder="650" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
-          </div>
-          <div>
-            <label class="block text-slate-400 mb-1">স্টক পরিমাণ *</label>
-            <input type="number" id="pm-stock" required placeholder="50" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+            <label class="block text-slate-400 mb-1">স্টক *</label>
+            <input type="number" id="pm-stock" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
           </div>
         </div>
-
         <div>
           <label class="block text-slate-400 mb-1">ছবি URL (কমা দিয়ে আলাদা করুন)</label>
-          <input type="text" id="pm-images" placeholder="https://img1.jpg, https://img2.jpg" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+          <input type="text" id="pm-images" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
         </div>
-
-        <div>
-          <label class="block text-slate-400 mb-1">সংক্ষিপ্ত বিবরণ</label>
-          <textarea id="pm-desc" rows="2" placeholder="প্রোডাক্টের বিস্তারিত তথ্য..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none"></textarea>
-        </div>
-
         <button type="submit" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl">সেভ করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- রিল ভিডিও মোডাল -->
+  <!-- রিল আপলোড / যুক্ত করার মোডাল (ফাইল আপলোড + URL উভয়ই) -->
   <div id="modal-reel" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
       <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h3 class="text-base font-bold text-white">নতুন রিল যুক্ত করুন</h3>
+        <h3 class="text-base font-bold text-white">রিল ভিডিও আপলোড / যুক্ত করুন</h3>
         <button onclick="closeReelModal()" class="text-slate-400 hover:text-white">✕</button>
       </div>
       <form onsubmit="saveReelSubmit(event)" class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">রিল শিরোনাম *</label>
-          <input type="text" id="rm-title" required placeholder="Summer Polo Review" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none" />
+          <input type="text" id="rm-title" required placeholder="Product Demo Reel" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none" />
         </div>
         <div>
           <label class="block text-slate-400 mb-1">সংযুক্ত প্রোডাক্ট কোড (SKU) *</label>
           <input type="text" id="rm-sku" required placeholder="AB-PRD-1001" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
         </div>
         <div>
-          <label class="block text-slate-400 mb-1">ভিডিও ফাইল URL (.mp4) *</label>
-          <input type="url" id="rm-video-url" required placeholder="https://example.com/video.mp4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+          <label class="block text-slate-400 mb-1">ডিভাইস থেকে ভিডিও ফাইল আপলোড (.mp4/.webm)</label>
+          <input type="file" id="rm-video-file" accept="video/*" onchange="handleReelFileUpload(this)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-[11px] file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-pink-600 file:text-white" />
         </div>
         <div>
-          <label class="block text-slate-400 mb-1">পোস্টার / থাম্বনেইল ছবি URL</label>
+          <label class="block text-slate-400 mb-1">অথবা ভিডিও ফাইল URL (.mp4)</label>
+          <input type="url" id="rm-video-url" placeholder="https://example.com/video.mp4" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1">পোস্টার ছবি URL</label>
           <input type="url" id="rm-poster-url" placeholder="https://example.com/poster.jpg" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 outline-none font-mono" />
         </div>
         <button type="submit" class="w-full bg-pink-600 text-white font-bold py-2.5 rounded-xl">রিল পাবলিশ করুন</button>
@@ -367,9 +232,6 @@
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- [৪. জাভাস্ক্রিপ্ট লজিক — ড্যাশবোর্ড, স্টেট ও বাল্ক ডিলিট]     -->
-  <!-- ========================================================= -->
   <script>
     const ADMIN_STORAGE_KEY = "amarbrand_admin_state_v6";
     const ORDERS_STORAGE_KEY = "amarbrand_visitor_orders_v1";
@@ -380,21 +242,19 @@
       managedReels: [],
       managedOrders: [],
       incompleteOrders: [],
-      chatThreads: []
+      chatThreads: [],
+      initializedByAdmin: true
     };
 
-    // সিলেক্ট করা আইটেম ট্র্যাকিং সেট
+    let uploadedReelDataUrl = "";
     let selectedCatNames = new Set();
     let selectedProdSkus = new Set();
     let selectedReelIds = new Set();
 
     function escapeHtml(str) {
       return String(str ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
     }
 
     function showToast(msg) {
@@ -409,7 +269,18 @@
     function loadAdminState() {
       try {
         const raw = localStorage.getItem(ADMIN_STORAGE_KEY);
-        if (raw) state = { ...state, ...JSON.parse(raw) };
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state = {
+            ...state,
+            ...parsed,
+            categories: Array.isArray(parsed.categories) ? parsed.categories : state.categories,
+            managedProducts: Array.isArray(parsed.managedProducts) ? parsed.managedProducts : [],
+            managedReels: Array.isArray(parsed.managedReels) ? parsed.managedReels : [],
+            managedOrders: Array.isArray(parsed.managedOrders) ? parsed.managedOrders : [],
+            initializedByAdmin: true
+          };
+        }
         const localOrders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY) || "[]");
         if (localOrders.length) {
           const map = new Map();
@@ -417,109 +288,48 @@
           state.managedOrders = Array.from(map.values());
         }
       } catch (_) {}
-      updateBadgesAndStats();
+      saveState();
+      document.getElementById("badge-orders-count").textContent = state.managedOrders.length;
     }
 
     function saveState() {
-      localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(state));
-      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(state.managedOrders));
-      updateBadgesAndStats();
+      state.initializedByAdmin = true;
+      try {
+        localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(state.managedOrders));
+      } catch (err) {
+        showToast("স্টোরেজ লিমিট পূর্ণ হয়েছে—ছোট ভিডিও বা URL ব্যবহার করুন");
+      }
+      document.getElementById("badge-orders-count").textContent = state.managedOrders.length;
+    }
+
+    function resetAllStoreData() {
+      if (!confirm("সব স্টেট সিঙ্ক আপডেট করতে চান?")) return;
+      saveState();
+      renderCategoryChips();
+      renderProductsTable();
+      renderReelsGrid();
+      showToast("স্টোরফ্রন্টের সাথে সিঙ্ক আপডেট হয়েছে");
     }
 
     function switchTab(tabId) {
-      ["overview", "orders", "incomplete", "products", "reels", "chat", "settings"].forEach(t => {
+      ["products", "reels", "orders"].forEach(t => {
         document.getElementById(`view-${t}`)?.classList.add("hidden");
         document.getElementById(`tab-btn-${t}`)?.classList.remove("nav-active");
       });
       document.getElementById(`view-${tabId}`)?.classList.remove("hidden");
       document.getElementById(`tab-btn-${tabId}`)?.classList.add("nav-active");
 
-      if (tabId === "orders") renderOrdersTable();
-      if (tabId === "incomplete") renderIncompleteTable();
       if (tabId === "products") { renderCategoryChips(); renderProductsTable(); }
       if (tabId === "reels") renderReelsGrid();
-      if (tabId === "chat") renderChatThreads();
-      if (tabId === "settings") loadSettingsForm();
+      if (tabId === "orders") renderOrdersTable();
     }
 
-    function updateBadgesAndStats() {
-      document.getElementById("badge-orders-count").textContent = state.managedOrders.length;
-      document.getElementById("badge-incomplete-count").textContent = state.incompleteOrders.length;
-      document.getElementById("stat-total-orders").textContent = state.managedOrders.length;
-      document.getElementById("stat-incomplete").textContent = state.incompleteOrders.length;
-      document.getElementById("stat-active-products").textContent = state.managedProducts.length;
-
-      const totalRev = state.managedOrders.reduce((s, o) => s + (Number(o.total_amount) || 0), 0);
-      document.getElementById("stat-total-revenue").textContent = `৳${totalRev}`;
-    }
-
-    /* ---------- ১. অর্ডার ম্যানেজমেন্ট ---------- */
-    function renderOrdersTable() {
-      const tbody = document.getElementById("orders-table-body");
-      if (!state.managedOrders.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = state.managedOrders.map(o => `
-        <tr class="hover:bg-slate-900/50">
-          <td class="p-3 font-mono font-bold text-emerald-400">#${escapeHtml(o.order_number)}</td>
-          <td class="p-3"><strong>${escapeHtml(o.customer_name)}</strong><br/><span class="text-slate-400 font-mono">${escapeHtml(o.customer_phone)}</span></td>
-          <td class="p-3 text-slate-300 max-w-xs truncate">${escapeHtml(o.shipping_address)}</td>
-          <td class="p-3 text-slate-400">${escapeHtml(o.items?.map(i => `${i.title} (x${i.qty})`).join(", ") || "-")}</td>
-          <td class="p-3 font-mono font-bold text-white">৳${escapeHtml(o.total_amount)}</td>
-          <td class="p-3">
-            <select onchange="changeOrderStatus('${escapeHtml(o.order_number)}', this.value)" class="bg-slate-900 border border-slate-800 rounded-lg p-1 text-[11px] text-emerald-300">
-              <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
-              <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
-              <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-              <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
-              <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-            </select>
-          </td>
-          <td class="p-3">
-            <button onclick="deleteOrder('${escapeHtml(o.order_number)}')" class="text-rose-400 hover:underline">ডিলিট</button>
-          </td>
-        </tr>
-      `).join("");
-    }
-
-    function changeOrderStatus(orderNo, status) {
-      const ord = state.managedOrders.find(o => o.order_number === orderNo);
-      if (ord) { ord.status = status; saveState(); showToast("অর্ডার স্ট্যাটাস আপডেট হয়েছে"); }
-    }
-
-    function deleteOrder(orderNo) {
-      if (!confirm("অর্ডারটি ডিলিট করতে চান?")) return;
-      state.managedOrders = state.managedOrders.filter(o => o.order_number !== orderNo);
-      saveState();
-      renderOrdersTable();
-    }
-
-    /* ---------- ২. অসম্পূর্ণ ড্রাফট ---------- */
-    function renderIncompleteTable() {
-      const tbody = document.getElementById("incomplete-table-body");
-      if (!state.incompleteOrders.length) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500">কোনো অসম্পূর্ণ চেকআউট ড্রাফট নেই।</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = state.incompleteOrders.map(i => `
-        <tr class="hover:bg-slate-900/50">
-          <td class="p-3 font-mono text-amber-400">${escapeHtml(i.id)}</td>
-          <td class="p-3 text-slate-400">${escapeHtml(i.time)}</td>
-          <td class="p-3 font-semibold text-white">${escapeHtml(i.customer_name)}</td>
-          <td class="p-3 font-mono text-slate-300">${escapeHtml(i.customer_phone)}</td>
-          <td class="p-3 text-slate-400">${escapeHtml(i.shipping_address)}</td>
-          <td class="p-3 font-mono text-emerald-400">৳${escapeHtml(i.total_amount)}</td>
-        </tr>
-      `).join("");
-    }
-
-    /* ---------- ৩. ক্যাটাগরি (Single & Bulk Delete লজিক সহ) ---------- */
+    /* ক্যাটাগরি */
     function renderCategoryChips() {
       const box = document.getElementById("category-chips-list");
       selectedCatNames.clear();
       updateCatBulkBtn();
-
       const chkAll = document.getElementById("chk-all-categories");
       if (chkAll) chkAll.checked = false;
 
@@ -527,52 +337,40 @@
         box.innerHTML = `<p class="text-xs text-slate-500">কোনো ক্যাটাগরি নেই।</p>`;
         return;
       }
-
       box.innerHTML = state.categories.map((c, idx) => `
         <div class="bg-slate-900 border border-slate-800 text-slate-200 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2">
           <input type="checkbox" value="${escapeHtml(c)}" onchange="toggleSelectCategory('${escapeHtml(c)}', this.checked)" class="chk-cat-item accent-amber-500 cursor-pointer" />
           <span>${escapeHtml(c)}</span>
-          <button type="button" onclick="removeCategory(${idx})" title="ডিলিট" class="text-slate-500 hover:text-rose-400 ml-1">✕</button>
+          <button type="button" onclick="removeCategory(${idx})" class="text-slate-500 hover:text-rose-400 ml-1">✕</button>
         </div>
       `).join("");
     }
 
-    function toggleSelectCategory(catName, isChecked) {
-      if (isChecked) selectedCatNames.add(catName);
-      else selectedCatNames.delete(catName);
+    function toggleSelectCategory(catName, checked) {
+      if (checked) selectedCatNames.add(catName); else selectedCatNames.delete(catName);
       updateCatBulkBtn();
     }
 
     function toggleSelectAllCategories(masterChk) {
-      const checkboxes = document.querySelectorAll(".chk-cat-item");
-      checkboxes.forEach(cb => {
+      document.querySelectorAll(".chk-cat-item").forEach(cb => {
         cb.checked = masterChk.checked;
-        if (masterChk.checked) selectedCatNames.add(cb.value);
-        else selectedCatNames.delete(cb.value);
+        if (masterChk.checked) selectedCatNames.add(cb.value); else selectedCatNames.delete(cb.value);
       });
       updateCatBulkBtn();
     }
 
     function updateCatBulkBtn() {
       const btn = document.getElementById("btn-bulk-delete-cat");
-      const countLabel = document.getElementById("count-selected-cat");
-      if (!btn || !countLabel) return;
-      if (selectedCatNames.size > 0) {
-        btn.classList.remove("hidden");
-        countLabel.textContent = selectedCatNames.size;
-      } else {
-        btn.classList.add("hidden");
-      }
+      document.getElementById("count-selected-cat").textContent = selectedCatNames.size;
+      btn.classList.toggle("hidden", selectedCatNames.size === 0);
     }
 
     function bulkDeleteCategories() {
-      if (!selectedCatNames.size) return;
-      if (!confirm(`আপনি কি নিশ্চিত যে সিলেক্ট করা ${selectedCatNames.size} টি ক্যাটাগরি ডিলিট করতে চান?`)) return;
-
+      if (!selectedCatNames.size || !confirm(`${selectedCatNames.size} টি ক্যাটাগরি ডিলিট করবেন?`)) return;
       state.categories = state.categories.filter(c => !selectedCatNames.has(c));
       saveState();
       renderCategoryChips();
-      showToast("সিলেক্টড ক্যাটাগরিসমূহ ডিলিট করা হয়েছে");
+      showToast("সিলেক্টড ক্যাটাগরি ডিলিট হয়েছে");
     }
 
     function addCategory(e) {
@@ -584,24 +382,23 @@
         saveState();
         inp.value = "";
         renderCategoryChips();
-        showToast("নতুন ক্যাটাগরি যুক্ত হয়েছে");
+        showToast("ক্যাটাগরি যুক্ত হয়েছে");
       }
     }
 
     function removeCategory(idx) {
-      if (!confirm("এই ক্যাটাগরিটি ডিলিট করতে চান?")) return;
+      if (!confirm("ক্যাটাগরিটি ডিলিট করবেন?")) return;
       state.categories.splice(idx, 1);
       saveState();
       renderCategoryChips();
-      showToast("ক্যাটাগরি ডিলিট করা হয়েছে");
+      showToast("ক্যাটাগরি ডিলিট হয়েছে");
     }
 
-    /* ---------- ৪. প্রোডাক্ট (Bulk Delete লজিক সহ) ---------- */
+    /* প্রোডাক্ট */
     function renderProductsTable() {
       const tbody = document.getElementById("products-table-body");
       selectedProdSkus.clear();
       updateProdBulkBtn();
-
       const chkAll = document.getElementById("chk-all-products");
       if (chkAll) chkAll.checked = false;
 
@@ -611,9 +408,7 @@
       }
       tbody.innerHTML = state.managedProducts.map(p => `
         <tr class="hover:bg-slate-900/50">
-          <td class="p-3 text-center">
-            <input type="checkbox" value="${escapeHtml(p.sku)}" onchange="toggleSelectProduct('${escapeHtml(p.sku)}', this.checked)" class="chk-prod-item accent-emerald-500 cursor-pointer" />
-          </td>
+          <td class="p-3 text-center"><input type="checkbox" value="${escapeHtml(p.sku)}" onchange="toggleSelectProduct('${escapeHtml(p.sku)}', this.checked)" class="chk-prod-item accent-emerald-500 cursor-pointer" /></td>
           <td class="p-3 font-mono text-emerald-400">${escapeHtml(p.sku)}</td>
           <td class="p-3 font-semibold text-white">${escapeHtml(p.title)}</td>
           <td class="p-3 text-slate-400">${escapeHtml(p.category)}</td>
@@ -627,56 +422,45 @@
       `).join("");
     }
 
-    function toggleSelectProduct(sku, isChecked) {
-      if (isChecked) selectedProdSkus.add(sku);
-      else selectedProdSkus.delete(sku);
+    function toggleSelectProduct(sku, checked) {
+      if (checked) selectedProdSkus.add(sku); else selectedProdSkus.delete(sku);
       updateProdBulkBtn();
     }
 
     function toggleSelectAllProducts(masterChk) {
-      const checkboxes = document.querySelectorAll(".chk-prod-item");
-      checkboxes.forEach(cb => {
+      document.querySelectorAll(".chk-prod-item").forEach(cb => {
         cb.checked = masterChk.checked;
-        if (masterChk.checked) selectedProdSkus.add(cb.value);
-        else selectedProdSkus.delete(cb.value);
+        if (masterChk.checked) selectedProdSkus.add(cb.value); else selectedProdSkus.delete(cb.value);
       });
       updateProdBulkBtn();
     }
 
     function updateProdBulkBtn() {
       const btn = document.getElementById("btn-bulk-delete-prod");
-      const countLabel = document.getElementById("count-selected-prod");
-      if (selectedProdSkus.size > 0) {
-        btn.classList.remove("hidden");
-        countLabel.textContent = selectedProdSkus.size;
-      } else {
-        btn.classList.add("hidden");
-      }
+      document.getElementById("count-selected-prod").textContent = selectedProdSkus.size;
+      btn.classList.toggle("hidden", selectedProdSkus.size === 0);
     }
 
     function bulkDeleteProducts() {
-      if (!selectedProdSkus.size) return;
-      if (!confirm(`আপনি কি নিশ্চিত যে সিলেক্ট করা ${selectedProdSkus.size} টি প্রোডাক্ট ডিলিট করতে চান?`)) return;
-
+      if (!selectedProdSkus.size || !confirm(`${selectedProdSkus.size} টি প্রোডাক্ট ডিলিট করবেন?`)) return;
       state.managedProducts = state.managedProducts.filter(p => !selectedProdSkus.has(p.sku));
       saveState();
       renderProductsTable();
-      showToast("সিলেক্টড প্রোডাক্টসমূহ ডিলিট করা হয়েছে");
+      showToast("সিলেক্টড প্রোডাক্ট ডিলিট হয়েছে");
     }
 
     function deleteProduct(sku) {
-      if (!confirm("প্রোডাক্টটি ডিলিট করতে চান?")) return;
+      if (!confirm("প্রোডাক্টটি ডিলিট করবেন?")) return;
       state.managedProducts = state.managedProducts.filter(p => p.sku !== sku);
       saveState();
       renderProductsTable();
-      showToast("প্রোডাক্ট ডিলিট করা হয়েছে");
+      showToast("প্রোডাক্ট ডিলিট হয়েছে");
     }
 
     function openProductModal(sku = null) {
       const modal = document.getElementById("modal-product");
       const catSelect = document.getElementById("pm-category");
       catSelect.innerHTML = state.categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
-
       if (sku) {
         const prod = state.managedProducts.find(p => p.sku === sku);
         if (prod) {
@@ -685,20 +469,16 @@
           document.getElementById("pm-title").value = prod.title;
           document.getElementById("pm-category").value = prod.category;
           document.getElementById("pm-price").value = prod.price;
-          document.getElementById("pm-regular-price").value = prod.regular_price || "";
           document.getElementById("pm-stock").value = prod.stock;
           document.getElementById("pm-images").value = (prod.images || []).join(", ");
-          document.getElementById("pm-desc").value = prod.short_description || "";
         }
       } else {
         document.getElementById("pm-old-sku").value = "";
         document.getElementById("pm-sku").value = "AB-PRD-" + Math.floor(1000 + Math.random() * 9000);
         document.getElementById("pm-title").value = "";
         document.getElementById("pm-price").value = "";
-        document.getElementById("pm-regular-price").value = "";
         document.getElementById("pm-stock").value = "50";
         document.getElementById("pm-images").value = "";
-        document.getElementById("pm-desc").value = "";
       }
       modal.classList.remove("hidden");
     }
@@ -714,46 +494,51 @@
         title: document.getElementById("pm-title").value.trim(),
         category: document.getElementById("pm-category").value,
         price: Number(document.getElementById("pm-price").value),
-        regular_price: Number(document.getElementById("pm-regular-price").value) || 0,
         stock: Number(document.getElementById("pm-stock").value),
-        short_description: document.getElementById("pm-desc").value.trim(),
         images: document.getElementById("pm-images").value.split(",").map(s => s.trim()).filter(Boolean),
         status: "Active"
       };
-
       if (oldSku) {
         const idx = state.managedProducts.findIndex(p => p.sku === oldSku);
         if (idx >= 0) state.managedProducts[idx] = prod;
       } else {
         state.managedProducts.unshift(prod);
       }
-
       saveState();
       closeProductModal();
       renderProductsTable();
       showToast("প্রোডাক্ট সেভ হয়েছে");
     }
 
-    /* ---------- ৫. শপ্যাবল রিলস (Bulk Delete লজিক সহ) ---------- */
+    /* রিলস */
+    function handleReelFileUpload(input) {
+      const file = input.files?.[0];
+      if (!file) { uploadedReelDataUrl = ""; return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedReelDataUrl = String(reader.result || "");
+        showToast("ভিডিও ফাইল সিলেক্ট হয়েছে");
+      };
+      reader.readAsDataURL(file);
+    }
+
     function renderReelsGrid() {
       const box = document.getElementById("reels-admin-grid");
       selectedReelIds.clear();
       updateReelBulkBtn();
-
       const chkAll = document.getElementById("chk-all-reels");
       if (chkAll) chkAll.checked = false;
 
       if (!state.managedReels.length) {
-        box.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500">কোনো রিল ভিডিও পাওয়া যায়নি।</div>`;
+        box.innerHTML = `<div class="col-span-full p-8 text-center text-slate-500">কোনো রিল ভিডিও নেই।</div>`;
         return;
       }
-
       box.innerHTML = state.managedReels.map(r => `
-        <div class="glass-card p-3 rounded-2xl space-y-2 relative group">
+        <div class="glass-card p-3 rounded-2xl space-y-2 relative">
           <div class="absolute top-4 left-4 z-10">
             <input type="checkbox" value="${escapeHtml(r.id)}" onchange="toggleSelectReel('${escapeHtml(r.id)}', this.checked)" class="chk-reel-item w-4 h-4 accent-pink-500 cursor-pointer" />
           </div>
-          <video src="${escapeHtml(r.video_src)}" poster="${escapeHtml(r.poster || '')}" class="w-full h-40 object-cover rounded-xl bg-black"></video>
+          <video src="${escapeHtml(r.video_src)}" poster="${escapeHtml(r.poster || '')}" controls class="w-full h-40 object-cover rounded-xl bg-black"></video>
           <p class="font-bold text-xs text-white truncate">${escapeHtml(r.title)}</p>
           <p class="text-[10px] font-mono text-pink-300">SKU: ${escapeHtml(r.product_code)}</p>
           <button onclick="deleteReel('${escapeHtml(r.id)}')" class="w-full bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 py-1 rounded-xl text-xs transition">ডিলিট</button>
@@ -761,53 +546,50 @@
       `).join("");
     }
 
-    function toggleSelectReel(id, isChecked) {
-      if (isChecked) selectedReelIds.add(id);
-      else selectedReelIds.delete(id);
+    function toggleSelectReel(id, checked) {
+      if (checked) selectedReelIds.add(id); else selectedReelIds.delete(id);
       updateReelBulkBtn();
     }
 
     function toggleSelectAllReels(masterChk) {
-      const checkboxes = document.querySelectorAll(".chk-reel-item");
-      checkboxes.forEach(cb => {
+      document.querySelectorAll(".chk-reel-item").forEach(cb => {
         cb.checked = masterChk.checked;
-        if (masterChk.checked) selectedReelIds.add(cb.value);
-        else selectedReelIds.delete(cb.value);
+        if (masterChk.checked) selectedReelIds.add(cb.value); else selectedReelIds.delete(cb.value);
       });
       updateReelBulkBtn();
     }
 
     function updateReelBulkBtn() {
       const btn = document.getElementById("btn-bulk-delete-reels");
-      const countLabel = document.getElementById("count-selected-reels");
-      if (selectedReelIds.size > 0) {
-        btn.classList.remove("hidden");
-        countLabel.textContent = selectedReelIds.size;
-      } else {
-        btn.classList.add("hidden");
-      }
+      document.getElementById("count-selected-reels").textContent = selectedReelIds.size;
+      btn.classList.toggle("hidden", selectedReelIds.size === 0);
     }
 
     function bulkDeleteReels() {
-      if (!selectedReelIds.size) return;
-      if (!confirm(`আপনি কি নিশ্চিত যে সিলেক্ট করা ${selectedReelIds.size} টি রিল ভিডিও ডিলিট করতে চান?`)) return;
-
+      if (!selectedReelIds.size || !confirm(`${selectedReelIds.size} টি রিল ডিলিট করবেন?`)) return;
       state.managedReels = state.managedReels.filter(r => !selectedReelIds.has(r.id));
       saveState();
       renderReelsGrid();
-      showToast("সিলেক্টড রিলসমূহ ডিলিট করা হয়েছে");
+      showToast("সিলেক্টড রিল ডিলিট হয়েছে");
     }
 
-    function openReelModal() { document.getElementById("modal-reel").classList.remove("hidden"); }
+    function openReelModal() {
+      uploadedReelDataUrl = "";
+      document.getElementById("rm-video-file").value = "";
+      document.getElementById("rm-video-url").value = "";
+      document.getElementById("modal-reel").classList.remove("hidden");
+    }
     function closeReelModal() { document.getElementById("modal-reel").classList.add("hidden"); }
 
     function saveReelSubmit(e) {
       e.preventDefault();
+      const videoSrc = uploadedReelDataUrl || document.getElementById("rm-video-url").value.trim();
+      if (!videoSrc) { showToast("ভিডিও ফাইল বা URL দিন"); return; }
       const reel = {
         id: "REEL-" + Math.floor(100 + Math.random() * 900),
         title: document.getElementById("rm-title").value.trim(),
         product_code: document.getElementById("rm-sku").value.trim(),
-        video_src: document.getElementById("rm-video-url").value.trim(),
+        video_src: videoSrc,
         poster: document.getElementById("rm-poster-url").value.trim(),
         caption: document.getElementById("rm-title").value.trim()
       };
@@ -815,91 +597,38 @@
       saveState();
       closeReelModal();
       renderReelsGrid();
-      showToast("রিল ভিডিও যুক্ত হয়েছে");
+      showToast("রিল পাবলিশ হয়েছে");
     }
 
     function deleteReel(id) {
-      if (!confirm("রিল ভিডিওটি ডিলিট করতে চান?")) return;
+      if (!confirm("রিলটি ডিলিট করবেন?")) return;
       state.managedReels = state.managedReels.filter(r => r.id !== id);
       saveState();
       renderReelsGrid();
-      showToast("রিল ভিডিও ডিলিট করা হয়েছে");
+      showToast("রিল ডিলিট হয়েছে");
     }
 
-    /* ---------- ৬. লাইভ চ্যাট ---------- */
-    function renderChatThreads() {
-      const list = document.getElementById("chat-threads-list");
-      list.innerHTML = state.chatThreads.map(t => `
-        <div onclick="selectChatThread('${escapeHtml(t.id)}')" class="p-3 bg-slate-900 border border-slate-800 rounded-xl cursor-pointer hover:border-emerald-500">
-          <p class="font-bold text-xs text-white">${escapeHtml(t.customerName || 'Visitor')}</p>
-          <p class="text-[10px] text-slate-400 truncate">${escapeHtml(t.messages[t.messages.length - 1]?.text || '')}</p>
-        </div>
-      `).join("");
-      selectChatThread("visitor-live-thread");
-    }
-
-    function selectChatThread(threadId) {
-      const thread = state.chatThreads.find(t => t.id === threadId) || state.chatThreads[0];
-      const box = document.getElementById("admin-chat-messages");
-      if (!thread) { box.innerHTML = "<p class='text-xs text-slate-500'>কোনো চ্যাট নেই</p>"; return; }
-      box.innerHTML = thread.messages.map(m => `
-        <div class="p-2.5 rounded-xl text-xs max-w-[85%] ${m.sender === 'bot' || m.sender === 'admin' ? 'bg-emerald-950/40 text-emerald-200 ml-auto border border-emerald-500/30' : 'bg-slate-900 text-slate-200 mr-auto border border-slate-800'}">
-          <p>${escapeHtml(m.text)}</p>
-          <span class="text-[9px] text-slate-500 block mt-1">${escapeHtml(m.time || '')}</span>
-        </div>
-      `).join("");
-    }
-
-    function sendAdminChatMessage(e) {
-      e.preventDefault();
-      const inp = document.getElementById("admin-chat-input");
-      const txt = inp.value.trim();
-      if (!txt) return;
-      const thread = state.chatThreads.find(t => t.id === "visitor-live-thread") || state.chatThreads[0];
-      if (thread) {
-        thread.messages.push({ sender: "admin", text: txt, time: new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" }) });
-        saveState();
-        inp.value = "";
-        selectChatThread(thread.id);
+    function renderOrdersTable() {
+      const tbody = document.getElementById("orders-table-body");
+      if (!state.managedOrders.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500">কোনো অর্ডার নেই।</td></tr>`;
+        return;
       }
+      tbody.innerHTML = state.managedOrders.map(o => `
+        <tr>
+          <td class="p-3 font-mono text-emerald-400">#${escapeHtml(o.order_number)}</td>
+          <td class="p-3">${escapeHtml(o.customer_name)}</td>
+          <td class="p-3">${escapeHtml(o.shipping_address)}</td>
+          <td class="p-3 font-mono">৳${escapeHtml(o.total_amount)}</td>
+          <td class="p-3">${escapeHtml(o.status)}</td>
+        </tr>
+      `).join("");
     }
 
-    /* ---------- ৭. SEO ও সেটিংস ---------- */
-    function loadSettingsForm() {
-      const gsc = JSON.parse(localStorage.getItem("ab_gsc_cfg") || "{}");
-      const gmc = JSON.parse(localStorage.getItem("ab_gmc_cfg") || "{}");
-      const web = JSON.parse(localStorage.getItem("ab_webhook_cfg") || "{}");
-
-      document.getElementById("cfg-site-url").value = gsc.siteUrl || "";
-      document.getElementById("cfg-gsc-code").value = gsc.verifyCode || "";
-      document.getElementById("cfg-brand-name").value = gmc.brandName || "";
-      document.getElementById("cfg-webhook-url").value = web.url || "";
-    }
-
-    function saveGscSettings(e) {
-      e.preventDefault();
-      const cfg = { siteUrl: document.getElementById("cfg-site-url").value.trim(), verifyCode: document.getElementById("cfg-gsc-code").value.trim() };
-      localStorage.setItem("ab_gsc_cfg", JSON.stringify(cfg));
-      showToast("SEO সেটিংস সেভ হয়েছে");
-    }
-
-    function saveIntegrationSettings(e) {
-      e.preventDefault();
-      const gmc = { brandName: document.getElementById("cfg-brand-name").value.trim() };
-      const web = { url: document.getElementById("cfg-webhook-url").value.trim(), events: { orderCreated: true } };
-      localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmc));
-      localStorage.setItem("ab_webhook_cfg", JSON.stringify(web));
-      showToast("ইন্টিগ্রেশন সেটিংস সেভ হয়েছে");
-    }
-
-    // ইনিশিয়ালাইজেশন
     (function init() {
       loadAdminState();
-      switchTab("overview");
+      switchTab("products");
     })();
   </script>
 </body>
 </html>
-<!-- ========================================================= -->
-<!-- [শেষ] AMAR BRAND STORE — এডমিন ড্যাশবোর্ড                 -->
-<!-- ========================================================= -->
