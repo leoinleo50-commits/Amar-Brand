@@ -1,8 +1,8 @@
-<!-- ========================================================= -->
-<!-- [শুরু] SEO-অপ্টিমাইজড ভিজিটর স্টোরফ্রন্ট (AMAR BRAND STORE) -->
-<!-- ফাইল নাম: index.html                                       -->
-<!-- মডিউলার সেকশন: হেডার, হোম ভিউ, আলাদা ক্যাটাগরি পেজ +     -->
-<!-- রিলেটেড রিল সারি, অল রিলস পেজ, চেকআউট, থ্যাংক ইউ ও ফুটার -->
+  <!-- ========================================================= -->
+<!-- [শুরু] SEO-অপ্টিমাইজড স্টোরফ্রন্ট + অ্যাডমিন প্যানেল        -->
+<!-- ফাইল নাম: index.html (AMAR BRAND)                        -->
+<!-- মডিউলার সেকশন: হেডার, স্টোরফ্রন্ট, অ্যাডমিন প্যানেল,       -->
+<!-- প্রোডাক্ট অ্যাড/সিলেক্ট-ডিলিট, রিলস, অর্ডার ম্যানেজমেন্ট -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -84,7 +84,7 @@
 <body class="bg-[#050811] text-slate-100 min-h-screen antialiased selection:bg-emerald-500 selection:text-white">
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ১. টপ হেডার, ইমেজ/টেক্সট সার্চ, অর্ডার ট্র্যাক ও কার্ট] -->
+  <!-- [শুরু: ১. টপ হেডার, সার্চ, অর্ডার ট্র্যাক, কার্ট ও অ্যাডমিন] -->
   <!-- ========================================================= -->
   <header class="sticky top-0 z-40 bg-[#070c17]/95 backdrop-blur-xl border-b border-slate-800/80">
     <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5">
@@ -109,7 +109,7 @@
         ondragover="handleSearchDragOver(event)"
         ondragleave="handleSearchDragLeave(event)"
         ondrop="handleSearchDrop(event)"
-        class="order-3 lg:order-2 w-full lg:w-[27rem] relative">
+        class="order-3 lg:order-2 w-full lg:w-[25rem] relative">
         <div id="visitor-search-box-ring" class="relative flex items-center rounded-2xl transition">
           <input type="text" id="visitor-search-input"
             oninput="handleSearchInput()"
@@ -147,21 +147,27 @@
       </div>
 
       <div class="order-2 lg:order-3 flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button type="button" id="header-admin-btn" onclick="openAdminPanel()"
+          class="inline-flex items-center gap-1 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-bold transition cursor-pointer">
+          <span>⚙️</span>
+          <span>অ্যাডমিন</span>
+        </button>
+
         <button type="button" onclick="openAllReelsPage()"
-          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
           <span>🎬</span>
           <span class="hidden sm:inline">অল রিলস</span>
           <span>(<span id="header-reels-count">0</span>)</span>
         </button>
 
         <button type="button" onclick="openTrackOrderModal()"
-          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
           <span>📦</span>
           <span class="hidden sm:inline">ট্র্যাক</span>
         </button>
 
         <button type="button" onclick="toggleCartDrawer(true)"
-          class="relative inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3 sm:px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20">
+          class="relative inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3 sm:px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
           <span>🛒</span>
           <span>কার্ট</span>
           <span id="header-cart-count" class="bg-slate-950/80 text-emerald-300 font-mono text-xs px-1.5 py-0.5 rounded-full">0</span>
@@ -169,14 +175,14 @@
       </div>
     </div>
   </header>
-  <!-- [শেষ: ১. টপ হেডার, ইমেজ/টেক্সট সার্চ, অর্ডার ট্র্যাক ও কার্ট] -->
+  <!-- [শেষ: ১. টপ হেডার] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ২. হোম স্টোরফ্রন্ট ভিউ (ক্যাটাগরি, অল প্রোডাক্ট, রিল সারি)] -->
   <!-- ========================================================= -->
   <div id="home-store-view">
 
-    <!-- [২.১ ছবি যুক্ত ক্যাটাগরি — প্রতিটির আলাদা লিংক ও আলাদা পেজ] -->
+    <!-- [২.১ ছবি যুক্ত ক্যাটাগরি] -->
     <section id="top" class="max-w-[1440px] mx-auto px-3 sm:px-6 pt-5 pb-2 space-y-3">
       <div class="flex items-center justify-between">
         <div>
@@ -191,7 +197,7 @@
       <div id="visitor-category-cards" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-3"></div>
     </section>
 
-    <!-- [২.২ অল প্রোডাক্ট সেকশন — মোবাইলে ৩টা, ডেস্কটপে ৪টা; প্রাইস ও টাইটেল উপরে, ছবি নিচে] -->
+    <!-- [২.২ অল প্রোডাক্ট সেকশন] -->
     <main id="products-section" class="max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
         <div>
@@ -215,7 +221,7 @@
       <div id="visitor-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
     </main>
 
-    <!-- [২.৩ হোম পেজের নিচে রিল সারি — মোবাইলে ৪টা, ডেস্কটপে ৫টা, একটি সারি] -->
+    <!-- [২.৩ হোম পেজের নিচে রিল সারি] -->
     <section id="reels-row-section" class="max-w-[1440px] mx-auto px-3 sm:px-6 py-7 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div>
@@ -225,7 +231,7 @@
           <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">শপ্যাবল রিলস (<span id="visitor-reels-count">0</span>)</h2>
         </div>
         <button type="button" onclick="openAllReelsPage()"
-          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition">
+          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
           অল রিলস →
         </button>
       </div>
@@ -235,6 +241,339 @@
 
   </div>
   <!-- [শেষ: ২. হোম স্টোরফ্রন্ট ভিউ] -->
+
+  <!-- ========================================================= -->
+  <!-- [শুরু: ২.৫ অ্যাডমিন কন্ট্রোল প্যানেল ভিউ]                    -->
+  <!-- ========================================================= -->
+  <section id="admin-panel-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-6">
+    <!-- অ্যাডমিন টপ বার -->
+    <div class="glass-card rounded-3xl p-4 sm:p-6 flex flex-wrap items-center justify-between gap-4 border-amber-500/30">
+      <div>
+        <span class="text-[11px] uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/35 px-2.5 py-0.5 rounded-full font-bold">
+          Admin Control Center • Live Sync
+        </span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">স্টোর অ্যাডমিন প্যানেল</h2>
+        <p class="text-xs text-slate-400 mt-0.5">প্রোডাক্ট, শপ্যাবল রিলস, অর্ডার এবং ক্যাটাগরি সিঙ্ক, অ্যাড ও সিলেক্ট করে ডিলিট করুন।</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" onclick="syncAllAdminStoreData()"
+          class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer">
+          🔄 ডাটা সিঙ্ক করুন
+        </button>
+        <button type="button" onclick="resetDemoStoreData()"
+          class="bg-rose-600/15 hover:bg-rose-600/25 text-rose-300 border border-rose-500/30 px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
+          ↺ ডিফল্ট রিসেট
+        </button>
+        <button type="button" onclick="showHomeStorefront()"
+          class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer">
+          ← স্টোরফ্রন্ট
+        </button>
+      </div>
+    </div>
+
+    <!-- লাইভ স্ট্যাটস কার্ড -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="glass-card rounded-2xl p-4">
+        <p class="text-[11px] text-slate-400">মোট প্রোডাক্ট</p>
+        <p id="adm-stat-products" class="text-2xl font-extrabold font-mono text-emerald-400 mt-1">0</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4">
+        <p class="text-[11px] text-slate-400">মোট রিলস</p>
+        <p id="adm-stat-reels" class="text-2xl font-extrabold font-mono text-pink-400 mt-1">0</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4">
+        <p class="text-[11px] text-slate-400">মোট অর্ডার</p>
+        <p id="adm-stat-orders" class="text-2xl font-extrabold font-mono text-sky-400 mt-1">0</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4">
+        <p class="text-[11px] text-slate-400">মোট বিক্রি (৳)</p>
+        <p id="adm-stat-revenue" class="text-2xl font-extrabold font-mono text-amber-300 mt-1">৳0</p>
+      </div>
+    </div>
+
+    <!-- অ্যাডমিন নেভিগেশন ট্যাব -->
+    <div class="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
+      <button type="button" id="adm-tab-products" onclick="switchAdminTab('products')"
+        class="adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition cursor-pointer">
+        🛍️ প্রোডাক্ট ম্যানেজ
+      </button>
+      <button type="button" id="adm-tab-reels" onclick="switchAdminTab('reels')"
+        class="adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition cursor-pointer">
+        🎬 রিলস ম্যানেজ
+      </button>
+      <button type="button" id="adm-tab-orders" onclick="switchAdminTab('orders')"
+        class="adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition cursor-pointer">
+        📦 অর্ডার ম্যানেজ
+      </button>
+      <button type="button" id="adm-tab-categories" onclick="switchAdminTab('categories')"
+        class="adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition cursor-pointer">
+        📁 ক্যাটাগরি ও ব্র্যান্ড
+      </button>
+    </div>
+
+    <!-- [ট্যাব ১: প্রোডাক্ট অ্যাড ও সিলেক্ট করে ডিলিট] -->
+    <div id="adm-section-products" class="space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- নতুন প্রোডাক্ট অ্যাড ফর্ম -->
+        <form id="adm-add-product-form" onsubmit="handleAdminAddProduct(event)" class="glass-card rounded-3xl p-4 sm:p-6 space-y-4 h-fit">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <h3 class="text-base font-bold text-white">➕ নতুন প্রোডাক্ট অ্যাড করুন</h3>
+            <span class="text-[10px] font-mono text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded-full">Auto SKU</span>
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">প্রোডাক্টের নাম *</label>
+            <input type="text" id="adm-p-title" required placeholder="যেমন: Organic Honey 500gm"
+              class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm outline-none" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">ক্যাটাগরি *</label>
+              <select id="adm-p-category" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none"></select>
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">প্রোডাক্ট টাইপ</label>
+              <select id="adm-p-type" class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none">
+                <option value="Single">Single</option>
+                <option value="Variant">Variant</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">বিক্রয় দাম (৳) *</label>
+              <input type="number" id="adm-p-price" required min="1" placeholder="550"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs font-mono outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">রেগুলার দাম</label>
+              <input type="number" id="adm-p-reg-price" min="0" placeholder="690"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs font-mono outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">স্টক</label>
+              <input type="number" id="adm-p-stock" min="0" value="20"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs font-mono outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">সাইজ (কমা দিয়ে)</label>
+              <input type="text" id="adm-p-sizes" value="S, M, L, XL"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs text-slate-300 mb-1">কালার (কমা দিয়ে)</label>
+              <input type="text" id="adm-p-colors" placeholder="Black, Olive"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none" />
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="block text-xs text-slate-300">ছবির URL অথবা ফাইল আপলোড</label>
+            <input type="text" id="adm-p-image-url" placeholder="https://... (ঐচ্ছিক)"
+              class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none" />
+            <input type="file" id="adm-p-image-file" accept="image/*" onchange="handleAdminProductImageFile(event)"
+              class="w-full text-[11px] text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-emerald-300 hover:file:bg-slate-700 cursor-pointer" />
+            <p id="adm-p-file-preview-label" class="text-[11px] text-emerald-300 hidden"></p>
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">শর্ট ডেসক্রিপশন</label>
+            <textarea id="adm-p-desc" rows="2" placeholder="প্রোডাক্টের সংক্ষিপ্ত বিবরণ..."
+              class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs outline-none"></textarea>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
+            ✓ প্রোডাক্ট সেভ ও সিঙ্ক করুন
+          </button>
+        </form>
+
+        <!-- সিঙ্ককৃত প্রোডাক্ট তালিকা (সিলেক্ট করে ডিলিট) -->
+        <div class="lg:col-span-2 glass-card rounded-3xl p-4 sm:p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2.5">
+              <input type="checkbox" id="adm-select-all-products" onchange="toggleSelectAllProducts(this.checked)"
+                class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
+              <h3 class="text-base font-bold text-white">সিঙ্ককৃত প্রোডাক্ট (<span id="adm-products-count-badge">0</span>)</h3>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="deleteSelectedProducts()"
+                class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-products-count">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <div id="adm-products-list" class="space-y-2.5 max-h-[620px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- [ট্যাব ২: রিলস অ্যাড ও সিলেক্ট করে ডিলিট] -->
+    <div id="adm-section-reels" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <form id="adm-add-reel-form" onsubmit="handleAdminAddReel(event)" class="glass-card rounded-3xl p-4 sm:p-6 space-y-4 h-fit">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <h3 class="text-base font-bold text-white">🎬 নতুন রিল অ্যাড করুন</h3>
+            <span class="text-[10px] font-mono text-pink-300 bg-pink-500/10 px-2 py-0.5 rounded-full">Shoppable Reel</span>
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">রিল টাইটেল *</label>
+            <input type="text" id="adm-r-title" required placeholder="যেমন: Morning Organic Look"
+              class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">লিঙ্কড প্রোডাক্ট SKU *</label>
+            <input type="text" id="adm-r-sku" list="adm-sku-datalist" required placeholder="AB-PRD-1001"
+              class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3.5 py-2 text-xs font-mono outline-none" />
+            <datalist id="adm-sku-datalist"></datalist>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="block text-xs text-slate-300">ভিডিও URL অথবা ভিডিও ফাইল আপলোড</label>
+            <input type="text" id="adm-r-video-url" placeholder="https://.../video.mp4"
+              class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
+            <input type="file" id="adm-r-video-file" accept="video/*" onchange="handleAdminReelVideoFile(event)"
+              class="w-full text-[11px] text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-slate-800 file:text-pink-300 hover:file:bg-slate-700 cursor-pointer" />
+            <p id="adm-r-file-preview-label" class="text-[11px] text-pink-300 hidden"></p>
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">পোস্টার ইমেজ URL (ঐচ্ছিক)</label>
+            <input type="text" id="adm-r-poster" placeholder="https://..."
+              class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">ক্যাপশন</label>
+            <input type="text" id="adm-r-caption" placeholder="রিলের সংক্ষিপ্ত ক্যাপশন..."
+              class="w-full bg-slate-950 border border-slate-800 focus:border-pink-500 rounded-xl px-3 py-2 text-xs outline-none" />
+          </div>
+
+          <button type="submit"
+            class="w-full bg-pink-600 hover:bg-pink-500 text-white py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-pink-600/20 cursor-pointer">
+            ✓ রিল অ্যাড ও সিঙ্ক করুন
+          </button>
+        </form>
+
+        <div class="lg:col-span-2 glass-card rounded-3xl p-4 sm:p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2.5">
+              <input type="checkbox" id="adm-select-all-reels" onchange="toggleSelectAllReels(this.checked)"
+                class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
+              <h3 class="text-base font-bold text-white">সিঙ্ককৃত রিলস (<span id="adm-reels-count-badge">0</span>)</h3>
+            </div>
+
+            <button type="button" onclick="deleteSelectedReels()"
+              class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+              🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-reels-count">0</span>)
+            </button>
+          </div>
+
+          <div id="adm-reels-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[620px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- [ট্যাব ৩: অর্ডার ম্যানেজমেন্ট, নতুন অর্ডার অ্যাড ও সিলেক্ট করে ডিলিট] -->
+    <div id="adm-section-orders" class="hidden space-y-6">
+      <div class="glass-card rounded-3xl p-4 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2.5">
+            <input type="checkbox" id="adm-select-all-orders" onchange="toggleSelectAllOrders(this.checked)"
+              class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
+            <h3 class="text-base font-bold text-white">সিঙ্ককৃত অর্ডারসমূহ (<span id="adm-orders-count-badge">0</span>)</h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="adm-order-filter-status" onchange="renderAdminOrders()"
+              class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs outline-none">
+              <option value="ALL">সব স্ট্যাটাস</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+
+            <button type="button" onclick="toggleAdminNewOrderForm()"
+              class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+              ➕ নতুন অর্ডার
+            </button>
+
+            <button type="button" onclick="deleteSelectedOrders()"
+              class="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer">
+              🗑️ সিলেক্টেড ডিলিট (<span id="adm-selected-orders-count">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- অ্যাডমিন থেকে ম্যানুয়াল নতুন অর্ডার অ্যাড ফর্ম -->
+        <form id="adm-new-order-form" onsubmit="handleAdminAddOrder(event)" class="hidden bg-slate-950/90 border border-emerald-500/30 rounded-2xl p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <input type="text" id="adm-o-name" required placeholder="কাস্টমার নাম *"
+            class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs outline-none" />
+          <input type="tel" id="adm-o-phone" required placeholder="ফোন নম্বর *"
+            class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none" />
+          <input type="text" id="adm-o-item" required placeholder="প্রোডাক্ট নাম *"
+            class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs outline-none" />
+          <input type="number" id="adm-o-amount" required min="1" placeholder="মোট টাকা (৳) *"
+            class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none" />
+          <input type="text" id="adm-o-address" required placeholder="সম্পূর্ণ ঠিকানা *"
+            class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs outline-none" />
+          <div class="sm:col-span-2 lg:col-span-5 flex justify-end gap-2">
+            <button type="button" onclick="toggleAdminNewOrderForm(false)" class="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-xl text-xs cursor-pointer">বাতিল</button>
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">অর্ডার যোগ করুন</button>
+          </div>
+        </form>
+
+        <div id="adm-orders-list" class="space-y-3 max-h-[620px] overflow-y-auto pr-1"></div>
+      </div>
+    </div>
+
+    <!-- [ট্যাব ৪: ক্যাটাগরি ও ব্র্যান্ড সেটিংস] -->
+    <div id="adm-section-categories" class="hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="glass-card rounded-3xl p-5 space-y-4">
+          <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">📁 ক্যাটাগরি অ্যাড ও ম্যানেজ</h3>
+          <form onsubmit="handleAdminAddCategory(event)" class="flex gap-2">
+            <input type="text" id="adm-cat-input" required placeholder="নতুন ক্যাটাগরি নাম..."
+              class="flex-1 bg-slate-950 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-xs outline-none" />
+            <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
+              যোগ করুন
+            </button>
+          </form>
+          <div id="adm-categories-list" class="flex flex-wrap gap-2 pt-2"></div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-5 space-y-4">
+          <h3 class="text-base font-bold text-white border-b border-slate-800 pb-2.5">🏷️ ব্র্যান্ড ও ডোমেইন সেটিংস</h3>
+          <form onsubmit="handleAdminSaveBrandConfig(event)" class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-400 mb-1">ব্র্যান্ড নাম</label>
+              <input type="text" id="adm-cfg-brand" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 outline-none" />
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1">লাইভ সাইট URL</label>
+              <input type="text" id="adm-cfg-siteurl" placeholder="https://amarbrand.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 font-mono outline-none" />
+            </div>
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold cursor-pointer">
+              সেটিংস সেভ করুন
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- [শেষ: ২.৫ অ্যাডমিন কন্ট্রোল প্যানেল ভিউ] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ৩. আলাদা ক্যাটাগরি পেজ ভিউ + নিচে রিলেটেড একসারি রিল] -->
@@ -258,11 +597,11 @@
 
         <div class="flex flex-wrap items-center gap-2 shrink-0">
           <button type="button" onclick="copyCurrentCategoryLink()"
-            class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
+            class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
             🔗 লিংক কপি করুন
           </button>
           <button type="button" onclick="showHomeStorefront()"
-            class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
+            class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
             ← হোম পেজ
           </button>
         </div>
@@ -273,7 +612,6 @@
       <div id="category-page-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
     </div>
 
-    <!-- [৩.১ প্রত্যেক ক্যাটাগরির নিচে হোম পেজের মতো রিলেটেড একসারি রিল] -->
     <div id="category-related-reels-section" class="pt-4 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div>
@@ -285,7 +623,7 @@
           </h3>
         </div>
         <button type="button" onclick="openAllReelsPage()"
-          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition">
+          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
           অল রিলস →
         </button>
       </div>
@@ -293,10 +631,10 @@
       <div id="category-related-reels-row" class="grid grid-flow-col auto-cols-[calc((100%-1.5rem)/4)] lg:auto-cols-[calc((100%-4rem)/5)] gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
   </section>
-  <!-- [শেষ: ৩. আলাদা ক্যাটাগরি পেজ ভিউ + নিচে রিলেটেড একসারি রিল] -->
+  <!-- [শেষ: ৩. আলাদা ক্যাটাগরি পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৪. অল রিলস পেজ ভিউ (ইউনিক রিল লিংক + ছবি দেখুন, কার্ড, অর্ডার)] -->
+  <!-- [শুরু: ৪. অল রিলস পেজ ভিউ]                                -->
   <!-- ========================================================= -->
   <section id="all-reels-page-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
@@ -307,7 +645,7 @@
         <h2 class="text-2xl font-bold text-white mt-1">অল রিলস</h2>
       </div>
       <button type="button" onclick="showHomeStorefront()"
-        class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition">
+        class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
         ← হোম পেজে ফিরুন
       </button>
     </div>
@@ -322,7 +660,7 @@
   <!-- [শেষ: ৪. অল রিলস পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৫. চেকআউট পপআপ মোডাল (অটো-এক্সপ্যান্ড অ্যাড্রেস + সেন্টার বাটন)] -->
+  <!-- [শুরু: ৫. চেকআউট পপআপ মোডাল]                               -->
   <!-- ========================================================= -->
   <div id="checkout-popup-modal" onclick="if(event.target===this)closeCheckoutPopup()" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="w-full max-w-5xl bg-[#070c17] border border-slate-800 rounded-3xl shadow-2xl p-4 sm:p-6 space-y-5 max-h-[92vh] overflow-y-auto my-auto">
@@ -334,7 +672,7 @@
           <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">চেকআউট পেজ</h2>
         </div>
         <button type="button" onclick="closeCheckoutPopup()"
-          class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
+          class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
           ✕ বন্ধ করুন
         </button>
       </div>
@@ -416,7 +754,7 @@
   <!-- [শেষ: ৫. চেকআউট পপআপ মোডাল] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৬. থ্যাংক ইউ পেজ ভিউ (অ্যানিমেশন ও অর্ডার কমপ্লিট)] -->
+  <!-- [শুরু: ৬. থ্যাংক ইউ পেজ ভিউ]                                -->
   <!-- ========================================================= -->
   <section id="thankyou-page-view" class="hidden max-w-2xl mx-auto px-3.5 sm:px-6 py-12">
     <div class="glass-card rounded-3xl p-6 sm:p-10 text-center space-y-6 shadow-2xl">
@@ -435,7 +773,7 @@
       <div id="ty-order-details" class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 text-xs text-left space-y-1.5"></div>
 
       <button type="button" onclick="showHomeStorefront()"
-        class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-600/20">
+        class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
         হোম পেজে ফিরে যান
       </button>
     </div>
@@ -443,7 +781,7 @@
   <!-- [শেষ: ৬. থ্যাংক ইউ পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৭. ফুটার — গুগলের পলিসি ও কমপ্লায়েন্স সেকশন]      -->
+  <!-- [শুরু: ৭. ফুটার]                                           -->
   <!-- ========================================================= -->
   <footer class="border-t border-slate-800/80 bg-[#070c17] mt-14">
     <div class="max-w-[1440px] mx-auto px-3.5 sm:px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-6 text-xs text-slate-400">
@@ -460,27 +798,27 @@
       <div class="space-y-2">
         <p class="text-xs font-bold text-slate-200 uppercase tracking-wider">পলিসি ও আইনগত তথ্য</p>
         <ul class="space-y-1.5">
-          <li><button type="button" onclick="openPolicyModal('privacy')" class="hover:text-emerald-400 transition">Privacy Policy (গোপনীয়তা নীতি)</button></li>
-          <li><button type="button" onclick="openPolicyModal('terms')" class="hover:text-emerald-400 transition">Terms & Conditions (শর্তাবলি)</button></li>
-          <li><button type="button" onclick="openPolicyModal('refund')" class="hover:text-emerald-400 transition">Return & Refund Policy (রিটার্ন ও রিফান্ড)</button></li>
-          <li><button type="button" onclick="openPolicyModal('shipping')" class="hover:text-emerald-400 transition">Shipping & Delivery Policy (ডেলিভারি নীতি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('privacy')" class="hover:text-emerald-400 transition cursor-pointer">Privacy Policy (গোপনীয়তা নীতি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('terms')" class="hover:text-emerald-400 transition cursor-pointer">Terms & Conditions (শর্তাবলি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('refund')" class="hover:text-emerald-400 transition cursor-pointer">Return & Refund Policy (রিটার্ন ও রিফান্ড)</button></li>
+          <li><button type="button" onclick="openPolicyModal('shipping')" class="hover:text-emerald-400 transition cursor-pointer">Shipping & Delivery Policy (ডেলিভারি নীতি)</button></li>
         </ul>
       </div>
 
       <div class="space-y-2">
         <p class="text-xs font-bold text-slate-200 uppercase tracking-wider">সাপোর্ট ও তথ্য</p>
         <ul class="space-y-1.5">
-          <li><button type="button" onclick="openPolicyModal('about')" class="hover:text-emerald-400 transition">About Us & Store Transparency</button></li>
-          <li><button type="button" onclick="openTrackOrderModal()" class="hover:text-emerald-400 transition">Order Tracking</button></li>
-          <li><button type="button" onclick="toggleChatbotWidget(true)" class="hover:text-emerald-400 transition">Customer Support Chat</button></li>
+          <li><button type="button" onclick="openPolicyModal('about')" class="hover:text-emerald-400 transition cursor-pointer">About Us & Store Transparency</button></li>
+          <li><button type="button" onclick="openTrackOrderModal()" class="hover:text-emerald-400 transition cursor-pointer">Order Tracking</button></li>
+          <li><button type="button" onclick="toggleChatbotWidget(true)" class="hover:text-emerald-400 transition cursor-pointer">Customer Support Chat</button></li>
         </ul>
       </div>
     </div>
   </footer>
-  <!-- [শেষ: ৭. ফুটার — গুগলের পলিসি ও কমপ্লায়েন্স সেকশন] -->
+  <!-- [শেষ: ৭. ফুটার] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৮. প্রোডাক্ট ডিটেইলস পপআপ + ইউনিক প্রোডাক্ট লিংক]   -->
+  <!-- [শুরু: ৮. প্রোডাক্ট ডিটেইলস পপআপ]                          -->
   <!-- ========================================================= -->
   <div id="product-detail-modal" onclick="if(event.target===this)closeProductModal()" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-5 sm:p-6 space-y-5 max-h-[92vh] overflow-y-auto">
@@ -489,14 +827,14 @@
           <div class="flex flex-wrap items-center gap-2">
             <span id="pdm-sku-badge" class="text-[11px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">SKU</span>
             <button type="button" onclick="copyCurrentProductLink()"
-              class="text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-2.5 py-0.5 rounded-full transition">
+              class="text-[11px] font-mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-2.5 py-0.5 rounded-full transition cursor-pointer">
               🔗 প্রোডাক্ট লিংক কপি
             </button>
           </div>
           <h3 id="pdm-title" class="text-lg sm:text-xl font-bold text-white mt-1.5">প্রোডাক্ট নাম</h3>
           <p id="pdm-unique-link-text" class="text-[10px] font-mono text-slate-400 break-all mt-0.5"></p>
         </div>
-        <button type="button" onclick="closeProductModal()" class="text-slate-400 hover:text-white text-lg px-2 shrink-0">✕</button>
+        <button type="button" onclick="closeProductModal()" class="text-slate-400 hover:text-white text-lg px-2 shrink-0 cursor-pointer">✕</button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -529,12 +867,12 @@
 
           <div class="grid grid-cols-2 gap-2.5 pt-2">
             <button type="button" onclick="addModalProductToCart(false)"
-              class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 py-3 px-4 rounded-xl font-bold transition">
+              class="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 py-3 px-4 rounded-xl font-bold transition cursor-pointer">
               🛒 কার্ড
             </button>
 
             <button type="button" onclick="addModalProductToCart(true)"
-              class="bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-4 rounded-xl font-bold transition shadow-lg shadow-emerald-600/20">
+              class="bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-4 rounded-xl font-bold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
               ⚡ বাই নাও
             </button>
           </div>
@@ -542,17 +880,17 @@
       </div>
     </div>
   </div>
-  <!-- [শেষ: ৮. প্রোডাক্ট ডিটেইলস পপআপ + ইউনিক প্রোডাক্ট লিংক] -->
+  <!-- [শেষ: ৮. প্রোডাক্ট ডিটেইলস পপআপ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৯. স্লাইড কার্ড ড্রয়ার (মোবাইলে ও ডেস্কটপে অল্প অংশ জুড়ে)] -->
+  <!-- [শুরু: ৯. স্লাইড কার্ড ড্রয়ার]                               -->
   <!-- ========================================================= -->
   <div id="cart-drawer-backdrop" onclick="if(event.target===this)toggleCartDrawer(false)" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm">
     <div class="fixed inset-y-0 right-0 w-[84vw] sm:w-full max-w-md bg-[#080d1a] border-l border-slate-800 h-full flex flex-col justify-between p-4 sm:p-5 shadow-2xl">
       <div class="space-y-4 overflow-y-auto flex-1 pr-1">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <h3 class="text-sm sm:text-base font-bold text-white">🛒 আপনার কার্ড</h3>
-          <button type="button" onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-white text-lg px-2">✕</button>
+          <button type="button" onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-white text-lg px-2 cursor-pointer">✕</button>
         </div>
 
         <div id="cart-items-container" class="space-y-3"></div>
@@ -565,7 +903,7 @@
         </div>
 
         <button type="button" onclick="goToCheckoutPageFromCart()"
-          class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-2xl font-bold text-sm transition shadow-lg shadow-emerald-600/20">
+          class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-2xl font-bold text-sm transition shadow-lg shadow-emerald-600/20 cursor-pointer">
           অর্ডার করুন
         </button>
       </div>
@@ -580,7 +918,7 @@
     <div class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[85vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 id="policy-modal-title" class="text-base font-bold text-white">নীতিমালা</h3>
-        <button type="button" onclick="closePolicyModal()" class="text-slate-400 hover:text-white text-lg px-2">✕</button>
+        <button type="button" onclick="closePolicyModal()" class="text-slate-400 hover:text-white text-lg px-2 cursor-pointer">✕</button>
       </div>
       <div id="policy-modal-body" class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3"></div>
     </div>
@@ -590,12 +928,12 @@
     <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-base font-bold text-white">📦 অর্ডার ট্র্যাকিং</h3>
-        <button type="button" onclick="closeTrackOrderModal()" class="text-slate-400 hover:text-white text-lg px-2">✕</button>
+        <button type="button" onclick="closeTrackOrderModal()" class="text-slate-400 hover:text-white text-lg px-2 cursor-pointer">✕</button>
       </div>
       <form onsubmit="searchVisitorOrder(event)" class="flex gap-2">
         <input type="text" id="track-order-query" required placeholder="অর্ডার # বা ফোন নম্বর"
           class="flex-1 bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs outline-none font-mono" />
-        <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">খুঁজুন</button>
+        <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">খুঁজুন</button>
       </form>
       <div id="track-order-result" class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 text-xs text-slate-300 space-y-1.5">
         অর্ডার নম্বর অথবা ফোন নম্বর লিখে স্ট্যাটাস চেক করুন।
@@ -605,7 +943,7 @@
 
   <div class="fixed bottom-5 right-5 z-40">
     <button type="button" onclick="toggleChatbotWidget()"
-      class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-2xl shadow-emerald-600/30 font-semibold text-xs sm:text-sm transition">
+      class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-2xl shadow-emerald-600/30 font-semibold text-xs sm:text-sm transition cursor-pointer">
       <span>🤖</span>
       <span>চ্যাটবট</span>
     </button>
@@ -619,7 +957,7 @@
           </p>
           <p class="text-[10px] text-slate-400">ছবি, প্রোডাক্ট লিংক বা যেকোনো প্রশ্ন করুন</p>
         </div>
-        <button type="button" onclick="toggleChatbotWidget(false)" class="text-slate-400 hover:text-white text-sm px-1.5">✕</button>
+        <button type="button" onclick="toggleChatbotWidget(false)" class="text-slate-400 hover:text-white text-sm px-1.5 cursor-pointer">✕</button>
       </div>
 
       <div id="visitor-chat-messages" class="p-3.5 space-y-2.5 h-72 overflow-y-auto text-xs bg-slate-950/70"></div>
@@ -629,7 +967,7 @@
           <img id="visitor-chat-preview-img" src="" alt="Preview" class="w-10 h-10 rounded-lg object-cover border border-emerald-500/40 shrink-0" />
           <span id="visitor-chat-preview-name" class="text-[11px] text-emerald-300 truncate"></span>
         </div>
-        <button type="button" onclick="clearPendingChatImage()" class="text-xs text-slate-400 hover:text-white px-1.5">✕</button>
+        <button type="button" onclick="clearPendingChatImage()" class="text-xs text-slate-400 hover:text-white px-1.5 cursor-pointer">✕</button>
       </div>
 
       <form onsubmit="sendVisitorChatMessage(event)" class="p-3 bg-slate-900/80 border-t border-slate-800 flex items-center gap-1.5">
@@ -650,7 +988,7 @@
   <!-- [শেষ: ১০. পলিসি মোডাল, অর্ডার ট্র্যাকিং ও স্মার্ট চ্যাটবট] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ১১. জাভাস্ক্রিপ্ট লজিক]                                -->
+  <!-- [শুরু: ১১. জাভাস্ক্রিপ্ট লজিক (স্টোরফ্রন্ট + অ্যাডমিন)]      -->
   <!-- ========================================================= -->
   <script>
     const ADMIN_STORAGE_KEY = "amarbrand_admin_state_v6";
@@ -685,6 +1023,7 @@
         price: 550,
         regular_price: 690,
         stock: 25,
+        status: "Active",
         colors: ["Black", "Olive"],
         sizes: ["S", "M", "L", "XL"],
         short_description: "১০০% অর্গানিক কটন পোলো শার্ট। নরম, শ্বাসপ্রশ্বাসযোগ্য এবং দৈনন্দিন ব্যবহারের জন্য দারুণ মানানসই।",
@@ -698,6 +1037,7 @@
         price: 450,
         regular_price: 520,
         stock: 40,
+        status: "Active",
         colors: ["Natural"],
         sizes: ["Standard (100ml)"],
         short_description: "ত্বককে সতেজ ও আর্দ্র রাখতে প্রাকৃতিক ভেষজ নির্যাসে তৈরি ফেস মিস্ট।",
@@ -716,6 +1056,7 @@
     let adminState = {};
     let storeCategories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
     let activeCategoryPageName = "";
+    let allAdminProducts = [...fallbackProducts];
     let storeProducts = [...fallbackProducts];
     let storeReels = [...fallbackReels];
     let storeOrders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY) || "[]");
@@ -734,6 +1075,14 @@
     let pendingChatImage = null;
     let pendingSearchImage = null;
     const productVisualFeatureCache = new Map();
+
+    // অ্যাডমিন স্টেট
+    let activeAdminTab = "products";
+    let selectedProductSkus = new Set();
+    let selectedReelIds = new Set();
+    let selectedOrderNumbers = new Set();
+    let uploadedAdminProductImageData = "";
+    let uploadedAdminReelVideoData = "";
 
     function escapeHtml(str) {
       return String(str ?? "")
@@ -874,24 +1223,26 @@
       }
 
       if (Array.isArray(adminState.categories) && adminState.categories.length) {
-        storeCategories = adminState.categories;
+        storeCategories = [...adminState.categories];
       } else {
         storeCategories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
       }
 
-      if (Array.isArray(adminState.managedProducts) && adminState.managedProducts.length > 0) {
-        storeProducts = adminState.managedProducts.filter(p => (p.status || "Active") === "Active");
+      if (Array.isArray(adminState.managedProducts)) {
+        allAdminProducts = [...adminState.managedProducts];
+        storeProducts = allAdminProducts.filter(p => (p.status || "Active") === "Active");
       } else {
+        allAdminProducts = [...fallbackProducts];
         storeProducts = [...fallbackProducts];
       }
 
-      if (Array.isArray(adminState.managedReels) && adminState.managedReels.length > 0) {
-        storeReels = adminState.managedReels;
+      if (Array.isArray(adminState.managedReels)) {
+        storeReels = [...adminState.managedReels];
       } else {
         storeReels = [...fallbackReels];
       }
 
-      if (Array.isArray(adminState.managedOrders) && adminState.managedOrders.length > 0) {
+      if (Array.isArray(adminState.managedOrders)) {
         const mergedMap = new Map();
         [...adminState.managedOrders, ...storeOrders].forEach(o => {
           if (o && o.order_number) mergedMap.set(o.order_number, o);
@@ -919,6 +1270,33 @@
         localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(next));
         adminState = next;
       } catch (_) {}
+    }
+
+    function syncAllAdminStoreData() {
+      persistAdminState({
+        categories: storeCategories,
+        managedProducts: allAdminProducts,
+        managedReels: storeReels,
+        managedOrders: storeOrders
+      });
+      localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(storeOrders));
+      loadSyncedAdminData();
+      renderAdminDashboard();
+      renderCategoryCards();
+      renderVisitorProducts();
+      renderHomeReelsRow();
+    }
+
+    function resetDemoStoreData() {
+      if (!confirm("সব কাস্টম পরিবর্তন মুছে ডিফল্ট প্রোডাক্ট, রিলস ও ক্যাটাগরিতে রিসেট করতে চান?")) return;
+      allAdminProducts = [...fallbackProducts];
+      storeProducts = [...fallbackProducts];
+      storeReels = [...fallbackReels];
+      storeCategories = ["Organic & Natural", "Apparel", "Accessories", "Home Essentials"];
+      selectedProductSkus.clear();
+      selectedReelIds.clear();
+      selectedOrderNumbers.clear();
+      syncAllAdminStoreData();
     }
 
     function applyStaticBrandSettings() {
@@ -961,7 +1339,7 @@
 
     function switchPageView(viewId, updateUrl = null) {
       document.getElementById("checkout-popup-modal")?.classList.add("hidden");
-      ["home-store-view", "category-page-view", "all-reels-page-view", "thankyou-page-view"].forEach(id => {
+      ["home-store-view", "admin-panel-view", "category-page-view", "all-reels-page-view", "thankyou-page-view"].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.toggle("hidden", id !== viewId);
       });
@@ -975,6 +1353,7 @@
       activeCategoryPageName = "";
       activeModalProduct = null;
       focusedReelId = "";
+      loadSyncedAdminData();
       updateSeoMetaForView("", null, null);
       switchPageView("home-store-view", getCanonicalBaseUrl());
       renderCategoryCards();
@@ -982,7 +1361,495 @@
       renderHomeReelsRow();
     }
 
-    /* ---------- ভিজ্যুয়াল/স্ক্রিনশট ফিচার এক্সট্রাকশন ও প্রফেশনাল সার্চ ---------- */
+    /* ========================================================= */
+    /* [অ্যাডমিন প্যানেল কন্ট্রোল ফাংশনসমূহ]                          */
+    /* ========================================================= */
+    function openAdminPanel() {
+      loadSyncedAdminData();
+      switchPageView("admin-panel-view");
+      renderAdminDashboard();
+    }
+
+    function switchAdminTab(tabName) {
+      activeAdminTab = tabName;
+      ["products", "reels", "orders", "categories"].forEach(t => {
+        const sec = document.getElementById(`adm-section-${t}`);
+        const btn = document.getElementById(`adm-tab-${t}`);
+        if (sec) sec.classList.toggle("hidden", t !== tabName);
+        if (btn) {
+          if (t === tabName) {
+            btn.className = "adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition cursor-pointer";
+          } else {
+            btn.className = "adm-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition cursor-pointer";
+          }
+        }
+      });
+      renderAdminDashboard();
+    }
+
+    function renderAdminDashboard() {
+      const revenue = storeOrders
+        .filter(o => String(o.status || "").toLowerCase() !== "cancelled")
+        .reduce((s, o) => s + (Number(o.total_amount) || 0), 0);
+
+      document.getElementById("adm-stat-products").textContent = String(allAdminProducts.length);
+      document.getElementById("adm-stat-reels").textContent = String(storeReels.length);
+      document.getElementById("adm-stat-orders").textContent = String(storeOrders.length);
+      document.getElementById("adm-stat-revenue").textContent = `৳${revenue}`;
+
+      // ক্যাটাগরি ড্রপডাউন ও SKU datalist আপডেট
+      const catSel = document.getElementById("adm-p-category");
+      if (catSel) {
+        catSel.innerHTML = storeCategories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+      }
+
+      const skuList = document.getElementById("adm-sku-datalist");
+      if (skuList) {
+        skuList.innerHTML = allAdminProducts.map(p => `<option value="${escapeHtml(p.sku)}">${escapeHtml(p.title)}</option>`).join("");
+      }
+
+      renderAdminProducts();
+      renderAdminReels();
+      renderAdminOrders();
+      renderAdminCategoriesAndBrand();
+    }
+
+    function handleAdminProductImageFile(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedAdminProductImageData = String(reader.result || "");
+        const lbl = document.getElementById("adm-p-file-preview-label");
+        if (lbl) {
+          lbl.textContent = `সিলেক্টেড ছবি: ${file.name}`;
+          lbl.classList.remove("hidden");
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAdminAddProduct(e) {
+      e.preventDefault();
+      const title = document.getElementById("adm-p-title").value.trim();
+      const category = document.getElementById("adm-p-category").value || storeCategories[0] || "General";
+      const product_type = document.getElementById("adm-p-type").value || "Single";
+      const price = Number(document.getElementById("adm-p-price").value || 0);
+      const regular_price = Number(document.getElementById("adm-p-reg-price").value || price);
+      const stock = Number(document.getElementById("adm-p-stock").value || 0);
+      const sizes = document.getElementById("adm-p-sizes").value.split(",").map(s => s.trim()).filter(Boolean);
+      const colors = document.getElementById("adm-p-colors").value.split(",").map(c => c.trim()).filter(Boolean);
+      const imgUrlInput = document.getElementById("adm-p-image-url").value.trim();
+      const short_description = document.getElementById("adm-p-desc").value.trim() || `${title} — প্রিমিয়াম কোয়ালিটির প্রোডাক্ট।`;
+
+      if (!title || price <= 0) return;
+
+      const finalImg = uploadedAdminProductImageData || imgUrlInput || getCategoryImage(category);
+      const newSku = "AB-PRD-" + Math.floor(1000 + Math.random() * 9000);
+
+      const newProd = {
+        sku: newSku,
+        product_type,
+        title,
+        category,
+        price,
+        regular_price: regular_price >= price ? regular_price : price,
+        stock,
+        status: "Active",
+        sizes: sizes.length ? sizes : ["Standard"],
+        colors,
+        short_description,
+        images: [finalImg]
+      };
+
+      allAdminProducts.unshift(newProd);
+      uploadedAdminProductImageData = "";
+      document.getElementById("adm-p-file-preview-label")?.classList.add("hidden");
+      e.target.reset();
+      document.getElementById("adm-p-sizes").value = "S, M, L, XL";
+      document.getElementById("adm-p-stock").value = "20";
+
+      syncAllAdminStoreData();
+      alert(`প্রোডাক্ট যুক্ত হয়েছে: ${title} (${newSku})`);
+    }
+
+    function toggleSelectProduct(sku, checked) {
+      if (checked) selectedProductSkus.add(sku);
+      else selectedProductSkus.delete(sku);
+      updateAdminSelectionBadges();
+    }
+
+    function toggleSelectAllProducts(checked) {
+      selectedProductSkus.clear();
+      if (checked) {
+        allAdminProducts.forEach(p => selectedProductSkus.add(p.sku));
+      }
+      renderAdminProducts();
+    }
+
+    function deleteSingleProduct(sku) {
+      if (!confirm(`আপনি কি ${sku} প্রোডাক্টটি ডিলিট করতে চান?`)) return;
+      allAdminProducts = allAdminProducts.filter(p => p.sku !== sku);
+      selectedProductSkus.delete(sku);
+      syncAllAdminStoreData();
+    }
+
+    function deleteSelectedProducts() {
+      if (selectedProductSkus.size === 0) {
+        return alert("ডিলিট করার জন্য অন্তত একটি প্রোডাক্ট সিলেক্ট করুন।");
+      }
+      if (!confirm(`সিলেক্ট করা ${selectedProductSkus.size}টি প্রোডাক্ট ডিলিট করতে চান?`)) return;
+      allAdminProducts = allAdminProducts.filter(p => !selectedProductSkus.has(p.sku));
+      selectedProductSkus.clear();
+      const selAll = document.getElementById("adm-select-all-products");
+      if (selAll) selAll.checked = false;
+      syncAllAdminStoreData();
+    }
+
+    function renderAdminProducts() {
+      const box = document.getElementById("adm-products-list");
+      document.getElementById("adm-products-count-badge").textContent = String(allAdminProducts.length);
+      updateAdminSelectionBadges();
+      if (!box) return;
+
+      if (allAdminProducts.length === 0) {
+        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-8">কোনো প্রোডাক্ট নেই। বাম পাশের ফর্ম থেকে নতুন প্রোডাক্ট অ্যাড করুন।</p>`;
+        return;
+      }
+
+      box.innerHTML = allAdminProducts.map(p => {
+        const checked = selectedProductSkus.has(p.sku) ? "checked" : "";
+        const img = p.images?.[0] || "";
+        return `
+          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <input type="checkbox" ${checked} onchange="toggleSelectProduct('${escapeHtml(p.sku)}', this.checked)"
+                class="w-4 h-4 accent-rose-500 rounded cursor-pointer shrink-0" />
+              ${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(p.title)}" class="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
+              <div class="min-w-0">
+                <p class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(p.title)}</p>
+                <p class="text-[11px] text-slate-400 font-mono truncate">${escapeHtml(p.sku)} • ${escapeHtml(p.category)} • স্টক: ${escapeHtml(p.stock ?? 0)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2.5 shrink-0">
+              <span class="text-xs sm:text-sm font-extrabold font-mono text-emerald-400">৳${escapeHtml(p.price)}</span>
+              <button type="button" onclick="deleteSingleProduct('${escapeHtml(p.sku)}')"
+                class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-2.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer">
+                ডিলিট
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function handleAdminReelVideoFile(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        uploadedAdminReelVideoData = String(reader.result || "");
+        const lbl = document.getElementById("adm-r-file-preview-label");
+        if (lbl) {
+          lbl.textContent = `সিলেক্টেড ভিডিও: ${file.name}`;
+          lbl.classList.remove("hidden");
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAdminAddReel(e) {
+      e.preventDefault();
+      const title = document.getElementById("adm-r-title").value.trim();
+      const product_code = document.getElementById("adm-r-sku").value.trim().toUpperCase();
+      const videoUrl = document.getElementById("adm-r-video-url").value.trim();
+      const poster = document.getElementById("adm-r-poster").value.trim() ||
+        (allAdminProducts.find(p => p.sku.toUpperCase() === product_code)?.images?.[0] || "");
+      const caption = document.getElementById("adm-r-caption").value.trim();
+
+      const video_src = uploadedAdminReelVideoData || videoUrl || "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+      const newReel = {
+        id: "REEL-" + Math.floor(100 + Math.random() * 900),
+        title,
+        product_code,
+        video_src,
+        poster,
+        caption
+      };
+
+      storeReels.unshift(newReel);
+      uploadedAdminReelVideoData = "";
+      document.getElementById("adm-r-file-preview-label")?.classList.add("hidden");
+      e.target.reset();
+      syncAllAdminStoreData();
+      alert(`নতুন রিল অ্যাড হয়েছে: ${title}`);
+    }
+
+    function toggleSelectReel(id, checked) {
+      if (checked) selectedReelIds.add(id);
+      else selectedReelIds.delete(id);
+      updateAdminSelectionBadges();
+    }
+
+    function toggleSelectAllReels(checked) {
+      selectedReelIds.clear();
+      if (checked) storeReels.forEach(r => selectedReelIds.add(r.id));
+      renderAdminReels();
+    }
+
+    function deleteSingleReel(id) {
+      if (!confirm(`এই রিল (${id}) ডিলিট করতে চান?`)) return;
+      storeReels = storeReels.filter(r => r.id !== id);
+      selectedReelIds.delete(id);
+      syncAllAdminStoreData();
+    }
+
+    function deleteSelectedReels() {
+      if (selectedReelIds.size === 0) {
+        return alert("ডিলিট করার জন্য অন্তত একটি রিল সিলেক্ট করুন।");
+      }
+      if (!confirm(`সিলেক্ট করা ${selectedReelIds.size}টি রিল ডিলিট করতে চান?`)) return;
+      storeReels = storeReels.filter(r => !selectedReelIds.has(r.id));
+      selectedReelIds.clear();
+      const selAll = document.getElementById("adm-select-all-reels");
+      if (selAll) selAll.checked = false;
+      syncAllAdminStoreData();
+    }
+
+    function renderAdminReels() {
+      const box = document.getElementById("adm-reels-list");
+      document.getElementById("adm-reels-count-badge").textContent = String(storeReels.length);
+      updateAdminSelectionBadges();
+      if (!box) return;
+
+      if (storeReels.length === 0) {
+        box.innerHTML = `<p class="col-span-full text-xs text-slate-400 text-center py-8">কোনো রিল নেই।</p>`;
+        return;
+      }
+
+      box.innerHTML = storeReels.map(r => {
+        const checked = selectedReelIds.has(r.id) ? "checked" : "";
+        return `
+          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3 flex items-start justify-between gap-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <input type="checkbox" ${checked} onchange="toggleSelectReel('${escapeHtml(r.id)}', this.checked)"
+                class="w-4 h-4 accent-rose-500 rounded cursor-pointer mt-1 shrink-0" />
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-white truncate">${escapeHtml(r.title)}</p>
+                <p class="text-[11px] font-mono text-pink-300 mt-0.5">${escapeHtml(r.id)} • SKU: ${escapeHtml(r.product_code || "N/A")}</p>
+                ${r.caption ? `<p class="text-[11px] text-slate-400 line-clamp-1 mt-0.5">${escapeHtml(r.caption)}</p>` : ""}
+              </div>
+            </div>
+            <button type="button" onclick="deleteSingleReel('${escapeHtml(r.id)}')"
+              class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-2.5 py-1 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0">
+              ডিলিট
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggleAdminNewOrderForm(forceOpen) {
+      const f = document.getElementById("adm-new-order-form");
+      if (!f) return;
+      if (typeof forceOpen === "boolean") f.classList.toggle("hidden", !forceOpen);
+      else f.classList.toggle("hidden");
+    }
+
+    function handleAdminAddOrder(e) {
+      e.preventDefault();
+      const customer_name = document.getElementById("adm-o-name").value.trim();
+      const customer_phone = document.getElementById("adm-o-phone").value.trim();
+      const itemTitle = document.getElementById("adm-o-item").value.trim();
+      const total_amount = Number(document.getElementById("adm-o-amount").value || 0);
+      const shipping_address = document.getElementById("adm-o-address").value.trim();
+      if (!customer_name || !customer_phone || total_amount <= 0) return;
+
+      const orderNumber = "AB-" + Math.floor(100000 + Math.random() * 900000);
+      storeOrders.unshift({
+        order_number: orderNumber,
+        customer_name,
+        customer_phone,
+        shipping_address,
+        items: [{ title: itemTitle, qty: 1 }],
+        total_amount,
+        delivery_charge: 80,
+        status: "Confirmed",
+        tracking_code: ""
+      });
+      e.target.reset();
+      toggleAdminNewOrderForm(false);
+      syncAllAdminStoreData();
+    }
+
+    function updateOrderStatus(orderNum, newStatus) {
+      const target = storeOrders.find(o => o.order_number === orderNum);
+      if (!target) return;
+      target.status = newStatus;
+      syncAllAdminStoreData();
+    }
+
+    function updateOrderTracking(orderNum, code) {
+      const target = storeOrders.find(o => o.order_number === orderNum);
+      if (!target) return;
+      target.tracking_code = String(code || "").trim();
+      syncAllAdminStoreData();
+    }
+
+    function toggleSelectOrder(orderNum, checked) {
+      if (checked) selectedOrderNumbers.add(orderNum);
+      else selectedOrderNumbers.delete(orderNum);
+      updateAdminSelectionBadges();
+    }
+
+    function toggleSelectAllOrders(checked) {
+      selectedOrderNumbers.clear();
+      if (checked) storeOrders.forEach(o => selectedOrderNumbers.add(o.order_number));
+      renderAdminOrders();
+    }
+
+    function deleteSingleOrder(orderNum) {
+      if (!confirm(`অর্ডার #${orderNum} ডিলিট করতে চান?`)) return;
+      storeOrders = storeOrders.filter(o => o.order_number !== orderNum);
+      selectedOrderNumbers.delete(orderNum);
+      syncAllAdminStoreData();
+    }
+
+    function deleteSelectedOrders() {
+      if (selectedOrderNumbers.size === 0) {
+        return alert("ডিলিট করার জন্য অন্তত একটি অর্ডার সিলেক্ট করুন।");
+      }
+      if (!confirm(`সিলেক্ট করা ${selectedOrderNumbers.size}টি অর্ডার ডিলিট করতে চান?`)) return;
+      storeOrders = storeOrders.filter(o => !selectedOrderNumbers.has(o.order_number));
+      selectedOrderNumbers.clear();
+      const selAll = document.getElementById("adm-select-all-orders");
+      if (selAll) selAll.checked = false;
+      syncAllAdminStoreData();
+    }
+
+    function renderAdminOrders() {
+      const box = document.getElementById("adm-orders-list");
+      const filterStatus = document.getElementById("adm-order-filter-status")?.value || "ALL";
+      document.getElementById("adm-orders-count-badge").textContent = String(storeOrders.length);
+      updateAdminSelectionBadges();
+      if (!box) return;
+
+      const list = filterStatus === "ALL"
+        ? storeOrders
+        : storeOrders.filter(o => (o.status || "Pending") === filterStatus);
+
+      if (list.length === 0) {
+        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-8">কোনো অর্ডার পাওয়া যায়নি।</p>`;
+        return;
+      }
+
+      const statuses = ["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"];
+
+      box.innerHTML = list.map(o => {
+        const checked = selectedOrderNumbers.has(o.order_number) ? "checked" : "";
+        const itemsText = Array.isArray(o.items)
+          ? o.items.map(i => `${i.title} ×${i.qty || 1}`).join(", ")
+          : "";
+        return `
+          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+            <div class="flex items-start gap-3 min-w-0">
+              <input type="checkbox" ${checked} onchange="toggleSelectOrder('${escapeHtml(o.order_number)}', this.checked)"
+                class="w-4 h-4 accent-rose-500 rounded cursor-pointer mt-1 shrink-0" />
+              <div class="space-y-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-mono font-extrabold text-sky-300">#${escapeHtml(o.order_number)}</span>
+                  <span class="font-bold text-white">${escapeHtml(o.customer_name)}</span>
+                  <span class="font-mono text-emerald-300">${escapeHtml(o.customer_phone)}</span>
+                </div>
+                <p class="text-slate-300 truncate">${escapeHtml(itemsText || "Order Item")}</p>
+                <p class="text-[11px] text-slate-400 truncate">${escapeHtml(o.shipping_address || "")}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <span class="font-mono font-extrabold text-emerald-400 text-sm">৳${escapeHtml(o.total_amount)}</span>
+
+              <select onchange="updateOrderStatus('${escapeHtml(o.order_number)}', this.value)"
+                class="bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs outline-none">
+                ${statuses.map(st => `<option value="${st}" ${(o.status || "Pending") === st ? "selected" : ""}>${st}</option>`).join("")}
+              </select>
+
+              <input type="text" value="${escapeHtml(o.tracking_code || "")}" placeholder="ট্র্যাকিং #"
+                onchange="updateOrderTracking('${escapeHtml(o.order_number)}', this.value)"
+                class="w-28 bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs font-mono outline-none" />
+
+              <button type="button" onclick="deleteSingleOrder('${escapeHtml(o.order_number)}')"
+                class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-2.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer">
+                ডিলিট
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function handleAdminAddCategory(e) {
+      e.preventDefault();
+      const inp = document.getElementById("adm-cat-input");
+      const name = (inp?.value || "").trim();
+      if (!name) return;
+      if (!storeCategories.some(c => c.toLowerCase() === name.toLowerCase())) {
+        storeCategories.push(name);
+      }
+      inp.value = "";
+      syncAllAdminStoreData();
+    }
+
+    function deleteAdminCategory(idx) {
+      const cat = storeCategories[idx];
+      if (!cat) return;
+      if (!confirm(`"${cat}" ক্যাটাগরিটি মুছে ফেলতে চান?`)) return;
+      storeCategories.splice(idx, 1);
+      if (storeCategories.length === 0) storeCategories = ["General"];
+      syncAllAdminStoreData();
+    }
+
+    function handleAdminSaveBrandConfig(e) {
+      e.preventDefault();
+      const brandName = document.getElementById("adm-cfg-brand").value.trim() || "Amar Brand";
+      const siteUrl = document.getElementById("adm-cfg-siteurl").value.trim();
+      gmcCfg = { ...gmcCfg, brandName };
+      gscCfg = { ...gscCfg, siteUrl };
+      localStorage.setItem("ab_gmc_cfg", JSON.stringify(gmcCfg));
+      localStorage.setItem("ab_gsc_cfg", JSON.stringify(gscCfg));
+      syncAllAdminStoreData();
+      alert("ব্র্যান্ড ও সাইট সেটিংস সেভ হয়েছে।");
+    }
+
+    function renderAdminCategoriesAndBrand() {
+      const listEl = document.getElementById("adm-categories-list");
+      if (listEl) {
+        listEl.innerHTML = storeCategories.map((cat, idx) => `
+          <span class="inline-flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-xs text-slate-200">
+            <span>${escapeHtml(cat)}</span>
+            <button type="button" onclick="deleteAdminCategory(${idx})" class="text-rose-400 hover:text-rose-200 font-bold cursor-pointer">✕</button>
+          </span>
+        `).join("");
+      }
+
+      const bInp = document.getElementById("adm-cfg-brand");
+      const uInp = document.getElementById("adm-cfg-siteurl");
+      if (bInp) bInp.value = gmcCfg.brandName || "Amar Brand";
+      if (uInp) uInp.value = gscCfg.siteUrl || "";
+    }
+
+    function updateAdminSelectionBadges() {
+      const pEl = document.getElementById("adm-selected-products-count");
+      const rEl = document.getElementById("adm-selected-reels-count");
+      const oEl = document.getElementById("adm-selected-orders-count");
+      if (pEl) pEl.textContent = String(selectedProductSkus.size);
+      if (rEl) rEl.textContent = String(selectedReelIds.size);
+      if (oEl) oEl.textContent = String(selectedOrderNumbers.size);
+    }
+
+    /* ========================================================= */
+    /* [ভিজ্যুয়াল/স্ক্রিনশট ফিচার এক্সট্রাকশন ও প্রফেশনাল সার্চ] */
+    /* ========================================================= */
     function extractImageVisualSignature(src) {
       return new Promise((resolve) => {
         if (!src) return resolve(null);
@@ -1529,7 +2396,7 @@
       alert(`ক্যাটাগরি লিংক কপি হয়েছে:\n${url}`);
     }
 
-    /* ---------- ২. অল প্রোডাক্ট (প্রাইস ও টাইটেল উপরে, ছবি নিচে) ---------- */
+    /* ---------- ২. অল প্রোডাক্ট ---------- */
     function buildProductCardHtml(p) {
       const brand = gmcCfg.brandName || "Amar Brand";
       const imgUrl = p.images && p.images[0] ? p.images[0] : "";
@@ -1616,7 +2483,7 @@
       grid.innerHTML = filtered.map(buildProductCardHtml).join("");
     }
 
-    /* ---------- ৩. প্রোডাক্ট পপআপ, ভেরিয়েন্ট সাইজ সিলেকশন ও ইউনিক লিংক ---------- */
+    /* ---------- ৩. প্রোডাক্ট পপআপ ---------- */
     function renderModalSizeAndColorButtons() {
       if (!activeModalProduct) return;
       const prod = activeModalProduct;
@@ -1856,9 +2723,9 @@
               <p class="font-mono text-emerald-400 font-bold mt-0.5">৳${escapeHtml(Number(item.price) * Number(item.qty))}</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" onclick="updateCartQty('${escapeHtml(item.key)}', -1)" class="w-6 h-6 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 font-bold">−</button>
+              <button type="button" onclick="updateCartQty('${escapeHtml(item.key)}', -1)" class="w-6 h-6 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 font-bold cursor-pointer">−</button>
               <span class="font-mono font-bold px-1">${escapeHtml(item.qty)}</span>
-              <button type="button" onclick="updateCartQty('${escapeHtml(item.key)}', 1)" class="w-6 h-6 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 font-bold">+</button>
+              <button type="button" onclick="updateCartQty('${escapeHtml(item.key)}', 1)" class="w-6 h-6 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 font-bold cursor-pointer">+</button>
             </div>
           </div>
         `;
@@ -1888,7 +2755,7 @@
           </div>
 
           <button type="button" onclick="orderFromReelCode('${escapeHtml(r.product_code || "")}')"
-            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold transition">
+            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold transition cursor-pointer">
             অর্ডার করুন
           </button>
         </div>
@@ -1999,7 +2866,7 @@
                 Selected Reel • Code: ${escapeHtml(target.product_code)}
               </span>
               <button type="button" onclick="copyReelUniqueLink('${escapeHtml(target.id)}')"
-                class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-3 py-1 rounded-full transition">
+                class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-3 py-1 rounded-full transition cursor-pointer">
                 🔗 রিল লিংক কপি
               </button>
             </div>
@@ -2014,21 +2881,21 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                   <button type="button" onclick="viewPhotoFromReelCode('${escapeHtml(target.product_code || "")}')"
-                    class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">ছবি দেখুন</button>
+                    class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">ছবি দেখুন</button>
                   <button type="button" onclick="addCartFromReelCode('${escapeHtml(target.product_code || "")}')"
-                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">কার্ড</button>
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">কার্ড</button>
                   <button type="button" onclick="orderFromReelCode('${escapeHtml(target.product_code || "")}')"
-                    class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition">অর্ডার করুন</button>
+                    class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer">অর্ডার করুন</button>
                 </div>
               </div>
             ` : `
               <div class="flex flex-wrap gap-2">
                 <button type="button" onclick="viewPhotoFromReelCode('${escapeHtml(target.product_code || "")}')"
-                  class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">ছবি দেখুন</button>
+                  class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">ছবি দেখুন</button>
                 <button type="button" onclick="addCartFromReelCode('${escapeHtml(target.product_code || "")}')"
-                  class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">কার্ড</button>
+                  class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">কার্ড</button>
                 <button type="button" onclick="orderFromReelCode('${escapeHtml(target.product_code || "")}')"
-                  class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">অর্ডার করুন</button>
+                  class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">অর্ডার করুন</button>
               </div>
             `}
           </div>
@@ -2046,23 +2913,23 @@
               </div>
 
               <button type="button" onclick="copyReelUniqueLink('${escapeHtml(r.id)}')"
-                class="w-full bg-slate-900 hover:bg-slate-800 text-sky-300 border border-slate-800 py-1 rounded-lg text-[10px] font-mono transition">
+                class="w-full bg-slate-900 hover:bg-slate-800 text-sky-300 border border-slate-800 py-1 rounded-lg text-[10px] font-mono transition cursor-pointer">
                 🔗 লিংক কপি
               </button>
 
               <div class="grid grid-cols-2 gap-1.5">
                 <button type="button" onclick="viewPhotoFromReelCode('${escapeHtml(r.product_code || "")}')"
-                  class="bg-slate-800 hover:bg-slate-700 text-slate-200 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold transition">
+                  class="bg-slate-800 hover:bg-slate-700 text-slate-200 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold transition cursor-pointer">
                   ছবি দেখুন
                 </button>
                 <button type="button" onclick="addCartFromReelCode('${escapeHtml(r.product_code || "")}')"
-                  class="bg-indigo-600 hover:bg-indigo-500 text-white py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold transition">
+                  class="bg-indigo-600 hover:bg-indigo-500 text-white py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold transition cursor-pointer">
                   কার্ড
                 </button>
               </div>
 
               <button type="button" onclick="orderFromReelIndex(${idx})"
-                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition">
+                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition cursor-pointer">
                 অর্ডার করুন
               </button>
             </div>
@@ -2169,7 +3036,7 @@
       persistAdminState({ incompleteOrders: incList });
     }
 
-    async function submitFullCheckoutOrder(e) {
+    function submitFullCheckoutOrder(e) {
       e.preventDefault();
       if (cartItems.length === 0) {
         return alert("অর্ডার করার জন্য আগে প্রোডাক্ট সিলেক্ট করুন।");
@@ -2203,9 +3070,6 @@
       storeOrders.unshift(orderRecord);
       localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(storeOrders));
 
-      const existingAdminOrders = Array.isArray(adminState.managedOrders) ? [...adminState.managedOrders] : [];
-      existingAdminOrders.unshift(orderRecord);
-
       let remainingInc = Array.isArray(adminState.incompleteOrders) ? [...adminState.incompleteOrders] : [];
       if (activeIncompleteDraftId) {
         remainingInc = remainingInc.filter(i => i.id !== activeIncompleteDraftId);
@@ -2213,21 +3077,19 @@
       }
 
       persistAdminState({
-        managedOrders: existingAdminOrders,
+        managedOrders: storeOrders,
         incompleteOrders: remainingInc
       });
 
       if (webhookCfg.url && webhookCfg.events?.orderCreated) {
-        try {
-          await fetch(webhookCfg.url, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-AmarBrand-Event": "order.created"
-            },
-            body: JSON.stringify({ event: "order.created", data: orderRecord })
-          });
-        } catch (_) {}
+        fetch(webhookCfg.url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-AmarBrand-Event": "order.created"
+          },
+          body: JSON.stringify({ event: "order.created", data: orderRecord })
+        }).catch(() => {});
       }
 
       cartItems = [];
@@ -2258,7 +3120,7 @@
       `;
     }
 
-    /* ---------- ৭. পলিসি, ট্র্যাকিং ও শক্তিশালী প্রোডাক্ট চ্যাটবট ---------- */
+    /* ---------- ৭. পলিসি, ট্র্যাকিং ও স্মার্ট চ্যাটবট ---------- */
     const policyContents = {
       privacy: {
         title: "Privacy Policy (গোপনীয়তা নীতি)",
@@ -2332,6 +3194,7 @@
         <p class="font-bold text-white">অর্ডার #${escapeHtml(found.order_number)}</p>
         <p>গ্রাহক: <span class="text-slate-200">${escapeHtml(found.customer_name)}</span></p>
         <p>স্ট্যাটাস: <span class="text-emerald-400 font-semibold">${escapeHtml(found.status)}</span></p>
+        ${found.tracking_code ? `<p>ট্র্যাকিং #: <span class="font-mono text-sky-300">${escapeHtml(found.tracking_code)}</span></p>` : ""}
         <p>মোট: <span class="font-mono text-emerald-300">৳${escapeHtml(found.total_amount)}</span></p>
       `;
     }
@@ -2661,6 +3524,3 @@
   <!-- [শেষ: ১১. জাভাস্ক্রিপ্ট লজিক] -->
 </body>
 </html>
-<!-- ========================================================= -->
-<!-- [শেষ] SEO-অপ্টিমাইজড ভিজিটর স্টোরফ্রন্ট (AMAR BRAND STORE) -->
-<!-- ========================================================= -->
