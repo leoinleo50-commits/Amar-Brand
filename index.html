@@ -1,8 +1,8 @@
- <!-- ========================================================= -->
+<!-- ========================================================= -->
 <!-- [শুরু] SEO-অপ্টিমাইজড ভিজিটর স্টোরফ্রন্ট (AMAR BRAND STORE) -->
 <!-- ফাইল নাম: index.html                                       -->
-<!-- মডিউলার সেকশন: হেডার, হোম ভিউ, আলাদা ক্যাটাগরি পেজ,     -->
-<!-- অল রিলস পেজ, চেকআউট পপআপ, থ্যাংক ইউ পেজ ও পলিসি ফুটার     -->
+<!-- মডিউলার সেকশন: হেডার, হোম ভিউ, আলাদা ক্যাটাগরি পেজ +     -->
+<!-- রিলেটেড রিল সারি, অল রিলস পেজ, চেকআউট, থ্যাংক ইউ ও ফুটার -->
 <!-- ========================================================= -->
 <!DOCTYPE html>
 <html lang="bn" class="dark">
@@ -237,41 +237,63 @@
   <!-- [শেষ: ২. হোম স্টোরফ্রন্ট ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৩. আলাদা ক্যাটাগরি পেজ ভিউ (SEO লিংক ও প্রোডাক্ট)] -->
+  <!-- [শুরু: ৩. আলাদা ক্যাটাগরি পেজ ভিউ + নিচে রিলেটেড একসারি রিল] -->
   <!-- ========================================================= -->
-  <section id="category-page-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-6">
-    <div class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <img id="cat-page-img" src="" alt="Category Banner" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-emerald-500/30 shrink-0" />
-        <div class="space-y-1">
-          <span class="text-[11px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-            Category Page
-          </span>
-          <h2 id="cat-page-title" class="text-xl sm:text-2xl font-extrabold text-white">ক্যাটাগরি নাম</h2>
-          <p id="cat-page-link-text" class="text-[11px] font-mono text-emerald-300 break-all"></p>
-          <p class="text-[11px] text-slate-400">
-            লাইভ ডোমেইনে হোস্ট ও Google Search Console-এ সাবমিট করলে এই URL সার্চে ইনডেক্স হবে।
-          </p>
+  <section id="category-page-view" class="hidden max-w-[1440px] mx-auto px-3 sm:px-6 py-6 space-y-8">
+    <div class="space-y-6">
+      <div class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <img id="cat-page-img" src="" alt="Category Banner" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-emerald-500/30 shrink-0" />
+          <div class="space-y-1">
+            <span class="text-[11px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+              Category Page
+            </span>
+            <h2 id="cat-page-title" class="text-xl sm:text-2xl font-extrabold text-white">ক্যাটাগরি নাম</h2>
+            <p id="cat-page-link-text" class="text-[11px] font-mono text-emerald-300 break-all"></p>
+            <p class="text-[11px] text-slate-400">
+              লাইভ ডোমেইনে হোস্ট ও Google Search Console-এ সাবমিট করলে এই URL সার্চে ইনডেক্স হবে।
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button type="button" onclick="copyCurrentCategoryLink()"
+            class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
+            🔗 লিংক কপি করুন
+          </button>
+          <button type="button" onclick="showHomeStorefront()"
+            class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
+            ← হোম পেজ
+          </button>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2 shrink-0">
-        <button type="button" onclick="copyCurrentCategoryLink()"
-          class="bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-          🔗 লিংক কপি করুন
-        </button>
-        <button type="button" onclick="showHomeStorefront()"
-          class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold transition">
-          ← হোম পেজ
-        </button>
-      </div>
+      <div id="cat-page-other-links" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
+
+      <div id="category-page-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
     </div>
 
-    <div id="cat-page-other-links" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
+    <!-- [৩.১ প্রত্যেক ক্যাটাগরির নিচে হোম পেজের মতো রিলেটেড একসারি রিল] -->
+    <div id="category-related-reels-section" class="pt-4 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+        <div>
+          <span class="text-[11px] uppercase tracking-wider bg-pink-500/10 text-pink-300 border border-pink-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+            রিলেটেড রিল সারি
+          </span>
+          <h3 class="text-lg sm:text-xl font-bold text-white mt-1">
+            <span id="cat-related-reels-heading-name">ক্যাটাগরি</span> রিলেটেড রিলস (<span id="cat-related-reels-count">0</span>)
+          </h3>
+        </div>
+        <button type="button" onclick="openAllReelsPage()"
+          class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition">
+          অল রিলস →
+        </button>
+      </div>
 
-    <div id="category-page-products-grid" class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-5"></div>
+      <div id="category-related-reels-row" class="grid grid-flow-col auto-cols-[calc((100%-1.5rem)/4)] lg:auto-cols-[calc((100%-4rem)/5)] gap-2 sm:gap-4 overflow-x-auto no-scrollbar pb-1"></div>
+    </div>
   </section>
-  <!-- [শেষ: ৩. আলাদা ক্যাটাগরি পেজ ভিউ] -->
+  <!-- [শেষ: ৩. আলাদা ক্যাটাগরি পেজ ভিউ + নিচে রিলেটেড একসারি রিল] -->
 
   <!-- ========================================================= -->
   <!-- [শুরু: ৪. অল রিলস পেজ ভিউ (ইউনিক রিল লিংক + ছবি দেখুন, কার্ড, অর্ডার)] -->
@@ -957,6 +979,7 @@
       switchPageView("home-store-view", getCanonicalBaseUrl());
       renderCategoryCards();
       renderVisitorProducts();
+      renderHomeReelsRow();
     }
 
     /* ---------- ভিজ্যুয়াল/স্ক্রিনশট ফিচার এক্সট্রাকশন ও প্রফেশনাল সার্চ ---------- */
@@ -1401,6 +1424,7 @@
         switchPageView("home-store-view");
         renderCategoryCards();
         renderVisitorProducts();
+        renderHomeReelsRow();
         document.getElementById("products-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
@@ -1495,6 +1519,7 @@
       }
 
       renderCategoryPageProducts();
+      renderCategoryRelatedReelsRow(matched);
     }
 
     function copyCurrentCategoryLink() {
@@ -1848,15 +1873,11 @@
       openCheckoutPopup();
     }
 
-    /* ---------- ৫. রিল সারি, ইউনিক রিল লিংক ও অল রিলস পেজ ---------- */
-    function renderHomeReelsRow() {
-      const row = document.getElementById("home-reels-row");
-      updateHeaderCounts();
-      if (!row) return;
-
-      row.innerHTML = storeReels.map((r, idx) => `
+    /* ---------- ৫. রিল সারি, ক্যাটাগরি রিলেটেড রিল সারি ও অল রিলস পেজ ---------- */
+    function buildReelRowCardHtml(r) {
+      return `
         <div class="glass-card rounded-2xl sm:rounded-3xl p-2 sm:p-3 flex flex-col justify-between gap-2 hover:border-pink-500/50 transition min-w-0">
-          <div onclick="openAllReelsPageByIndex(${idx})" class="space-y-1.5 cursor-pointer">
+          <div onclick="openAllReelsPageById('${escapeHtml(r.id)}')" class="space-y-1.5 cursor-pointer">
             <div class="relative h-28 sm:h-52 rounded-xl sm:rounded-2xl overflow-hidden bg-black border border-slate-800">
               <video src="${escapeHtml(r.video_src)}" ${r.poster ? `poster="${escapeHtml(r.poster)}"` : ""} muted playsinline preload="metadata" class="w-full h-full object-cover"></video>
               <span class="absolute inset-0 flex items-center justify-center">
@@ -1866,12 +1887,71 @@
             <p class="font-bold text-[10px] sm:text-xs text-white line-clamp-1">${escapeHtml(r.title)}</p>
           </div>
 
-          <button type="button" onclick="orderFromReelIndex(${idx})"
+          <button type="button" onclick="orderFromReelCode('${escapeHtml(r.product_code || "")}')"
             class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-bold transition">
             অর্ডার করুন
           </button>
         </div>
-      `).join("");
+      `;
+    }
+
+    function getRelatedReelsForCategory(catName) {
+      const catNorm = normalizeSearchText(catName);
+      if (!catNorm) return storeReels;
+
+      const catSkus = new Set(
+        storeProducts
+          .filter(p => normalizeSearchText(p.category) === catNorm)
+          .map(p => normalizeSearchText(p.sku))
+          .filter(Boolean)
+      );
+
+      const directMatches = storeReels.filter(r => {
+        const reelCatNorm = normalizeSearchText(r.category || "");
+        const reelSkuNorm = normalizeSearchText(r.product_code || "");
+        const textBlob = normalizeSearchText(`${r.title || ""} ${r.caption || ""} ${reelCatNorm}`);
+        return (
+          (reelCatNorm && reelCatNorm === catNorm) ||
+          (reelSkuNorm && catSkus.has(reelSkuNorm)) ||
+          textBlob.includes(catNorm)
+        );
+      });
+
+      if (directMatches.length > 0) {
+        return directMatches;
+      }
+
+      return storeReels;
+    }
+
+    function renderCategoryRelatedReelsRow(catName) {
+      const row = document.getElementById("category-related-reels-row");
+      const countEl = document.getElementById("cat-related-reels-count");
+      const headingNameEl = document.getElementById("cat-related-reels-heading-name");
+      if (!row) return;
+
+      if (headingNameEl) headingNameEl.textContent = catName || "ক্যাটাগরি";
+      const relatedReels = getRelatedReelsForCategory(catName);
+      if (countEl) countEl.textContent = String(relatedReels.length);
+
+      if (relatedReels.length === 0) {
+        row.innerHTML = `<div class="col-span-full glass-card rounded-2xl p-5 text-center text-xs text-slate-400">এই ক্যাটাগরির জন্য কোনো রিল পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      row.innerHTML = relatedReels.map(buildReelRowCardHtml).join("");
+    }
+
+    function renderHomeReelsRow() {
+      const row = document.getElementById("home-reels-row");
+      updateHeaderCounts();
+      if (!row) return;
+
+      row.innerHTML = storeReels.map(buildReelRowCardHtml).join("");
+    }
+
+    function openAllReelsPageById(reelId) {
+      openAllReelsPage(reelId || "");
     }
 
     function openAllReelsPageByIndex(idx) {
