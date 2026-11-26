@@ -189,7 +189,7 @@
           <span class="text-[11px] uppercase tracking-wider bg-amber-500/10 text-amber-300 border border-amber-500/25 px-2.5 py-0.5 rounded-full font-semibold">
             ক্যাটাগরি পেজসমূহ
           </span>
-          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">ছবি যুক্ত ক্যাটাগরি</h2>
+          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">All Categories</h2>
         </div>
         <span class="text-[11px] text-slate-400 hidden sm:inline">ক্যাটাগরিতে ক্লিক করলে আলাদা পেজ ওপেন হবে</span>
       </div>
@@ -202,9 +202,9 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
         <div>
           <span class="text-[11px] uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 px-2.5 py-0.5 rounded-full font-semibold">
-            অল প্রোডাক্ট
+            All Products
           </span>
-          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">অল প্রোডাক্ট (<span id="catalog-visible-count">0</span>)</h2>
+          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">All Products (<span id="catalog-visible-count">0</span>)</h2>
         </div>
 
         <div class="flex items-center gap-2">
@@ -228,11 +228,11 @@
           <span class="text-[11px] uppercase tracking-wider bg-pink-500/10 text-pink-300 border border-pink-500/25 px-2.5 py-0.5 rounded-full font-semibold">
             প্রথম সারির রিলস
           </span>
-          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">শপ্যাবল রিলস (<span id="visitor-reels-count">0</span>)</h2>
+          <h2 class="text-lg sm:text-2xl font-bold text-white mt-1">Reels Video (<span id="visitor-reels-count">0</span>)</h2>
         </div>
         <button type="button" onclick="openAllReelsPage()"
           class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
-          অল রিলস →
+           All Reels Video →
         </button>
       </div>
 
@@ -1215,15 +1215,15 @@
       <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div>
           <span class="text-[11px] uppercase tracking-wider bg-pink-500/10 text-pink-300 border border-pink-500/25 px-2.5 py-0.5 rounded-full font-semibold">
-            রিলেটেড রিল সারি
+            Related Reels Video
           </span>
           <h3 class="text-lg sm:text-xl font-bold text-white mt-1">
-            <span id="cat-related-reels-heading-name">ক্যাটাগরি</span> রিলেটেড রিলস (<span id="cat-related-reels-count">0</span>)
+            <span id="cat-related-reels-heading-name">ক্যাটাগরি</span> Related Reels Video (<span id="cat-related-reels-count">0</span>)
           </h3>
         </div>
         <button type="button" onclick="openAllReelsPage()"
           class="bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/35 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
-          অল রিলস →
+          All Reels Video →
         </button>
       </div>
 
@@ -1241,7 +1241,7 @@
         <span class="text-[11px] uppercase tracking-wider bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-0.5 rounded-full font-semibold">
           All Reels Page
         </span>
-        <h2 class="text-2xl font-bold text-white mt-1">অল রিলস</h2>
+        <h2 class="text-2xl font-bold text-white mt-1">All Reels Video</h2>
       </div>
       <button type="button" onclick="showHomeStorefront()"
         class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
@@ -1252,7 +1252,7 @@
     <div id="focused-reel-spotlight" class="glass-card rounded-3xl p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center"></div>
 
     <div class="space-y-3">
-      <h3 class="text-base font-bold text-white">সব রিল ভিডিও</h3>
+      <h3 class="text-base font-bold text-white">All Reels Video</h3>
       <div id="all-reels-page-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"></div>
     </div>
   </section>
@@ -1341,8 +1341,8 @@
           <div class="flex justify-center pt-2">
             <button type="submit" form="full-checkout-form"
               class="btn-order-now-anim mx-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white px-8 py-3.5 rounded-2xl font-extrabold text-sm transition-all cursor-pointer">
-              <span>অর্ডার নাও</span>
-              <span>🚀</span>
+              <span>অর্ডার কনফার্ম </span>
+              <span></span>
             </button>
           </div>
         </aside>
@@ -4403,11 +4403,11 @@
               <div class="flex gap-2">
                 <button type="button" onclick="openProductModal('${escapeHtml(linkedProd.sku)}')"
                   class="bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer">
-                  বিস্তারিত
+                  ছবি দেখুন 
                 </button>
                 <button type="button" onclick="quickBuyProduct('${escapeHtml(linkedProd.sku)}')"
                   class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                  ⚡ এখনই অর্ডার
+                  ⚡অর্ডার করুন 
                 </button>
               </div>
             </div>
