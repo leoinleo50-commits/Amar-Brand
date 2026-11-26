@@ -41,13 +41,20 @@
       max-width: 100%;
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
+      scroll-behavior: smooth;
     }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #050811;
+      padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    }
+    @media (min-width: 1024px) {
+      body {
+        padding-bottom: 48px;
+      }
     }
     .glass-card {
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.68);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(30, 41, 59, 0.9);
     }
@@ -102,16 +109,16 @@
   <!-- [শুরু: ১. টপ হেডার, সার্চ, প্রোফাইল->অ্যাডমিন, রিলস ও কার্ট] -->
   <!-- ========================================================= -->
   <header id="main-site-header" class="sticky top-0 z-40 bg-[#070c17]/95 backdrop-blur-xl border-b border-slate-800/80">
-    <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-2.5">
+    <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex flex-wrap lg:flex-nowrap items-center justify-between gap-2 sm:gap-3">
       <div class="flex items-center gap-2 min-w-0">
-        <a href="index.html" onclick="event.preventDefault(); showHomeStorefront();" class="flex items-center gap-2 shrink-0">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_16px_rgba(251,191,36,0.2)]">
+        <a href="index.html" onclick="event.preventDefault(); showHomeStorefront();" class="flex items-center gap-2 min-w-0">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center shadow-[0_0_16px_rgba(251,191,36,0.2)] shrink-0">
             <span id="header-brand-monogram" class="text-xs font-extrabold text-amber-300">AB</span>
           </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <h1 id="header-brand-h1" class="text-sm sm:text-lg font-extrabold tracking-wide text-white inline">AMAR BRAND</h1>
-              <span id="store-gmc-badge" class="hidden sm:inline-block text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <h1 id="header-brand-h1" class="text-xs sm:text-base lg:text-lg font-extrabold tracking-wide text-white truncate">AMAR BRAND</h1>
+              <span id="store-gmc-badge" class="hidden md:inline-block text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full shrink-0">
                 Verified
               </span>
             </div>
@@ -124,7 +131,7 @@
         ondragover="handleSearchDragOver(event)"
         ondragleave="handleSearchDragLeave(event)"
         ondrop="handleSearchDrop(event)"
-        class="order-3 lg:order-2 w-full lg:w-[25rem] relative">
+        class="order-3 lg:order-2 w-full lg:w-[24rem] xl:w-[28rem] relative">
         <div id="visitor-search-box-ring" class="relative flex items-center rounded-2xl transition">
           <input type="text" id="visitor-search-input"
             oninput="handleSearchInput()"
@@ -134,7 +141,7 @@
             placeholder="প্রোডাক্ট নাম, কোড, ছবি বা স্ক্রিনশট..."
             autocomplete="off"
             aria-label="প্রোডাক্ট খুঁজুন"
-            class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-2xl pl-9 pr-20 py-2 sm:py-2.5 text-sm outline-none transition" />
+            class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-2xl pl-9 pr-20 py-2 sm:py-2.5 text-xs sm:text-sm outline-none transition" />
           <span class="absolute left-3 top-2.5 sm:top-3 text-slate-400 text-xs pointer-events-none">🔍</span>
 
           <input type="file" id="visitor-search-image-input" accept="image/*" onchange="handleSearchImageFile(event)" class="hidden" />
@@ -198,20 +205,20 @@
         </div>
 
         <button type="button" id="header-reels-btn" onclick="openAllReelsPage()"
-          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-pink-300 h-9 sm:h-10 px-2.5 sm:px-3 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
           <span>🎬</span>
           <span class="hidden sm:inline">অল রিলস</span>
           <span>(<span id="header-reels-count">0</span>)</span>
         </button>
 
         <button type="button" id="header-track-btn" onclick="openTrackOrderModal()"
-          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 px-2.5 sm:px-3 py-2 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
+          class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sky-300 h-9 sm:h-10 px-2.5 sm:px-3 rounded-2xl text-[11px] sm:text-xs font-semibold transition cursor-pointer">
           <span>📦</span>
-          <span class="hidden sm:inline">ট্র্যাক</span>
+          <span class="hidden md:inline">ট্র্যাক</span>
         </button>
 
         <button type="button" id="header-cart-btn" onclick="toggleCartDrawer(true)"
-          class="relative inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3 sm:px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
+          class="relative inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white h-9 sm:h-10 px-3 sm:px-3.5 rounded-2xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20 cursor-pointer">
           <span>🛒</span>
           <span>কার্ট</span>
           <span id="header-cart-count" class="bg-slate-950/80 text-emerald-300 font-mono text-xs px-1.5 py-0.5 rounded-full">0</span>
@@ -298,7 +305,7 @@
         <div class="flex items-center gap-2">
           <select id="visitor-sort-select" onchange="renderVisitorProducts()"
             aria-label="প্রোডাক্ট সাজান"
-            class="w-full sm:w-auto bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2 text-xs sm:text-sm outline-none">
+            class="w-full sm:w-auto bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl px-3 py-2.5 text-xs sm:text-sm outline-none">
             <option value="featured">সাজান: নতুন / ফিচার্ড</option>
             <option value="price-asc">দাম: কম থেকে বেশি</option>
             <option value="price-desc">দাম: বেশি থেকে কম</option>
@@ -1698,13 +1705,18 @@
   <!-- [শেষ: ৬. থ্যাংক ইউ পেজ ভিউ] -->
 
   <!-- ========================================================= -->
-  <!-- [শুরু: ৭. ফুটার — সাইটম্যাপ অ্যাডমিন প্যানেলে সরানো হয়েছে] -->
+  <!-- [শুরু: ৭. ফুটার — মোবাইল ও ডেস্কটপ রেসপন্সিভ গ্রিড]        -->
   <!-- ========================================================= -->
-  <footer id="main-site-footer" class="border-t border-slate-800/80 bg-[#070c17] mt-12 sm:mt-14">
-    <div class="max-w-[1440px] mx-auto px-3.5 sm:px-6 py-8 sm:py-10 grid grid-cols-1 md:grid-cols-4 gap-6 text-xs text-slate-400">
-      <div class="space-y-2 md:col-span-2">
-        <p class="text-base font-extrabold text-white" id="footer-brand-name">AMAR BRAND</p>
-        <p id="footer-desc-text" class="leading-relaxed">
+  <footer id="main-site-footer" class="border-t border-slate-800/80 bg-[#070c17] mt-12 sm:mt-16">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-8 sm:py-11 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-xs text-slate-400">
+      <div class="space-y-2.5 sm:col-span-2">
+        <div class="flex items-center gap-2">
+          <p class="text-base sm:text-lg font-extrabold text-white" id="footer-brand-name">AMAR BRAND</p>
+          <span class="text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+            Trusted Store
+          </span>
+        </div>
+        <p id="footer-desc-text" class="leading-relaxed max-w-xl">
           আমরা স্বচ্ছতা, সঠিক পণ্যের তথ্য এবং গ্রাহকের ব্যক্তিগত তথ্যের সুরক্ষায় প্রতিশ্রুতিবদ্ধ। অর্ডার, ডেলিভারি ও রিটার্ন সংক্রান্ত নীতিমালা নিচে দেওয়া হলো।
         </p>
         <p class="font-mono text-[11px] text-slate-500">
@@ -1712,23 +1724,30 @@
         </p>
       </div>
 
-      <div id="footer-policies-col" class="space-y-2">
+      <div id="footer-policies-col" class="space-y-2.5">
         <p class="text-xs font-bold text-slate-200 uppercase tracking-wider">পলিসি ও আইনগত তথ্য</p>
         <ul class="space-y-2">
-          <li><button type="button" onclick="openPolicyModal('privacy')" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Privacy Policy (গোপনীয়তা নীতি)</button></li>
-          <li><button type="button" onclick="openPolicyModal('terms')" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Terms & Conditions (শর্তাবলি)</button></li>
-          <li><button type="button" onclick="openPolicyModal('refund')" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Return & Refund Policy (রিটার্ন ও রিফান্ড)</button></li>
-          <li><button type="button" onclick="openPolicyModal('shipping')" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Shipping & Delivery Policy (ডেলিভারি নীতি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('privacy')" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Privacy Policy (গোপনীয়তা নীতি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('terms')" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Terms & Conditions (শর্তাবলি)</button></li>
+          <li><button type="button" onclick="openPolicyModal('refund')" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Return & Refund Policy (রিটার্ন ও রিফান্ড)</button></li>
+          <li><button type="button" onclick="openPolicyModal('shipping')" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Shipping & Delivery Policy (ডেলিভারি নীতি)</button></li>
         </ul>
       </div>
 
-      <div id="footer-support-col" class="space-y-2">
+      <div id="footer-support-col" class="space-y-2.5">
         <p class="text-xs font-bold text-slate-200 uppercase tracking-wider">সাপোর্ট ও তথ্য</p>
         <ul class="space-y-2">
-          <li><button type="button" onclick="openPolicyModal('about')" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">About Us & Store Transparency</button></li>
-          <li><button type="button" onclick="openTrackOrderModal()" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Order Tracking</button></li>
-          <li><button type="button" onclick="toggleChatbotWidget(true)" class="hover:text-emerald-400 transition cursor-pointer py-0.5 text-left">Customer Support Chat</button></li>
+          <li><button type="button" onclick="openPolicyModal('about')" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">About Us & Store Transparency</button></li>
+          <li><button type="button" onclick="openTrackOrderModal()" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Order Tracking</button></li>
+          <li><button type="button" onclick="toggleChatbotWidget(true)" class="hover:text-emerald-400 transition cursor-pointer py-1 text-left">Customer Support Chat</button></li>
         </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800/70 bg-[#050811]/70">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
+        <span>© 2026 AMAR BRAND. সর্বস্বত্ব সংরক্ষিত।</span>
+        <span>Mobile & Desktop Responsive Commerce</span>
       </div>
     </div>
   </footer>
@@ -1803,7 +1822,7 @@
   <!-- [শুরু: ৯. স্লাইড কার্ড ড্রয়ার (ডিলিট বাটনসহ)]              -->
   <!-- ========================================================= -->
   <div id="cart-drawer-backdrop" onclick="if(event.target===this)toggleCartDrawer(false)" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm">
-    <div class="fixed inset-y-0 right-0 w-[88vw] sm:w-full max-w-md bg-[#080d1a] border-l border-slate-800 h-[100dvh] flex flex-col justify-between p-4 sm:p-5 shadow-2xl">
+    <div class="fixed inset-y-0 right-0 w-[90vw] sm:w-full max-w-md bg-[#080d1a] border-l border-slate-800 h-[100dvh] flex flex-col justify-between p-4 sm:p-5 shadow-2xl">
       <div class="space-y-4 overflow-y-auto flex-1 pr-1">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <h3 class="text-sm sm:text-base font-bold text-white">🛒 আপনার কার্ড</h3>
@@ -1860,7 +1879,7 @@
 
   <div class="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-40">
     <button type="button" onclick="toggleChatbotWidget()"
-      class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-2xl shadow-emerald-600/30 font-semibold text-xs sm:text-sm transition cursor-pointer">
+      class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 sm:py-3 rounded-full shadow-2xl shadow-emerald-600/30 font-semibold text-xs sm:text-sm transition cursor-pointer">
       <span>🤖</span>
       <span>চ্যাটবট</span>
     </button>
@@ -3837,76 +3856,100 @@
       }).join("");
     }
 
-    /* ---------- রিল ভিডিও আপলোড (সর্বোচ্চ 10 MB, ডাউনলোড বন্ধ) ---------- */
+    function updateAdminSelectionBadges() {
+      const pCnt = document.getElementById("adm-selected-products-count");
+      const rCnt = document.getElementById("adm-selected-reels-count");
+      const oCnt = document.getElementById("adm-selected-orders-count");
+      if (pCnt) pCnt.textContent = String(selectedProductSkus.size);
+      if (rCnt) rCnt.textContent = String(selectedReelIds.size);
+      if (oCnt) oCnt.textContent = String(selectedOrderNumbers.size);
+    }
+
+    /* ---------- রিল সেকশন (≤10MB, আনলিমিটেড, ড্রপডাউন SKU, ইউনিক লিংক ও নিচে তালিকা) ---------- */
     function handleAdminReelVideoFile(e) {
       const file = e.target.files?.[0];
-      if (!file) return;
-
-      if (file.size > MAX_REEL_SIZE_BYTES) {
-        alert(`রিল ভিডিওর সাইজ সর্বোচ্চ 10 MB হতে পারবে। আপনার সিলেক্ট করা ফাইলটি ${(file.size / (1024 * 1024)).toFixed(2)} MB।`);
-        e.target.value = "";
+      const lbl = document.getElementById("adm-r-file-preview-label");
+      const vidPreview = document.getElementById("adm-r-video-preview");
+      if (!file) {
         uploadedAdminReelVideoFile = null;
         if (uploadedAdminReelPreviewUrl) {
           try { URL.revokeObjectURL(uploadedAdminReelPreviewUrl); } catch (_) {}
           uploadedAdminReelPreviewUrl = "";
         }
-        document.getElementById("adm-r-file-preview-label")?.classList.add("hidden");
-        document.getElementById("adm-r-video-preview")?.classList.add("hidden");
+        if (lbl) lbl.classList.add("hidden");
+        if (vidPreview) {
+          vidPreview.classList.add("hidden");
+          vidPreview.removeAttribute("src");
+        }
         return;
       }
 
+      if (file.size > MAX_REEL_SIZE_BYTES) {
+        alert("রিল ভিডিওর সাইজ সর্বোচ্চ ১০ MB হতে পারবে! অনুগ্রহ করে ১০ MB-এর কম সাইজের ভিডিও সিলেক্ট করুন।");
+        e.target.value = "";
+        uploadedAdminReelVideoFile = null;
+        if (lbl) lbl.classList.add("hidden");
+        if (vidPreview) {
+          vidPreview.classList.add("hidden");
+          vidPreview.removeAttribute("src");
+        }
+        return;
+      }
+
+      uploadedAdminReelVideoFile = file;
       if (uploadedAdminReelPreviewUrl) {
         try { URL.revokeObjectURL(uploadedAdminReelPreviewUrl); } catch (_) {}
       }
-      uploadedAdminReelVideoFile = file;
       uploadedAdminReelPreviewUrl = URL.createObjectURL(file);
-
-      const lbl = document.getElementById("adm-r-file-preview-label");
-      const vid = document.getElementById("adm-r-video-preview");
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
       if (lbl) {
-        lbl.textContent = `✓ ভিডিও প্রস্তুত: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+        lbl.textContent = `✓ ভিডিও প্রস্তুত: ${file.name} (${sizeMb} MB / Max 10 MB)`;
         lbl.classList.remove("hidden");
       }
-      if (vid) {
-        vid.src = uploadedAdminReelPreviewUrl;
-        vid.classList.remove("hidden");
-        vid.play().catch(() => {});
+      if (vidPreview) {
+        vidPreview.src = uploadedAdminReelPreviewUrl;
+        vidPreview.classList.remove("hidden");
       }
     }
 
     async function handleAdminAddReel(e) {
       e.preventDefault();
       const title = document.getElementById("adm-r-title").value.trim();
-      const product_code = document.getElementById("adm-r-sku").value.trim();
-      const poster = document.getElementById("adm-r-poster").value.trim() || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
+      const sku = document.getElementById("adm-r-sku").value.trim();
       const caption = document.getElementById("adm-r-caption").value.trim();
+      const posterInput = document.getElementById("adm-r-poster").value.trim();
 
-      if (!title || !product_code || !caption) return;
+      if (!title || !sku || !caption) {
+        return alert("রিল টাইটেল, প্রোডাক্ট কোড এবং শর্ট ডেসক্রিপশন পূরণ করুন।");
+      }
+
       if (!uploadedAdminReelVideoFile) {
-        return alert("অনুগ্রহ করে সর্বোচ্চ 10 MB সাইজের একটি রিল ভিডিও ফাইল সিলেক্ট করুন।");
+        return alert("অনুগ্রহ করে একটি রিল ভিডিও ফাইল (সর্বোচ্চ ১০ MB) সিলেক্ট করুন।");
       }
+
       if (uploadedAdminReelVideoFile.size > MAX_REEL_SIZE_BYTES) {
-        return alert("রিল ভিডিওর সাইজ 10 MB-এর বেশি হতে পারবে না।");
+        return alert("ভিডিওর সাইজ ১০ MB-এর বেশি! অনুগ্রহ করে ১০ MB বা তার কম সাইজের ভিডিও দিন।");
       }
 
-      const newId = "REEL-" + Date.now();
-      const savedInDb = await saveReelBlobToDb(newId, uploadedAdminReelVideoFile);
-      if (!savedInDb) {
-        return alert("রিল ভিডিও সংরক্ষণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।");
-      }
+      const matchedProd = allAdminProducts.find(p => p.sku === sku) || storeProducts[0];
+      const newReelId = "REEL-" + Math.floor(100000 + Math.random() * 900000);
+      const savedInDb = await saveReelBlobToDb(newReelId, uploadedAdminReelVideoFile);
+      const videoUrl = savedInDb ? URL.createObjectURL(uploadedAdminReelVideoFile) : DEFAULT_FALLBACK_VIDEO;
+      if (savedInDb) reelBlobUrlCache.set(newReelId, videoUrl);
 
-      const blobUrl = await getReelBlobUrlFromDb(newId);
-      const uniqueReelUrl = getReelUniqueUrl(newId);
+      const uniqueReelUrl = getReelUniqueUrl(newReelId);
 
       const newReel = {
-        id: newId,
+        id: newReelId,
         title,
-        product_code,
-        video_src: blobUrl || DEFAULT_FALLBACK_VIDEO,
-        has_db_video: true,
+        product_code: sku,
+        caption,
         reel_url: uniqueReelUrl,
-        poster,
-        caption
+        video_src: videoUrl,
+        has_db_video: savedInDb,
+        file_name: uploadedAdminReelVideoFile.name,
+        file_size_mb: Number((uploadedAdminReelVideoFile.size / (1024 * 1024)).toFixed(2)),
+        poster: posterInput || matchedProd?.images?.[0] || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70"
       };
 
       storeReels.unshift(newReel);
@@ -3915,40 +3958,36 @@
         try { URL.revokeObjectURL(uploadedAdminReelPreviewUrl); } catch (_) {}
         uploadedAdminReelPreviewUrl = "";
       }
-
       e.target.reset();
-      populateReelProductCodeDropdown();
       document.getElementById("adm-r-file-preview-label")?.classList.add("hidden");
-      const prevVid = document.getElementById("adm-r-video-preview");
-      if (prevVid) {
-        prevVid.pause();
-        prevVid.removeAttribute("src");
-        prevVid.classList.add("hidden");
+      const vidPreview = document.getElementById("adm-r-video-preview");
+      if (vidPreview) {
+        vidPreview.classList.add("hidden");
+        vidPreview.removeAttribute("src");
       }
 
       syncAllAdminStoreData();
       alert(`রিল সফলভাবে আপলোড হয়েছে!\nইউনিক লিংক: ${uniqueReelUrl}`);
     }
 
-    function toggleSelectReel(id, checked) {
-      if (checked) selectedReelIds.add(id);
-      else selectedReelIds.delete(id);
+    function toggleSelectReel(reelId, checked) {
+      if (checked) selectedReelIds.add(reelId);
+      else selectedReelIds.delete(reelId);
       updateAdminSelectionBadges();
     }
 
     function toggleSelectAllReels(checked) {
       selectedReelIds.clear();
-      if (checked) {
-        storeReels.forEach(r => selectedReelIds.add(r.id));
-      }
+      if (checked) storeReels.forEach(r => selectedReelIds.add(r.id));
       renderAdminReels();
     }
 
-    function deleteSingleReel(id) {
-      if (!confirm("আপনি কি এই রিলটি ডিলিট করতে চান?")) return;
-      storeReels = storeReels.filter(r => r.id !== id);
-      selectedReelIds.delete(id);
-      deleteReelBlobFromDb(id);
+    function deleteSingleReel(reelId) {
+      if (!confirm(`আপনি কি ${reelId} রিলটি ডিলিট করতে চান?`)) return;
+      const target = storeReels.find(r => r.id === reelId);
+      if (target?.has_db_video) deleteReelBlobFromDb(reelId);
+      storeReels = storeReels.filter(r => r.id !== reelId);
+      selectedReelIds.delete(reelId);
       syncAllAdminStoreData();
     }
 
@@ -3957,8 +3996,9 @@
         return alert("ডিলিট করার জন্য অন্তত একটি রিল সিলেক্ট করুন।");
       }
       if (!confirm(`সিলেক্ট করা ${selectedReelIds.size}টি রিল ডিলিট করতে চান?`)) return;
-      const toRemove = Array.from(selectedReelIds);
-      toRemove.forEach(id => deleteReelBlobFromDb(id));
+      storeReels.forEach(r => {
+        if (selectedReelIds.has(r.id) && r.has_db_video) deleteReelBlobFromDb(r.id);
+      });
       storeReels = storeReels.filter(r => !selectedReelIds.has(r.id));
       selectedReelIds.clear();
       const selAll = document.getElementById("adm-select-all-reels");
@@ -3966,62 +4006,64 @@
       syncAllAdminStoreData();
     }
 
-    function copyReelUrlToClipboard(url) {
-      navigator.clipboard?.writeText(url).catch(() => {});
-      alert(`রিলের লিংক কপি হয়েছে:\n${url}`);
+    function copyReelUniqueLink(reelId) {
+      const link = getReelUniqueUrl(reelId);
+      navigator.clipboard?.writeText(link).catch(() => {});
+      alert(`রিলের ইউনিক লিংক কপি হয়েছে:\n${link}`);
     }
 
     function renderAdminReels() {
       const box = document.getElementById("adm-reels-list");
-      const totalInlineEl = document.getElementById("adm-reels-total-inline");
-      document.getElementById("adm-reels-count-badge").textContent = String(storeReels.length);
-      if (totalInlineEl) totalInlineEl.textContent = String(storeReels.length);
+      const badgeEl = document.getElementById("adm-reels-count-badge");
+      const inlineTotEl = document.getElementById("adm-reels-total-inline");
+      if (badgeEl) badgeEl.textContent = String(storeReels.length);
+      if (inlineTotEl) inlineTotEl.textContent = String(storeReels.length);
       updateAdminSelectionBadges();
       if (!box) return;
 
       if (storeReels.length === 0) {
-        box.innerHTML = `<p class="col-span-full text-xs text-slate-400 text-center py-8">এখনও কোনো রিল আপলোড করা হয়নি।</p>`;
+        box.innerHTML = `<p class="col-span-full text-xs text-slate-400 text-center py-8">কোনো রিল আপলোড করা হয়নি।</p>`;
         return;
       }
 
       box.innerHTML = storeReels.map(r => {
         const checked = selectedReelIds.has(r.id) ? "checked" : "";
-        const uniqueUrl = r.reel_url || getReelUniqueUrl(r.id);
+        const reelLink = getReelUniqueUrl(r.id);
+        const sizeBadge = r.file_size_mb ? `${r.file_size_mb} MB` : "Demo";
         return `
-          <div class="bg-slate-950/95 border border-slate-800 rounded-2xl p-3 space-y-2.5 flex flex-col justify-between">
-            <div class="space-y-2">
+          <div class="bg-slate-950/95 border border-slate-800 rounded-2xl p-3 flex flex-col justify-between gap-3">
+            <div class="space-y-2.5">
               <div class="flex items-center justify-between gap-2">
-                <label class="inline-flex items-center gap-2 text-xs font-bold text-white min-w-0 cursor-pointer">
+                <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-mono text-pink-300">
                   <input type="checkbox" ${checked} onchange="toggleSelectReel('${escapeHtml(r.id)}', this.checked)"
-                    class="w-4 h-4 accent-rose-500 rounded cursor-pointer shrink-0" />
-                  <span class="truncate">${escapeHtml(r.title)}</span>
+                    class="w-4 h-4 accent-rose-500 rounded cursor-pointer" />
+                  <span>${escapeHtml(r.id)}</span>
                 </label>
-                <span class="text-[10px] font-mono text-pink-300 bg-pink-500/10 border border-pink-500/25 px-2 py-0.5 rounded-full shrink-0">${escapeHtml(r.product_code)}</span>
+                <span class="text-[10px] font-mono bg-slate-900 border border-slate-700 text-emerald-300 px-2 py-0.5 rounded-full">${escapeHtml(sizeBadge)}</span>
               </div>
 
-              <div class="aspect-[9/14] max-h-56 w-full rounded-xl overflow-hidden bg-black border border-slate-800">
-                <video src="${escapeHtml(r.video_src || DEFAULT_FALLBACK_VIDEO)}"
-                  poster="${escapeHtml(r.poster || "")}"
-                  controls controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;"
-                  muted playsinline preload="metadata"
+              <div class="w-full h-44 rounded-xl bg-black border border-slate-800 overflow-hidden">
+                <video src="${escapeHtml(r.video_src || DEFAULT_FALLBACK_VIDEO)}" poster="${escapeHtml(r.poster || "")}"
+                  controls controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" muted playsinline preload="metadata"
                   class="w-full h-full object-cover"></video>
               </div>
 
-              <p class="text-[11px] text-slate-300 line-clamp-2">${escapeHtml(r.caption || "")}</p>
-
-              <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2 text-[10px] font-mono text-sky-300 break-all">
-                ${escapeHtml(uniqueUrl)}
+              <div class="space-y-1">
+                <p class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(r.title)}</p>
+                <p class="text-[11px] font-mono text-emerald-300">কোড: ${escapeHtml(r.product_code)}</p>
+                <p class="text-[11px] text-slate-400 line-clamp-2">${escapeHtml(r.caption || "")}</p>
+                <p class="text-[10px] font-mono text-sky-300 truncate" title="${escapeHtml(reelLink)}">${escapeHtml(reelLink)}</p>
               </div>
             </div>
 
-            <div class="flex items-center justify-between gap-2 pt-1">
-              <button type="button" onclick="copyReelUrlToClipboard('${escapeHtml(uniqueUrl)}')"
-                class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-300 py-1.5 px-2.5 rounded-xl text-[11px] font-semibold transition cursor-pointer">
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+              <button type="button" onclick="copyReelUniqueLink('${escapeHtml(r.id)}')"
+                class="bg-slate-800 hover:bg-slate-700 text-sky-300 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold transition cursor-pointer">
                 🔗 লিংক কপি
               </button>
               <button type="button" onclick="deleteSingleReel('${escapeHtml(r.id)}')"
-                class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 py-1.5 px-3 rounded-xl text-[11px] font-semibold transition cursor-pointer">
-                ডিলিট
+                class="bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition cursor-pointer">
+                🗑️ ডিলিট
               </button>
             </div>
           </div>
@@ -4029,7 +4071,52 @@
       }).join("");
     }
 
-    /* ---------- অর্ডার ম্যানেজার, চেকবক্স, বাল্ক অ্যাকশন ও পপআপ ---------- */
+    /* ---------- অর্ডার ম্যানেজার, কাস্টমার প্রোফাইল ও বাল্ক অ্যাকশন ---------- */
+    function toggleAdminNewOrderForm(show = null) {
+      const f = document.getElementById("adm-new-order-form");
+      if (!f) return;
+      if (show === null) f.classList.toggle("hidden");
+      else f.classList.toggle("hidden", !show);
+    }
+
+    function handleAdminAddOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById("adm-o-name").value.trim();
+      const phone = document.getElementById("adm-o-phone").value.trim();
+      const itemTitle = document.getElementById("adm-o-item").value.trim();
+      const totalAmount = Number(document.getElementById("adm-o-amount").value || 0);
+      const address = document.getElementById("adm-o-address").value.trim();
+      if (!name || !phone || !itemTitle || totalAmount <= 0 || !address) return;
+
+      const deliveryFee = getDeliveryChargeForDistrict(address);
+      const subtotal = Math.max(0, totalAmount - deliveryFee);
+
+      const newOrder = {
+        order_number: "AB-" + Math.floor(100000 + Math.random() * 900000),
+        customer_name: name,
+        customer_phone: phone,
+        customer_address: address,
+        items: [{ title: itemTitle, qty: 1, price: subtotal, image: storeProducts[0]?.images?.[0] || "" }],
+        subtotal,
+        delivery_charge: deliveryFee,
+        total_amount: totalAmount,
+        status: "Pending",
+        created_at: new Date().toLocaleString("bn-BD")
+      };
+
+      storeOrders.unshift(newOrder);
+      e.target.reset();
+      toggleAdminNewOrderForm(false);
+      syncAllAdminStoreData();
+    }
+
+    function updateOrderStatus(orderNum, newStatus) {
+      const idx = storeOrders.findIndex(o => o.order_number === orderNum);
+      if (idx < 0) return;
+      storeOrders[idx].status = newStatus;
+      syncAllAdminStoreData();
+    }
+
     function toggleSelectOrder(orderNum, checked) {
       if (checked) selectedOrderNumbers.add(orderNum);
       else selectedOrderNumbers.delete(orderNum);
@@ -4044,28 +4131,14 @@
       renderAdminOrders();
     }
 
-    function updateAdminSelectionBadges() {
-      const pEl = document.getElementById("adm-selected-products-count");
-      const rEl = document.getElementById("adm-selected-reels-count");
-      const oEl = document.getElementById("adm-selected-orders-count");
-      if (pEl) pEl.textContent = String(selectedProductSkus.size);
-      if (rEl) rEl.textContent = String(selectedReelIds.size);
-      if (oEl) oEl.textContent = String(selectedOrderNumbers.size);
-    }
-
-    function updateOrderStatusByAdmin(orderNum, newStatus) {
-      const idx = storeOrders.findIndex(o => o.order_number === orderNum);
-      if (idx >= 0) {
-        storeOrders[idx].status = newStatus;
-        syncAllAdminStoreData();
-      }
-    }
-
     function applyBulkOrderStatusChange() {
       const newStatus = document.getElementById("adm-bulk-status-select")?.value || "";
-      if (!newStatus) return alert("আগে বাল্ক স্ট্যাটাস নির্বাচন করুন।");
-      if (selectedOrderNumbers.size === 0) return alert("অন্তত একটি অর্ডার সিলেক্ট করুন।");
-
+      if (!newStatus) {
+        return alert("আগে একটি স্ট্যাটাস নির্বাচন করুন।");
+      }
+      if (selectedOrderNumbers.size === 0) {
+        return alert("অন্তত একটি অর্ডার সিলেক্ট করুন।");
+      }
       storeOrders = storeOrders.map(o =>
         selectedOrderNumbers.has(o.order_number) ? { ...o, status: newStatus } : o
       );
@@ -4073,52 +4146,10 @@
       alert(`${selectedOrderNumbers.size}টি অর্ডারের স্ট্যাটাস "${newStatus}" করা হয়েছে।`);
     }
 
-    function sendSingleOrderToSteadfast(orderNum) {
-      const ord = storeOrders.find(o => o.order_number === orderNum);
-      if (!ord) return;
-      if (!steadfastCfg.apiKey || !steadfastCfg.secretKey) {
-        return alert("আগে 'কুরিয়ার (Steadfast)' ট্যাবে Steadfast API Key ও Secret Key সেভ করুন।");
-      }
-      const baseUrl = (steadfastCfg.baseUrl || "https://portal.packzy.com/api/v1").replace(/\/+$/, "");
-      const payload = {
-        invoice: ord.order_number,
-        recipient_name: ord.customer_name,
-        recipient_phone: ord.customer_phone,
-        recipient_address: `${ord.address}, ${ord.district || ""}`,
-        cod_amount: Number(ord.total_amount) || 0
-      };
-
-      fetch(`${baseUrl}/create_order`, {
-        method: "POST",
-        headers: {
-          "Api-Key": steadfastCfg.apiKey,
-          "Secret-Key": steadfastCfg.secretKey,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-        .then(r => r.json().catch(() => ({})))
-        .then(() => {
-          const idx = storeOrders.findIndex(o => o.order_number === orderNum);
-          if (idx >= 0) storeOrders[idx].status = "Shipped";
-          syncAllAdminStoreData();
-          alert(`অর্ডার #${orderNum} Steadfast কুরিয়ারে পাঠানো হয়েছে!`);
-        })
-        .catch(() => {
-          const idx = storeOrders.findIndex(o => o.order_number === orderNum);
-          if (idx >= 0) storeOrders[idx].status = "Shipped";
-          syncAllAdminStoreData();
-          alert(`অর্ডার #${orderNum} Steadfast কিউতে পাঠানো হয়েছে (স্ট্যাটাস Shipped)।`);
-        });
-    }
-
-    function bulkSendOrdersToSteadfast() {
-      if (selectedOrderNumbers.size === 0) return alert("কুরিয়ারে পাঠানোর জন্য অন্তত একটি অর্ডার সিলেক্ট করুন।");
-      Array.from(selectedOrderNumbers).forEach(ordNum => sendSingleOrderToSteadfast(ordNum));
-    }
-
     function deleteSelectedOrders() {
-      if (selectedOrderNumbers.size === 0) return alert("ডিলিট করার জন্য অন্তত একটি অর্ডার সিলেক্ট করুন।");
+      if (selectedOrderNumbers.size === 0) {
+        return alert("ডিলিট করার জন্য অন্তত একটি অর্ডার সিলেক্ট করুন।");
+      }
       if (!confirm(`সিলেক্ট করা ${selectedOrderNumbers.size}টি অর্ডার ডিলিট করতে চান?`)) return;
       storeOrders = storeOrders.filter(o => !selectedOrderNumbers.has(o.order_number));
       selectedOrderNumbers.clear();
@@ -4127,76 +4158,97 @@
       syncAllAdminStoreData();
     }
 
-    function toggleAdminNewOrderForm(show = null) {
-      const f = document.getElementById("adm-new-order-form");
-      if (!f) return;
-      if (show === null) f.classList.toggle("hidden");
-      else f.classList.toggle("hidden", !show);
+    function sendSingleOrderToSteadfast(orderNum, silent = false) {
+      const order = storeOrders.find(o => o.order_number === orderNum);
+      if (!order) return false;
+      const apiKey = steadfastCfg.apiKey;
+      const secretKey = steadfastCfg.secretKey;
+      const baseUrl = (steadfastCfg.baseUrl || "https://portal.packzy.com/api/v1").replace(/\/+$/, "");
+
+      const payload = {
+        invoice: order.order_number,
+        recipient_name: order.customer_name,
+        recipient_phone: order.customer_phone,
+        recipient_address: order.customer_address,
+        cod_amount: Number(order.total_amount || 0),
+        note: `Amar Brand Order ${order.order_number}`
+      };
+
+      if (apiKey && secretKey) {
+        fetch(`${baseUrl}/create_order`, {
+          method: "POST",
+          headers: {
+            "Api-Key": apiKey,
+            "Secret-Key": secretKey,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      }
+
+      if (steadfastCfg.webhookUrl && steadfastCfg.events?.parcelCreated !== false) {
+        fetch(steadfastCfg.webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Courier": "Steadfast" },
+          body: JSON.stringify({ event: "parcel.created", order: payload })
+        }).catch(() => {});
+      }
+
+      order.status = "Shipped";
+      order.courier_sent = "Steadfast";
+      if (!silent) {
+        syncAllAdminStoreData();
+        alert(`অর্ডার #${order.order_number} Steadfast কুরিয়ারে পাঠানো হয়েছে!`);
+      }
+      return true;
     }
 
-    function handleAdminAddOrder(e) {
-      e.preventDefault();
-      const name = document.getElementById("adm-o-name").value.trim();
-      const phone = document.getElementById("adm-o-phone").value.trim();
-      const item = document.getElementById("adm-o-item").value.trim();
-      const amount = Number(document.getElementById("adm-o-amount").value || 0);
-      const address = document.getElementById("adm-o-address").value.trim();
-      if (!name || !phone || !item || amount <= 0 || !address) return;
-
-      const delivery = getDeliveryChargeForDistrict("Dhaka");
-      const newOrd = {
-        order_number: "AB-" + Math.floor(100000 + Math.random() * 900000),
-        date: new Date().toLocaleString("bn-BD"),
-        customer_name: name,
-        customer_phone: phone,
-        district: "Dhaka",
-        address,
-        delivery_charge: delivery,
-        subtotal: Math.max(0, amount - delivery),
-        total_amount: amount,
-        status: "Pending",
-        items: [{ title: item, qty: 1, price: Math.max(0, amount - delivery) }]
-      };
-      storeOrders.unshift(newOrd);
-      e.target.reset();
-      toggleAdminNewOrderForm(false);
+    function bulkSendOrdersToSteadfast() {
+      if (selectedOrderNumbers.size === 0) {
+        return alert("Steadfast কুরিয়ারে পাঠানোর জন্য অন্তত একটি অর্ডার সিলেক্ট করুন।");
+      }
+      let sentCount = 0;
+      selectedOrderNumbers.forEach(num => {
+        if (sendSingleOrderToSteadfast(num, true)) sentCount++;
+      });
       syncAllAdminStoreData();
+      alert(`${sentCount}টি অর্ডার Steadfast কুরিয়ারে সেন্ড করা হয়েছে!`);
     }
 
     function openAdminOrderDetailModal(orderNum) {
-      const ord = storeOrders.find(o => o.order_number === orderNum);
-      if (!ord) return;
+      const order = storeOrders.find(o => o.order_number === orderNum);
+      if (!order) return;
 
-      const stats = getCustomerOrderStats(ord.customer_phone, ord.order_number);
-      const totalCod = Number(ord.total_amount) || 0;
-      const delivery = Number(ord.delivery_charge ?? getDeliveryChargeForDistrict(ord.district));
-      const subtotal = Number(ord.subtotal ?? Math.max(0, totalCod - delivery));
+      const stats = getCustomerOrderStats(order.customer_phone, order.order_number);
+      const totalCod = Number(order.total_amount) || 0;
+      const deliveryFee = Number(order.delivery_charge ?? getDeliveryChargeForDistrict(order.customer_address));
+      const subtotal = Number(order.subtotal ?? Math.max(0, totalCod - deliveryFee));
 
-      document.getElementById("aod-order-badge").textContent = `#${ord.order_number}`;
+      document.getElementById("aod-current-order-num").value = order.order_number;
+      document.getElementById("aod-order-badge").textContent = `#${order.order_number}`;
       document.getElementById("aod-repeat-badge").classList.toggle("hidden", !stats.isRepeat);
-      document.getElementById("aod-customer-name").textContent = ord.customer_name || "Customer";
-      document.getElementById("aod-customer-meta").textContent = `ফোন: ${ord.customer_phone || ""} • জেলা: ${ord.district || "BD"} • ঠিকানা: ${ord.address || ""}`;
+      document.getElementById("aod-customer-name").textContent = order.customer_name || "কাস্টমার";
+      document.getElementById("aod-customer-meta").textContent = `ফোন: ${order.customer_phone || ""} • ঠিকানা: ${order.customer_address || ""}`;
 
       document.getElementById("aod-total-parcels").textContent = String(stats.total);
       document.getElementById("aod-delivered-parcels").textContent = String(stats.delivered);
       document.getElementById("aod-cancelled-parcels").textContent = String(stats.cancelled);
 
-      const histBox = document.getElementById("aod-history-list");
-      if (stats.history.length === 0) {
-        histBox.innerHTML = `<p class="text-slate-400">এই কাস্টমারের পূর্বের কোনো অতিরিক্ত অর্ডার নেই।</p>`;
-      } else {
-        histBox.innerHTML = stats.history.map(h => `
-          <div class="flex items-center justify-between gap-2 bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-2">
-            <span class="font-mono text-sky-300">#${escapeHtml(h.order_number)}</span>
-            <span class="text-slate-300 truncate">${escapeHtml((h.items?.[0]?.title) || "Order")}</span>
-            <span class="font-mono text-emerald-300">৳${Number(h.total_amount || 0)}</span>
-            <span class="text-[11px] font-semibold text-amber-300">${escapeHtml(h.status || "Pending")}</span>
-          </div>
-        `).join("");
+      const histEl = document.getElementById("aod-history-list");
+      if (histEl) {
+        if (stats.history.length === 0) {
+          histEl.innerHTML = `<p class="text-slate-400">এই ফোন নাম্বারে পূর্বের কোনো অর্ডার নেই (প্রথম অর্ডার)।</p>`;
+        } else {
+          histEl.innerHTML = stats.history.map(h => `
+            <div class="flex items-center justify-between gap-2 py-1 border-b border-slate-800/60 last:border-none">
+              <span class="font-mono text-sky-300">#${escapeHtml(h.order_number)} • ${escapeHtml(h.created_at || "")}</span>
+              <span class="font-mono text-emerald-300">৳${escapeHtml(h.total_amount)} (${escapeHtml(h.status || "Pending")})</span>
+            </div>
+          `).join("");
+        }
       }
 
-      document.getElementById("aod-current-order-num").value = ord.order_number;
-      document.getElementById("aod-delivery-charge").value = delivery;
+      document.getElementById("aod-delivery-charge").value = deliveryFee;
       document.getElementById("aod-product-subtotal").value = subtotal;
       document.getElementById("aod-total-cod").value = totalCod;
 
@@ -4216,13 +4268,13 @@
 
     function handleSaveOrderCodAndDelivery(e) {
       e.preventDefault();
-      const orderNum = document.getElementById("aod-current-order-num")?.value || "";
+      const orderNum = document.getElementById("aod-current-order-num").value;
       const idx = storeOrders.findIndex(o => o.order_number === orderNum);
       if (idx < 0) return;
 
-      const del = Number(document.getElementById("aod-delivery-charge")?.value || 0);
-      const sub = Number(document.getElementById("aod-product-subtotal")?.value || 0);
-      const cod = Number(document.getElementById("aod-total-cod")?.value || (del + sub));
+      const del = Number(document.getElementById("aod-delivery-charge").value || 0);
+      const sub = Number(document.getElementById("aod-product-subtotal").value || 0);
+      const cod = Number(document.getElementById("aod-total-cod").value || 0);
 
       storeOrders[idx].delivery_charge = del;
       storeOrders[idx].subtotal = sub;
@@ -4230,39 +4282,37 @@
 
       closeAdminOrderDetailModal();
       syncAllAdminStoreData();
-      alert(`অর্ডার #${orderNum}-এর COD (৳${cod}) ও ডেলিভারি চার্জ (৳${del}) আপডেট হয়েছে!`);
+      alert(`অর্ডার #${orderNum}-এর ডেলিভারি চার্জ (৳${del}) ও মোট COD (৳${cod}) আপডেট হয়েছে!`);
     }
 
     function renderAdminOrders() {
       const box = document.getElementById("adm-orders-list");
-      const filterStatus = document.getElementById("adm-order-filter-status")?.value || "ALL";
-      const q = (document.getElementById("adm-order-search-input")?.value || "").trim().toLowerCase();
-
+      const q = normalizeSearchText(document.getElementById("adm-order-search-input")?.value || "");
+      const statusFilter = document.getElementById("adm-order-filter-status")?.value || "ALL";
       document.getElementById("adm-orders-count-badge").textContent = String(storeOrders.length);
       updateAdminSelectionBadges();
       if (!box) return;
 
-      const filtered = storeOrders.filter(o => {
-        if (filterStatus !== "ALL" && (o.status || "Pending") !== filterStatus) return false;
+      const list = storeOrders.filter(o => {
+        if (statusFilter !== "ALL" && (o.status || "Pending") !== statusFilter) return false;
         if (!q) return true;
-        return (
-          String(o.order_number || "").toLowerCase().includes(q) ||
-          String(o.customer_name || "").toLowerCase().includes(q) ||
-          String(o.customer_phone || "").toLowerCase().includes(q)
-        );
+        const blob = normalizeSearchText(`${o.order_number} ${o.customer_name} ${o.customer_phone} ${o.customer_address}`);
+        return blob.includes(q);
       });
 
-      if (filtered.length === 0) {
+      if (list.length === 0) {
         box.innerHTML = `<p class="text-xs text-slate-400 text-center py-8">কোনো অর্ডার পাওয়া যায়নি।</p>`;
         return;
       }
 
       const statuses = ["Pending", "Confirmed", "On Hold", "Shipped", "Delivered", "Cancelled"];
-
-      box.innerHTML = filtered.map(o => {
+      box.innerHTML = list.map(o => {
         const checked = selectedOrderNumbers.has(o.order_number) ? "checked" : "";
         const stats = getCustomerOrderStats(o.customer_phone, o.order_number);
-        const delFee = Number(o.delivery_charge ?? getDeliveryChargeForDistrict(o.district));
+        const firstImg = Array.isArray(o.items) && o.items[0]?.image ? o.items[0].image : "";
+        const itemsSummary = Array.isArray(o.items)
+          ? o.items.map(i => `${i.title}${i.color ? ` (${i.color})` : ""}${i.size ? ` [${i.size}]` : ""} ×${i.qty}`).join(", ")
+          : "";
 
         return `
           <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 sm:p-4 space-y-2.5 text-xs">
@@ -4270,57 +4320,75 @@
               <div class="flex flex-wrap items-center gap-2">
                 <input type="checkbox" ${checked} onchange="toggleSelectOrder('${escapeHtml(o.order_number)}', this.checked)"
                   class="w-4 h-4 accent-emerald-500 rounded cursor-pointer" />
-                <span class="font-mono font-bold text-sky-300">#${escapeHtml(o.order_number)}</span>
-                <span class="text-slate-400">${escapeHtml(o.date || "")}</span>
-                ${stats.isRepeat
-                  ? `<span class="text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-full">🔁 রিপিট কাস্টমার (${stats.total})</span>`
-                  : ""}
-              </div>
-
-              <div class="flex flex-wrap items-center gap-2">
                 <button type="button" onclick="openAdminOrderDetailModal('${escapeHtml(o.order_number)}')"
-                  class="bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer">
-                  📋 ডিটেইলস ও COD
-                </button>
-                <button type="button" onclick="sendSingleOrderToSteadfast('${escapeHtml(o.order_number)}')"
-                  class="bg-sky-600/20 hover:bg-sky-600 text-sky-300 hover:text-white border border-sky-500/35 px-2.5 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer">
-                  🚚 Steadfast
-                </button>
-                <select onchange="updateOrderStatusByAdmin('${escapeHtml(o.order_number)}', this.value)"
-                  class="bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1 text-xs font-semibold outline-none">
+                  class="font-mono font-bold text-sky-400 hover:underline cursor-pointer">#${escapeHtml(o.order_number)}</button>
+                <button type="button" onclick="openAdminOrderDetailModal('${escapeHtml(o.order_number)}')"
+                  class="font-bold text-white hover:text-emerald-300 cursor-pointer text-left">${escapeHtml(o.customer_name)}</button>
+                ${stats.isRepeat ? `<span class="text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-full">🔁 রিপিট (${stats.total} অর্ডার)</span>` : ""}
+                <span class="text-slate-400 font-mono">${escapeHtml(o.customer_phone)}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-emerald-400">COD: ৳${escapeHtml(o.total_amount)}</span>
+                <select onchange="updateOrderStatus('${escapeHtml(o.order_number)}', this.value)"
+                  class="bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1 text-xs outline-none">
                   ${statuses.map(st => `<option value="${st}" ${(o.status || "Pending") === st ? "selected" : ""}>${st}</option>`).join("")}
                 </select>
               </div>
             </div>
 
+            <div class="flex items-start gap-2.5">
+              ${firstImg ? `<img src="${escapeHtml(firstImg)}" alt="Order Item" class="w-11 h-11 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
+              <div class="min-w-0 flex-1">
+                <p class="text-slate-400">${escapeHtml(o.customer_address)}</p>
+                ${itemsSummary ? `<p class="text-slate-300 mt-0.5">${escapeHtml(itemsSummary)}</p>` : ""}
+              </div>
+            </div>
+
             <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-800/70">
-              <div>
-                <p class="font-bold text-white">${escapeHtml(o.customer_name)} <span class="font-mono text-emerald-300">(${escapeHtml(o.customer_phone)})</span></p>
-                <p class="text-slate-400">${escapeHtml(o.district || "")} — ${escapeHtml(o.address)}</p>
+              <div class="flex items-center gap-3">
+                <span class="text-[11px] text-slate-500">${escapeHtml(o.created_at || "")}</span>
+                <button type="button" onclick="openAdminOrderDetailModal('${escapeHtml(o.order_number)}')"
+                  class="text-[11px] text-sky-300 hover:underline font-semibold cursor-pointer">
+                  কাস্টমার হিস্টোরি ও COD এডিট
+                </button>
               </div>
-              <div class="text-right font-mono">
-                <p class="text-[11px] text-amber-300">ডেলিভারি: ৳${delFee}</p>
-                <p class="text-sm font-extrabold text-emerald-400">COD: ৳${Number(o.total_amount || 0)}</p>
-              </div>
+              <button type="button" onclick="sendSingleOrderToSteadfast('${escapeHtml(o.order_number)}')"
+                class="bg-sky-600/20 hover:bg-sky-600 text-sky-300 hover:text-white border border-sky-500/30 px-3 py-1 rounded-xl text-[11px] font-semibold transition cursor-pointer">
+                🚚 Steadfast-এ সেন্ড করুন
+              </button>
             </div>
           </div>
         `;
       }).join("");
     }
 
+    /* ---------- ক্যাটাগরি অ্যাড/ডিলিট ও ডেলিভারি/ব্র্যান্ড কনফিগ ---------- */
     function handleAdminAddCategory(e) {
       e.preventDefault();
-      const name = document.getElementById("adm-cat-input").value.trim();
+      const inp = document.getElementById("adm-cat-input");
+      const name = inp.value.trim();
       if (!name) return;
-      if (!storeCategories.includes(name)) storeCategories.push(name);
-      document.getElementById("adm-cat-input").value = "";
+      if (!storeCategories.some(c => c.toLowerCase() === name.toLowerCase())) {
+        storeCategories.push(name);
+      }
+      inp.value = "";
       syncAllAdminStoreData();
     }
 
-    function deleteCategoryByAdmin(catName) {
-      if (storeCategories.length <= 1) return alert("অন্তত একটি ক্যাটাগরি থাকতে হবে।");
+    function deleteAdminCategory(catName) {
+      if (storeCategories.length <= 1) {
+        return alert("অন্তত একটি ক্যাটাগরি থাকতে হবে।");
+      }
       if (!confirm(`"${catName}" ক্যাটাগরিটি ডিলিট করতে চান?`)) return;
+      const fallbackCat = storeCategories.find(c => c !== catName) || "General";
       storeCategories = storeCategories.filter(c => c !== catName);
+      allAdminProducts = allAdminProducts.map(p =>
+        p.category === catName ? { ...p, category: fallbackCat } : p
+      );
+      if (activeCategoryPageName === catName) {
+        showHomeStorefront();
+        return;
+      }
       syncAllAdminStoreData();
     }
 
@@ -4328,112 +4396,113 @@
       const catBox = document.getElementById("adm-categories-list");
       if (catBox) {
         catBox.innerHTML = storeCategories.map(c => `
-          <span class="inline-flex items-center gap-1.5 bg-slate-950 border border-slate-800 text-slate-200 px-3 py-1.5 rounded-xl text-xs">
+          <span class="inline-flex items-center gap-2 bg-slate-950 border border-slate-800 text-slate-200 px-3 py-1.5 rounded-xl text-xs">
             <span>${escapeHtml(c)}</span>
-            <button type="button" onclick="deleteCategoryByAdmin('${escapeHtml(c)}')" class="text-rose-400 hover:text-rose-300 font-bold cursor-pointer">✕</button>
+            <button type="button" onclick="deleteAdminCategory('${escapeHtml(c)}')"
+              class="text-rose-400 hover:text-rose-200 font-bold cursor-pointer" title="ক্যাটাগরি ডিলিট">✕</button>
           </span>
         `).join("");
       }
 
-      const dhakaEl = document.getElementById("adm-cfg-dhaka-charge");
-      const outsideEl = document.getElementById("adm-cfg-outside-charge");
-      const brandEl = document.getElementById("adm-cfg-brand");
-      const siteUrlEl = document.getElementById("adm-cfg-siteurl");
-
-      if (dhakaEl) dhakaEl.value = String(deliveryChargeCfg.dhaka ?? 80);
-      if (outsideEl) outsideEl.value = String(deliveryChargeCfg.outsideDhaka ?? 120);
-      if (brandEl) brandEl.value = gmcCfg.brandName || "Amar Brand";
-      if (siteUrlEl) siteUrlEl.value = gscCfg.siteUrl || "https://amarbrand.com";
+      const dhakaInp = document.getElementById("adm-cfg-dhaka-charge");
+      const outsideInp = document.getElementById("adm-cfg-outside-charge");
+      const brInp = document.getElementById("adm-cfg-brand");
+      const urlInp = document.getElementById("adm-cfg-siteurl");
+      if (dhakaInp) dhakaInp.value = String(deliveryChargeCfg.dhaka ?? 80);
+      if (outsideInp) outsideInp.value = String(deliveryChargeCfg.outsideDhaka ?? 120);
+      if (brInp) brInp.value = gmcCfg.brandName || "Amar Brand";
+      if (urlInp) urlInp.value = gscCfg.siteUrl || "https://amarbrand.com";
     }
 
     function handleAdminSaveBrandConfig(e) {
       e.preventDefault();
-      const dhakaFee = Math.max(0, Number(document.getElementById("adm-cfg-dhaka-charge")?.value ?? 80));
-      const outsideFee = Math.max(0, Number(document.getElementById("adm-cfg-outside-charge")?.value ?? 120));
-      deliveryChargeCfg = { dhaka: dhakaFee, outsideDhaka: outsideFee };
+      deliveryChargeCfg = {
+        dhaka: Number(document.getElementById("adm-cfg-dhaka-charge").value || 80),
+        outsideDhaka: Number(document.getElementById("adm-cfg-outside-charge").value || 120)
+      };
       safeStorageSet("ab_delivery_charge_cfg", deliveryChargeCfg);
 
-      gmcCfg = { ...gmcCfg, brandName: document.getElementById("adm-cfg-brand").value.trim() || "Amar Brand" };
-      gscCfg = { ...gscCfg, siteUrl: document.getElementById("adm-cfg-siteurl").value.trim() || "https://amarbrand.com" };
+      gmcCfg.brandName = document.getElementById("adm-cfg-brand").value.trim() || "Amar Brand";
+      gscCfg.siteUrl = document.getElementById("adm-cfg-siteurl").value.trim() || "https://amarbrand.com";
       safeStorageSet("ab_gmc_cfg", gmcCfg);
       safeStorageSet("ab_gsc_cfg", gscCfg);
 
-      updateDistrictDropdown(document.getElementById("co-district")?.value || "Dhaka");
-      onDistrictChange();
       syncAllAdminStoreData();
-      alert(`ডেলিভারি চার্জ (ঢাকা ৳${dhakaFee}, বাইরে ৳${outsideFee}) ও ব্র্যান্ড সেটিংস সেভ হয়েছে!`);
+      onDistrictChange();
+      alert("ডেলিভারি চার্জ ও ব্র্যান্ড সেটিংস সেভ হয়েছে!");
     }
 
     /* ========================================================= */
-    /* [স্টোরফ্রন্ট ক্যাটাগরি পেজ + নিচে রিলেটেড রিল সারি]         */
+    /* [ভিজিটর ক্যাটাগরি কার্ড ও আলাদা ক্যাটাগরি পেজ + রিল সারি]  */
     /* ========================================================= */
     function getCategoryImage(catName) {
       if (categoryThumbnails[catName]) return categoryThumbnails[catName];
-      const matchProd = storeProducts.find(p => (p.category || "").toLowerCase() === String(catName).toLowerCase() && p.images?.[0]);
-      if (matchProd) return matchProd.images[0];
+      const matchedProd = storeProducts.find(p => p.category === catName && p.images && p.images[0]);
+      if (matchedProd) return matchedProd.images[0];
       return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=70";
     }
 
     function renderCategoryCards() {
-      const wrap = document.getElementById("visitor-category-cards");
-      if (!wrap) return;
-
-      wrap.innerHTML = storeCategories.map(cat => {
-        const count = storeProducts.filter(p => (p.category || "").toLowerCase() === cat.toLowerCase()).length;
-        const img = getCategoryImage(cat);
+      const box = document.getElementById("visitor-category-cards");
+      if (!box) return;
+      box.innerHTML = storeCategories.map(c => {
+        const img = getCategoryImage(c);
+        const count = storeProducts.filter(p => p.category === c).length;
+        const activeCls = activeCategoryPageName === c ? "active-cat-card" : "";
         return `
-          <button type="button" onclick="openCategoryPage('${escapeHtml(cat)}')"
-            class="glass-card rounded-2xl p-2 sm:p-2.5 text-left transition flex items-center gap-2 sm:gap-2.5 hover:border-emerald-500/50 cursor-pointer min-w-0">
-            <img src="${escapeHtml(img)}" alt="${escapeHtml(cat)}"
-              class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover border border-slate-700/80 shrink-0" />
-            <div class="min-w-0">
-              <p class="text-[11px] sm:text-xs font-bold text-white truncate">${escapeHtml(cat)}</p>
-              <p class="text-[10px] font-mono text-emerald-300">${count} প্রোডাক্ট</p>
+          <button type="button" onclick="openCategoryPage('${escapeHtml(c)}')"
+            class="group relative overflow-hidden rounded-2xl border border-slate-800/90 bg-slate-900/75 hover:border-emerald-500/50 transition text-left cursor-pointer ${activeCls}">
+            <div class="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-slate-950">
+              <img src="${escapeHtml(img)}" alt="${escapeHtml(c)}" loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+            </div>
+            <div class="p-2 sm:p-2.5 flex items-center justify-between gap-1 bg-slate-950/90">
+              <span class="text-[11px] sm:text-xs font-bold text-white truncate">${escapeHtml(c)}</span>
+              <span class="text-[10px] font-mono text-emerald-300 bg-emerald-500/10 px-1.5 py-0.5 rounded-full shrink-0">${count}</span>
             </div>
           </button>
         `;
       }).join("");
     }
 
-    function openCategoryPage(catName) {
+    function openCategoryPage(catName, fromPopState = false) {
       const resolved = resolveCategoryFromSlug(catName) || catName;
+      if (!resolved) return showHomeStorefront();
       activeCategoryPageName = resolved;
       activeModalProduct = null;
       focusedReelId = "";
       loadSyncedAdminData();
       recordCategoryPageVisit(resolved);
-
-      const pageUrl = getCategoryPageUrl(resolved);
       updateSeoMetaForView(resolved, null, null);
-      switchPageView("category-page-view", pageUrl);
+
+      const catUrl = getCategoryPageUrl(resolved);
+      switchPageView("category-page-view", fromPopState ? null : catUrl);
 
       document.getElementById("cat-page-img").src = getCategoryImage(resolved);
       document.getElementById("cat-page-title").textContent = resolved;
-      document.getElementById("cat-page-link-text").textContent = `Category Page URL: ${pageUrl}`;
+      document.getElementById("cat-page-link-text").textContent = catUrl;
 
       const linksBar = document.getElementById("cat-page-other-links");
       if (linksBar) {
         linksBar.innerHTML = storeCategories.map(c => {
-          const isCur = c.toLowerCase() === resolved.toLowerCase();
+          const isCur = c === resolved;
           return `
             <button type="button" onclick="openCategoryPage('${escapeHtml(c)}')"
-              class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+              class="px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0 ${
                 isCur ? "bg-emerald-600 text-white" : "bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800"
-              }">
-              ${escapeHtml(c)}
-            </button>
+              }">${escapeHtml(c)}</button>
           `;
         }).join("");
       }
 
-      const catProducts = storeProducts.filter(p => (p.category || "").toLowerCase() === resolved.toLowerCase());
+      const items = storeProducts.filter(p => p.category === resolved);
       const grid = document.getElementById("category-page-products-grid");
-      if (grid) {
-        if (catProducts.length === 0) {
-          grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-sm">এই ক্যাটাগরিতে এখনো কোনো প্রোডাক্ট নেই।</p>`;
-        } else {
-          grid.innerHTML = catProducts.map(buildProductCardHtml).join("");
-        }
+      if (!grid) return;
+
+      if (items.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-12 text-sm">এই ক্যাটাগরিতে এখনো কোনো প্রোডাক্ট নেই।</p>`;
+      } else {
+        grid.innerHTML = items.map(p => buildProductCardHtml(p)).join("");
       }
 
       renderCategoryRelatedReelsRow(resolved);
@@ -4441,311 +4510,76 @@
 
     function renderCategoryRelatedReelsRow(catName) {
       const rowEl = document.getElementById("category-related-reels-row");
-      const nameEl = document.getElementById("cat-related-reels-heading-name");
       const countEl = document.getElementById("cat-related-reels-count");
+      const headingNameEl = document.getElementById("cat-related-reels-heading-name");
       if (!rowEl) return;
 
-      if (nameEl) nameEl.textContent = catName;
+      if (headingNameEl) headingNameEl.textContent = catName || "ক্যাটাগরি";
 
       const catSkus = new Set(
-        storeProducts
-          .filter(p => (p.category || "").toLowerCase() === String(catName).toLowerCase())
-          .map(p => String(p.sku || "").toUpperCase())
+        storeProducts.filter(p => p.category === catName).map(p => String(p.sku || "").toUpperCase())
       );
 
-      let related = storeReels.filter(r => catSkus.has(String(r.product_code || "").toUpperCase()));
-      if (related.length === 0) {
-        related = storeReels.slice(0, 5);
+      let relatedReels = storeReels.filter(r => catSkus.has(String(r.product_code || "").toUpperCase()));
+      if (relatedReels.length === 0) {
+        relatedReels = [...storeReels];
       }
 
-      if (countEl) countEl.textContent = String(related.length);
+      if (countEl) countEl.textContent = String(relatedReels.length);
 
-      if (related.length === 0) {
-        rowEl.innerHTML = `<p class="text-xs text-slate-400 py-4">এই ক্যাটাগরির কোনো রিলেটেড রিল নেই।</p>`;
+      if (relatedReels.length === 0) {
+        rowEl.innerHTML = `<p class="text-xs text-slate-400 py-6">কোনো রিলেটেড রিল পাওয়া যায়নি।</p>`;
         return;
       }
 
-      rowEl.innerHTML = related.map(r => buildReelCardHtml(r, "openReelInAllReelsPage")).join("");
+      rowEl.innerHTML = relatedReels.map(r => buildReelCardHtml(r)).join("");
     }
 
     function copyCurrentCategoryLink() {
       if (!activeCategoryPageName) return;
-      const url = getCategoryPageUrl(activeCategoryPageName);
-      navigator.clipboard?.writeText(url).catch(() => {});
-      alert(`ক্যাটাগরি পেজ লিংক কপি হয়েছে:\n${url}`);
+      const link = getCategoryPageUrl(activeCategoryPageName);
+      navigator.clipboard?.writeText(link).catch(() => {});
+      alert(`ক্যাটাগরি পেজ লিংক কপি হয়েছে:\n${link}`);
     }
 
     /* ========================================================= */
-    /* [সার্চ, প্রোডাক্ট কার্ড, মোডাল, কার্ড ড্রয়ার ও চেকআউট]     */
+    /* [ভিজিটর প্রোডাক্ট কার্ড, পপআপ ও রিলস ফাংশনসমূহ]             */
     /* ========================================================= */
-    function normalizeSearchText(str) {
-      return String(str || "").toLowerCase().replace(/[^a-z0-9\u0980-\u09ff]+/gi, " ").trim();
-    }
-
-    function getProductSearchBlob(p) {
-      return normalizeSearchText([
-        p.title, p.sku, p.category, p.short_description,
-        Array.isArray(p.colors) ? p.colors.join(" ") : "",
-        Array.isArray(p.sizes) ? p.sizes.join(" ") : ""
-      ].join(" "));
-    }
-
-    function extractImageVisualSignature(imgSrc) {
-      return new Promise((resolve) => {
-        if (!imgSrc) return resolve(null);
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
-          try {
-            const size = 16;
-            const canvas = document.createElement("canvas");
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext("2d");
-            if (!ctx) return resolve(null);
-            ctx.drawImage(img, 0, 0, size, size);
-            const data = ctx.getImageData(0, 0, size, size).data;
-            const grid = [];
-            for (let i = 0; i < data.length; i += 4) {
-              grid.push(Math.round(data[i] / 32), Math.round(data[i + 1] / 32), Math.round(data[i + 2] / 32));
-            }
-            resolve({ grid });
-          } catch (_) {
-            resolve(null);
-          }
-        };
-        img.onerror = () => resolve(null);
-        img.src = imgSrc;
-      });
-    }
-
-    async function precomputeProductVisualFeatures() {
-      for (const p of storeProducts) {
-        const primaryImg = p.images?.[0];
-        if (primaryImg && !productVisualFeatureCache.has(p.sku)) {
-          const sig = await extractImageVisualSignature(primaryImg);
-          if (sig) productVisualFeatureCache.set(p.sku, sig);
-        }
-      }
-    }
-
-    function computeVisualSimilarityScore(sigA, sigB) {
-      if (!sigA?.grid || !sigB?.grid || sigA.grid.length !== sigB.grid.length) return 0;
-      let diffSum = 0;
-      const len = sigA.grid.length;
-      for (let i = 0; i < len; i++) {
-        diffSum += Math.abs(sigA.grid[i] - sigB.grid[i]) / 8;
-      }
-      return Math.max(0, Math.min(1, 1 - diffSum / len));
-    }
-
-    async function setSearchImageQuery(dataUrl, labelText = "ছবি দিয়ে সার্চ চলছে...") {
-      const compressed = await compressImageDataUrl(dataUrl, 320, 0.72);
-      const sig = await extractImageVisualSignature(compressed);
-      pendingSearchImage = { dataUrl: compressed, label: labelText, signature: sig };
-
-      const chip = document.getElementById("visitor-search-image-chip");
-      const chipImg = document.getElementById("visitor-search-chip-img");
-      const chipTxt = document.getElementById("visitor-search-chip-text");
-      if (chip) chip.classList.remove("hidden");
-      if (chipImg) chipImg.src = compressed;
-      if (chipTxt) chipTxt.textContent = labelText;
-
-      await precomputeProductVisualFeatures();
-      handleSearchInput(true);
-    }
-
-    function handleSearchImageFile(e) {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => setSearchImageQuery(String(reader.result || ""), `ছবি: ${file.name}`);
-      reader.readAsDataURL(file);
-      e.target.value = "";
-    }
-
-    function handleSearchPaste(e) {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-      for (const item of items) {
-        if (item.type && item.type.startsWith("image/")) {
-          const blob = item.getAsFile();
-          if (blob) {
-            e.preventDefault();
-            const reader = new FileReader();
-            reader.onload = () => setSearchImageQuery(String(reader.result || ""), "পেস্ট করা ছবি / স্ক্রিনশট");
-            reader.readAsDataURL(blob);
-            return;
-          }
-        }
-      }
-    }
-
-    function handleSearchDragOver(e) {
-      e.preventDefault();
-      document.getElementById("visitor-search-box-ring")?.classList.add("ring-2", "ring-emerald-400");
-    }
-
-    function handleSearchDragLeave() {
-      document.getElementById("visitor-search-box-ring")?.classList.remove("ring-2", "ring-emerald-400");
-    }
-
-    function handleSearchDrop(e) {
-      e.preventDefault();
-      handleSearchDragLeave();
-      const file = e.dataTransfer?.files?.[0];
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = () => setSearchImageQuery(String(reader.result || ""), `ড্রপ করা ছবি: ${file.name}`);
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function clearSearchImageOnly() {
-      pendingSearchImage = null;
-      document.getElementById("visitor-search-image-chip")?.classList.add("hidden");
-      handleSearchInput(true);
-    }
-
-    function clearVisitorSearch() {
-      const inp = document.getElementById("visitor-search-input");
-      if (inp) inp.value = "";
-      pendingSearchImage = null;
-      document.getElementById("visitor-search-image-chip")?.classList.add("hidden");
-      document.getElementById("visitor-search-clear-btn")?.classList.add("hidden");
-      document.getElementById("visitor-search-dropdown")?.classList.add("hidden");
-    }
-
-    function handleSearchFocus() {
-      const q = (document.getElementById("visitor-search-input")?.value || "").trim();
-      if (q || pendingSearchImage) handleSearchInput(true);
-    }
-
-    function handleSearchKeydown(e) {
-      if (e.key === "Escape") {
-        document.getElementById("visitor-search-dropdown")?.classList.add("hidden");
-      }
-    }
-
-    function handleSearchInput(forceOpen = false) {
-      const rawQ = (document.getElementById("visitor-search-input")?.value || "").trim();
-      const q = normalizeSearchText(rawQ);
-      const clearBtn = document.getElementById("visitor-search-clear-btn");
-      const dd = document.getElementById("visitor-search-dropdown");
-
-      if (clearBtn) {
-        clearBtn.classList.toggle("hidden", !rawQ && !pendingSearchImage);
-      }
-
-      if (!q && !pendingSearchImage) {
-        if (dd) dd.classList.add("hidden");
-        return;
-      }
-
-      const tokens = q.split(/\s+/).filter(Boolean);
-      const scored = storeProducts.map(p => {
-        const blob = getProductSearchBlob(p);
-        let textScore = 0;
-        if (tokens.length > 0) {
-          const allMatch = tokens.every(t => blob.includes(t));
-          const anyMatch = tokens.some(t => blob.includes(t));
-          if (String(p.sku || "").toLowerCase() === rawQ.toLowerCase()) textScore += 100;
-          if (allMatch) textScore += 50;
-          else if (anyMatch) textScore += 20;
-        }
-
-        let visScore = 0;
-        if (pendingSearchImage?.signature) {
-          const pSig = productVisualFeatureCache.get(p.sku);
-          if (pSig) visScore = computeVisualSimilarityScore(pendingSearchImage.signature, pSig);
-        }
-
-        const totalScore = pendingSearchImage
-          ? (tokens.length ? textScore * 0.4 + visScore * 60 : visScore * 100)
-          : textScore;
-
-        return { product: p, totalScore, visScore };
-      }).filter(item => pendingSearchImage ? (item.totalScore > 5 || tokens.length === 0) : item.totalScore > 0);
-
-      scored.sort((a, b) => b.totalScore - a.totalScore);
-      const topMatches = scored.slice(0, 6);
-
-      if (!dd) return;
-      if (topMatches.length === 0) {
-        dd.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center">কোনো প্রোডাক্ট পাওয়া যায়নি।</div>`;
-      } else {
-        dd.innerHTML = topMatches.map(({ product: p, visScore }) => {
-          const img = p.images?.[0] || "";
-          const matchBadge = pendingSearchImage
-            ? `<span class="text-[10px] font-mono bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full">${Math.round(visScore * 100)}% মিল</span>`
-            : `<span class="text-[10px] font-mono text-slate-400">${escapeHtml(p.sku)}</span>`;
-          return `
-            <button type="button" onclick="openProductModal('${escapeHtml(p.sku)}'); document.getElementById('visitor-search-dropdown').classList.add('hidden');"
-              class="w-full text-left p-2.5 hover:bg-slate-900/90 transition flex items-center gap-3 cursor-pointer">
-              ${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(p.title)}" class="w-11 h-11 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
-              <div class="min-w-0 flex-1">
-                <p class="text-xs font-bold text-white truncate">${escapeHtml(p.title)}</p>
-                <div class="flex items-center justify-between gap-2 mt-0.5">
-                  <span class="text-xs font-mono font-bold text-emerald-400">৳${Number(p.price || 0)}</span>
-                  ${matchBadge}
-                </div>
-              </div>
-            </button>
-          `;
-        }).join("");
-      }
-
-      if (forceOpen || rawQ || pendingSearchImage) {
-        dd.classList.remove("hidden");
-      }
-    }
-
-    document.addEventListener("click", (e) => {
-      const wrap = document.getElementById("visitor-search-wrapper");
-      const dd = document.getElementById("visitor-search-dropdown");
-      if (wrap && dd && !wrap.contains(e.target)) {
-        dd.classList.add("hidden");
-      }
-    });
-
     function buildProductCardHtml(p) {
       const img = p.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=75";
-      const sellPrice = Number(p.regular_price ?? p.price ?? 0);
-      const activePrice = Number(p.offer_price ?? p.price ?? sellPrice);
-      const hasDiscount = sellPrice > activePrice && activePrice > 0;
-      const isVariant = p.product_type === "Variant";
+      const typeLabel = p.product_type === "Variant" ? "Variant" : "Single";
+      const offerPrice = Number(p.offer_price ?? p.price ?? 0);
+      const regularPrice = Number(p.regular_price ?? 0);
+      const showStrike = regularPrice > offerPrice && offerPrice > 0;
+      const discountPct = showStrike ? Math.round(((regularPrice - offerPrice) / regularPrice) * 100) : 0;
 
       return `
-        <article class="glass-card rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col justify-between group hover:border-emerald-500/40 transition">
-          <div onclick="openProductModal('${escapeHtml(p.sku)}')" class="cursor-pointer">
-            <div class="aspect-square w-full bg-slate-950 overflow-hidden relative">
+        <article onclick="openProductModal('${escapeHtml(p.sku)}')"
+          class="glass-card rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col justify-between hover:border-emerald-500/40 transition group cursor-pointer">
+          <div>
+            <div class="relative aspect-square sm:h-52 w-full bg-slate-950 overflow-hidden">
               <img src="${escapeHtml(img)}" alt="${escapeHtml(p.title)}" loading="lazy"
                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-              <span class="absolute top-2 left-2 text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full backdrop-blur-md ${
-                isVariant ? "bg-indigo-950/80 text-indigo-300 border border-indigo-500/30" : "bg-emerald-950/80 text-emerald-300 border border-emerald-500/30"
-              }">
-                ${isVariant ? "Variant" : "Single"}
+              <span class="absolute top-2 left-2 text-[9px] sm:text-[10px] font-mono bg-slate-950/85 text-slate-200 border border-slate-700/80 px-1.5 sm:px-2 py-0.5 rounded-full">
+                ${typeLabel}
               </span>
+              ${discountPct > 0 ? `<span class="absolute top-2 right-2 text-[9px] sm:text-[10px] font-mono font-bold bg-rose-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full">-${discountPct}%</span>` : ""}
             </div>
-
             <div class="p-2.5 sm:p-4 space-y-1">
-              <p class="text-[10px] font-mono text-slate-400 truncate">${escapeHtml(p.category || "Store")}</p>
+              <p class="text-[9px] sm:text-[10px] font-mono text-emerald-400 truncate">${escapeHtml(p.category || "General")}</p>
               <h3 class="text-xs sm:text-sm font-bold text-white line-clamp-1">${escapeHtml(p.title)}</h3>
-              <div class="flex items-baseline gap-1.5 pt-0.5">
-                <span class="text-sm sm:text-base font-extrabold font-mono text-emerald-400">৳${activePrice}</span>
-                ${hasDiscount ? `<span class="text-[10px] sm:text-xs font-mono text-slate-500 line-through">৳${sellPrice}</span>` : ""}
-              </div>
+              <p class="hidden sm:block text-xs text-slate-400 line-clamp-2">${escapeHtml(p.short_description || "")}</p>
             </div>
           </div>
 
-          <div class="px-2.5 pb-2.5 sm:px-4 sm:pb-4 grid grid-cols-2 gap-1.5 sm:gap-2">
-            <button type="button" onclick="quickAddToCart('${escapeHtml(p.sku)}', false)"
-              class="bg-slate-800 hover:bg-slate-700 text-slate-100 py-2 px-2 rounded-xl text-[10px] sm:text-xs font-bold transition cursor-pointer">
-              🛒 কার্ড
-            </button>
-            <button type="button" onclick="quickAddToCart('${escapeHtml(p.sku)}', true)"
-              class="bg-emerald-600 hover:bg-emerald-500 text-white py-2 px-2 rounded-xl text-[10px] sm:text-xs font-bold transition cursor-pointer">
-              ⚡ বাই নাও
+          <div class="px-2.5 sm:px-4 pb-2.5 sm:pb-4 pt-1.5 border-t border-slate-800/70 flex items-center justify-between gap-1.5">
+            <div class="min-w-0">
+              <span class="text-sm sm:text-lg font-extrabold text-emerald-400 font-mono">৳${offerPrice}</span>
+              ${showStrike ? `<span class="text-[10px] sm:text-xs text-slate-500 line-through font-mono ml-1">৳${regularPrice}</span>` : ""}
+            </div>
+            <button type="button" onclick="event.stopPropagation(); openProductModal('${escapeHtml(p.sku)}')"
+              class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold transition cursor-pointer shrink-0">
+              অর্ডার
             </button>
           </div>
         </article>
@@ -4753,308 +4587,247 @@
     }
 
     function renderVisitorProducts() {
-      const grid = document.getElementById("visitor-products-grid");
-      const countEl = document.getElementById("catalog-visible-count");
-      const sortMode = document.getElementById("visitor-sort-select")?.value || "featured";
-
+      const sortBy = document.getElementById("visitor-sort-select")?.value || "featured";
       let list = [...storeProducts];
-      if (sortMode === "price-asc") list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
-      else if (sortMode === "price-desc") list.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+      if (sortBy === "price-asc") list.sort((a, b) => Number(a.price) - Number(b.price));
+      if (sortBy === "price-desc") list.sort((a, b) => Number(b.price) - Number(a.price));
 
-      if (countEl) countEl.textContent = String(list.length);
+      document.getElementById("catalog-visible-count").textContent = String(list.length);
+      const grid = document.getElementById("visitor-products-grid");
       if (!grid) return;
 
       if (list.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10 text-sm">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-12 text-sm">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>`;
         return;
       }
 
-      grid.innerHTML = list.map(buildProductCardHtml).join("");
+      grid.innerHTML = list.map(p => buildProductCardHtml(p)).join("");
     }
 
-    /* ========================================================= */
-    /* [রিল কার্ড, হোম রিল সারি ও অল রিলস পেজ — ডাউনলোড বন্ধ]     */
-    /* ========================================================= */
-    function buildReelCardHtml(r, clickHandlerName = "openReelInAllReelsPage") {
-      const poster = r.poster || "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=500&q=70";
-      const videoSrc = r.video_src || DEFAULT_FALLBACK_VIDEO;
+    function buildReelCardHtml(r) {
+      const reelLink = getReelUniqueUrl(r.id);
       return `
-        <div onclick="${clickHandlerName}('${escapeHtml(r.id)}')"
-          class="glass-card rounded-2xl overflow-hidden cursor-pointer group hover:border-pink-500/45 transition flex flex-col">
-          <div class="aspect-[9/14] w-full bg-black relative overflow-hidden">
-            <video src="${escapeHtml(videoSrc)}" poster="${escapeHtml(poster)}"
-              controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;"
-              muted loop playsinline preload="metadata"
+        <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+          <div onclick="openAllReelsPage('${escapeHtml(r.id)}')" class="relative aspect-[9/14] w-full bg-black overflow-hidden cursor-pointer">
+            <video src="${escapeHtml(r.video_src || DEFAULT_FALLBACK_VIDEO)}" poster="${escapeHtml(r.poster || "")}"
+              controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" muted loop playsinline preload="metadata"
               class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-2.5">
-              <span class="text-[9px] font-mono text-pink-300 bg-pink-950/70 border border-pink-500/30 px-2 py-0.5 rounded-full w-fit mb-1">
-                ${escapeHtml(r.product_code || "")}
-              </span>
-              <p class="text-xs font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-2 left-2 right-2 pointer-events-none">
+              <p class="text-[11px] sm:text-xs font-bold text-white line-clamp-1">${escapeHtml(r.title)}</p>
+              <p class="text-[10px] font-mono text-pink-300 truncate">${escapeHtml(r.product_code)}</p>
             </div>
+          </div>
+          <div class="p-2 flex items-center justify-between gap-1.5 bg-slate-950/90">
+            <button type="button" onclick="openProductModal('${escapeHtml(r.product_code)}')"
+              class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition cursor-pointer truncate">
+              প্রোডাক্ট দেখুন
+            </button>
+            <button type="button" onclick="copyReelLinkFromVisitor('${escapeHtml(reelLink)}')"
+              title="রিল লিংক কপি করুন"
+              class="bg-slate-800 hover:bg-slate-700 text-pink-300 py-1.5 px-2 rounded-xl text-[10px] font-semibold transition cursor-pointer shrink-0">
+              🔗
+            </button>
           </div>
         </div>
       `;
+    }
+
+    function copyReelLinkFromVisitor(link) {
+      navigator.clipboard?.writeText(link).catch(() => {});
+      alert(`রিল লিংক কপি হয়েছে:\n${link}`);
     }
 
     function renderHomeReelsRow() {
       const row = document.getElementById("home-reels-row");
       if (!row) return;
-      if (storeReels.length === 0) {
-        row.innerHTML = `<p class="text-xs text-slate-400 py-4">এখনও কোনো রিল যুক্ত করা হয়নি।</p>`;
-        return;
-      }
-      row.innerHTML = storeReels.map(r => buildReelCardHtml(r, "openReelInAllReelsPage")).join("");
+      row.innerHTML = storeReels.map(r => buildReelCardHtml(r)).join("");
     }
 
-    function openAllReelsPage(targetReelId = "") {
+    function openAllReelsPage(reelId = "", fromPopState = false) {
+      focusedReelId = reelId || storeReels[0]?.id || "";
+      activeCategoryPageName = "";
+      activeModalProduct = null;
       loadSyncedAdminData();
-      focusedReelId = targetReelId || (storeReels[0]?.id || "");
-      const activeReel = storeReels.find(r => r.id === focusedReelId) || null;
-      const pageUrl = activeReel ? getReelUniqueUrl(activeReel.id) : getCanonicalBaseUrl();
-      updateSeoMetaForView("", null, activeReel);
-      switchPageView("all-reels-page-view", pageUrl);
-      renderAllReelsPage();
-    }
-
-    function openReelInAllReelsPage(reelId) {
-      openAllReelsPage(reelId);
-    }
-
-    function selectFocusedReel(reelId) {
-      focusedReelId = reelId;
-      const activeReel = storeReels.find(r => r.id === reelId) || null;
-      updateSeoMetaForView("", null, activeReel);
-      if (activeReel && window.location.protocol.startsWith("http")) {
-        history.replaceState({ viewId: "all-reels-page-view" }, "", getReelUniqueUrl(activeReel.id));
-      }
+      const targetReel = storeReels.find(r => r.id === focusedReelId) || storeReels[0] || null;
+      updateSeoMetaForView("", null, targetReel);
+      const reelUrl = targetReel ? getReelUniqueUrl(targetReel.id) : getCanonicalBaseUrl();
+      switchPageView("all-reels-page-view", fromPopState ? null : reelUrl);
       renderAllReelsPage();
     }
 
     function renderAllReelsPage() {
-      const spotlight = document.getElementById("focused-reel-spotlight");
+      const spot = document.getElementById("focused-reel-spotlight");
       const grid = document.getElementById("all-reels-page-grid");
-      if (!spotlight || !grid) return;
+      const activeReel = storeReels.find(r => r.id === focusedReelId) || storeReels[0];
 
-      if (storeReels.length === 0) {
-        spotlight.innerHTML = `<p class="col-span-full text-center text-slate-400 py-8 text-sm">কোনো রিল ভিডিও পাওয়া যায়নি।</p>`;
-        grid.innerHTML = "";
-        return;
+      if (spot && activeReel) {
+        const linkedProd = storeProducts.find(p => p.sku === activeReel.product_code) || storeProducts[0];
+        const reelLink = getReelUniqueUrl(activeReel.id);
+        spot.innerHTML = `
+          <div class="w-full max-w-xs mx-auto aspect-[9/15] rounded-2xl overflow-hidden bg-black border border-pink-500/30">
+            <video src="${escapeHtml(activeReel.video_src || DEFAULT_FALLBACK_VIDEO)}" poster="${escapeHtml(activeReel.poster || "")}"
+              controls controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" autoplay muted loop playsinline preload="auto"
+              class="w-full h-full object-cover"></video>
+          </div>
+          <div class="lg:col-span-2 space-y-4">
+            <span class="text-[11px] font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-2.5 py-0.5 rounded-full">
+              Focused Reel • ${escapeHtml(activeReel.product_code)}
+            </span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white">${escapeHtml(activeReel.title)}</h3>
+            <p class="text-xs sm:text-sm text-slate-300">${escapeHtml(activeReel.caption || "")}</p>
+            <p class="text-[11px] font-mono text-sky-300 break-all">লিংক: ${escapeHtml(reelLink)}</p>
+            ${linkedProd ? `
+              <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3 min-w-0">
+                  <img src="${escapeHtml(linkedProd.images?.[0] || "")}" alt="${escapeHtml(linkedProd.title)}" class="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0" />
+                  <div class="min-w-0">
+                    <p class="text-sm font-bold text-white truncate">${escapeHtml(linkedProd.title)}</p>
+                    <p class="text-xs font-mono text-emerald-400">৳${escapeHtml(linkedProd.price)}</p>
+                  </div>
+                </div>
+                <button type="button" onclick="openProductModal('${escapeHtml(linkedProd.sku)}')"
+                  class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shrink-0">
+                  এখনই অর্ডার করুন
+                </button>
+              </div>
+            ` : ""}
+          </div>
+        `;
       }
 
-      const activeReel = storeReels.find(r => r.id === focusedReelId) || storeReels[0];
-      const linkedProd = storeProducts.find(p => String(p.sku || "").toUpperCase() === String(activeReel.product_code || "").toUpperCase()) || storeProducts[0];
-      const uniqueReelUrl = activeReel.reel_url || getReelUniqueUrl(activeReel.id);
-
-      spotlight.innerHTML = `
-        <div class="aspect-[9/14] max-h-96 w-full rounded-2xl overflow-hidden bg-black border border-slate-800 mx-auto">
-          <video src="${escapeHtml(activeReel.video_src || DEFAULT_FALLBACK_VIDEO)}"
-            poster="${escapeHtml(activeReel.poster || "")}"
-            controls controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;"
-            autoplay muted loop playsinline
-            class="w-full h-full object-cover"></video>
-        </div>
-
-        <div class="lg:col-span-2 space-y-4">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-mono bg-pink-500/15 text-pink-300 border border-pink-500/30 px-3 py-1 rounded-full">
-              Reel Code: ${escapeHtml(activeReel.product_code)}
-            </span>
-            <button type="button" onclick="copyReelUrlToClipboard('${escapeHtml(uniqueReelUrl)}')"
-              class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 px-3 py-1 rounded-full transition cursor-pointer">
-              🔗 রিল লিংক কপি
-            </button>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-extrabold text-white">${escapeHtml(activeReel.title)}</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHtml(activeReel.caption || "")}</p>
-          <p class="text-[11px] font-mono text-sky-300 break-all">Unique URL: ${escapeHtml(uniqueReelUrl)}</p>
-
-          ${linkedProd ? `
-            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div class="flex items-center gap-3 min-w-0">
-                <img src="${escapeHtml(linkedProd.images?.[0] || "")}" alt="${escapeHtml(linkedProd.title)}"
-                  class="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0" />
-                <div class="min-w-0">
-                  <p class="text-sm font-bold text-white truncate">${escapeHtml(linkedProd.title)}</p>
-                  <p class="text-xs font-mono text-emerald-400 font-extrabold">৳${Number(linkedProd.price || 0)}</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button type="button" onclick="openProductModal('${escapeHtml(linkedProd.sku)}')"
-                  class="bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                  বিস্তারিত
-                </button>
-                <button type="button" onclick="quickAddToCart('${escapeHtml(linkedProd.sku)}', true)"
-                  class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
-                  ⚡ বাই নাও
-                </button>
-              </div>
-            </div>
-          ` : ""}
-        </div>
-      `;
-
-      grid.innerHTML = storeReels.map(r => buildReelCardHtml(r, "selectFocusedReel")).join("");
+      if (grid) {
+        grid.innerHTML = storeReels.map(r => buildReelCardHtml(r)).join("");
+      }
     }
 
-    /* ========================================================= */
-    /* [প্রোডাক্ট ডিটেইলস মোডাল]                                 */
-    /* ========================================================= */
-    function openProductModal(sku) {
+    function openProductModal(sku, fromPopState = false) {
       const prod = allAdminProducts.find(p => p.sku === sku) || storeProducts.find(p => p.sku === sku);
       if (!prod) return;
-
       activeModalProduct = prod;
+      updateSeoMetaForView(activeCategoryPageName, prod, null);
+      if (!fromPopState && window.location.protocol.startsWith("http")) {
+        history.pushState({ modalSku: prod.sku }, "", getProductUniqueUrl(prod.sku));
+      }
+
       const isVariant = prod.product_type === "Variant";
       const sizes = isVariant ? (Array.isArray(prod.sizes) && prod.sizes.length ? prod.sizes : ["S", "M", "L", "XL"]) : [];
       const colors = Array.isArray(prod.colors) ? prod.colors : [];
-
       modalSelectedSize = sizes[0] || "";
       modalSelectedColor = colors[0] || "";
 
-      const sellPrice = Number(prod.regular_price ?? prod.price ?? 0);
-      const activePrice = Number(prod.offer_price ?? prod.price ?? sellPrice);
-      const hasDiscount = sellPrice > activePrice && activePrice > 0;
-      const uniqueUrl = getProductUniqueUrl(prod.sku);
+      const offerPrice = Number(prod.offer_price ?? prod.price ?? 0);
+      const regularPrice = Number(prod.regular_price ?? 0);
 
       document.getElementById("pdm-sku-badge").textContent = prod.sku;
+      document.getElementById("pdm-unique-link-text").textContent = getProductUniqueUrl(prod.sku);
       document.getElementById("pdm-title").textContent = prod.title;
-      document.getElementById("pdm-unique-link-text").textContent = `Product Link: ${uniqueUrl}`;
-      document.getElementById("pdm-price").textContent = `৳${activePrice}`;
-      document.getElementById("pdm-regular-price").textContent = hasDiscount ? `৳${sellPrice}` : "";
-      document.getElementById("pdm-type-badge").textContent = isVariant ? "Variant" : "Single";
-      document.getElementById("pdm-desc").textContent = prod.short_description || `${prod.title} — প্রিমিয়াম প্রোডাক্ট।`;
+      document.getElementById("pdm-price").textContent = `৳${offerPrice}`;
+      const regEl = document.getElementById("pdm-regular-price");
+      regEl.textContent = regularPrice > offerPrice ? `৳${regularPrice}` : "";
+      document.getElementById("pdm-type-badge").textContent = isVariant ? "Variant Product" : "Single Product";
+      document.getElementById("pdm-desc").textContent = prod.short_description || "";
 
-      const imgs = Array.isArray(prod.images) && prod.images.length ? prod.images : [getCategoryImage(prod.category)];
-      document.getElementById("pdm-main-image-box").innerHTML = `<img src="${escapeHtml(imgs[0])}" alt="${escapeHtml(prod.title)}" class="w-full h-full object-cover" />`;
+      const imgs = Array.isArray(prod.images) && prod.images.length ? prod.images : ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=75"];
+      document.getElementById("pdm-main-image-box").innerHTML = `<img id="pdm-active-img" src="${escapeHtml(imgs[0])}" alt="${escapeHtml(prod.title)}" class="w-full h-full object-cover" />`;
+      document.getElementById("pdm-thumbs-box").innerHTML = imgs.map((u, idx) =>
+        `<img src="${escapeHtml(u)}" onclick="document.getElementById('pdm-active-img').src='${escapeHtml(u)}'" alt="Thumb ${idx + 1}" class="w-14 h-14 rounded-xl object-cover border border-slate-700 cursor-pointer shrink-0" />`
+      ).join("");
 
       const sizesWrap = document.getElementById("pdm-sizes-wrap");
-      const sizesList = document.getElementById("pdm-sizes-list");
       if (isVariant && sizes.length > 0) {
         sizesWrap.classList.remove("hidden");
-        sizesList.innerHTML = sizes.map(sz => {
-          const active = sz === modalSelectedSize;
-          return `<button type="button" onclick="selectModalSize('${escapeHtml(sz)}')"
-            class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition cursor-pointer ${
-              active ? "bg-emerald-600 text-white border-emerald-500" : "bg-slate-950 text-slate-300 border-slate-700 hover:border-emerald-500/50"
-            }">${escapeHtml(sz)}</button>`;
-        }).join("");
+        document.getElementById("pdm-size-heading").textContent = "সাইজ সিলেক্ট করুন:";
+        document.getElementById("pdm-sizes-list").innerHTML = sizes.map(s =>
+          `<button type="button" onclick="selectModalSize('${escapeHtml(s)}', this)" class="pdm-size-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer ${s === modalSelectedSize ? "bg-emerald-600 border-emerald-500 text-white" : "bg-slate-950 border-slate-800 text-slate-300"}">${escapeHtml(s)}</button>`
+        ).join("");
       } else {
         sizesWrap.classList.add("hidden");
+        modalSelectedSize = "";
       }
 
       const colorsWrap = document.getElementById("pdm-colors-wrap");
-      const colorsList = document.getElementById("pdm-colors-list");
       if (colors.length > 0) {
         colorsWrap.classList.remove("hidden");
-        colorsList.innerHTML = colors.map(cl => {
-          const active = cl === modalSelectedColor;
-          return `<button type="button" onclick="selectModalColor('${escapeHtml(cl)}')"
-            class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition cursor-pointer ${
-              active ? "bg-sky-600 text-white border-sky-500" : "bg-slate-950 text-slate-300 border-slate-700 hover:border-sky-500/50"
-            }">${escapeHtml(cl)}</button>`;
-        }).join("");
+        document.getElementById("pdm-colors-list").innerHTML = colors.map(c =>
+          `<button type="button" onclick="selectModalColor('${escapeHtml(c)}', this)" class="pdm-color-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer ${c === modalSelectedColor ? "bg-emerald-600 border-emerald-500 text-white" : "bg-slate-950 border-slate-800 text-slate-300"}">${escapeHtml(c)}</button>`
+        ).join("");
       } else {
         colorsWrap.classList.add("hidden");
       }
 
-      updateSeoMetaForView(activeCategoryPageName, prod, null);
-      if (window.location.protocol.startsWith("http")) {
-        history.replaceState({ viewId: activeCategoryPageName ? "category-page-view" : "home-store-view" }, "", uniqueUrl);
-      }
-
-      document.getElementById("product-detail-modal")?.classList.remove("hidden");
+      document.getElementById("product-detail-modal").classList.remove("hidden");
     }
 
     function copyCurrentProductLink() {
-      if (!activeModalProduct) return;
-      const url = getProductUniqueUrl(activeModalProduct.sku);
-      navigator.clipboard?.writeText(url).catch(() => {});
-      alert(`প্রোডাক্ট লিংক কপি হয়েছে:\n${url}`);
+      if (!activeModalProduct?.sku) return;
+      const link = getProductUniqueUrl(activeModalProduct.sku);
+      navigator.clipboard?.writeText(link).catch(() => {});
+      alert(`প্রোডাক্ট লিংক কপি হয়েছে:\n${link}`);
     }
 
-    function selectModalSize(sz) {
-      modalSelectedSize = sz;
-      if (activeModalProduct) openProductModal(activeModalProduct.sku);
+    function selectModalSize(size, btn) {
+      modalSelectedSize = size;
+      document.querySelectorAll(".pdm-size-btn").forEach(b => {
+        b.className = "pdm-size-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer bg-slate-950 border-slate-800 text-slate-300";
+      });
+      btn.className = "pdm-size-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer bg-emerald-600 border-emerald-500 text-white";
     }
 
-    function selectModalColor(cl) {
-      modalSelectedColor = cl;
-      if (activeModalProduct) openProductModal(activeModalProduct.sku);
+    function selectModalColor(color, btn) {
+      modalSelectedColor = color;
+      document.querySelectorAll(".pdm-color-btn").forEach(b => {
+        b.className = "pdm-color-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer bg-slate-950 border-slate-800 text-slate-300";
+      });
+      btn.className = "pdm-color-btn px-3 py-1.5 rounded-xl border text-xs font-semibold cursor-pointer bg-emerald-600 border-emerald-500 text-white";
     }
 
     function closeProductModal() {
-      document.getElementById("product-detail-modal")?.classList.add("hidden");
       activeModalProduct = null;
-      updateSeoMetaForView(activeCategoryPageName, null, null);
+      document.getElementById("product-detail-modal").classList.add("hidden");
+      const activeReel = focusedReelId ? storeReels.find(r => r.id === focusedReelId) : null;
+      updateSeoMetaForView(activeCategoryPageName, null, activeReel);
     }
 
-    function addModalProductToCart(buyNow = false) {
+    function addModalProductToCart(goToCheckoutNow = false) {
       if (!activeModalProduct) return;
-      const p = activeModalProduct;
-      const variantLabel = [modalSelectedSize, modalSelectedColor].filter(Boolean).join(" • ");
-      pushItemToCart({
-        sku: p.sku,
-        title: p.title,
-        price: Number(p.offer_price ?? p.price ?? p.regular_price ?? 0),
-        image: p.images?.[0] || "",
-        variant: variantLabel,
-        qty: 1
-      });
-      closeProductModal();
-      if (buyNow) openCheckoutPopup();
-      else toggleCartDrawer(true);
-    }
+      const isVariant = activeModalProduct.product_type === "Variant";
+      const chosenSize = isVariant ? (modalSelectedSize || (activeModalProduct.sizes?.[0] || "M")) : "";
+      const chosenColor = modalSelectedColor || (activeModalProduct.colors?.[0] || "");
+      const unitPrice = Number(activeModalProduct.offer_price ?? activeModalProduct.price ?? 0);
 
-    function quickAddToCart(sku, buyNow = false) {
-      const p = allAdminProducts.find(item => item.sku === sku) || storeProducts.find(item => item.sku === sku);
-      if (!p) return;
-      const defaultVar = [p.sizes?.[0], p.colors?.[0]].filter(Boolean).join(" • ");
-      pushItemToCart({
-        sku: p.sku,
-        title: p.title,
-        price: Number(p.offer_price ?? p.price ?? p.regular_price ?? 0),
-        image: p.images?.[0] || "",
-        variant: defaultVar,
-        qty: 1
-      });
-      if (buyNow) openCheckoutPopup();
-      else toggleCartDrawer(true);
-    }
-
-    /* ========================================================= */
-    /* [কার্ট ড্রয়ার ও চেকআউট লজিক]                              */
-    /* ========================================================= */
-    function pushItemToCart(newItem) {
-      const existing = cartItems.find(i => i.sku === newItem.sku && (i.variant || "") === (newItem.variant || ""));
+      const key = `${activeModalProduct.sku}__${chosenColor}__${chosenSize}`;
+      const existing = cartItems.find(i => i.key === key);
       if (existing) {
-        existing.qty = (Number(existing.qty) || 1) + (Number(newItem.qty) || 1);
+        existing.qty = (Number(existing.qty) || 1) + 1;
       } else {
-        cartItems.push({ ...newItem, qty: Number(newItem.qty) || 1 });
+        cartItems.push({
+          key,
+          sku: activeModalProduct.sku,
+          title: activeModalProduct.title,
+          price: unitPrice,
+          color: chosenColor,
+          size: chosenSize,
+          image: activeModalProduct.images?.[0] || "",
+          qty: 1
+        });
       }
-      safeStorageSet(CART_STORAGE_KEY, cartItems);
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
+
+      saveCartAndRefresh();
+      closeProductModal();
+
+      if (goToCheckoutNow) {
+        toggleCartDrawer(false);
+        openCheckoutPopup();
+      } else {
+        toggleCartDrawer(true);
+      }
     }
 
-    function updateCartQty(idx, delta) {
-      if (!cartItems[idx]) return;
-      const nextQty = (Number(cartItems[idx].qty) || 1) + delta;
-      if (nextQty <= 0) {
-        cartItems.splice(idx, 1);
-      } else {
-        cartItems[idx].qty = nextQty;
-      }
-      safeStorageSet(CART_STORAGE_KEY, cartItems);
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
-    }
-
-    function removeCartItemByIdx(idx) {
-      if (idx < 0 || idx >= cartItems.length) return;
-      cartItems.splice(idx, 1);
+    /* ========================================================= */
+    /* [কার্ট ড্রয়ার (ডিলিট বাটনসহ), চেকআউট পপআপ ও থ্যাংক ইউ পেজ]   */
+    /* ========================================================= */
+    function saveCartAndRefresh() {
       safeStorageSet(CART_STORAGE_KEY, cartItems);
       updateHeaderCounts();
       renderCartDrawer();
@@ -5069,40 +4842,54 @@
       if (shouldOpen) renderCartDrawer();
     }
 
+    function changeCartQty(index, delta) {
+      if (!cartItems[index]) return;
+      const nextQty = (Number(cartItems[index].qty) || 1) + delta;
+      if (nextQty <= 0) cartItems.splice(index, 1);
+      else cartItems[index].qty = nextQty;
+      saveCartAndRefresh();
+    }
+
+    function removeCartItem(index) {
+      if (index < 0 || index >= cartItems.length) return;
+      cartItems.splice(index, 1);
+      saveCartAndRefresh();
+    }
+
     function renderCartDrawer() {
       const box = document.getElementById("cart-items-container");
       const subEl = document.getElementById("drawer-subtotal-text");
       if (!box) return;
 
       if (cartItems.length === 0) {
-        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">আপনার কার্ড বর্তমানে খালি।</p>`;
+        box.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">আপনার কার্ড খালি।</p>`;
         if (subEl) subEl.textContent = "৳0";
         return;
       }
 
       let subtotal = 0;
       box.innerHTML = cartItems.map((item, idx) => {
-        const lineTotal = Number(item.price || 0) * Number(item.qty || 1);
+        const lineTotal = (Number(item.price) || 0) * (Number(item.qty) || 1);
         subtotal += lineTotal;
+        const variantMeta = [item.color, item.size].filter(Boolean).join(" • ");
         return `
-          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 flex items-center gap-3 text-xs">
-            ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="w-14 h-14 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
-            <div class="min-w-0 flex-1">
-              <div class="flex items-start justify-between gap-1.5">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 flex items-center justify-between gap-2.5 text-xs">
+            <div class="flex items-center gap-2.5 min-w-0">
+              ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0" />` : ""}
+              <div class="min-w-0">
                 <p class="font-bold text-white truncate">${escapeHtml(item.title)}</p>
-                <button type="button" onclick="removeCartItemByIdx(${idx})"
-                  title="কার্ড থেকে ডিলিট করুন"
-                  class="text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 px-2 py-0.5 rounded-lg text-[11px] font-bold transition shrink-0 cursor-pointer">
-                  🗑️ ডিলিট
-                </button>
+                ${variantMeta ? `<p class="text-[10px] font-mono text-emerald-300 truncate">${escapeHtml(variantMeta)}</p>` : ""}
+                <p class="font-mono text-emerald-400 mt-0.5">৳${lineTotal}</p>
               </div>
-              ${item.variant ? `<p class="text-[11px] text-emerald-300 truncate">${escapeHtml(item.variant)}</p>` : ""}
-              <p class="font-mono text-emerald-400 font-bold mt-0.5">৳${lineTotal}</p>
-              <div class="flex items-center gap-2 mt-1.5">
-                <button type="button" onclick="updateCartQty(${idx}, -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 font-bold cursor-pointer">-</button>
-                <span class="font-mono font-bold">${Number(item.qty) || 1}</span>
-                <button type="button" onclick="updateCartQty(${idx}, 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 font-bold cursor-pointer">+</button>
-              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" onclick="changeCartQty(${idx}, -1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold cursor-pointer">-</button>
+              <span class="font-mono w-5 text-center">${item.qty}</span>
+              <button type="button" onclick="changeCartQty(${idx}, 1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold cursor-pointer">+</button>
+              <button type="button" onclick="removeCartItem(${idx})" title="কার্ড থেকে ডিলিট করুন"
+                class="w-7 h-7 rounded-lg bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 font-bold cursor-pointer">
+                ✕
+              </button>
             </div>
           </div>
         `;
@@ -5112,149 +4899,151 @@
     }
 
     function goToCheckoutPageFromCart() {
+      if (cartItems.length === 0) {
+        return alert("আগে কার্ডে অন্তত একটি প্রোডাক্ট যোগ করুন।");
+      }
       toggleCartDrawer(false);
       openCheckoutPopup();
     }
 
-    function updateDistrictDropdown(selected = "Dhaka") {
-      const sel = document.getElementById("co-district");
-      if (!sel) return;
-      sel.innerHTML = bangladeshDistricts.map(d => {
-        const fee = getDeliveryChargeForDistrict(d);
-        return `<option value="${escapeHtml(d)}" ${d === selected ? "selected" : ""}>${escapeHtml(d)} (৳${fee})</option>`;
-      }).join("");
-    }
-
-    function onDistrictChange() {
-      const dist = document.getElementById("co-district")?.value || "Dhaka";
-      const fee = getDeliveryChargeForDistrict(dist);
-      const isDhaka = String(dist).trim().toLowerCase() === "dhaka";
-      const badge = document.getElementById("co-auto-delivery-badge");
-      if (badge) {
-        badge.textContent = `${isDhaka ? "ঢাকার ভিতর" : "ঢাকার বাইরে"} (${dist}) — ৳${fee}`;
-      }
-      updateCheckoutSummary();
-      captureIncompleteDraftFromCheckout();
-    }
-
-    function autoGrowAddressField(el) {
-      if (!el) return;
-      el.style.height = "auto";
-      el.style.height = `${Math.max(56, el.scrollHeight)}px`;
-    }
-
     function openCheckoutPopup() {
-      toggleCartDrawer(false);
-      updateDistrictDropdown(document.getElementById("co-district")?.value || "Dhaka");
-      onDistrictChange();
+      populateCheckoutDistricts();
       updateCheckoutSummary();
+      const addrEl = document.getElementById("co-address");
+      if (addrEl) autoGrowAddressField(addrEl);
       document.getElementById("checkout-popup-modal")?.classList.remove("hidden");
-      setTimeout(() => autoGrowAddressField(document.getElementById("co-address")), 20);
     }
 
     function closeCheckoutPopup() {
       document.getElementById("checkout-popup-modal")?.classList.add("hidden");
     }
 
+    function autoGrowAddressField(textarea) {
+      if (!textarea) return;
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.max(56, textarea.scrollHeight)}px`;
+    }
+
+    function populateCheckoutDistricts() {
+      const sel = document.getElementById("co-district");
+      if (!sel) return;
+      const prevVal = sel.value || "Dhaka";
+      sel.innerHTML = bangladeshDistricts.map(d =>
+        `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`
+      ).join("");
+      sel.value = bangladeshDistricts.includes(prevVal) ? prevVal : "Dhaka";
+      onDistrictChange();
+    }
+
+    function onDistrictChange() {
+      const dist = document.getElementById("co-district")?.value || "Dhaka";
+      const fee = getDeliveryChargeForDistrict(dist);
+      const isDhaka = dist.trim().toLowerCase() === "dhaka";
+      const badgeEl = document.getElementById("co-auto-delivery-badge");
+      if (badgeEl) {
+        badgeEl.textContent = `${isDhaka ? "ঢাকার ভিতর" : "ঢাকার বাইরে"} (${dist}) — ৳${fee}`;
+      }
+      updateCheckoutSummary();
+      captureIncompleteDraftFromCheckout();
+    }
+
     function updateCheckoutSummary() {
-      const itemsBox = document.getElementById("co-summary-items");
-      const subEl = document.getElementById("co-subtotal");
-      const delEl = document.getElementById("co-delivery-display");
-      const totEl = document.getElementById("co-total");
+      const box = document.getElementById("co-summary-items");
       const dist = document.getElementById("co-district")?.value || "Dhaka";
       const fee = getDeliveryChargeForDistrict(dist);
 
       let subtotal = 0;
-      if (itemsBox) {
+      if (box) {
         if (cartItems.length === 0) {
-          itemsBox.innerHTML = `<p class="text-xs text-slate-400">কার্টে কোনো প্রোডাক্ট নেই।</p>`;
+          box.innerHTML = `<p class="text-xs text-slate-400">কোনো প্রোডাক্ট সিলেক্ট করা হয়নি।</p>`;
         } else {
-          itemsBox.innerHTML = cartItems.map(i => {
-            const line = Number(i.price || 0) * Number(i.qty || 1);
-            subtotal += line;
+          box.innerHTML = cartItems.map(i => {
+            const lineTotal = (Number(i.price) || 0) * (Number(i.qty) || 1);
+            subtotal += lineTotal;
+            const variantMeta = [i.color, i.size].filter(Boolean).join(" • ");
             return `
-              <div class="flex items-center justify-between gap-2.5 bg-slate-950/80 border border-slate-800/80 rounded-xl p-2 text-xs">
+              <div class="flex items-center justify-between gap-2.5 text-xs bg-slate-950/70 border border-slate-800/70 rounded-xl p-2">
                 <div class="flex items-center gap-2.5 min-w-0">
                   ${i.image ? `<img src="${escapeHtml(i.image)}" alt="${escapeHtml(i.title)}" class="w-11 h-11 rounded-lg object-cover border border-slate-800 shrink-0" />` : ""}
                   <div class="min-w-0">
-                    <p class="font-bold text-white truncate">${escapeHtml(i.title)}</p>
-                    <p class="text-[10px] text-slate-400 font-mono">৳${Number(i.price || 0)} × ${Number(i.qty || 1)}${i.variant ? ` • ${escapeHtml(i.variant)}` : ""}</p>
+                    <p class="text-slate-200 font-semibold truncate">${escapeHtml(i.title)}</p>
+                    ${variantMeta ? `<p class="text-[10px] font-mono text-emerald-300 truncate">${escapeHtml(variantMeta)}</p>` : ""}
+                    <p class="text-[10px] font-mono text-slate-400">৳${escapeHtml(i.price)} × ${escapeHtml(i.qty)}</p>
                   </div>
                 </div>
-                <span class="font-mono font-bold text-emerald-300 shrink-0">৳${line}</span>
+                <span class="font-mono text-slate-200 font-bold shrink-0">৳${lineTotal}</span>
               </div>
             `;
           }).join("");
         }
       }
 
-      if (subEl) subEl.textContent = `৳${subtotal}`;
-      if (delEl) delEl.textContent = `৳${fee}`;
-      if (totEl) totEl.textContent = `৳${subtotal + fee}`;
+      document.getElementById("co-subtotal").textContent = `৳${subtotal}`;
+      document.getElementById("co-delivery-display").textContent = `৳${fee}`;
+      document.getElementById("co-total").textContent = `৳${subtotal + fee}`;
     }
 
     function captureIncompleteDraftFromCheckout() {
-      const name = (document.getElementById("co-name")?.value || "").trim();
-      const phone = (document.getElementById("co-phone")?.value || "").trim();
+      const name = document.getElementById("co-name")?.value.trim() || "";
+      const phone = document.getElementById("co-phone")?.value.trim() || "";
       const district = document.getElementById("co-district")?.value || "Dhaka";
-      const address = (document.getElementById("co-address")?.value || "").trim();
+      const address = document.getElementById("co-address")?.value.trim() || "";
       if (!name && !phone && !address) return;
 
-      const subtotal = cartItems.reduce((s, i) => s + Number(i.price || 0) * Number(i.qty || 1), 0);
+      const subtotal = cartItems.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
       const fee = getDeliveryChargeForDistrict(district);
 
       if (!activeIncompleteDraftId) {
-        activeIncompleteDraftId = "INC-" + Date.now();
+        activeIncompleteDraftId = "INC-" + Math.floor(100000 + Math.random() * 900000);
       }
 
       const draftObj = {
         id: activeIncompleteDraftId,
-        updatedAt: new Date().toLocaleString("bn-BD"),
-        customer_name: name,
-        customer_phone: phone,
+        customer_name: name || "অসম্পূর্ণ কাস্টমার",
+        customer_phone: phone || "N/A",
         district,
-        address,
-        items: [...cartItems],
-        total_amount: subtotal + fee
+        customer_address: `${address}${district ? `, ${district}` : ""}`,
+        items: cartItems.map(i => ({ title: i.title, qty: i.qty, price: i.price, color: i.color || "", size: i.size || "", image: i.image || "" })),
+        total_amount: subtotal + fee,
+        updated_at: new Date().toLocaleString("bn-BD")
       };
 
       const idx = incompleteOrders.findIndex(d => d.id === activeIncompleteDraftId);
       if (idx >= 0) incompleteOrders[idx] = draftObj;
       else incompleteOrders.unshift(draftObj);
-
       safeStorageSet(STORE_INCOMPLETE_ORDERS_KEY, incompleteOrders);
     }
 
     function submitFullCheckoutOrder(e) {
       e.preventDefault();
       if (cartItems.length === 0) {
-        return alert("অর্ডার করার আগে অন্তত একটি প্রোডাক্ট কার্ডে যুক্ত করুন।");
+        return alert("আগে কার্ডে অন্তত একটি প্রোডাক্ট যোগ করুন।");
       }
 
       const name = document.getElementById("co-name").value.trim();
       const phone = document.getElementById("co-phone").value.trim();
       const district = document.getElementById("co-district").value || "Dhaka";
-      const address = document.getElementById("co-address").value.trim();
+      const rawAddress = document.getElementById("co-address").value.trim();
+      if (!name || !phone || !rawAddress) return;
 
-      if (!name || !phone || !address) return;
-
-      const subtotal = cartItems.reduce((s, i) => s + Number(i.price || 0) * Number(i.qty || 1), 0);
+      const fullAddress = `${rawAddress}, ${district}`;
+      const subtotal = cartItems.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
       const fee = getDeliveryChargeForDistrict(district);
       const totalAmount = subtotal + fee;
       const orderNumber = "AB-" + Math.floor(100000 + Math.random() * 900000);
 
       const newOrder = {
         order_number: orderNumber,
-        date: new Date().toLocaleString("bn-BD"),
         customer_name: name,
         customer_phone: phone,
         district,
-        address,
-        delivery_charge: fee,
+        customer_address: fullAddress,
+        items: cartItems.map(i => ({ sku: i.sku, title: i.title, qty: i.qty, price: i.price, color: i.color || "", size: i.size || "", image: i.image || "" })),
         subtotal,
+        delivery_charge: fee,
         total_amount: totalAmount,
         status: "Pending",
-        items: [...cartItems]
+        created_at: new Date().toLocaleString("bn-BD")
       };
 
       storeOrders.unshift(newOrder);
@@ -5273,73 +5062,369 @@
       renderCartDrawer();
       updateCheckoutSummary();
 
-      document.getElementById("ty-order-meta").textContent = `অর্ডার নম্বর: #${orderNumber} • তারিখ: ${newOrder.date}`;
+      document.getElementById("full-checkout-form").reset();
+      const addrEl = document.getElementById("co-address");
+      if (addrEl) addrEl.style.height = "56px";
+      closeCheckoutPopup();
+
+      document.getElementById("ty-order-meta").textContent = `অর্ডার নম্বর: #${orderNumber} • স্ট্যাটাস: Pending`;
       document.getElementById("ty-order-details").innerHTML = `
-        <p><strong class="text-white">কাস্টমার:</strong> ${escapeHtml(name)} (${escapeHtml(phone)})</p>
-        <p><strong class="text-white">ঠিকানা:</strong> ${escapeHtml(address)}, ${escapeHtml(district)}</p>
-        <p><strong class="text-white">প্রোডাক্ট সাবটোটাল:</strong> <span class="font-mono text-slate-200">৳${subtotal}</span></p>
-        <p><strong class="text-white">ডেলিভারি চার্জ:</strong> <span class="font-mono text-amber-300">৳${fee}</span></p>
-        <p><strong class="text-white">সর্বমোট (COD):</strong> <span class="font-mono text-emerald-400 font-bold">৳${totalAmount}</span></p>
+        <p><strong class="text-slate-200">কাস্টমার:</strong> ${escapeHtml(name)} (${escapeHtml(phone)})</p>
+        <p><strong class="text-slate-200">ঠিকানা:</strong> ${escapeHtml(fullAddress)}</p>
+        <p><strong class="text-slate-200">সাবটোটাল:</strong> <span class="font-mono text-slate-200">৳${subtotal}</span> • <strong class="text-slate-200">ডেলিভারি:</strong> <span class="font-mono text-amber-300">৳${fee}</span></p>
+        <p><strong class="text-slate-200">মোট COD:</strong> <span class="font-mono text-emerald-400 font-bold">৳${totalAmount}</span></p>
       `;
 
       switchPageView("thankyou-page-view");
     }
 
     /* ========================================================= */
-    /* [পলিসি মোডাল, অর্ডার ট্র্যাকিং ও চ্যাটবট]                    */
+    /* [ভিজিটর সার্চ (টেক্সট + ছবি/স্ক্রিনশট/Ctrl+V/Drag&Drop)]  */
+    /* ========================================================= */
+    function normalizeSearchText(str) {
+      return String(str || "")
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+    }
+
+    function getProductSearchBlob(p) {
+      const sizesStr = Array.isArray(p.sizes) ? p.sizes.join(" ") : "";
+      const colorsStr = Array.isArray(p.colors) ? p.colors.join(" ") : "";
+      return normalizeSearchText(
+        `${p.title || ""} ${p.sku || ""} ${p.category || ""} ${p.short_description || ""} ${sizesStr} ${colorsStr}`
+      );
+    }
+
+    function computeImageVisualSignature(imgSrc) {
+      return new Promise((resolve) => {
+        if (!imgSrc) return resolve(null);
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          try {
+            const size = 16;
+            const canvas = document.createElement("canvas");
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return resolve(null);
+            ctx.drawImage(img, 0, 0, size, size);
+            const data = ctx.getImageData(0, 0, size, size).data;
+            const gray = [];
+            const rgb = [];
+            for (let i = 0; i < data.length; i += 4) {
+              const r = data[i];
+              const g = data[i + 1];
+              const b = data[i + 2];
+              rgb.push(r, g, b);
+              gray.push(0.299 * r + 0.587 * g + 0.114 * b);
+            }
+            const avg = gray.reduce((a, b) => a + b, 0) / gray.length;
+            const bits = gray.map(v => (v >= avg ? 1 : 0));
+            resolve({ bits, rgb });
+          } catch (_) {
+            resolve(null);
+          }
+        };
+        img.onerror = () => resolve(null);
+        img.src = imgSrc;
+      });
+    }
+
+    async function precomputeProductVisualFeatures() {
+      for (const p of storeProducts) {
+        const primaryImg = p.images?.[0];
+        if (primaryImg && !productVisualFeatureCache.has(p.sku)) {
+          const feat = await computeImageVisualSignature(primaryImg);
+          if (feat) productVisualFeatureCache.set(p.sku, feat);
+        }
+      }
+    }
+
+    function computeVisualSimilarity(sigA, sigB) {
+      if (!sigA || !sigB || !sigA.bits?.length || !sigB.bits?.length) return 0;
+      let sameBits = 0;
+      const len = Math.min(sigA.bits.length, sigB.bits.length);
+      for (let i = 0; i < len; i++) {
+        if (sigA.bits[i] === sigB.bits[i]) sameBits++;
+      }
+      const bitSim = sameBits / len;
+
+      let diffSum = 0;
+      const rgbLen = Math.min(sigA.rgb.length, sigB.rgb.length);
+      for (let i = 0; i < rgbLen; i += 3) {
+        const dr = Math.abs(sigA.rgb[i] - sigB.rgb[i]);
+        const dg = Math.abs(sigA.rgb[i + 1] - sigB.rgb[i + 1]);
+        const db = Math.abs(sigA.rgb[i + 2] - sigB.rgb[i + 2]);
+        diffSum += (dr + dg + db) / 3;
+      }
+      const avgDiff = diffSum / Math.max(1, rgbLen / 3);
+      const colorSim = Math.max(0, 1 - avgDiff / 255);
+
+      return bitSim * 0.55 + colorSim * 0.45;
+    }
+
+    function updateSearchClearButtonVisibility() {
+      const inp = document.getElementById("visitor-search-input");
+      const clearBtn = document.getElementById("visitor-search-clear-btn");
+      if (!clearBtn) return;
+      const hasText = Boolean(inp && inp.value.trim().length > 0);
+      clearBtn.classList.toggle("hidden", !(hasText || pendingSearchImage));
+    }
+
+    function clearVisitorSearch() {
+      const inp = document.getElementById("visitor-search-input");
+      const dd = document.getElementById("visitor-search-dropdown");
+      if (inp) inp.value = "";
+      pendingSearchImage = null;
+      const chip = document.getElementById("visitor-search-image-chip");
+      if (chip) chip.classList.add("hidden");
+      const fileInp = document.getElementById("visitor-search-image-input");
+      if (fileInp) fileInp.value = "";
+      updateSearchClearButtonVisibility();
+      if (dd) dd.classList.add("hidden");
+    }
+
+    function clearSearchImageOnly() {
+      pendingSearchImage = null;
+      const chip = document.getElementById("visitor-search-image-chip");
+      if (chip) chip.classList.add("hidden");
+      const fileInp = document.getElementById("visitor-search-image-input");
+      if (fileInp) fileInp.value = "";
+      updateSearchClearButtonVisibility();
+      handleSearchInput();
+    }
+
+    function handleSearchDragOver(e) {
+      e.preventDefault();
+      document.getElementById("visitor-search-box-ring")?.classList.add("ring-2", "ring-emerald-400");
+    }
+
+    function handleSearchDragLeave() {
+      document.getElementById("visitor-search-box-ring")?.classList.remove("ring-2", "ring-emerald-400");
+    }
+
+    function handleSearchDrop(e) {
+      e.preventDefault();
+      handleSearchDragLeave();
+      const file = e.dataTransfer?.files?.[0];
+      if (file && file.type.startsWith("image/")) {
+        processSearchImageFile(file);
+      }
+    }
+
+    function handleSearchPaste(e) {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (const item of items) {
+        if (item.type && item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) {
+            e.preventDefault();
+            processSearchImageFile(file);
+            break;
+          }
+        }
+      }
+    }
+
+    function handleSearchImageFile(e) {
+      const file = e.target.files?.[0];
+      if (file && file.type.startsWith("image/")) {
+        processSearchImageFile(file);
+      }
+    }
+
+    function processSearchImageFile(file) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const rawData = String(reader.result || "");
+        const compressed = await compressImageDataUrl(rawData, 640, 0.75);
+        const sig = await computeImageVisualSignature(compressed);
+        pendingSearchImage = {
+          name: file.name || "Screenshot / Image",
+          dataUrl: compressed,
+          sig
+        };
+        const chip = document.getElementById("visitor-search-image-chip");
+        const chipImg = document.getElementById("visitor-search-chip-img");
+        const chipTxt = document.getElementById("visitor-search-chip-text");
+        if (chip && chipImg && chipTxt) {
+          chipImg.src = compressed;
+          chipTxt.textContent = `ছবি দিয়ে সার্চ: ${pendingSearchImage.name}`;
+          chip.classList.remove("hidden");
+        }
+        updateSearchClearButtonVisibility();
+        await precomputeProductVisualFeatures();
+        handleSearchInput();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSearchFocus() {
+      const q = normalizeSearchText(document.getElementById("visitor-search-input")?.value || "");
+      if (q || pendingSearchImage) {
+        handleSearchInput();
+      }
+    }
+
+    function handleSearchKeydown(e) {
+      if (e.key === "Escape") {
+        document.getElementById("visitor-search-dropdown")?.classList.add("hidden");
+      }
+    }
+
+    function handleSearchInput() {
+      const rawQ = document.getElementById("visitor-search-input")?.value || "";
+      const q = normalizeSearchText(rawQ);
+      const dd = document.getElementById("visitor-search-dropdown");
+      updateSearchClearButtonVisibility();
+      if (!dd) return;
+
+      if (!q && !pendingSearchImage) {
+        dd.classList.add("hidden");
+        return;
+      }
+
+      const tokens = q.split(/\s+/).filter(Boolean);
+
+      const scored = storeProducts
+        .map(p => {
+          const blob = getProductSearchBlob(p);
+          let textScore = 0;
+          if (tokens.length > 0) {
+            const allMatch = tokens.every(t => blob.includes(t));
+            if (allMatch) {
+              textScore = 100;
+              if (normalizeSearchText(p.sku) === q || normalizeSearchText(p.title) === q) textScore += 40;
+              else if (normalizeSearchText(p.title).startsWith(q)) textScore += 20;
+            } else {
+              const matchedCount = tokens.filter(t => blob.includes(t)).length;
+              textScore = matchedCount > 0 ? (matchedCount / tokens.length) * 55 : 0;
+            }
+          }
+
+          let visScore = 0;
+          if (pendingSearchImage?.sig) {
+            const pSig = productVisualFeatureCache.get(p.sku);
+            visScore = computeVisualSimilarity(pendingSearchImage.sig, pSig) * 100;
+          }
+
+          const totalScore = pendingSearchImage?.sig
+            ? (tokens.length > 0 ? textScore * 0.5 + visScore * 0.5 : visScore)
+            : textScore;
+
+          return { prod: p, totalScore, visScore };
+        })
+        .filter(item => (pendingSearchImage?.sig ? item.totalScore >= 20 : item.totalScore > 0))
+        .sort((a, b) => b.totalScore - a.totalScore)
+        .slice(0, 8);
+
+      const matchedCats = q
+        ? storeCategories.filter(c => normalizeSearchText(c).includes(q))
+        : [];
+
+      let html = "";
+
+      if (pendingSearchImage?.sig) {
+        html += `
+          <div class="px-3.5 py-2 bg-emerald-950/30 flex items-center justify-between text-[11px]">
+            <span class="text-emerald-300 font-semibold">📷 ছবির সাথে মিল পাওয়া প্রোডাক্টসমূহ</span>
+            <span class="font-mono text-slate-400">${scored.length}টি রেজাল্ট</span>
+          </div>
+        `;
+      }
+
+      matchedCats.forEach(c => {
+        html += `
+          <button type="button" onclick="openCategoryPage('${escapeHtml(c)}'); document.getElementById('visitor-search-dropdown').classList.add('hidden');"
+            class="w-full px-3.5 py-2.5 flex items-center justify-between gap-2 hover:bg-slate-900 text-left transition cursor-pointer">
+            <span class="text-xs font-bold text-amber-300">📁 ক্যাটাগরি: ${escapeHtml(c)}</span>
+            <span class="text-[10px] font-mono text-slate-400">CATEGORY</span>
+          </button>
+        `;
+      });
+
+      if (scored.length === 0) {
+        html += `<div class="p-4 text-xs text-slate-400 text-center">কোনো প্রোডাক্ট পাওয়া যায়নি। অন্য শব্দ বা ছবি দিয়ে চেষ্টা করুন।</div>`;
+      } else {
+        html += scored.map(({ prod, visScore }) => {
+          const img = prod.images?.[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=200&q=70";
+          const matchBadge = pendingSearchImage?.sig
+            ? `<span class="text-[10px] font-mono bg-emerald-500/15 text-emerald-300 px-1.5 py-0.5 rounded-full">${Math.round(visScore)}% মিল</span>`
+            : `<span class="text-[10px] font-mono text-slate-400">${escapeHtml(prod.sku)}</span>`;
+          return `
+            <button type="button" onclick="openProductModal('${escapeHtml(prod.sku)}'); document.getElementById('visitor-search-dropdown').classList.add('hidden');"
+              class="w-full px-3.5 py-2.5 flex items-center justify-between gap-3 hover:bg-slate-900 text-left transition cursor-pointer">
+              <div class="flex items-center gap-3 min-w-0">
+                <img src="${escapeHtml(img)}" alt="${escapeHtml(prod.title)}" class="w-11 h-11 rounded-xl object-cover border border-slate-800 shrink-0" />
+                <div class="min-w-0">
+                  <p class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(prod.title)}</p>
+                  <div class="flex items-center gap-2 mt-0.5">
+                    <span class="text-[11px] font-mono text-emerald-400 font-bold">৳${escapeHtml(prod.price)}</span>
+                    ${matchBadge}
+                  </div>
+                </div>
+              </div>
+              <span class="text-[11px] text-emerald-300 font-semibold shrink-0">দেখুন →</span>
+            </button>
+          `;
+        }).join("");
+      }
+
+      dd.innerHTML = html;
+      dd.classList.remove("hidden");
+    }
+
+    document.addEventListener("click", (e) => {
+      const wrap = document.getElementById("visitor-search-wrapper");
+      const dd = document.getElementById("visitor-search-dropdown");
+      if (wrap && dd && !wrap.contains(e.target)) {
+        dd.classList.add("hidden");
+      }
+    });
+
+    /* ========================================================= */
+    /* [পলিসি মোডাল, অর্ডার ট্র্যাকিং ও স্মার্ট চ্যাটবট]            */
     /* ========================================================= */
     function openPolicyModal(type) {
-      const titleEl = document.getElementById("policy-modal-title");
-      const bodyEl = document.getElementById("policy-modal-body");
       const brand = gmcCfg.brandName || "Amar Brand";
-
-      const map = {
-        privacy: {
-          title: "Privacy Policy (গোপনীয়তা নীতি)",
-          body: `<p>${escapeHtml(brand)} গ্রাহকের নাম, ফোন নম্বর ও ডেলিভারি ঠিকানা শুধুমাত্র অর্ডার প্রসেসিং এবং কুরিয়ার ডেলিভারির কাজে ব্যবহার করে। তৃতীয় পক্ষের কাছে ব্যক্তিগত তথ্য বিক্রি করা হয় না।</p>`
-        },
-        terms: {
-          title: "Terms & Conditions (শর্তাবলি)",
-          body: `<p>স্টকে থাকা সাপেক্ষে অর্ডার কনফার্ম করা হয়। ভুয়া বা অসম্পূর্ণ তথ্য দিয়ে অর্ডার করলে তা বাতিল বলে গণ্য হতে পারে।</p>`
-        },
-        refund: {
-          title: "Return & Refund Policy (রিটার্ন ও রিফান্ড নীতি)",
-          body: `<p>ডেলিভারি পাওয়ার ২৪-৪৮ ঘণ্টার মধ্যে প্রোডাক্টে কোনো ত্রুটি বা ভুল আইটেম পেলে কাস্টমার সাপোর্টে যোগাযোগ করে রিটার্ন/এক্সচেঞ্জের আবেদন করা যাবে।</p>`
-        },
-        shipping: {
-          title: "Shipping & Delivery Policy (ডেলিভারি নীতি)",
-          body: `<p>ঢাকার ভিতর সাধারণত ১-২ কর্মদিবস এবং ঢাকার বাইরে ২-৪ কর্মদিবসের মধ্যে কুরিয়ারের মাধ্যমে হোম ডেলিভারি দেওয়া হয়।</p>`
-        },
-        about: {
-          title: `About ${brand}`,
-          body: `<p>${escapeHtml(brand)} একটি আধুনিক অনলাইন স্টোর, যেখানে মানসম্মত প্রোডাক্ট, স্বচ্ছ মূল্য এবং দ্রুত ডেলিভারি নিশ্চিত করা হয়।</p>`
-        }
+      const titles = {
+        privacy: "Privacy Policy (গোপনীয়তা নীতি)",
+        terms: "Terms & Conditions (শর্তাবলি)",
+        refund: "Return & Refund Policy (রিটার্ন ও রিফান্ড নীতি)",
+        shipping: "Shipping & Delivery Policy (ডেলিভারি নীতি)",
+        about: `About ${brand} & Store Transparency`
       };
-
-      const item = map[type] || map.about;
-      if (titleEl) titleEl.textContent = item.title;
-      if (bodyEl) bodyEl.innerHTML = item.body;
-      document.getElementById("policy-modal")?.classList.remove("hidden");
+      const bodies = {
+        privacy: `<p><strong>${escapeHtml(brand)}</strong> গ্রাহকের নাম, ফোন নম্বর এবং ডেলিভারি ঠিকানা শুধুমাত্র অর্ডার প্রসেসিং ও পার্সেল ডেলিভারির কাজে ব্যবহার করে। আপনার তথ্য তৃতীয় কোনো পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় না।</p>`,
+        terms: `<p>স্টোরে প্রদর্শিত প্রোডাক্টের মূল্য, স্টক ও ডেলিভারি শর্তাবলি সাপেক্ষে অর্ডার কনফার্ম করা হয়। ভুয়া বা অসম্পূর্ণ অর্ডার বাতিল করার অধিকার স্টোর সংরক্ষণ করে।</p>`,
+        refund: `<p>পার্সেল রিসিভ করার সময় ডেলিভারিম্যানের সামনে চেক করুন। প্রোডাক্টে ত্রুটি, ভুল আইটেম বা ড্যামেজ থাকলে নির্ধারিত সময়ের মধ্যে আমাদের সাপোর্টে যোগাযোগ করলে রিটার্ন/রিপ্লেসমেন্ট সুবিধা দেওয়া হয়।</p>`,
+        shipping: `<p>অর্ডার কনফার্ম হওয়ার পর সাধারণত ঢাকার ভেতরে ১-২ কার্যদিবস এবং ঢাকার বাইরে ২-৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন করা হয়।</p>`,
+        about: `<p><strong>${escapeHtml(brand)}</strong> একটি অর্গানিক ও আধুনিক লাইফস্টাইল অনলাইন স্টোর। সঠিক পণ্যের তথ্য, নির্ধারিত মূল্য এবং নির্ভরযোগ্য কুরিয়ার ডেলিভারি আমাদের প্রধান অঙ্গীকার।</p>`
+      };
+      document.getElementById("policy-modal-title").textContent = titles[type] || "নীতিমালা";
+      document.getElementById("policy-modal-body").innerHTML = bodies[type] || "";
+      document.getElementById("policy-modal").classList.remove("hidden");
     }
 
     function closePolicyModal() {
-      document.getElementById("policy-modal")?.classList.add("hidden");
+      document.getElementById("policy-modal").classList.add("hidden");
     }
 
     function openTrackOrderModal() {
-      document.getElementById("track-order-modal")?.classList.remove("hidden");
+      document.getElementById("track-order-modal").classList.remove("hidden");
     }
 
     function closeTrackOrderModal() {
-      document.getElementById("track-order-modal")?.classList.add("hidden");
+      document.getElementById("track-order-modal").classList.add("hidden");
     }
 
     function searchVisitorOrder(e) {
       e.preventDefault();
-      const q = (document.getElementById("track-order-query")?.value || "").trim().toLowerCase();
+      const q = document.getElementById("track-order-query").value.trim().toLowerCase();
       const resBox = document.getElementById("track-order-result");
-      if (!q || !resBox) return;
-
       const found = storeOrders.find(o =>
         String(o.order_number || "").toLowerCase() === q ||
         String(o.order_number || "").toLowerCase().includes(q) ||
@@ -5347,15 +5432,15 @@
       );
 
       if (!found) {
-        resBox.innerHTML = `<p class="text-rose-300">এই নম্বর বা অর্ডার কোডের বিপরীতে কোনো অর্ডার পাওয়া যায়নি।</p>`;
+        resBox.innerHTML = `<span class="text-rose-400">এই অর্ডার নম্বর বা ফোন নাম্বারে কোনো অর্ডার পাওয়া যায়নি।</span>`;
         return;
       }
 
       resBox.innerHTML = `
         <p><strong class="text-white">অর্ডার #:</strong> <span class="font-mono text-sky-300">${escapeHtml(found.order_number)}</span></p>
-        <p><strong class="text-white">স্ট্যাটাস:</strong> <span class="font-bold text-emerald-300">${escapeHtml(found.status || "Pending")}</span></p>
         <p><strong class="text-white">কাস্টমার:</strong> ${escapeHtml(found.customer_name)}</p>
-        <p><strong class="text-white">মোট COD:</strong> <span class="font-mono text-emerald-400">৳${Number(found.total_amount || 0)}</span></p>
+        <p><strong class="text-white">স্ট্যাটাস:</strong> <span class="font-mono text-emerald-300 font-bold">${escapeHtml(found.status || "Pending")}</span></p>
+        <p><strong class="text-white">মোট COD:</strong> <span class="font-mono text-emerald-400">৳${escapeHtml(found.total_amount)}</span></p>
       `;
     }
 
@@ -5367,179 +5452,264 @@
       if (shouldOpen) renderVisitorChatMessages();
     }
 
-    function renderVisitorChatMessages() {
-      const box = document.getElementById("visitor-chat-messages");
-      if (!box) return;
-      const threads = ensureChatThreadsInitialized();
-      const mainThread = threads.find(t => t.id === "visitor-live-thread") || threads[0];
-      const msgs = mainThread?.messages || [];
-
-      box.innerHTML = msgs.map(m => {
-        const isCust = m.sender === "customer";
-        const cls = isCust
-          ? "ml-auto bg-emerald-600/25 border-emerald-500/40 text-white"
-          : m.sender === "agent"
-            ? "mr-auto bg-sky-900/40 border-sky-500/40 text-sky-100"
-            : "mr-auto bg-slate-900 border-slate-800 text-slate-200";
-        const label = m.sender === "agent" ? "সাপোর্ট এজেন্ট" : isCust ? "আপনি" : "অ্যাসিস্ট্যান্ট";
-        return `
-          <div class="max-w-[85%] rounded-2xl p-2.5 border ${cls}">
-            <span class="text-[9px] font-mono opacity-70 block mb-0.5">${label} • ${escapeHtml(m.time || "")}</span>
-            ${m.image ? `<img src="${escapeHtml(m.image)}" alt="Uploaded" class="w-24 h-24 object-cover rounded-xl mb-1.5 border border-slate-700" />` : ""}
-            <p class="leading-relaxed whitespace-pre-line">${escapeHtml(m.text || "")}</p>
-          </div>
-        `;
-      }).join("");
-      box.scrollTop = box.scrollHeight;
-    }
-
     function handleChatImageSelected(e) {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = async () => {
-        const compressed = await compressImageDataUrl(String(reader.result || ""), 480, 0.75);
-        pendingChatImage = { dataUrl: compressed, name: file.name };
+        const rawData = String(reader.result || "");
+        const compressed = await compressImageDataUrl(rawData, 640, 0.75);
+        const sig = await computeImageVisualSignature(compressed);
+        pendingChatImage = {
+          name: file.name || "product-image.jpg",
+          dataUrl: compressed,
+          sig
+        };
         document.getElementById("visitor-chat-preview-img").src = compressed;
-        document.getElementById("visitor-chat-preview-name").textContent = file.name;
-        document.getElementById("visitor-chat-image-preview")?.classList.remove("hidden");
+        document.getElementById("visitor-chat-preview-name").textContent = pendingChatImage.name;
+        document.getElementById("visitor-chat-image-preview").classList.remove("hidden");
       };
       reader.readAsDataURL(file);
-      e.target.value = "";
     }
 
     function clearPendingChatImage() {
       pendingChatImage = null;
-      document.getElementById("visitor-chat-image-preview")?.classList.add("hidden");
+      const inp = document.getElementById("visitor-chat-image-input");
+      if (inp) inp.value = "";
+      document.getElementById("visitor-chat-image-preview").classList.add("hidden");
     }
 
-    function buildSmartBotReply(userText, hasImage) {
-      const q = String(userText || "").toLowerCase();
-      const skuMatch = q.match(/ab-prd-\d+/i);
-      if (skuMatch) {
-        const prod = allAdminProducts.find(p => p.sku.toLowerCase() === skuMatch[0].toLowerCase());
-        if (prod) {
-          return `${prod.title} (${prod.sku})\nদাম: ৳${prod.price}\n${prod.short_description || ""}`;
+    function getVisitorLiveThread() {
+      const threads = ensureChatThreadsInitialized();
+      let liveThread = threads.find(t => t.id === "visitor-live-thread");
+      if (!liveThread) {
+        liveThread = {
+          id: "visitor-live-thread",
+          customerName: "Website Visitor",
+          phone: "Web Chat",
+          lastTime: "এখন",
+          unread: false,
+          messages: [
+            { sender: "bot", text: chatbotCfg.welcomeMsg || "স্বাগতম! কীভাবে সাহায্য করতে পারি?", time: "এখন" }
+          ]
+        };
+        threads.unshift(liveThread);
+      }
+      return { threads, liveThread };
+    }
+
+    function renderVisitorChatMessages() {
+      const msgBox = document.getElementById("visitor-chat-messages");
+      if (!msgBox) return;
+      const { liveThread } = getVisitorLiveThread();
+      const msgs = liveThread.messages || [];
+
+      msgBox.innerHTML = msgs.map(m => {
+        const isCust = m.sender === "customer";
+        const isAgent = m.sender === "agent";
+        const cls = isCust
+          ? "ml-auto bg-emerald-600/25 border-emerald-500/40 text-white"
+          : isAgent
+            ? "mr-auto bg-sky-950/70 border-sky-500/40 text-sky-100"
+            : "mr-auto bg-slate-900 border-slate-800 text-slate-200";
+        return `
+          <div class="max-w-[88%] rounded-2xl p-2.5 border ${cls}">
+            ${isAgent ? `<span class="text-[9px] font-mono text-sky-300 block mb-0.5">সাপোর্ট এজেন্ট</span>` : ""}
+            ${m.image ? `<img src="${escapeHtml(m.image)}" alt="Uploaded" class="w-24 h-24 object-cover rounded-xl mb-1.5 border border-slate-700" />` : ""}
+            <p class="leading-relaxed whitespace-pre-line">${escapeHtml(m.text || "")}</p>
+          </div>
+        `;
+      }).join("");
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    async function findProductsByImage(imgDataUrl, precomputedSig = null) {
+      await precomputeProductVisualFeatures();
+      const querySig = precomputedSig || await computeImageVisualSignature(imgDataUrl);
+      if (!querySig) return [];
+
+      const scored = [];
+      for (const p of storeProducts) {
+        let pSig = productVisualFeatureCache.get(p.sku);
+        if (!pSig && p.images?.[0]) {
+          pSig = await computeImageVisualSignature(p.images[0]);
+          if (pSig) productVisualFeatureCache.set(p.sku, pSig);
+        }
+        if (pSig) {
+          const score = computeVisualSimilarity(querySig, pSig);
+          scored.push({ prod: p, score });
         }
       }
-      if (q.includes("ডেলিভারি") || q.includes("delivery") || q.includes("চার্জ")) {
-        return `ঢাকার ভিতর ডেলিভারি চার্জ ৳${deliveryChargeCfg.dhaka ?? 80} এবং ঢাকার বাইরে ৳${deliveryChargeCfg.outsideDhaka ?? 120}।`;
-      }
-      if (hasImage) {
-        return "আপনার পাঠানো ছবিটি পেয়েছি! প্রোডাক্টের নাম বা কোড লিখলে আমি সঠিক তথ্য ও দাম জানিয়ে দিচ্ছি।";
-      }
-      return "ধন্যবাদ! আমাদের প্রোডাক্ট, দাম, ডেলিভারি চার্জ বা অর্ডার স্ট্যাটাস সম্পর্কে যেকোনো প্রশ্ন করতে পারেন।";
+      scored.sort((a, b) => b.score - a.score);
+      return scored.slice(0, 3).map(s => s.prod);
     }
 
-    function sendVisitorChatMessage(e) {
+    function findProductFromLinkOrSku(text) {
+      const raw = String(text || "").trim();
+      if (!raw) return null;
+      const skuMatch = raw.match(/(?:product=|sku=)([A-Za-z0-9_-]+)/i) || raw.match(/\b(AB-[A-Za-z0-9_-]+)\b/i);
+      const targetSku = skuMatch ? skuMatch[1].toUpperCase() : "";
+
+      if (targetSku) {
+        const bySku = storeProducts.find(p => String(p.sku || "").toUpperCase() === targetSku);
+        if (bySku) return bySku;
+      }
+
+      if (raw.startsWith("http://") || raw.startsWith("https://")) {
+        const lower = raw.toLowerCase();
+        return storeProducts.find(p =>
+          lower.includes(String(p.sku || "").toLowerCase()) ||
+          lower.includes(encodeURIComponent(String(p.sku || "").toLowerCase()))
+        ) || null;
+      }
+      return null;
+    }
+
+    async function sendVisitorChatMessage(e) {
       e.preventDefault();
-      if (chatbotCfg.enabled === false) return alert("চ্যাটবট বর্তমানে বন্ধ আছে।");
+      if (chatbotCfg.enabled === false) {
+        return alert("চ্যাটবট বর্তমানে অ্যাডমিন কর্তৃক বন্ধ রাখা হয়েছে।");
+      }
 
       const inp = document.getElementById("visitor-chat-input");
-      const text = (inp?.value || "").trim();
-      const imgData = pendingChatImage?.dataUrl || "";
-      if (!text && !imgData) return;
+      const text = inp.value.trim();
+      const imgObj = pendingChatImage ? { ...pendingChatImage } : null;
+      if (!text && !imgObj) return;
 
-      const threads = ensureChatThreadsInitialized();
-      const mainThread = threads.find(t => t.id === "visitor-live-thread") || threads[0];
+      const { threads, liveThread } = getVisitorLiveThread();
       const time = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
 
-      if (!Array.isArray(mainThread.messages)) mainThread.messages = [];
-      mainThread.messages.push({
+      liveThread.messages.push({
         sender: "customer",
         text: text || "ছবি পাঠানো হয়েছে",
-        image: imgData || undefined,
+        image: imgObj?.dataUrl || "",
         time
       });
+      liveThread.lastTime = time;
+      liveThread.unread = true;
 
-      const botReply = buildSmartBotReply(text, Boolean(imgData));
-      mainThread.messages.push({
-        sender: "bot",
-        text: botReply,
-        time
-      });
-
-      mainThread.lastTime = time;
-      mainThread.unread = true;
-      persistAdminState({ chatThreads: threads, activeThreadId: mainThread.id });
-
-      if (chatbotCfg.webhookUrl && chatbotCfg.platform !== "None") {
-        fetch(chatbotCfg.webhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(chatbotCfg.token ? { "Authorization": `Bearer ${chatbotCfg.token}` } : {})
-          },
-          body: JSON.stringify({ platform: chatbotCfg.platform, message: text, hasImage: Boolean(imgData), time })
-        }).catch(() => {});
+      inp.value = "";
+      clearPendingChatImage();
+      persistAdminState({ chatThreads: threads, activeThreadId: liveThread.id });
+      renderVisitorChatMessages();
+      if (!document.getElementById("admin-panel-view")?.classList.contains("hidden") && activeAdminSection === "chatbot") {
+        renderAdminManualChatInbox();
       }
 
-      if (inp) inp.value = "";
-      clearPendingChatImage();
+      let reply = "";
+      const matchedByLink = findProductFromLinkOrSku(text);
+
+      if (matchedByLink) {
+        reply = `🔗 প্রোডাক্ট তথ্য:\n• নাম: ${matchedByLink.title}\n• কোড: ${matchedByLink.sku}\n• মূল্য: ৳${matchedByLink.price}\n• লিংক: ${getProductUniqueUrl(matchedByLink.sku)}`;
+      } else if (imgObj?.dataUrl) {
+        const visualMatches = await findProductsByImage(imgObj.dataUrl, imgObj.sig);
+        if (visualMatches.length > 0) {
+          const lines = visualMatches.map(m => `• ${m.title} (${m.sku}) — ৳${m.price}\n  ${getProductUniqueUrl(m.sku)}`);
+          reply = `📷 ছবির সাথে মিল পাওয়া প্রোডাক্টসমূহ:\n${lines.join("\n")}`;
+        } else {
+          reply = "ছবিটি পেয়েছি! সরাসরি মিল পাওয়া যায়নি—প্রোডাক্টের নাম বা লিংক দিলে সঠিক তথ্য জানাতে পারব।";
+        }
+      } else if (/দাম|price|টাকা/i.test(text)) {
+        const sample = storeProducts.slice(0, 3).map(p => `${p.title}: ৳${p.price}`).join(", ");
+        reply = sample ? `আমাদের জনপ্রিয় প্রোডাক্টসমূহের মূল্য: ${sample}।` : "প্রোডাক্টের নাম বা লিংক দিন, দাম জানিয়ে দিচ্ছি।";
+      } else if (/ডেলিভারি|delivery|চার্জ/i.test(text)) {
+        reply = `ডেলিভারি চার্জ: ঢাকার ভেতর ৳${deliveryChargeCfg.dhaka ?? 80} এবং ঢাকার বাইরে ৳${deliveryChargeCfg.outsideDhaka ?? 120}।`;
+      } else {
+        reply = "আপনার মেসেজটি পেয়েছি! প্রোডাক্টের ছবি, লিংক বা প্রশ্ন লিখুন—আমাদের সাপোর্ট টিম ও বট আপনাকে সাহায্য করবে।";
+      }
+
+      if (chatbotCfg.webhookUrl) {
+        try {
+          const headers = { "Content-Type": "application/json" };
+          if (chatbotCfg.token) headers["Authorization"] = `Bearer ${chatbotCfg.token}`;
+          const res = await fetch(chatbotCfg.webhookUrl, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              platform: chatbotCfg.platform || "Custom Webhook",
+              message: text,
+              has_image: Boolean(imgObj?.dataUrl),
+              timestamp: new Date().toISOString()
+            })
+          });
+          if (res.ok) {
+            const data = await res.json().catch(() => null);
+            if (data && (data.reply || data.message || data.output)) {
+              reply = String(data.reply || data.message || data.output);
+            }
+          }
+        } catch (_) {}
+      }
+
+      const botTime = new Date().toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+      liveThread.messages.push({ sender: "bot", text: reply, time: botTime });
+      liveThread.lastTime = botTime;
+      persistAdminState({ chatThreads: threads, activeThreadId: liveThread.id });
       renderVisitorChatMessages();
-      renderAdminManualChatInbox();
+      if (!document.getElementById("admin-panel-view")?.classList.contains("hidden") && activeAdminSection === "chatbot") {
+        renderAdminManualChatInbox();
+      }
     }
 
-    /* ========================================================= */
-    /* [ইনিশিয়ালাইজেশন ও ডিপ-লিংক রাউটিং]                       */
-    /* ========================================================= */
-    function initStorefrontApp() {
-      loadSyncedAdminData();
-      updateDistrictDropdown("Dhaka");
-      onDistrictChange();
-      updateHeaderCounts();
-      renderCartDrawer();
-      updateCheckoutSummary();
-
-      if (!clickAnalyticsBound) {
-        clickAnalyticsBound = true;
-        document.addEventListener("click", () => recordLiveSiteClick(), { passive: true });
-      }
-      recordLiveSiteVisit();
-
-      const params = new URLSearchParams(window.location.search);
+    function handleUrlQueryRouting() {
+      const params = new URLSearchParams(window.location.search || "");
       const catParam = params.get("category");
       const prodParam = params.get("product");
       const reelParam = params.get("reel");
 
+      if (reelParam) {
+        openAllReelsPage(reelParam, true);
+        return;
+      }
       if (catParam) {
-        const matchedCat = resolveCategoryFromSlug(catParam) || decodeURIComponent(catParam);
-        openCategoryPage(matchedCat);
-      } else if (reelParam) {
-        openAllReelsPage(reelParam);
-      } else {
-        renderCategoryCards();
-        renderVisitorProducts();
-        renderHomeReelsRow();
-        if (prodParam) {
-          openProductModal(prodParam);
+        openCategoryPage(catParam, true);
+        return;
+      }
+      if (prodParam) {
+        const matched = allAdminProducts.find(p => String(p.sku || "").toUpperCase() === prodParam.toUpperCase());
+        if (matched) {
+          openProductModal(matched.sku, true);
         }
       }
     }
 
     window.addEventListener("popstate", () => {
-      initStorefrontApp();
-    });
+      const params = new URLSearchParams(window.location.search || "");
+      const catParam = params.get("category");
+      const reelParam = params.get("reel");
+      const prodParam = params.get("product");
 
-    window.addEventListener("storage", (e) => {
-      if ([
-        ADMIN_STORAGE_KEY, CART_STORAGE_KEY, ORDERS_STORAGE_KEY,
-        STORE_INCOMPLETE_ORDERS_KEY, ANALYTICS_STORAGE_KEY,
-        HEADER_FOOTER_CFG_KEY, ADS_CFG_KEY
-      ].includes(e.key)) {
-        loadSyncedAdminData();
-        renderCategoryCards();
-        renderVisitorProducts();
-        renderHomeReelsRow();
-        renderCartDrawer();
-        updateCheckoutSummary();
-        if (!document.getElementById("admin-panel-view")?.classList.contains("hidden")) {
-          renderAdminDashboard();
-        }
+      if (reelParam) {
+        openAllReelsPage(reelParam, true);
+      } else if (catParam) {
+        openCategoryPage(catParam, true);
+      } else {
+        showHomeStorefront();
+        if (prodParam) openProductModal(prodParam, true);
       }
     });
 
-    document.addEventListener("DOMContentLoaded", initStorefrontApp);
+    function initStorefront() {
+      loadSyncedAdminData();
+      populateCheckoutDistricts();
+      renderCategoryCards();
+      renderVisitorProducts();
+      renderHomeReelsRow();
+      renderCartDrawer();
+      updateCheckoutSummary();
+      recordLiveSiteVisit();
+
+      if (!clickAnalyticsBound) {
+        clickAnalyticsBound = true;
+        document.addEventListener("click", () => {
+          recordLiveSiteClick();
+        });
+      }
+
+      handleUrlQueryRouting();
+    }
+
+    document.addEventListener("DOMContentLoaded", initStorefront);
   </script>
   <!-- [শেষ: ১১. জাভাস্ক্রিপ্ট লজিক] -->
 </body>
